@@ -171,6 +171,31 @@ h2,h3{font-weight:800; color:var(--ink)}
   box-shadow:0 4px 0 var(--navy); margin-top:12px;
 }
 .legend{font-size:.82rem; color:var(--ink-soft); line-height:1.5; margin-top:12px}
+
+/* ---------- floating video navigator ---------- */
+.float-nav{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+  display:flex; align-items:center; gap:10px;
+  background:var(--navy); border-radius:999px; padding:8px 10px;
+  box-shadow:0 8px 24px rgba(14,23,45,.35);
+  z-index:50;
+}
+.float-nav button{
+  border:0; cursor:pointer; font:inherit; font-weight:800; color:#fff;
+  background:transparent; display:flex; align-items:center; justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.float-nav .fn-seek{
+  width:44px; height:44px; border-radius:50%; font-size:.72rem; gap:1px;
+  flex-direction:column; line-height:1; background:rgba(255,255,255,.08);
+}
+.float-nav .fn-seek .fn-arrow{font-size:1rem}
+.float-nav .fn-seek:active{background:rgba(255,255,255,.18)}
+.float-nav .fn-play{
+  width:52px; height:52px; border-radius:50%; background:var(--accent); color:var(--accent-ink);
+  font-size:1.2rem;
+}
+.float-nav .fn-play:active{filter:brightness(.92)}
 .credit-box{margin:28px 0 8px; padding-top:18px; border-top:1px solid var(--line)}
 .credit-box p{font-size:.78rem; color:var(--ink-soft); line-height:1.5; max-width:62ch}
 .credit-box p a{color:var(--ink-soft)}
@@ -298,7 +323,7 @@ h2,h3{font-weight:800; color:var(--ink)}
     </div>
 
     <div class="video-box">
-      <div class="yt-wrap" id="ytWrap"><iframe id="ytFrame" src="" title="Episode video" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="yt-wrap" id="ytWrap"><div id="ytFrame"></div></div>
       <div class="speed-row" id="speedRow">
         <span class="speed-label">Speed:</span>
         <button type="button" class="speed-btn" data-rate="0.55">0.55x</button>
@@ -334,6 +359,12 @@ h2,h3{font-weight:800; color:var(--ink)}
     </div>
   </section>
 
+</div>
+
+<div class="float-nav" id="floatNav" hidden>
+  <button type="button" class="fn-seek" id="fnBack" aria-label="Back 5 seconds"><span class="fn-arrow">&#8630;</span><span>5s</span></button>
+  <button type="button" class="fn-play" id="fnPlay" aria-label="Play">&#9658;</button>
+  <button type="button" class="fn-seek" id="fnFwd" aria-label="Forward 5 seconds"><span class="fn-arrow">&#8631;</span><span>5s</span></button>
 </div>
 
 <script>
@@ -462,6 +493,8 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   function closeExercise(){
     document.getElementById("exercise").hidden = true;
     document.getElementById("home").hidden = false;
+    if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+    document.getElementById("floatNav").hidden = true;
     renderHome();
   }
 
@@ -474,21 +507,23 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     (function(){
       var vid = VIDEO_IDS[currentLevel] && VIDEO_IDS[currentLevel][String(currentSeq)];
       var ytWrap = document.getElementById("ytWrap");
-      var ytFrame = document.getElementById("ytFrame");
       var speedRow = document.getElementById("speedRow");
       var videoLink = document.getElementById("videoLink");
+      var floatNav = document.getElementById("floatNav");
       if (vid){
-        ytFrame.src = "https://www.youtube.com/embed/" + vid + "?enablejsapi=1&rel=0";
+        loadYouTubeVideo(vid);
         ytWrap.hidden = false;
         speedRow.hidden = false;
         videoLink.hidden = true;
+        floatNav.hidden = false;
         document.querySelectorAll(".speed-btn").forEach(function(b){
           b.classList.toggle("active", b.getAttribute("data-rate") === "1");
         });
       } else {
-        ytFrame.src = "";
+        if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
         ytWrap.hidden = true;
         speedRow.hidden = true;
+        floatNav.hidden = true;
         var q = encodeURIComponent("Nicos Weg NW-Ch" + lesson.chapter_num + " Ep" + lesson.lesson_num + " Deutsch lernen DW");
         videoLink.href = "https://www.youtube.com/results?search_query=" + q;
         videoLink.textContent = "▶ Find video on YouTube";
@@ -689,13 +724,78 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   document.querySelectorAll(".speed-btn").forEach(function(btn){
     btn.addEventListener("click", function(){
       var rate = parseFloat(btn.getAttribute("data-rate"));
-      var frame = document.getElementById("ytFrame");
-      if (frame && frame.contentWindow){
-        frame.contentWindow.postMessage(JSON.stringify({event:"command", func:"setPlaybackRate", args:[rate]}), "*");
+      if (ytPlayer && ytPlayer.setPlaybackRate){
+        ytPlayer.setPlaybackRate(rate);
       }
       document.querySelectorAll(".speed-btn").forEach(function(b){ b.classList.remove("active"); });
       btn.classList.add("active");
     });
+  });
+
+  // ---------- YouTube player + floating navigator (-5s / play-pause / +5s) ----------
+  var ytPlayer = null;
+  var ytApiReady = false;
+  var pendingVideoId = null;
+
+  window.onYouTubeIframeAPIReady = function(){
+    ytApiReady = true;
+    ytPlayer = new YT.Player("ytFrame", {
+      playerVars: { rel: 0 },
+      events: {
+        onReady: function(){
+          if (pendingVideoId){
+            ytPlayer.cueVideoById(pendingVideoId);
+            pendingVideoId = null;
+          }
+        },
+        onStateChange: onPlayerStateChange
+      }
+    });
+  };
+  (function(){
+    var tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  })();
+
+  function loadYouTubeVideo(vid){
+    if (ytApiReady && ytPlayer && ytPlayer.cueVideoById){
+      ytPlayer.cueVideoById(vid);
+    } else {
+      pendingVideoId = vid;
+    }
+    setPlayIcon(false);
+  }
+
+  function setPlayIcon(isPlaying){
+    var btn = document.getElementById("fnPlay");
+    if (!btn) return;
+    btn.innerHTML = isPlaying ? "&#10073;&#10073;" : "&#9658;";
+    btn.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+  }
+
+  function onPlayerStateChange(e){
+    if (!window.YT) return;
+    setPlayIcon(e.data === YT.PlayerState.PLAYING);
+  }
+
+  document.getElementById("fnBack").addEventListener("click", function(){
+    if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+    ytPlayer.seekTo(Math.max(0, ytPlayer.getCurrentTime() - 5), true);
+  });
+  document.getElementById("fnFwd").addEventListener("click", function(){
+    if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+    var dur = ytPlayer.getDuration ? ytPlayer.getDuration() : 0;
+    var target = ytPlayer.getCurrentTime() + 5;
+    ytPlayer.seekTo(dur ? Math.min(dur, target) : target, true);
+  });
+  document.getElementById("fnPlay").addEventListener("click", function(){
+    if (!ytPlayer || !ytPlayer.getPlayerState) return;
+    if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING){
+      ytPlayer.pauseVideo();
+    } else {
+      ytPlayer.playVideo();
+    }
   });
 
   renderHome();
