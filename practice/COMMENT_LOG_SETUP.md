@@ -1,9 +1,9 @@
 # Setting up the internal comment store (Google Sheet)
 
-Every "Send" click on the feedback box still emails you directly (unchanged).
-This adds a second, queryable copy of every comment as a row in a Google
-Sheet you own — a real internal log, no third-party account needed beyond
-the Google account you already have.
+Clicking "Send" on the feedback box logs the comment straight into a Google
+Sheet you own — no email client involved, no mailto popup, just a row
+appended to a spreadsheet. No third-party account needed beyond the Google
+account you already have.
 
 ## One-time setup (about 5 minutes)
 
@@ -43,18 +43,23 @@ the Google account you already have.
 6. Send me that URL — I'll paste it into
    `COMMENT_WEBHOOK_URL` near the top of the `<script>` block in
    `practice/index.html` (currently left as `""`, which just means the
-   logging step is silently skipped and only mailto fires).
+   Send button shows its "Sent ✓" confirmation but nothing is actually
+   logged yet).
 
 ## Notes
 
-- Every comment is sent to both places at once: your inbox (mailto, as
-  before) and a new row in the sheet (lesson, level, message, timestamp,
-  and the page URL it was sent from).
+- Each comment becomes one row: timestamp, level (A1/A2), lesson, message,
+  and the page URL it was sent from.
 - The webhook call uses `fetch(..., {mode: "no-cors"})`, so the page can't
-  read Google's response — but the write still happens; you just won't see
-  a "success" confirmation in the browser console. If rows stop appearing,
-  the most common cause is the deployment's access level getting reset to
-  "Only myself" — redeploy with "Anyone" if that happens.
+  read Google's response — but the write still happens; the "Sent ✓" button
+  state isn't a real delivery receipt, just a UI confirmation that the
+  request was fired off. If rows stop appearing, the most common cause is
+  the deployment's access level getting reset to "Only myself" — redeploy
+  with "Anyone" if that happens.
+- There's no mailto fallback anymore — if `COMMENT_WEBHOOK_URL` is empty or
+  the deployment breaks, comments won't reach you anywhere, so it's worth
+  testing once after setup (open a lesson, send a test comment, check the
+  sheet).
 - If you'd rather use a different backend later (Formspree, Airtable, a
   real database), the swap is simple: same `fetch` call, just a different
   URL and payload shape — let me know and I'll adjust it.

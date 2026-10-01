@@ -233,6 +233,8 @@ h2,h3{font-weight:800; color:var(--ink)}
   background:var(--gold); color:var(--navy); font-weight:800;
 }
 .tab:not(.active) .badge{background:var(--gold-dim); color:var(--ink-soft)}
+.tab.locked{opacity:.5; cursor:not-allowed; background:var(--chip)}
+.tab .lock-ic{font-size:.85em}
 
 .challenge{
   font-size:.82rem; color:var(--ink-soft); margin:0 0 14px; display:flex; flex-wrap:wrap; gap:6px; align-items:center;
@@ -444,7 +446,7 @@ var DATA_BY_LEVEL = {"A1": DATA_A1, "A2": DATA_A2};
 
 // Internal comment/feedback store: paste the Google Apps Script "Web app" URL
 // here once it's deployed (see practice/COMMENT_LOG_SETUP.md). Left empty,
-// feedback still goes out via mailto below, it just isn't also logged.
+// the Send button still shows a confirmation but nothing is actually logged.
 var COMMENT_WEBHOOK_URL = "";
 var VIDEO_IDS = {"A1": {"1": "dC6ZGLzdaTs", "2": "upvuC9FR-xU", "3": "idFrq0H1Af0", "4": "-qAuGimugds", "5": "FoYSUfsLcjA", "6": "fZr-eVZ3YOs", "7": "Q7ECRAQrzFc", "8": "T89sIATrpBc", "9": "p1dci7nBJRo", "10": "5wyalwdmpzk", "11": "AI9EmNzxXGE", "12": "IhLqeX8QjSg", "13": "VWDtpIIAgAI", "14": "J71RxF7qU2o", "15": "w-Zea1mverM", "16": "c7LTbMCKVNo", "17": "IQ3cDBISOao", "18": "3K991pj4Uic", "19": "uJ6uLjJxX-8", "20": "lvgs_iLBdvY", "21": "9obS6QT10To", "22": "MNx10ASRCwM", "23": "P1ontBJYzhI", "24": "368pARWAzGk", "25": "bbZxpdieqIA", "26": "YRWehEtSPQY", "27": "s9y2sCNOzBk", "28": "Q-qjyb9AsqM", "29": "AGwxwx3TOdg", "30": "jUElkIpQlNw", "31": "f9kkMWEOxo0", "32": "dqtdmvpa8D0", "33": "SEV3kmyQCII", "34": "Vvt6H_EvGX0", "35": "_VUrkdITl8U", "36": "2v6H7fnWuts", "37": "rH8HMCr73RM", "38": "a7LZ0QAG6DQ", "39": "ymE5ZON70C0", "40": "qaQd9wFy1l4", "41": "Fz_AuTNFa8k", "42": "5_pXp3akjr4", "43": "4us1ZoH9K04", "44": "dsPDJb2956A", "45": "3tq7bRB9iu0", "46": "sEu2PqmGrgw", "47": "SIN9PejV-OI", "48": "KeU3-5jr2fI", "49": "ySrfaSqtdfw", "50": "dOdHXwy0cME", "51": "SRAk_KZlrwY", "52": "0S3urnio_08", "53": "3UJeXeiki9g", "54": "b4ki5lMyd4Q", "55": "chmqnserFqM", "56": "qL1hgrjJScY", "57": "DiNQle2s1lQ", "58": "9iJnx2PESSk", "59": "pCRS-oxE61k", "60": "eYaoCcvPd_U", "61": "6CQ32OWDyq4", "62": "KJ-icYRJ29s", "63": "4U9iAmC3rFQ", "64": "oJmH9eD7Lao", "65": "otY2T26FOP0", "66": "B7MMM3SrSlg", "67": "826-EwY51Fw", "68": "DiMQTg7D7Ao", "69": "0b66BzvKgMY", "70": "cTJ1KFzmhbc", "71": "ilp0CwKxdbY", "72": "VWomWeeqsAk", "73": "mkXWqvL3-hA", "74": "ppIFbtiL1kQ", "75": "k8_8CA5Ls94", "76": "bgnox1SRrw8"}, "A2": {"1": "ZPQepR4B8eo", "2": "WB4YmgiRULw", "3": "A1k6ZjKFycM", "4": "J7j31w8UT2c", "5": "dRga5jIMjBo", "6": "geYuMJBnDSs", "7": "tNY9TNnQC6E", "8": "n_l-rfcG5Uo", "9": "uOcZq9rS13Y", "10": "Tor-mPRS3j4", "11": "Xw7Kv0o5a1Y", "12": "MUcfiKAJUGg", "13": "JmjnyhFLXKg", "14": "i4IJP4s14k8", "15": "sOaWFjMkDpg", "16": "Qrso_HEyc1Q", "17": "rTgkeG4IJJw", "18": "0ijgOLUE3NQ", "19": "iU7swr8-hk0", "20": "qqxSuoX0gzw", "21": "oEWakpD2JaQ", "22": "8e_ukBPtxww", "23": "PrrbATyrg08"}};
 var currentLevel = "A1";
@@ -710,6 +712,19 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     return "full";
   }
 
+  // Difficulty tiers are locked in order: easy is always open, mid unlocks
+  // once easy is passed, full unlocks once mid is passed. A tier that's
+  // already been passed (e.g. from progress saved before this lock existed)
+  // stays unlocked regardless.
+  function isTierUnlocked(seq, tier){
+    var idx = TIER_ORDER.indexOf(tier);
+    if (idx <= 0) return true;
+    var p = progress[progressKey(seq)] || {passedTiers:{}};
+    if (p.passedTiers && p.passedTiers[tier]) return true;
+    var prevTier = TIER_ORDER[idx - 1];
+    return !!(p.passedTiers && p.passedTiers[prevTier]);
+  }
+
   function openExercise(seq){
     currentSeq = seq;
     currentTier = nextUnpassedTier(seq);
@@ -770,10 +785,12 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
         fresh.addEventListener("click", function(){
           var lessonName = lessonKey(lesson).replace(/<[^>]*>/g, "").replace(/&middot;/g, "·");
           var msg = (fbText.value || "").trim();
+          if (!msg) return;
 
-          // Log to the internal store (Google Sheet via Apps Script), if configured.
-          // Fire-and-forget: no-cors means we can't read the response, but the
-          // write still happens server-side, so we don't block the mailto fallback on it.
+          // Log straight to the internal store (Google Sheet via Apps Script) -
+          // no mail client involved. Fire-and-forget: no-cors means we can't
+          // read back a success/failure response, so we just show a confirmation
+          // once the request has been handed off.
           if (COMMENT_WEBHOOK_URL){
             try {
               var fd = new URLSearchParams();
@@ -782,38 +799,22 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
               fd.set("message", msg);
               fd.set("page", window.location.href);
               fetch(COMMENT_WEBHOOK_URL, {method:"POST", mode:"no-cors", body: fd});
-            } catch(e){ /* ignore - mailto below still goes out */ }
+            } catch(e){ /* ignore */ }
           }
 
-          var subject = "Feedback: " + lessonName;
-          var body = "(" + lessonName + ")\n\n" + msg;
-          var mailtoUrl = "mailto:lingokeymail@gmail.com?subject=" +
-            encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-          // a real <a> click reaches mail-protocol handlers reliably even
-          // inside a sandboxed frame, where script-set window.location did not
-          var a = document.createElement("a");
-          a.href = mailtoUrl;
-          a.target = "_blank";
-          a.rel = "noopener";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+          fbText.value = "";
+          fresh.disabled = true;
+          var original = fresh.textContent;
+          fresh.textContent = "Sent ✓";
+          setTimeout(function(){
+            fresh.disabled = false;
+            fresh.textContent = original;
+          }, 2200);
         });
       }
     })();
 
-    var tabsEl = document.getElementById("tierTabs");
-    tabsEl.innerHTML = "";
-    var p = progress[progressKey(currentSeq)] || {passedTiers:{}};
-    TIER_ORDER.forEach(function(t){
-      var btn = document.createElement("button");
-      btn.className = "tab" + (t === currentTier ? " active" : "");
-      var passed = p.passedTiers && p.passedTiers[t];
-      btn.innerHTML = TIER_LABELS[t] +
-        (passed ? '<span class="badge">' + TIER_STAR_VALUE[t] + '</span>' : '');
-      btn.addEventListener("click", function(){ currentTier = t; renderExercise(); });
-      tabsEl.appendChild(btn);
-    });
+    renderTierTabs();
 
     renderChallenge();
     renderDialogue();
@@ -957,18 +958,27 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       nextEpisodeBtn.hidden = true;
     }
 
-    renderTabsOnly();
+    renderTierTabs();
   }
 
-  function renderTabsOnly(){
+  function renderTierTabs(){
     var tabsEl = document.getElementById("tierTabs");
+    tabsEl.innerHTML = "";
     var p = progress[progressKey(currentSeq)] || {passedTiers:{}};
-    var tabs = tabsEl.querySelectorAll(".tab");
-    tabs.forEach(function(btn, i){
-      var t = TIER_ORDER[i];
+    TIER_ORDER.forEach(function(t){
+      var btn = document.createElement("button");
+      var unlocked = isTierUnlocked(currentSeq, t);
+      btn.className = "tab" + (t === currentTier ? " active" : "") + (unlocked ? "" : " locked");
       var passed = p.passedTiers && p.passedTiers[t];
-      btn.innerHTML = TIER_LABELS[t] +
+      btn.innerHTML = (unlocked ? "" : '<span class="lock-ic">&#128274;</span> ') + TIER_LABELS[t] +
         (passed ? '<span class="badge">' + TIER_STAR_VALUE[t] + '</span>' : '');
+      if (unlocked){
+        btn.addEventListener("click", function(){ currentTier = t; renderExercise(); });
+      } else {
+        btn.disabled = true;
+        btn.title = "Pass " + TIER_LABELS[TIER_ORDER[TIER_ORDER.indexOf(t)-1]] + " first to unlock";
+      }
+      tabsEl.appendChild(btn);
     });
   }
 
