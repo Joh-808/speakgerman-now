@@ -776,7 +776,20 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
 
   function onPlayerStateChange(e){
     if (!window.YT) return;
-    setPlayIcon(e.data === YT.PlayerState.PLAYING);
+    var isPlaying = e.data === YT.PlayerState.PLAYING;
+    setPlayIcon(isPlaying);
+    if (isPlaying) disableCaptions();
+  }
+
+  // Shadowing only works if learners aren't reading along, so captions are
+  // force-disabled every time playback starts (in case YouTube remembered
+  // a "CC on" setting from the viewer's own account/browser).
+  function disableCaptions(){
+    if (!ytPlayer) return;
+    try {
+      if (ytPlayer.unloadModule) ytPlayer.unloadModule("captions");
+      if (ytPlayer.setOption) ytPlayer.setOption("captions", "track", {});
+    } catch (err) { /* captions module not loaded yet - nothing to turn off */ }
   }
 
   document.getElementById("fnBack").addEventListener("click", function(){
