@@ -125,7 +125,8 @@ h2,h3{font-weight:800; color:var(--ink)}
 .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--gold)); border-radius:999px; transition:width .4s ease}
 .progress-pct{font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent); min-width:3.5em; text-align:right}
 .progress-level{font-weight:800; font-size:.82rem; color:var(--ink-soft); background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:4px 10px; white-space:nowrap}
-.progress-icon{font-size:1.15rem; line-height:1; flex:none}
+.progress-icon{flex:none; display:flex; align-items:center}
+.progress-icon svg{width:20px; height:20px}
 
 /* ---------- chapter groups ---------- */
 .chapter{margin-bottom:28px}
@@ -235,7 +236,8 @@ h2,h3{font-weight:800; color:var(--ink)}
 }
 .tab:not(.active) .badge{background:var(--gold-dim); color:var(--ink-soft)}
 .tab.locked{opacity:.5; cursor:not-allowed; background:var(--chip)}
-.tab .lock-ic{font-size:.85em}
+.tab .lock-ic{display:inline-flex; align-items:center}
+.tab .lock-ic svg{width:14px; height:14px}
 
 .challenge{
   font-size:.82rem; color:var(--ink-soft); margin:0 0 14px; display:flex; flex-wrap:wrap; gap:6px; align-items:center;
@@ -310,7 +312,8 @@ h2,h3{font-weight:800; color:var(--ink)}
 .achv-modal-list{overflow-y:auto; padding:10px 14px}
 .achv-row{display:flex; align-items:center; gap:12px; padding:10px 6px; border-bottom:1px solid var(--line)}
 .achv-row:last-child{border-bottom:none}
-.achv-row-icon{font-size:1.6rem; width:2em; text-align:center; opacity:.4}
+.achv-row-icon{font-size:1.6rem; width:2em; height:2em; display:inline-flex; align-items:center; justify-content:center; opacity:.4}
+.achv-row-icon svg{width:22px; height:22px}
 .achv-row.unlocked .achv-row-icon{opacity:1}
 .achv-row-title{font-weight:800; color:var(--ink-soft); font-size:.92rem}
 .achv-row.unlocked .achv-row-title{color:var(--ink)}
@@ -328,7 +331,7 @@ h2,h3{font-weight:800; color:var(--ink)}
   opacity:1; filter:none; border-color:var(--gold);
   box-shadow:0 0 0 2px var(--gold-dim) inset;
 }
-.achv-strip-lock{font-size:.85rem}
+.achv-strip-badge svg{width:16px; height:16px}
 
 .achv-confetti-canvas{position:fixed; inset:0; pointer-events:none; z-index:400}
 
@@ -375,9 +378,9 @@ h2,h3{font-weight:800; color:var(--ink)}
     </div>
     <div class="progress-row">
       <div class="progress-level" id="progressLevel">A1</div>
-      <span class="progress-icon" aria-hidden="true">🔑</span>
+      <span class="progress-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg></span>
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-      <span class="progress-icon" aria-hidden="true">🔒</span>
+      <span class="progress-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
       <div class="progress-pct" id="progressPct">0%</div>
     </div>
     <div class="achv-strip" id="achvStrip"></div>
@@ -468,6 +471,12 @@ var DATA_BY_LEVEL = {"A1": DATA_A1, "A2": DATA_A2};
 // here once it's deployed (see practice/COMMENT_LOG_SETUP.md). Left empty,
 // the Send button still shows a confirmation but nothing is actually logged.
 var COMMENT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzulcwGt5sjFf-t7fcV9R7OeVhmfvM5D6Rb3HydAb-9cpdMZ4zwP6NTREiIIWkr34qx7g/exec";
+
+// Brand line-icon lock, matching the key mark used elsewhere on the site
+// (stroke-based, no emoji - emoji locks/keys don't render consistently
+// across devices). currentColor so it inherits whatever color/opacity the
+// surrounding locked element already uses.
+var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 var VIDEO_IDS = {"A1": {"1": "dC6ZGLzdaTs", "2": "upvuC9FR-xU", "3": "idFrq0H1Af0", "4": "-qAuGimugds", "5": "FoYSUfsLcjA", "6": "fZr-eVZ3YOs", "7": "Q7ECRAQrzFc", "8": "T89sIATrpBc", "9": "p1dci7nBJRo", "10": "5wyalwdmpzk", "11": "AI9EmNzxXGE", "12": "IhLqeX8QjSg", "13": "VWDtpIIAgAI", "14": "J71RxF7qU2o", "15": "w-Zea1mverM", "16": "c7LTbMCKVNo", "17": "IQ3cDBISOao", "18": "3K991pj4Uic", "19": "uJ6uLjJxX-8", "20": "lvgs_iLBdvY", "21": "9obS6QT10To", "22": "MNx10ASRCwM", "23": "P1ontBJYzhI", "24": "368pARWAzGk", "25": "bbZxpdieqIA", "26": "YRWehEtSPQY", "27": "s9y2sCNOzBk", "28": "Q-qjyb9AsqM", "29": "AGwxwx3TOdg", "30": "jUElkIpQlNw", "31": "f9kkMWEOxo0", "32": "dqtdmvpa8D0", "33": "SEV3kmyQCII", "34": "Vvt6H_EvGX0", "35": "_VUrkdITl8U", "36": "2v6H7fnWuts", "37": "rH8HMCr73RM", "38": "a7LZ0QAG6DQ", "39": "ymE5ZON70C0", "40": "qaQd9wFy1l4", "41": "Fz_AuTNFa8k", "42": "5_pXp3akjr4", "43": "4us1ZoH9K04", "44": "dsPDJb2956A", "45": "3tq7bRB9iu0", "46": "sEu2PqmGrgw", "47": "SIN9PejV-OI", "48": "KeU3-5jr2fI", "49": "ySrfaSqtdfw", "50": "dOdHXwy0cME", "51": "SRAk_KZlrwY", "52": "0S3urnio_08", "53": "3UJeXeiki9g", "54": "b4ki5lMyd4Q", "55": "chmqnserFqM", "56": "qL1hgrjJScY", "57": "DiNQle2s1lQ", "58": "9iJnx2PESSk", "59": "pCRS-oxE61k", "60": "eYaoCcvPd_U", "61": "6CQ32OWDyq4", "62": "KJ-icYRJ29s", "63": "4U9iAmC3rFQ", "64": "oJmH9eD7Lao", "65": "otY2T26FOP0", "66": "B7MMM3SrSlg", "67": "826-EwY51Fw", "68": "DiMQTg7D7Ao", "69": "0b66BzvKgMY", "70": "cTJ1KFzmhbc", "71": "ilp0CwKxdbY", "72": "VWomWeeqsAk", "73": "mkXWqvL3-hA", "74": "ppIFbtiL1kQ", "75": "k8_8CA5Ls94", "76": "bgnox1SRrw8"}, "A2": {"1": "ZPQepR4B8eo", "2": "WB4YmgiRULw", "3": "A1k6ZjKFycM", "4": "J7j31w8UT2c", "5": "dRga5jIMjBo", "6": "geYuMJBnDSs", "7": "tNY9TNnQC6E", "8": "n_l-rfcG5Uo", "9": "uOcZq9rS13Y", "10": "Tor-mPRS3j4", "11": "Xw7Kv0o5a1Y", "12": "MUcfiKAJUGg", "13": "JmjnyhFLXKg", "14": "i4IJP4s14k8", "15": "sOaWFjMkDpg", "16": "Qrso_HEyc1Q", "17": "rTgkeG4IJJw", "18": "0ijgOLUE3NQ", "19": "iU7swr8-hk0", "20": "qqxSuoX0gzw", "21": "oEWakpD2JaQ", "22": "8e_ukBPtxww", "23": "PrrbATyrg08"}};
 var currentLevel = "A1";
 function getData(){ return DATA_BY_LEVEL[currentLevel]; }
@@ -674,7 +683,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       var row = document.createElement("div");
       row.className = "achv-row" + (unlocked ? " unlocked" : "");
       row.innerHTML =
-        '<div class="achv-row-icon">' + (unlocked ? a.icon : "🔒") + '</div>' +
+        '<div class="achv-row-icon">' + (unlocked ? a.icon : LOCK_SVG) + '</div>' +
         '<div class="achv-row-body">' +
         '<div class="achv-row-title">' + escapeHtml(a.title) + '</div>' +
         '<div class="achv-row-desc">' + escapeHtml(a.desc) + '</div>' +
@@ -697,7 +706,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       var badge = document.createElement("button");
       badge.type = "button";
       badge.className = "achv-strip-badge" + (unlocked ? " unlocked" : "");
-      badge.innerHTML = unlocked ? a.icon : '<span class="achv-strip-lock">&#128274;</span>';
+      badge.innerHTML = unlocked ? a.icon : LOCK_SVG;
       badge.title = a.title + " — " + (unlocked ? a.desc : "Locked: " + a.desc);
       badge.addEventListener("click", openAchvModal);
       el.appendChild(badge);
@@ -1073,7 +1082,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       var unlocked = isTierUnlocked(currentSeq, t);
       btn.className = "tab" + (t === currentTier ? " active" : "") + (unlocked ? "" : " locked");
       var passed = p.passedTiers && p.passedTiers[t];
-      btn.innerHTML = (unlocked ? "" : '<span class="lock-ic">&#128274;</span> ') + TIER_LABELS[t] +
+      btn.innerHTML = (unlocked ? "" : '<span class="lock-ic">' + LOCK_SVG + '</span> ') + TIER_LABELS[t] +
         (passed ? '<span class="badge">' + TIER_STAR_VALUE[t] + '</span>' : '');
       if (unlocked){
         btn.addEventListener("click", function(){ currentTier = t; renderExercise(); });
