@@ -306,7 +306,7 @@ h2,h3{font-weight:800; color:var(--ink)}
         <button type="button" class="speed-btn" data-rate="0.85">0.85x</button>
         <button type="button" class="speed-btn active" data-rate="1">1x</button>
       </div>
-      <a class="video-link" id="videoLink" href="#" target="_blank" rel="noopener">&#9654; Open video on YouTube</a>
+      <a class="video-link" id="videoLink" href="#" target="_blank" rel="noopener" hidden>&#9654; Find video on YouTube</a>
     </div>
 
     <div class="tabs" id="tierTabs"></div>
@@ -481,8 +481,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
         ytFrame.src = "https://www.youtube.com/embed/" + vid + "?enablejsapi=1&rel=0";
         ytWrap.hidden = false;
         speedRow.hidden = false;
-        videoLink.href = "https://youtu.be/" + vid;
-        videoLink.textContent = "▶ Open video on YouTube";
+        videoLink.hidden = true;
         document.querySelectorAll(".speed-btn").forEach(function(b){
           b.classList.toggle("active", b.getAttribute("data-rate") === "1");
         });
@@ -493,6 +492,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
         var q = encodeURIComponent("Nicos Weg NW-Ch" + lesson.chapter_num + " Ep" + lesson.lesson_num + " Deutsch lernen DW");
         videoLink.href = "https://www.youtube.com/results?search_query=" + q;
         videoLink.textContent = "▶ Find video on YouTube";
+        videoLink.hidden = false;
       }
     })();
 
