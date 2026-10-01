@@ -315,6 +315,22 @@ h2,h3{font-weight:800; color:var(--ink)}
 .achv-row.unlocked .achv-row-title{color:var(--ink)}
 .achv-row-desc{font-size:.78rem; color:var(--ink-soft); margin-top:2px}
 
+.achv-strip{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px}
+.achv-strip-badge{
+  width:36px; height:36px; border-radius:50%; border:1px solid var(--line);
+  background:var(--surface); font-size:1.15rem; line-height:1; display:flex;
+  align-items:center; justify-content:center; cursor:pointer; padding:0;
+  opacity:.45; filter:grayscale(1); transition:transform .15s ease;
+}
+.achv-strip-badge:hover{transform:translateY(-2px)}
+.achv-strip-badge.unlocked{
+  opacity:1; filter:none; border-color:var(--gold);
+  box-shadow:0 0 0 2px var(--gold-dim) inset;
+}
+.achv-strip-lock{font-size:.85rem}
+
+.achv-confetti-canvas{position:fixed; inset:0; pointer-events:none; z-index:400}
+
 .feedback-box{
   border-radius:16px; padding:14px 16px; margin:4px 0 10px; border:1px dashed var(--line);
   background:var(--surface); color:var(--ink-soft); font-size:.82rem; line-height:1.5;
@@ -361,6 +377,7 @@ h2,h3{font-weight:800; color:var(--ink)}
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
       <div class="progress-pct" id="progressPct">0%</div>
     </div>
+    <div class="achv-strip" id="achvStrip"></div>
     <div id="chapters"></div>
 
     <div class="credit-box">
@@ -553,9 +570,72 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     if (newlyUnlocked.length){
       newlyUnlocked.forEach(function(a){ unlockedAchv[a.id] = Date.now(); });
       saveAchv();
+      launchConfetti();
       newlyUnlocked.forEach(showAchvToast);
     }
     updateAchvBadge();
+    renderAchvStrip();
+  }
+
+  // A quick, dependency-free confetti burst (brand colors), used once per
+  // batch of newly-unlocked achievements rather than once per achievement.
+  function launchConfetti(){
+    var canvas = document.createElement("canvas");
+    canvas.className = "achv-confetti-canvas";
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+    var ctx = canvas.getContext("2d");
+
+    var rootStyle = getComputedStyle(document.documentElement);
+    var colors = [
+      rootStyle.getPropertyValue("--coral").trim(),
+      rootStyle.getPropertyValue("--gold").trim(),
+      rootStyle.getPropertyValue("--mint-icon").trim(),
+      rootStyle.getPropertyValue("--navy").trim()
+    ].filter(Boolean);
+    if (!colors.length) colors = ["#ff6b6b", "#ffd166", "#06d6a0", "#1b1b3a"];
+
+    var pieces = [];
+    var count = 140;
+    for (var i = 0; i < count; i++){
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * canvas.height * 0.4,
+        w: 6 + Math.random() * 6,
+        h: 8 + Math.random() * 8,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 2.4,
+        vy: 2.5 + Math.random() * 3,
+        rot: Math.random() * 360,
+        vr: (Math.random() - 0.5) * 12
+      });
+    }
+
+    var start = Date.now();
+    var duration = 2600;
+    function frame(){
+      var elapsed = Date.now() - start;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(function(p){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, 1 - elapsed / duration);
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+      if (elapsed < duration){
+        requestAnimationFrame(frame);
+      } else {
+        canvas.remove();
+      }
+    }
+    requestAnimationFrame(frame);
   }
 
   function showAchvToast(a){
@@ -602,6 +682,25 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   function openAchvModal(){ renderAchvModal(); document.getElementById("achvModal").hidden = false; }
   function closeAchvModal(){ document.getElementById("achvModal").hidden = true; }
 
+  // A compact row of every achievement, locked ones greyed out with a lock
+  // icon, so learners can see the full roster up front rather than only
+  // discovering achievements exist once they stumble into one.
+  function renderAchvStrip(){
+    var el = document.getElementById("achvStrip");
+    if (!el) return;
+    el.innerHTML = "";
+    ACHIEVEMENTS.forEach(function(a){
+      var unlocked = !!unlockedAchv[a.id];
+      var badge = document.createElement("button");
+      badge.type = "button";
+      badge.className = "achv-strip-badge" + (unlocked ? " unlocked" : "");
+      badge.innerHTML = unlocked ? a.icon : '<span class="achv-strip-lock">&#128274;</span>';
+      badge.title = a.title + " — " + (unlocked ? a.desc : "Locked: " + a.desc);
+      badge.addEventListener("click", openAchvModal);
+      el.appendChild(badge);
+    });
+  }
+
   function sortedSeqs(){
     return Object.keys(getData()).sort(function(a,b){ return getData()[a].seq - getData()[b].seq; });
   }
@@ -635,6 +734,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     document.getElementById("progressLevel").textContent = currentLevel;
     document.getElementById("progressFill").style.width = pct + "%";
     document.getElementById("progressPct").textContent = pct + "%";
+    renderAchvStrip();
   }
 
   function lessonKey(lesson){
