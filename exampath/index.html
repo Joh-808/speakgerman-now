@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speak German - now Exam Study Path</title>
+<style>
+  /* Layout: narrow single column for calm reading. Level tabs, summary, phases, then a skill switcher that shows one skill at a time with roomy part cards. Brand tokens from the Speak German - now style guide. */
+  :root{
+    --navy:#0E172D;
+    --coral:#F66F54;
+    --mint:#BCDDBF;
+    --mint-icon:#5E9A6A;
+    --sand:#F3EBDF;
+    --cream:#EEE5DA;
+    --linen:#ECE0D1;
+    --muted:#4A5266;
+    --bg:var(--sand);
+    --card:var(--cream);
+    --fg:var(--navy);
+    --sub:var(--muted);
+    --line:var(--linen);
+    --box:var(--linen);
+    --box-w:5px;
+    --box-fill:#FAF6EF;
+    --pill:var(--mint);
+    --pill-fg:var(--navy);
+    --shadow:rgba(14,23,45,.06);
+    --btn-shadow:var(--navy);
+    --btn-fg:var(--navy);
+    --chip:#fff;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E172D; --card:#17223F; --fg:#F3EBDF; --sub:#AEB6C8; --line:#2A3556; --box:#2A3556; --box-w:2px; --box-fill:transparent;
+      --pill:#22423C; --pill-fg:#DDEFDF; --shadow:rgba(0,0,0,.3);
+      --btn-shadow:#050a17; --chip:#0E172D; color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E172D; --card:#17223F; --fg:#F3EBDF; --sub:#AEB6C8; --line:#2A3556; --box:#2A3556; --box-w:2px; --box-fill:transparent;
+    --pill:#22423C; --pill-fg:#DDEFDF; --shadow:rgba(0,0,0,.3);
+    --btn-shadow:#050a17; --chip:#0E172D; color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:1.0625rem;line-height:1.6;padding-inline:20px;padding-block:56px 100px}
+  .wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:64px}
+  h1,h2,h3,p{margin:0}
+  h1{font-size:clamp(2rem,5vw,2.6rem);font-weight:900;letter-spacing:-.02em;color:var(--coral);line-height:1.1;text-wrap:balance}
+  h1 .lead{color:var(--fg)}
+  h2{font-size:1.4rem;font-weight:800;text-wrap:balance}
+  h3{font-size:1.15rem;font-weight:800}
+  .lede{color:var(--sub);font-size:1.1rem;max-width:60ch;margin-top:14px}
+  .eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:10px}
+  .head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .flags{display:flex;gap:8px}
+  .flag{width:32px;height:22px;border-radius:3px;box-shadow:0 0 0 1px rgba(14,23,45,.2)}
+  .block{display:flex;flex-direction:column;gap:24px}
+  .note{color:var(--sub);font-size:1rem;max-width:64ch}
+
+  /* level switch */
+  .levels{display:flex;gap:14px;flex-wrap:wrap}
+  .lvl{font:inherit;cursor:pointer;background:var(--card);color:var(--fg);border:2px solid var(--line);border-radius:16px;padding:14px 26px;font-weight:800;font-size:1.1rem;display:flex;flex-direction:column;align-items:flex-start;gap:0;min-width:130px}
+  .lvl small{font-weight:500;font-size:.82rem;color:var(--sub)}
+  .lvl[aria-selected="true"]{background:var(--coral);border-color:var(--coral);color:var(--btn-fg);box-shadow:0 6px 0 var(--btn-shadow);transform:translateY(-2px)}
+  .lvl[aria-selected="true"] small{color:var(--btn-fg)}
+  .lvl:focus-visible,.tick:focus-visible,.reset:focus-visible,.stab:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+
+  /* summary */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;box-shadow:0 6px 18px var(--shadow);min-width:0}
+  .summary{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px}
+  .pass{display:flex;flex-direction:column;gap:16px}
+  .pass .big{font-size:1.7rem;font-weight:900;line-height:1.2}
+  .pass .big span{color:var(--coral)}
+  .split{display:flex;gap:10px;flex-wrap:wrap}
+  .split span{background:var(--chip);border:1px solid var(--line);border-radius:12px;padding:5px 14px;font-size:.95rem;font-weight:600;font-variant-numeric:tabular-nums}
+  .prog{display:flex;flex-direction:column;gap:14px;justify-content:center}
+  .bar{height:14px;background:var(--chip);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--mint-icon);width:0;transition:width .25s}
+  .prog .num{font-size:2.4rem;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}
+  .prog .note{font-size:.92rem}
+  .reset{font:inherit;font-size:.95rem;font-weight:800;color:var(--coral);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer;align-self:flex-start}
+
+  /* path phases */
+  .phases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+  .phase{display:flex;flex-direction:column;gap:8px}
+  .phase .wk{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--coral)}
+  .phase p{color:var(--sub);font-size:.98rem}
+  .phase{border-top:4px solid transparent;padding-top:16px}
+  .phase:first-child{border-top-color:var(--coral)}
+  .phase.final{border-top-color:var(--mint)}
+  .phase .mock{margin-top:4px;font-size:.92rem;font-weight:700;color:var(--mint-icon);text-decoration:underline;text-underline-offset:3px;width:fit-content}
+  .phase.final .wk{color:var(--mint-icon)}
+
+  /* skill tabs */
+  .skillbox{background:var(--box-fill);border:var(--box-w) solid var(--box);border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:32px;min-width:0}
+  .stabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .stab{font:inherit;cursor:pointer;text-align:left;background:var(--card);color:var(--fg);border:2px solid var(--line);border-radius:18px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+  .stab .sn{font-size:1.15rem;font-weight:900}
+  .stab .se{font-size:.85rem;color:var(--sub);font-weight:600}
+  .stab .sl{height:8px;background:var(--chip);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:12px}
+  .stab .sl i{display:block;height:100%;background:var(--mint-icon);width:0}
+  .stab .sg{font-size:.82rem;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;margin-top:6px}
+  .stab[aria-selected="true"]{border-color:var(--coral);background:var(--chip);box-shadow:0 6px 18px var(--shadow)}
+
+  /* skill panel */
+  .panel{display:flex;flex-direction:column;gap:32px}
+  .panel-head{display:flex;flex-direction:column;gap:14px}
+  .panel-title{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .panel-title .de{font-size:1.8rem;font-weight:900;letter-spacing:-.01em}
+  .panel-title .en{color:var(--sub);font-weight:600}
+  .meta{color:var(--sub);font-size:.95rem;font-weight:600}
+  .skill-pts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .calc{font-weight:800;font-variant-numeric:tabular-nums}
+  .pts-chip{background:var(--pill);color:var(--pill-fg);border-radius:12px;padding:5px 14px;font-size:.92rem;font-weight:800;font-variant-numeric:tabular-nums}
+  .pts-chip.plain{background:var(--chip);color:var(--fg);border:1px solid var(--line)}
+
+  .parts{display:flex;flex-direction:column;gap:20px}
+  @media (min-width:1000px){
+    .wrap{max-width:1120px}
+    .parts{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+  }
+  .part{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px}
+  .part-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .part-name{font-weight:800;font-size:1.12rem}
+  .tag{font-size:.7rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:10px;padding:3px 10px}
+  .tag.core{background:var(--coral);color:var(--navy)}
+  .tag.low{background:var(--chip);color:var(--sub);border:1px solid var(--line)}
+  .part-pts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .desc{color:var(--sub)}
+  .tip b{color:var(--mint-icon)}
+  .log{display:flex;align-items:center;gap:10px;margin-top:6px;padding-top:18px;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .log .lab{font-size:.75rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--sub)}
+  .tick{width:32px;height:32px;border-radius:9px;border:2px solid var(--sub);background:var(--chip);cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;color:transparent;font-size:1.05rem;font-weight:900;line-height:1}
+  .tick[aria-pressed="true"]{background:var(--mint-icon);border-color:var(--mint-icon);color:#fff}
+  .pline{flex:1 1 90px;min-width:70px;height:10px;background:var(--chip);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .pline i{display:block;height:100%;background:var(--mint-icon);width:0;transition:width .2s}
+  .ppct{font-size:.88rem;font-weight:800;color:var(--sub);min-width:3.4em;font-variant-numeric:tabular-nums}
+
+  /* skill resources */
+  .hlink{color:inherit;text-decoration:underline;text-decoration-color:var(--coral);text-decoration-thickness:3px;text-underline-offset:6px}
+  .hlink::after{content:" \2197";font-size:.7em;color:var(--coral)}
+  .hlink:hover{color:var(--coral)}
+  .hlink:focus-visible,.res-link:focus-visible,.menu summary:focus-visible,.menu-list a:focus-visible,.btn-primary:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+  .resources{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+  .res-link{color:var(--coral);font-weight:800;text-decoration:underline;text-underline-offset:4px}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--chip);color:var(--coral);border:2px solid var(--coral);font-weight:900;padding:11px 16px;border-radius:14px;text-decoration:none}
+  .btn-primary:hover{background:var(--card)}
+  .res-note{color:var(--sub);font-size:.92rem}
+  .menu{width:100%;max-width:460px}
+  .menu summary{list-style:none;cursor:pointer;background:var(--chip);color:var(--coral);border:2px solid var(--coral);border-radius:14px;padding:11px 16px;font-weight:900;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .menu summary::-webkit-details-marker{display:none}
+  .menu summary::after{content:"\25BE";color:var(--coral);transition:transform .15s}
+  .menu[open] summary::after{transform:rotate(180deg)}
+  .menu-list{display:flex;flex-direction:column;margin-top:8px;background:var(--chip);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .menu-list a{color:var(--fg);text-decoration:none;font-weight:700;padding:14px 16px;border-bottom:1px solid var(--line)}
+  .menu-list a:last-child{border-bottom:0}
+  .menu-list a:hover{background:var(--card)}
+  .menu-list a small{display:block;font-weight:500;color:var(--sub);font-size:.85rem}
+  .red{color:var(--coral);font-weight:900}
+
+  .tag-legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .tracknote{font-size:1rem;line-height:1.6}
+  .tracknote .tn-lead{color:var(--fg);font-size:1.1rem;margin:0 0 14px}
+  .tracknote .tn-lead span{color:var(--coral);font-weight:800}
+  footer .fr{color:var(--coral);font-weight:700}
+  footer .fm{color:var(--mint-icon);font-weight:700}
+  footer a.fl{color:var(--fg);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  .tracknote .tn-limits{color:var(--mint-icon);font-weight:800;margin:0 0 6px}
+  .tracknote ul{margin:0;padding-left:22px;color:var(--sub)}
+  .tracknote li{margin:0 0 6px}
+  .tracknote li::marker{color:var(--mint-icon)}
+  footer{color:var(--sub);font-size:.92rem;border-top:2px solid var(--line);padding-top:24px;display:flex;flex-direction:column;gap:10px}
+  footer .checked{color:var(--fg);font-weight:800}
+
+  @media (max-width:760px){
+    .summary{grid-template-columns:1fr}
+    .phases{grid-template-columns:1fr 1fr;gap:28px}
+    .stabs{grid-template-columns:1fr 1fr}
+    .card{padding:24px}
+    .skillbox{padding:20px;border-radius:22px}
+    .part{padding:22px}
+  }
+  @media (max-width:440px){
+    .phases{grid-template-columns:1fr}
+    .lvl{flex:1 1 30%;min-width:0;padding-inline:14px}
+    .wrap{gap:52px}
+  }
+  @media (prefers-reduced-motion:reduce){.bar i,.pline i{transition:none}.lvl[aria-selected="true"]{transform:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="head-row">
+      <div>
+        <p class="eyebrow">Goethe exam preparation, A1 to B1</p>
+        <h1><span class="lead">Speak German</span> - now. Exam Study Path</h1>
+      </div>
+      <div class="flags" aria-hidden="true">
+        <svg class="flag" viewBox="0 0 30 20"><rect width="30" height="6.67" y="0" fill="#000"/><rect width="30" height="6.67" y="6.67" fill="#DD0000"/><rect width="30" height="6.67" y="13.33" fill="#FFCE00"/></svg>
+        <svg class="flag" viewBox="0 0 30 20"><rect width="30" height="20" fill="#ED2939"/><rect width="30" height="6.67" y="6.67" fill="#fff"/></svg>
+        <svg class="flag" viewBox="0 0 30 20"><rect width="30" height="20" fill="#D52B1E"/><rect x="12" y="4" width="6" height="12" fill="#fff"/><rect x="8" y="8" width="14" height="4" fill="#fff"/></svg>
+      </div>
+    </div>
+    <p class="lede">Pick your level, see how the exam adds up, and tick off every task type each time you drill it. Your ticks stay in this browser.</p>
+  </header>
+
+  <section class="block" aria-label="Level and scoring">
+    <div class="levels" role="tablist" id="levels"></div>
+    <div class="summary" aria-live="polite">
+      <div class="card pass" id="pass"></div>
+      <div class="card prog">
+        <p class="eyebrow" style="margin:0">Your practice so far</p>
+        <div class="num" id="pct">0%</div>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="bar"><i id="barfill"></i></div>
+        <p class="note" id="count"></p>
+        <button class="reset" id="reset" type="button">Reset this level</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div>
+      <h2>Your path in four phases</h2>
+      <p class="note" style="margin-top:8px">A steady eight weeks works for most people. Stretch or squeeze the middle phases to fit your exam date.</p>
+    </div>
+    <div class="phases">
+      <div class="phase"><span class="wk">Week 1</span><h3>Baseline</h3><p>Sit one timed mock. Write down which of the four skills lost the most points.</p><a class="mock" id="mockpdf" href="https://bfu.goethe.de/b1_mod/" target="_blank" rel="noopener">Official Goethe mock exam (Modellsatz)</a></div>
+      <div class="phase"><span class="wk">Weeks 2 to 4</span><h3>Build</h3><p>Work on vocabulary and grammar for the weakest skill first. Short daily sessions beat one long one.</p></div>
+      <div class="phase"><span class="wk">Weeks 5 to 7</span><h3>Drill</h3><p>Go task type by task type below. Start with the parts worth the most points, and tick each one every time you practice it.</p></div>
+      <div class="phase final"><span class="wk">Week 8</span><h3>Full mocks</h3><p>Two complete timed exams. Review every wrong answer and rewrite one text per session.</p><a class="mock" id="mock" href="https://www.goethe.de/ins/de/de/prf/prf/gzb1/ueb.html" target="_blank" rel="noopener">Official Goethe practice exam (Übungssatz)</a></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div>
+      <h2>Task types by skill</h2>
+      <p class="note" style="margin-top:8px"><span class="tag core">Core</span> marks the parts with the biggest share of a skill, or skills that carry over to other parts. <span class="tag low">Lower share</span> marks the smallest part of a skill. Skills whose parts are all worth the same show no labels.</p>
+      <p class="note" style="margin-top:8px">If you're <span style="color:var(--coral);font-weight:700">scoring badly</span> in a specific part, read its <span style="color:var(--mint-icon);font-weight:700">shortcut</span> hints. They're what I've found to make the biggest difference in 2500h+ of teaching!</p>
+    </div>
+    <div class="skillbox">
+      <div class="stabs" role="tablist" id="stabs" aria-label="Skill"></div>
+      <div class="panel" id="panel"></div>
+    </div>
+  </section>
+
+  <section class="tracknote">
+    <p class="tn-lead"><span>Track your progress</span> in this browser by ticking the boxes.</p>
+    <p class="tn-limits">Limits:</p>
+    <ul>
+      <li>Progress lives in one browser on one device, so it doesn't follow you from phone to laptop.</li>
+      <li>Progress is lost if you clear your browser data, and it can come back empty in private windows.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p class="checked">Last checked: <time datetime="2026-09-28">28 September 2026</time></p>
+    <p>Checked against the official Goethe-Institut implementation rules (dated 1 September 2025) for Goethe Start Deutsch 1 (A1), A2 and B1, plus the A2 model test and the online B1 model test scoring pages, which give the writing and speaking splits. <span class="fr">Exam formats and scoring can change</span>, so <span class="fm">compare this date with the current information</span> on the <a class="fl" href="https://www.goethe.de/en/spr/prf.html" target="_blank" rel="noopener">Goethe-Institut website</a> <span class="fm">before you book</span>.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var KEY="sgn-exam-study-path-v1";
+  /* Per skill: raw = raw exam points that the parts sum to, pts = points the skill counts for, fac = official conversion factor shown to learners (omitted when no conversion).
+     Part pts are raw points. exam = total points of the whole exam for that level. */
+  var LEVELS={
+    A1:{sub:"Goethe Start Deutsch 1",exam:100,
+      pass:{big:"Pass at <span>60 of 100</span> points",split:["Listening ~25","Reading ~25","Writing ~25","Speaking ~25"],note:"With fewer than 35 of the 75 written points you do not continue to the oral exam."},
+      skills:[
+        {de:"Hören",en:"Listening",raw:15,pts:25,fac:"1.66",meta:"3 parts, 15 items, about 20 min",parts:[
+          {n:"Part 1 - Short conversations",d:"6 items, multiple choice a, b or c, heard twice.",pts:6,core:1,t:"Listen for one detail: a time, a place, a price."},
+          {n:"Part 2 - Announcements",d:"4 items, true or false, heard once.",pts:4,low:1,t:"Read the statements first so you know what to catch."},
+          {n:"Part 3 - Short conversations",d:"5 items, multiple choice a, b or c, heard twice.",pts:5,t:"Note numbers as digits while you listen."}]},
+        {de:"Lesen",en:"Reading",raw:15,pts:25,fac:"1.66",meta:"3 parts, 15 items, about 25 min",parts:[
+          {n:"Part 1 - Short notes and emails",d:"5 items, true or false.",pts:5,t:"Underline names, days and times before answering."},
+          {n:"Part 2 - Short texts",d:"5 items, choose a or b.",pts:5,t:"Scan for keywords, do not read every word."},
+          {n:"Part 3 - Signs and notices",d:"5 items, true or false.",pts:5,t:"Learn the common sign vocabulary as a set."}]},
+        {de:"Schreiben",en:"Writing",raw:15,pts:25,fac:"1.66",meta:"2 parts, about 20 min",parts:[
+          {n:"Part 1 - Fill out a form",d:"5 blanks, 1 point each.",pts:5,low:1,t:"Practice spelling your own data and dates."},
+          {n:"Part 2 - Short message",d:"About 30 words. Task fulfilment 3 + 3 + 3, text type 1.",pts:10,core:1,t:"Cover every point, then add a greeting and a closing."}]},
+        {de:"Sprechen",en:"Speaking",raw:15,pts:25,fac:"1.66",meta:"3 parts, about 15 min, in a group",parts:[
+          {n:"Part 1 - Introduce yourself",d:"Say who you are and answer simple questions.",pts:3,low:1,t:"Say your name, origin, job and one hobby without pausing."},
+          {n:"Part 2 - Ask and answer with cue cards",d:"Ask for and give information on two topics.",pts:6,core:1,t:"Build the question from the card word, then wait for the answer."},
+          {n:"Part 3 - Requests",d:"Make a request and react to your partner's.",pts:6,core:1,t:"Learn three polite request frames and rotate them."}]}
+      ]},
+    A2:{sub:"Goethe-Zertifikat A2",exam:100,
+      pass:{big:"Pass at <span>60 of 100</span> points",split:["Listening 25","Reading 25","Writing 25","Speaking 25"],note:"You also need at least 45 of 75 points in the written parts (listening, reading, writing) and at least 15 of 25 in speaking. Otherwise the whole exam counts as not passed."},
+      skills:[
+        {de:"Hören",en:"Listening",raw:20,pts:25,fac:"1.25",meta:"4 parts, 20 items, about 30 min",parts:[
+          {n:"Part 1 - Radio, answering machine, announcements",d:"5 items, multiple choice a, b or c.",pts:5,t:"Predict the topic from the answer options before the audio starts."},
+          {n:"Part 2 - One connected conversation",d:"5 items, matching.",pts:5,t:"Follow one conversation from start to finish and match as you go."},
+          {n:"Part 3 - Individual conversations",d:"5 items, multiple choice a, b or c.",pts:5,t:"Expect a change of mind mid-conversation and listen to the end."},
+          {n:"Part 4 - Radio interview",d:"5 items, true or false.",pts:5,t:"Read the statements first and mark negations and time words."}]},
+        {de:"Lesen",en:"Reading",raw:20,pts:25,fac:"1.25",meta:"4 parts, 20 items, about 30 min",parts:[
+          {n:"Part 1 - Media texts",d:"5 items, multiple choice a, b or c.",pts:5,t:"Match the exact detail asked for, not the general topic."},
+          {n:"Part 2 - Information boards and programs",d:"5 items, multiple choice a, b or c.",pts:5,t:"Scan for days, times and prices."},
+          {n:"Part 3 - Correspondence",d:"5 items, multiple choice a, b or c.",pts:5,t:"Find who writes, why, and what they ask for."},
+          {n:"Part 4 - Ads",d:"5 items, matching.",pts:5,t:"Mark the key need in each situation, then scan the ads."}]},
+        {de:"Schreiben",en:"Writing",raw:20,pts:25,fac:"1.25",meta:"2 parts, 20 measuring points",parts:[
+          {n:"Part 1 - Personal message",d:"20 to 30 words. Task fulfilment 5, language 5.",pts:10,t:"Cover every point in order and keep a greeting and closing."},
+          {n:"Part 2 - Semi-official message",d:"30 to 40 words. Task fulfilment 5, language 5.",pts:10,t:"Use the polite Sie form and state your request in the first lines."}]},
+        {de:"Sprechen",en:"Speaking",raw:25,pts:25,meta:"3 parts, about 15 min for two candidates",parts:[
+          {n:"Part 1 - Exchange personal information",d:"With a partner. Task fulfilment 2 + language 2.",pts:4,low:1,t:"Prepare a 30-second version and a 60-second version."},
+          {n:"Part 2 - Talk about your life",d:"Give the examiner detailed information. Task fulfilment 4 + language 4.",pts:8,core:1,t:"Prepare three short topics: home, work, free time."},
+          {n:"Part 3 - Plan something together",d:"Plan and agree on an activity. Task fulfilment 4 + language 4.",pts:8,core:1,t:"Make a suggestion, react to your partner, and agree on one plan."},
+          {n:"Pronunciation (all parts)",d:"One score of 5 points across the whole speaking exam.",pts:5,core:1,t:"Record yourself and compare stress and melody with a model."}]}
+      ]},
+    B1:{sub:"Goethe-Zertifikat B1",exam:400,
+      pass:{big:"Pass at <span>60 of 100</span> points per module",split:["Listening 100","Reading 100","Writing 100","Speaking 100"],note:"Each module is scored to 100 on its own, so each skill is 25% of the whole exam (400 module points). A strong skill cannot offset a weak one, and single modules can be resat separately."},
+      skills:[
+        {de:"Hören",en:"Listening",raw:30,pts:100,fac:"3.33",meta:"4 parts, 30 items, about 40 min",parts:[
+          {n:"Part 1 - Announcements and instructions",d:"10 items: five short texts, heard twice, one detail per text.",pts:10,core:1,t:"Train on time, number and name details. Repetition makes this part reliable."},
+          {n:"Part 2 - Talk in an audience",d:"5 items, multiple choice, heard once.",pts:5,core:1,t:"Take notes while listening. Missing the thread early can cost several answers."},
+          {n:"Part 3 - Conversation between native speakers",d:"7 items, true or false, heard once.",pts:7,t:"Track each speaker separately in your notes."},
+          {n:"Part 4 - Radio and recordings",d:"8 items, match positions to speakers.",pts:8,core:1,t:"The same skill as Reading Part 4, Writing Task 2 and Speaking Part 3. Practice them together."}]},
+        {de:"Lesen",en:"Reading",raw:30,pts:100,fac:"3.33",meta:"5 parts, 30 items, about 65 min",parts:[
+          {n:"Part 1 - Correspondence",d:"6 items, true or false.",pts:6,t:"Read for the writer's main point before the statements."},
+          {n:"Part 2 - Information and argument",d:"6 items, multiple choice with three options.",pts:6,t:"Find the sentence that proves each answer."},
+          {n:"Part 3 - Reading for orientation",d:"7 items, matching situations to ads.",pts:7,core:1,t:"Pure scanning, cheap to train. Time yourself per ad."},
+          {n:"Part 4 - Information and argument",d:"7 items, yes or no on opinions in a forum.",pts:7,core:1,t:"Highest carry-over. Label each writer for or against first."},
+          {n:"Part 5 - Written instructions",d:"4 items, multiple choice, house rules and regulations.",pts:4,low:1,t:"Practice the passive and rule vocabulary."}]},
+        {de:"Schreiben",en:"Writing",raw:100,pts:100,meta:"3 tasks, about 60 min",parts:[
+          {n:"Task 1 - Personal message to a friend",d:"Three points, about 80 words, 20 min. Four criteria of up to 10 points each.",pts:40,core:1,t:"One paragraph per point, friendly tone, informal du."},
+          {n:"Task 2 - Opinion in a forum",d:"About 80 words, 25 min. Four criteria of up to 10 points each.",pts:40,core:1,t:"Use varied connectors. They earn credit for coherence and range at once."},
+          {n:"Task 3 - Formal apology or request",d:"About 40 words, 15 min. Fulfilment and coherence up to 4 points, vocabulary and structures up to 6.",pts:20,low:1,t:"No time for a false start. Register and task fulfilment decide the score."}]},
+        {de:"Sprechen",en:"Speaking",raw:100,pts:100,meta:"3 parts, about 15 min for two candidates",parts:[
+          {n:"Part 1 - Plan something together",d:"Four guide points, discuss and agree with your partner.",pts:28,t:"React to what your partner says. Memorized scripts lose points."},
+          {n:"Part 2 - Presentation",d:"Five slides, about 3 minutes.",pts:40,core:1,t:"Use a fixed five-point structure: intro, experience, home country, pros and cons with opinion, closing."},
+          {n:"Part 3 - React and give feedback",d:"Comment on your partner's presentation and ask one question each.",pts:16,low:1,t:"Prepare three reusable phrases: thanks, one thing you liked, one question."},
+          {n:"Pronunciation (all parts)",d:"One score of 16 points across the whole speaking exam.",pts:16,core:1,t:"Record yourself and compare stress and melody with a model."}]}
+      ]}
+  };
+  var order=["A1","A2","B1"], cur="B1", curSkill=0, state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){state={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+  function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+  function has(k){return !!(state[cur]&&state[cur][k])}
+  /* one decimal, tilde when the shown value is rounded */
+  function fmt(n){var r=Math.round(n*10)/10;var s=String(r);return (Math.abs(r-n)>0.0001?"~":"")+s}
+  var TICKS=3, SITE="https://speakgerman-now.com";
+  function weight(s,pt){return pt.pts*(s.pts/s.raw)/LEVELS[cur].exam*100}
+  function partTicks(si,pi){var n=0;for(var t=0;t<TICKS;t++)if(has(si+"-"+pi+"-"+t))n++;return n}
+  function totalTicks(){var n=0;LEVELS[cur].skills.forEach(function(s){n+=s.parts.length*TICKS});return n}
+  function doneTicks(){var n=0;for(var k in (state[cur]||{}))if(state[cur][k])n++;return n}
+  function progressOf(list){
+    var num=0,den=0;
+    list.forEach(function(si){LEVELS[cur].skills[si].parts.forEach(function(pt,pi){
+      var w=weight(LEVELS[cur].skills[si],pt);den+=w;num+=w*partTicks(si,pi)/TICKS;
+    })});
+    return den?num/den*100:0;
+  }
+  function allSkills(){return LEVELS[cur].skills.map(function(_,i){return i})}
+  function paintProgress(){
+    var p=progressOf(allSkills()),shown=Math.round(p);
+    document.getElementById("pct").textContent=shown+"%";
+    document.getElementById("barfill").style.width=p+"%";
+    document.getElementById("bar").setAttribute("aria-valuenow",shown);
+    document.getElementById("count").textContent=doneTicks()+" of "+totalTicks()+" practice ticks for "+cur+", counted by each part's share of the exam";
+  }
+  function pctText(n){return n<=0?"0%":(n>=TICKS?"100%":"~"+Math.round(n/TICKS*100)+"%")}
+  function levelTabs(){
+    var box=document.getElementById("levels");box.innerHTML="";
+    order.forEach(function(l){
+      var b=el("button","lvl",l+"<small>"+LEVELS[l].sub+"</small>");
+      b.type="button";b.setAttribute("role","tab");b.setAttribute("aria-selected",l===cur);
+      b.addEventListener("click",function(){cur=l;try{history.replaceState(null,"","#"+l.toLowerCase())}catch(e){}render()});
+      box.appendChild(b);
+    });
+  }
+  function skillTabs(){
+    var box=document.getElementById("stabs");box.innerHTML="";
+    LEVELS[cur].skills.forEach(function(s,si){
+      var p=progressOf([si]);
+      var b=el("button","stab",'<span class="sn">'+s.de+'</span><span class="se">'+s.en+'</span><span class="sl"><i style="width:'+p+'%"></i></span><span class="sg">'+(Math.round(p)?"~"+Math.round(p)+"% practiced":"Not started")+"</span>");
+      b.type="button";b.setAttribute("role","tab");b.setAttribute("aria-selected",si===curSkill);
+      b.addEventListener("click",function(){curSkill=si;skillTabs();panel()});
+      box.appendChild(b);
+    });
+  }
+  function panel(){
+    var L=LEVELS[cur],s=L.skills[curSkill],si=curSkill;
+    var box=document.getElementById("panel");box.innerHTML="";
+    var ytq="https://www.youtube.com/results?search_query="+encodeURIComponent(s.de+" Goethe "+cur+" mit Lösungen");
+    var head=el("div","panel-head");
+    var deHtml=s.de==="Lesen"
+      ?'<a class="hlink" href="'+ytq+'" target="_blank" rel="noopener noreferrer" title="Search YouTube: '+s.de+' Goethe '+cur+' mit Lösungen">'+s.de+'</a>'
+      :s.de;
+    head.appendChild(el("div","panel-title",'<h3 class="de" style="font-size:1.8rem;font-weight:900;letter-spacing:-.01em">'+deHtml+'</h3><span class="en">'+s.en+"</span>"));
+    head.appendChild(el("p","meta",s.meta));
+    var sc=el("div","skill-pts");
+    var unit=L.exam===400?"module points":"points";
+    if(s.fac)sc.appendChild(el("span","calc",s.raw+" × "+s.fac+" ="));
+    var conv=s.fac?s.raw*parseFloat(s.fac):s.pts;
+    sc.appendChild(el("span","pts-chip",(Math.abs(conv-s.pts)>0.0001?"~":"")+s.pts+" "+unit));
+    sc.appendChild(el("span","pts-chip plain",fmt(s.pts/L.exam*100)+"% of the exam"));
+    head.appendChild(sc);
+    var res=el("div","resources");
+    if(s.de==="Hören"){
+      var dd=el("details","menu");
+      dd.innerHTML='<summary>Practice listening</summary><div class="menu-list">'
+        +'<a href="'+SITE+'" target="_blank" rel="noopener noreferrer">Get invited to a <span class="red">live group</span> to practice speaking and <span class="red">listening</span><small>speakgerman-now.com</small></a>'
+        +'<a href="'+ytq+'" target="_blank" rel="noopener noreferrer">Curated YouTube search</a></div>';
+      res.appendChild(dd);
+    }else if(s.de==="Lesen"){
+      var yb=el("a","btn-primary","Curated YouTube search");
+      yb.href=ytq;yb.target="_blank";yb.rel="noopener noreferrer";
+      res.appendChild(yb);
+      res.appendChild(el("p","res-note","Search: Lesen Goethe "+cur+" mit Lösungen"));
+    }else if(s.de==="Schreiben"){
+      var msg="Hello Johanna! My level is "+cur+". I would like my writing corrected.\n\nThis is the writing task: (insert text or print)\n\nThis is what I wrote: (insert text or print)";
+      var a=el("a","btn-primary","Get it corrected by Johanna on WhatsApp");
+      a.href="https://wa.me/5548999373120?text="+encodeURIComponent(msg);a.target="_blank";a.rel="noopener noreferrer";
+      res.appendChild(a);
+      res.appendChild(el("p","res-note",'Opens a WhatsApp message to +55 48 99937-3120 with the task and your text ready to fill in. Or visit <a class="res-link" href="'+SITE+'" target="_blank" rel="noopener noreferrer">speakgerman-now.com</a>.'));
+    }else if(s.de==="Sprechen"){
+      var msg2="Hello Johanna! My level is "+cur+". My name is [fill in your name]. Send a live speaking groups invitation to [my email address]!";
+      var b=el("a","btn-primary","Get an invite to a live speaking group");
+      b.href="https://wa.me/5548999373120?text="+encodeURIComponent(msg2);b.target="_blank";b.rel="noopener noreferrer";
+      res.appendChild(b);
+      res.appendChild(el("p","res-note",'Opens a WhatsApp message to +55 48 99937-3120. Or visit <a class="res-link" href="'+SITE+'" target="_blank" rel="noopener noreferrer">speakgerman-now.com</a>.'));
+    }
+    if(res.children.length)head.appendChild(res);
+    box.appendChild(head);
+    var list=el("div","parts");
+    s.parts.forEach(function(pt,pi){
+      var d=el("div","part");
+      var top=el("div","part-top");
+      top.appendChild(el("span","part-name",pt.n));
+      if(pt.core)top.appendChild(el("span","tag core","Core"));
+      if(pt.low)top.appendChild(el("span","tag low","Lower share"));
+      d.appendChild(top);
+      var pp=el("div","part-pts");
+      pp.appendChild(el("span","pts-chip",pt.pts+" points"));
+      pp.appendChild(el("span","pts-chip plain",fmt(weight(s,pt))+"% of the exam"));
+      d.appendChild(pp);
+      d.appendChild(el("p","desc",pt.d));
+      d.appendChild(el("p","tip","<b>Shortcut:</b> "+pt.t));
+      var lg=el("div","log");lg.appendChild(el("span","lab","Practiced"));
+      var line=el("span","pline");line.setAttribute("title","Practice progress for this part");
+      var fill=document.createElement("i");line.appendChild(fill);
+      var pct=el("span","ppct","");
+      function paintPart(){var n=partTicks(si,pi);fill.style.width=(n/TICKS*100)+"%";pct.textContent=pctText(n)}
+      for(var n=0;n<TICKS;n++){(function(n){
+        var key=si+"-"+pi+"-"+n;
+        var bt=el("button","tick","✓");bt.type="button";
+        bt.setAttribute("aria-pressed",has(key));
+        bt.setAttribute("aria-label",pt.n+", practice round "+(n+1));
+        bt.addEventListener("click",function(){
+          state[cur]=state[cur]||{};state[cur][key]=!state[cur][key];
+          bt.setAttribute("aria-pressed",!!state[cur][key]);save();paintPart();paintProgress();skillTabs();
+        });
+        lg.appendChild(bt);
+      })(n)}
+      lg.appendChild(line);lg.appendChild(pct);paintPart();
+      d.appendChild(lg);list.appendChild(d);
+    });
+    box.appendChild(list);
+  }
+  function render(){
+    levelTabs();
+    var L=LEVELS[cur],p=document.getElementById("pass");
+    p.innerHTML="";
+    p.appendChild(el("p","eyebrow","How "+cur+" adds up"));
+    p.appendChild(el("div","big",L.pass.big));
+    var sp=el("div","split");L.pass.split.forEach(function(x){sp.appendChild(el("span",null,x))});p.appendChild(sp);
+    p.appendChild(el("p","note",L.pass.note));
+    var MAT={A1:"https://www.goethe.de/ins/de/de/prf/prf/gzsd1/ueb.html",A2:"https://www.goethe.de/ins/de/de/prf/prf/gzsd2/ub2.html",B1:"https://www.goethe.de/ins/de/de/prf/prf/gzb1/ueb.html"};
+    document.getElementById("mock").href=MAT[cur];
+    var ON={A1:"https://bfu.goethe.de/a1_sd1/",A2:"https://bfu.goethe.de/a2_mod_2MX5/",B1:"https://bfu.goethe.de/b1_mod/"};
+    document.getElementById("mockpdf").href=ON[cur];
+    skillTabs();panel();paintProgress();
+  }
+  document.getElementById("reset").addEventListener("click",function(){state[cur]={};save();render()});
+  var hh=(location.hash||"").replace("#","").toUpperCase();
+  if(LEVELS[hh])cur=hh;
+  render();
+})();
+</script>
+
+</body>
+</html>
