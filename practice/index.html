@@ -1,4 +1,12 @@
-<title>Nicos Weg Practice</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shadowing Practice · Speak German - now.</title>
+<meta name="description" content="Free gap-fill shadowing practice for Nicos Weg (A1/A2), from Speak German - now.">
+<meta name="theme-color" content="#F3EBDF">
+<!-- Privacy-friendly analytics (GoatCounter) goes here once set up — see repo notes -->
 <style>
 /*
   Layout concept: a level-select map grouped into chapters of 4 lessons each
@@ -163,6 +171,13 @@ h2,h3{font-weight:800; color:var(--ink)}
   box-shadow:0 4px 0 var(--navy); margin-top:12px;
 }
 .legend{font-size:.82rem; color:var(--ink-soft); line-height:1.5; margin-top:12px}
+.credit-box{margin:28px 0 8px; padding-top:18px; border-top:1px solid var(--line)}
+.credit-box p{font-size:.78rem; color:var(--ink-soft); line-height:1.5; max-width:62ch}
+.credit-box p a{color:var(--ink-soft)}
+.wa-link{
+  display:inline-block; margin-top:12px; font-weight:800; font-size:.92rem;
+  color:var(--accent); text-decoration:underline; text-underline-offset:3px;
+}
 .legend kbd{
   display:inline-block; border:1px solid var(--line); border-bottom-width:2px; border-radius:5px;
   padding:0 6px; font-family:inherit; font-size:.85em; background:var(--chip);
@@ -247,6 +262,8 @@ h2,h3{font-weight:800; color:var(--ink)}
 
 [hidden]{display:none!important}
 </style>
+</head>
+<body>
 <div class="wrap">
 
   <section id="home">
@@ -265,6 +282,11 @@ h2,h3{font-weight:800; color:var(--ink)}
       <div class="progress-pct" id="progressPct">0%</div>
     </div>
     <div id="chapters"></div>
+
+    <div class="credit-box">
+      <p>Free shadowing practice built from Deutsche Welle's <a href="https://learngerman.dw.com/en/nicos-weg/c-36519889" target="_blank" rel="noopener">Nicos Weg</a> course material (videos embedded directly from DW's own YouTube channel). Offered here for free, for educational, non-commercial use — not affiliated with or endorsed by Deutsche Welle.</p>
+      <a class="wa-link" id="waHomeLink" href="https://wa.me/5548999373120?text=Hi%20Johanna%2C%20I%27ve%20been%20using%20the%20free%20Nicos%20Weg%20practice%20tool%20and%20wanted%20to%20say%20hi!" target="_blank" rel="noopener">Want a real study plan built around your level? Message Johanna on WhatsApp &rarr;</a>
+    </div>
   </section>
 
   <section id="exercise" hidden>
@@ -677,5 +699,20 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   });
 
   renderHome();
+
+  // Click tracking (no-ops until analytics is wired in — see goatcounter note in <head>)
+  function track(event){
+    if (window.goatcounter && window.goatcounter.count){
+      window.goatcounter.count({path: event, title: event, event: true});
+    }
+  }
+  document.addEventListener("click", function(e){
+    var wa = e.target.closest && e.target.closest("a[href*='wa.me']");
+    if (wa) track("whatsapp-click");
+    var yt = e.target.closest && e.target.closest("#videoLink");
+    if (yt) track("youtube-click");
+  });
 })();
 </script>
+</body>
+</html>
