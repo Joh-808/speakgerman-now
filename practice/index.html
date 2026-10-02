@@ -127,16 +127,23 @@ h2,h3{font-weight:800; color:var(--ink)}
 .achv-btn-icon{font-size:1rem}
 
 .progress-row{display:flex; align-items:center; gap:12px; margin:18px 0 30px}
-.progress-track{flex:1; min-width:0; height:12px; border-radius:999px; background:var(--chip); overflow:hidden; border:1px solid var(--line)}
+.progress-track{flex:1; min-width:0; height:12px; border-radius:999px; background:var(--chip); border:1px solid var(--line); position:relative}
 .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--gold)); border-radius:999px; transition:width .4s ease}
 .progress-pct{font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent); min-width:3.5em; text-align:right}
 .progress-level{font-weight:800; font-size:.82rem; color:var(--ink-soft); background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:4px 10px; white-space:nowrap}
 .progress-icon{flex:none; display:flex; align-items:center; color:var(--key-gold)}
-.progress-icon svg{width:20px; height:20px}
+.progress-icon svg{width:20px; height:20px; display:block; filter:drop-shadow(0 1px 1.5px rgba(14,23,45,.35))}
+/* The key rides the fill edge, inside the track itself, so it needs to sit
+   above both the bar and the empty track as the fill width changes under it. */
+.progress-icon.key-icon{
+  position:absolute; top:50%; left:0%; z-index:2;
+  transform:translate(-50%,-50%); transition:left .4s ease; pointer-events:none;
+}
 .progress-icon.key-icon.spin svg{animation:keyTurn .9s cubic-bezier(.34,1.56,.64,1)}
 @keyframes keyTurn{
   0%{transform:rotate(0)}
-  100%{transform:rotate(180deg)}
+  50%{transform:rotate(200deg)}
+  100%{transform:rotate(360deg)}
 }
 
 /* ---------- chapter groups ---------- */
@@ -423,8 +430,10 @@ h2,h3{font-weight:800; color:var(--ink)}
     </div>
     <div class="progress-row">
       <div class="progress-level" id="progressLevel">A1</div>
-      <span class="progress-icon key-icon" id="progressKeyIcon" aria-hidden="true"></span>
-      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        <span class="progress-icon key-icon" id="progressKeyIcon" aria-hidden="true"></span>
+      </div>
       <span class="progress-icon lock-icon" id="progressLockIcon" aria-hidden="true"></span>
       <div class="progress-pct" id="progressPct">0%</div>
     </div>
@@ -543,8 +552,8 @@ var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 // so it reads as something the key actually goes into, not just a padlock.
 var KEY_SVG_CLOSED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4"/><path d="M7 11v9"/><path d="M7 17l-2.5 2.5"/><path d="M7 20l2.5 2.5"/></svg>';
 var KEY_SVG_OPEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>';
-var LOCK_SVG_CLOSED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="14.6" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="17.6" r="1.3" fill="currentColor" stroke="none"/></svg>';
-var LOCK_SVG_OPEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a5 5 0 0 1 9.8-1.5"/><circle cx="12" cy="14.6" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="17.6" r="1.3" fill="currentColor" stroke="none"/></svg>';
+var LOCK_SVG_CLOSED = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="14.8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="18.1" r=".9" fill="currentColor" stroke="none"/></svg>';
+var LOCK_SVG_OPEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a5 5 0 0 1 9.8-1.5"/><circle cx="12" cy="14.8" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="18.1" r=".9" fill="currentColor" stroke="none"/></svg>';
 var VIDEO_IDS = {"A1": {"1": "dC6ZGLzdaTs", "2": "upvuC9FR-xU", "3": "idFrq0H1Af0", "4": "-qAuGimugds", "5": "FoYSUfsLcjA", "6": "fZr-eVZ3YOs", "7": "Q7ECRAQrzFc", "8": "T89sIATrpBc", "9": "p1dci7nBJRo", "10": "5wyalwdmpzk", "11": "AI9EmNzxXGE", "12": "IhLqeX8QjSg", "13": "VWDtpIIAgAI", "14": "J71RxF7qU2o", "15": "w-Zea1mverM", "16": "c7LTbMCKVNo", "17": "IQ3cDBISOao", "18": "3K991pj4Uic", "19": "uJ6uLjJxX-8", "20": "lvgs_iLBdvY", "21": "9obS6QT10To", "22": "MNx10ASRCwM", "23": "P1ontBJYzhI", "24": "368pARWAzGk", "25": "bbZxpdieqIA", "26": "YRWehEtSPQY", "27": "s9y2sCNOzBk", "28": "Q-qjyb9AsqM", "29": "AGwxwx3TOdg", "30": "jUElkIpQlNw", "31": "f9kkMWEOxo0", "32": "dqtdmvpa8D0", "33": "SEV3kmyQCII", "34": "Vvt6H_EvGX0", "35": "_VUrkdITl8U", "36": "2v6H7fnWuts", "37": "rH8HMCr73RM", "38": "a7LZ0QAG6DQ", "39": "ymE5ZON70C0", "40": "qaQd9wFy1l4", "41": "Fz_AuTNFa8k", "42": "5_pXp3akjr4", "43": "4us1ZoH9K04", "44": "dsPDJb2956A", "45": "3tq7bRB9iu0", "46": "sEu2PqmGrgw", "47": "SIN9PejV-OI", "48": "KeU3-5jr2fI", "49": "ySrfaSqtdfw", "50": "dOdHXwy0cME", "51": "SRAk_KZlrwY", "52": "0S3urnio_08", "53": "3UJeXeiki9g", "54": "b4ki5lMyd4Q", "55": "chmqnserFqM", "56": "qL1hgrjJScY", "57": "DiNQle2s1lQ", "58": "9iJnx2PESSk", "59": "pCRS-oxE61k", "60": "eYaoCcvPd_U", "61": "6CQ32OWDyq4", "62": "KJ-icYRJ29s", "63": "4U9iAmC3rFQ", "64": "oJmH9eD7Lao", "65": "otY2T26FOP0", "66": "B7MMM3SrSlg", "67": "826-EwY51Fw", "68": "DiMQTg7D7Ao", "69": "0b66BzvKgMY", "70": "cTJ1KFzmhbc", "71": "ilp0CwKxdbY", "72": "VWomWeeqsAk", "73": "mkXWqvL3-hA", "74": "ppIFbtiL1kQ", "75": "k8_8CA5Ls94", "76": "bgnox1SRrw8"}, "A2": {"1": "ZPQepR4B8eo", "2": "WB4YmgiRULw", "3": "A1k6ZjKFycM", "4": "J7j31w8UT2c", "5": "dRga5jIMjBo", "6": "geYuMJBnDSs", "7": "tNY9TNnQC6E", "8": "n_l-rfcG5Uo", "9": "uOcZq9rS13Y", "10": "Tor-mPRS3j4", "11": "Xw7Kv0o5a1Y", "12": "MUcfiKAJUGg", "13": "JmjnyhFLXKg", "14": "i4IJP4s14k8", "15": "sOaWFjMkDpg", "16": "Qrso_HEyc1Q", "17": "rTgkeG4IJJw", "18": "0ijgOLUE3NQ", "19": "iU7swr8-hk0", "20": "qqxSuoX0gzw", "21": "oEWakpD2JaQ", "22": "8e_ukBPtxww", "23": "PrrbATyrg08"}};
 var currentLevel = "A1";
 function getData(){ return DATA_BY_LEVEL[currentLevel]; }
@@ -893,7 +902,13 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     document.getElementById("progressPct").textContent = pct + "%";
     var keyEl = document.getElementById("progressKeyIcon");
     var lockEl = document.getElementById("progressLockIcon");
-    if (keyEl) keyEl.innerHTML = done ? KEY_SVG_OPEN : KEY_SVG_CLOSED;
+    if (keyEl){
+      keyEl.innerHTML = done ? KEY_SVG_OPEN : KEY_SVG_CLOSED;
+      // Rides the right edge of the fill, not a fixed spot - clamped a
+      // little in from each end so it never sits half off the pill.
+      var keyLeft = done ? 100 : Math.max(4, Math.min(96, pct));
+      keyEl.style.left = keyLeft + "%";
+    }
     if (lockEl) lockEl.innerHTML = done ? LOCK_SVG_OPEN : LOCK_SVG_CLOSED;
     renderAchvStrip();
     return done;
