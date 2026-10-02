@@ -2450,7 +2450,7 @@ document.querySelectorAll('[data-wa]').forEach(function(a){
     if(!v){ e.preventDefault(); st.textContent='Write your lines first. Then send them.'; return; }
     var msg='Hello Johanna! My level is '+d.lvl+'. I would like my writing corrected.\n\nThis is the chat: '+d.title+'\nThis is the task: '+d.C+'\n\nThis is what I wrote:\n'+v;
     a.href='https://wa.me/5548999373120?text='+encodeURIComponent(msg);
-    if(WC_WEBHOOK){ try{ var fd=new URLSearchParams(); fd.set('lesson',d.title); fd.set('level',d.lvl); fd.set('message','TASK: '+d.C+'\n\nSTUDENT TEXT:\n'+v); fd.set('page',window.location.href); fetch(WC_WEBHOOK,{method:'POST',mode:'no-cors',body:fd,keepalive:true}); }catch(_){} }
+    if(WC_WEBHOOK){ try{ var fd=new URLSearchParams(); fd.set('lesson',d.title); fd.set('level',d.lvl); fd.set('message','TASK: '+d.C+'\n\nSTUDENT TEXT:\n'+v); fd.set('page',window.location.href); try{ fd.set('tz',Intl.DateTimeFormat().resolvedOptions().timeZone||''); fd.set('lang',navigator.language||''); }catch(_){} fetch(WC_WEBHOOK,{method:'POST',mode:'no-cors',body:fd,keepalive:true}); }catch(_){} }
     st.textContent='Opens WhatsApp with your text ready to send.';
   });
 });
