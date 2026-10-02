@@ -9,8 +9,8 @@
 <meta property="og:title" content="WhatsApp-Werkstatt · Speak German - now.">
 <meta property="og:description" content="Turn short, messy expat chats into full German.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://speakgerman-now.com/werkstatt/">
-<link rel="canonical" href="https://speakgerman-now.com/werkstatt/">
+<meta property="og:url" content="https://speakgerman-now.com/writechats/">
+<link rel="canonical" href="https://speakgerman-now.com/writechats/">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23F66F54' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='4'/%3E%3Cpath d='M10 10l9 9M15.5 15.5l2.5-2.5M17.5 17.5l2.5-2.5'/%3E%3C/g%3E%3C/svg%3E">
 <style>
 /* Layout: sticky bar, hero with subtitle and level legend, ladder index, then per chat a phone panel (left) and three task tiers (right). Tokens come from the Speak German - now. brand guide. */
@@ -153,6 +153,9 @@ body.teacher .key{display:block}
 @keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .tpanel .part{margin-top:0;border-top:0;padding-top:0}
 .tpanel .ladder{margin-bottom:6px}
+a.btn{display:inline-block;text-decoration:none}
+.toplink{order:-1;flex-basis:100%;color:var(--coral);font-weight:800;text-decoration:underline;text-underline-offset:4px;font-size:.92rem}
+.toplink:hover{color:var(--navy)}
 .a1note{margin:10px 0 0;font-size:.92rem;color:var(--muted);max-width:68ch}
 .th{margin:22px 0 8px;font-size:1.05rem;font-weight:800}
 .th a{color:var(--navy);text-decoration:none;border-bottom:2px solid var(--coral)}
@@ -188,6 +191,7 @@ body.teacher .key{display:block}
 <body>
 <div class="wrap">
   <div class="bar">
+    <a class="toplink" href="https://speakgerman-now.com">Back to speakgerman-now.com</a>
     <span class="brand"><svg class="key-g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>Speak German <span>- now.</span></span>
     <button type="button" class="btn" id="teacher" aria-pressed="false">Show model solutions</button>
   </div>
@@ -291,7 +295,7 @@ Verkäuferin: Möchten Sie eine Kugel?
 Sofia: Nein, ich möchte zwei Kugeln.
 Verkäuferin: Das kostet 3,40 Euro.
 Sofia: Danke schön!</p>
-        <div class="chk"><button type="button" class="btn go" data-check="17-C">Prüfen</button><span class="hint" id="st-17-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="17" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-17-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-17-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -385,7 +389,7 @@ Verkäuferin: Welche Größe haben Sie?
 Diego: Ich habe Größe M.
 Verkäuferin: Die Hose kostet 60 Euro.
 Diego: Ich nehme sie.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="19-C">Prüfen</button><span class="hint" id="st-19-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="19" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-19-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-19-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -479,7 +483,7 @@ Sofia: Ist der REWE am Sonntag geöffnet?
 Diego: Nein, am Sonntag ist der REWE geschlossen.
 Sofia: Schade!
 Diego: Heute ist Samstag.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="21-C">Prüfen</button><span class="hint" id="st-21-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="21" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-21-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-21-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -566,7 +570,7 @@ Diego: Heute ist Samstag.</p>
         <label class="sr" for="r-11-C-0">Your answer, task C</label>
         <textarea id="r-11-C-0" data-k="r-11-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Mmh, lecker! Die Pistazie ist so cremig. / Meine Schokolade ist auch super, aber ein bisschen zu süß.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="11-C">Prüfen</button><span class="hint" id="st-11-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="11" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-11-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-11-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -653,7 +657,7 @@ Diego: Heute ist Samstag.</p>
         <label class="sr" for="r-15-C-0">Your answer, task C</label>
         <textarea id="r-15-C-0" data-k="r-15-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Wann hat die Apotheke auf? / Von Montag bis Freitag von 8 bis 18 Uhr, am Samstag nur bis 13 Uhr.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="15-C">Prüfen</button><span class="hint" id="st-15-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="15" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-15-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-15-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -740,7 +744,7 @@ Diego: Heute ist Samstag.</p>
         <label class="sr" for="r-13-C-0">Your answer, task C</label>
         <textarea id="r-13-C-0" data-k="r-13-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Haben Sie die auch in Blau? / Blau haben wir, aber leider nicht in Ihrer Größe.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="13-C">Prüfen</button><span class="hint" id="st-13-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="13" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-13-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-13-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -849,7 +853,7 @@ Diego: Heute ist Samstag.</p>
         <label class="sr" for="r-2-C-0">Your answer, task C</label>
         <textarea id="r-2-C-0" data-k="r-2-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Wie hoch ist die Miete? Gibt es einen Aufzug?</p>
-        <div class="chk"><button type="button" class="btn go" data-check="2-C">Prüfen</button><span class="hint" id="st-2-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="2" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-2-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-2-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -944,7 +948,7 @@ Diego: Heute ist Samstag.</p>
         <label class="sr" for="r-6-C-0">Your answer, task C</label>
         <textarea id="r-6-C-0" data-k="r-6-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Das Licht im Flur funktioniert nicht. Könnten Sie das bitte reparieren? Könnten Sie bitte auch die Waschmaschine prüfen?</p>
-        <div class="chk"><button type="button" class="btn go" data-check="6-C">Prüfen</button><span class="hint" id="st-6-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="6" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-6-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-6-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1060,7 +1064,7 @@ Jonas: Das Meeting ist am Donnerstag um 14 Uhr.
 Mara: Ah, am Donnerstag um 14 Uhr.
 Jonas: Genau!
 Mara: Danke! Jetzt verstehe ich das.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="20-C">Prüfen</button><span class="hint" id="st-20-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="20" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-20-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-20-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1147,7 +1151,7 @@ Mara: Danke! Jetzt verstehe ich das.</p>
         <label class="sr" for="r-3-C-0">Your answer, task C</label>
         <textarea id="r-3-C-0" data-k="r-3-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Ich habe einen Tee getrunken. Ich habe viel geschlafen. Ich bin nur kurz zur Apotheke gegangen.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="3-C">Prüfen</button><span class="hint" id="st-3-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="3" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-3-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-3-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1234,7 +1238,7 @@ Mara: Danke! Jetzt verstehe ich das.</p>
         <label class="sr" for="r-14-C-0">Your answer, task C</label>
         <textarea id="r-14-C-0" data-k="r-14-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Ich lerne noch Deutsch. Kannst du mir das bitte schreiben? / Klar, ich schicke dir gleich eine Nachricht.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="14-C">Prüfen</button><span class="hint" id="st-14-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="14" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-14-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-14-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1321,7 +1325,7 @@ Mara: Danke! Jetzt verstehe ich das.</p>
         <label class="sr" for="r-5-C-0">Your answer, task C</label>
         <textarea id="r-5-C-0" data-k="r-5-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Ich konnte nicht früher kommen, denn ich musste meine Tochter zur Schule bringen. Ich wollte dich anrufen, aber ich hatte kein Netz.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="5-C">Prüfen</button><span class="hint" id="st-5-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="5" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-5-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-5-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1437,7 +1441,7 @@ Diego: Ist er lieb?
 Besitzerin: Ja, er ist lieb.
 Diego: Kann ich den Hund streicheln?
 Besitzerin: Ja, bitte.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="18-C">Prüfen</button><span class="hint" id="st-18-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="18" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-18-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-18-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1524,7 +1528,7 @@ Besitzerin: Ja, bitte.</p>
         <label class="sr" for="r-1-C-0">Your answer, task C</label>
         <textarea id="r-1-C-0" data-k="r-1-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Mein Hund heißt Luna. Sie ist drei Jahre alt. Sie mag Kinder, aber keine Katzen. / Muss ich sie füttern?</p>
-        <div class="chk"><button type="button" class="btn go" data-check="1-C">Prüfen</button><span class="hint" id="st-1-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="1" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-1-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-1-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1611,7 +1615,7 @@ Besitzerin: Ja, bitte.</p>
         <label class="sr" for="r-12-C-0">Your answer, task C</label>
         <textarea id="r-12-C-0" data-k="r-12-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Was frisst er gern? / Fast alles, aber am liebsten Käse. Er ist weiß, ein bisschen frech und er liebt Kinder.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="12-C">Prüfen</button><span class="hint" id="st-12-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="12" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-12-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-12-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1706,7 +1710,7 @@ Besitzerin: Ja, bitte.</p>
         <label class="sr" for="r-4-C-0">Your answer, task C</label>
         <textarea id="r-4-C-0" data-k="r-4-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="4-C">Prüfen</button><span class="hint" id="st-4-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="4" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-4-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-4-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1801,7 +1805,7 @@ Besitzerin: Ja, bitte.</p>
         <label class="sr" for="r-7-C-0">Your answer, task C</label>
         <textarea id="r-7-C-0" data-k="r-7-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Wir können uns um 19:30 Uhr an der Bushaltestelle treffen. Ich freue mich auf den Abend. Soll ich etwas mitbringen?</p>
-        <div class="chk"><button type="button" class="btn go" data-check="7-C">Prüfen</button><span class="hint" id="st-7-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="7" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-7-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-7-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1904,7 +1908,7 @@ Besitzerin: Ja, bitte.</p>
         <label class="sr" for="r-9-C-0">Your answer, task C</label>
         <textarea id="r-9-C-0" data-k="r-9-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Ich lerne Deutsch, weil ich in Deutschland wohne. Ich lerne Deutsch, um mit meinen Nachbarn zu sprechen. Ich glaube, dass Deutsch wichtig für meine Kinder ist.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="9-C">Prüfen</button><span class="hint" id="st-9-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="9" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-9-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-9-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -1983,7 +1987,7 @@ Besitzerin: Ja, bitte.</p>
         <label class="sr" for="r-10-C-0">Your answer, task C</label>
         <textarea id="r-10-C-0" data-k="r-10-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Wenn das Wetter schlecht ist, bleibe ich zu Hause und koche. Obwohl ich müde bin, gehe ich am Abend ins Kino.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="10-C">Prüfen</button><span class="hint" id="st-10-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="10" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-10-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-10-C-0" aria-live="polite"></div></div>
       <div class="tier tX bonus"><h4><span class="chip">+</span>Bonus: Vorschau auf B1</h4><p class="tdesc">Grammar from B1 (obwohl, bevor). A stretch if the rest felt easy.</p><ol><li><p class="task"><span class="lt">a)</span> Join with obwohl, start with Obwohl: Es regnet. Wir gehen spazieren.</p><label class="sr" for="r-10-X-0">Your answer, bonus a</label><textarea id="r-10-X-0" data-k="r-10-X-0" rows="2" placeholder="Schreib hier ..."></textarea><p class="key"><b>Model solution:</b> Obwohl es regnet, gehen wir spazieren.</p><div class="res" id="res-10-X-0" aria-live="polite"></div></li><li><p class="task"><span class="lt">b)</span> Join with bevor, start with Bevor: Wir gehen in den Park. Wir gehen zum Bäcker.</p><label class="sr" for="r-10-X-1">Your answer, bonus b</label><textarea id="r-10-X-1" data-k="r-10-X-1" rows="2" placeholder="Schreib hier ..."></textarea><p class="key"><b>Model solution:</b> Bevor wir in den Park gehen, gehen wir zum Bäcker.</p><div class="res" id="res-10-X-1" aria-live="polite"></div></li></ol><div class="chk"><button type="button" class="btn go" data-check="10-X">Prüfen</button><span class="hint" id="st-10-X"></span></div></div>
     </div>
@@ -2099,7 +2103,7 @@ Diego: Ist das richtig?
 Mitarbeiterin: Ja, das ist richtig.
 Diego: Danke!
 Mitarbeiterin: Bitte schön. Tschüss!</p>
-        <div class="chk"><button type="button" class="btn go" data-check="22-C">Prüfen</button><span class="hint" id="st-22-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="22" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-22-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-22-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -2202,7 +2206,7 @@ Mitarbeiterin: Bitte schön. Tschüss!</p>
         <label class="sr" for="r-8-C-0">Your answer, task C</label>
         <textarea id="r-8-C-0" data-k="r-8-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Können Sie mir sagen, wo ich ein Ticket kaufen kann? Wissen Sie, ob der Zug nach Köln Verspätung hat? Können Sie mir sagen, wann der Zug fährt?</p>
-        <div class="chk"><button type="button" class="btn go" data-check="8-C">Prüfen</button><span class="hint" id="st-8-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="8" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-8-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-8-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -2289,7 +2293,7 @@ Mitarbeiterin: Bitte schön. Tschüss!</p>
         <label class="sr" for="r-16-C-0">Your answer, task C</label>
         <textarea id="r-16-C-0" data-k="r-16-C-0" rows="4" placeholder="Schreib hier ..."></textarea>
         <p class="key"><b>Model solution:</b> Individual answers. Model: Was ist im Paket? / Zwei Bücher und ein Pullover. Es ist ein Geschenk.</p>
-        <div class="chk"><button type="button" class="btn go" data-check="16-C">Prüfen</button><span class="hint" id="st-16-C"></span></div>
+        <div class="chk"><a class="btn go wa" data-wa="16" href="https://wa.me/5548999373120" target="_blank" rel="noopener noreferrer">Get it checked by Johanna</a><span class="hint" id="st-16-C">Opens WhatsApp with your text ready to send.</span></div>
         <div class="res" id="res-16-C-0" aria-live="polite"></div></div>
       
     </div>
@@ -2437,6 +2441,15 @@ document.querySelectorAll('.chips').forEach(function(box){
     if(b.classList.contains('used')) return;
     b.classList.add('used'); b.setAttribute('aria-disabled','true');
     ta.value=(ta.value?ta.value+' ':'')+b.textContent; fire();
+  });
+});
+document.querySelectorAll('[data-wa]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var cid=a.dataset.wa,d=WW[cid],ta=document.getElementById('r-'+cid+'-C-0'),v=ta.value.trim(),st=el('st-'+cid+'-C');
+    if(!v){ e.preventDefault(); st.textContent='Write your lines first. Then send them.'; return; }
+    var msg='Hello Johanna! My level is '+d.lvl+'. I would like my writing corrected.\n\nThis is the chat: '+d.title+'\nThis is the task: '+d.C+'\n\nThis is what I wrote:\n'+v;
+    a.href='https://wa.me/5548999373120?text='+encodeURIComponent(msg);
+    st.textContent='Opens WhatsApp with your text ready to send.';
   });
 });
 document.querySelectorAll('[data-check]').forEach(function(b){
