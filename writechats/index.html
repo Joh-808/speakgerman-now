@@ -154,8 +154,9 @@ body.teacher .key{display:block}
 .tpanel .part{margin-top:0;border-top:0;padding-top:0}
 .tpanel .ladder{margin-bottom:6px}
 a.btn{display:inline-block;text-decoration:none}
-.toplink{order:-1;flex-basis:100%;color:var(--coral);font-weight:800;text-decoration:underline;text-underline-offset:4px;font-size:.92rem}
-.toplink:hover{color:var(--navy)}
+.brandlink{color:var(--navy);text-decoration:none;display:inline-flex;align-items:center;padding:8px 14px;margin:-4px 0 -4px -14px;border-radius:14px;border:2px solid transparent}
+.brandlink:hover{background:var(--cream);border-color:var(--linen)}
+.brandlink:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
 .a1note{margin:10px 0 0;font-size:.92rem;color:var(--muted);max-width:68ch}
 .th{margin:22px 0 8px;font-size:1.05rem;font-weight:800}
 .th a{color:var(--navy);text-decoration:none;border-bottom:2px solid var(--coral)}
@@ -191,8 +192,7 @@ a.btn{display:inline-block;text-decoration:none}
 <body>
 <div class="wrap">
   <div class="bar">
-    <a class="toplink" href="https://speakgerman-now.com">Back to speakgerman-now.com</a>
-    <span class="brand"><svg class="key-g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>Speak German <span>- now.</span></span>
+    <a class="brand brandlink" href="https://speakgerman-now.com" aria-label="Back to speakgerman-now.com" title="Back to speakgerman-now.com"><svg class="key-g" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>Speak German <span>- now.</span></a>
     <button type="button" class="btn" id="teacher" aria-pressed="false">Show model solutions</button>
   </div>
   <div class="hero">
