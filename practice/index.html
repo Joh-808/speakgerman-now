@@ -245,6 +245,14 @@ h2,h3{font-weight:800; color:var(--ink)}
   padding:0 6px; font-family:inherit; font-size:.85em; background:var(--chip);
 }
 
+.mode-switch{display:flex; gap:8px; margin:18px 0 0}
+.mode-btn{
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:999px;
+  padding:7px 16px; font:inherit; font-weight:800; cursor:pointer;
+}
+.mode-btn.active{background:var(--navy); color:var(--sand); border-color:var(--navy)}
+.mode-note{font-size:.78rem; color:var(--ink-soft); margin:8px 0 0}
+
 .tabs{display:flex; gap:8px; margin:18px 0 6px; flex-wrap:wrap}
 .tab{
   border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:var(--radius);
@@ -282,6 +290,38 @@ h2,h3{font-weight:800; color:var(--ink)}
 .blank.correct{border-color:var(--good); color:var(--good); background:var(--good-bg)}
 .blank.wrong{border-color:var(--bad); color:var(--bad); background:color-mix(in srgb, var(--bad) 15%, transparent)}
 .answer-hint{font-size:.78rem; color:var(--bad); font-weight:700; white-space:nowrap}
+
+/* Prep mode: blanks are drop/tap slots, not text inputs - filled from the
+   floating word bank instead of typed. */
+.slot{
+  display:inline-flex; align-items:center; justify-content:center; min-width:4.5em; height:1.7em;
+  border:2px dashed var(--ink-soft); border-radius:8px; padding:0 8px; margin:0 2px; font-weight:700;
+  cursor:pointer; vertical-align:middle; color:var(--ink-soft);
+}
+.slot.filled{border-style:solid; background:var(--chip); border-color:var(--line); color:var(--ink)}
+.slot.correct{border-color:var(--good); background:var(--good-bg); color:var(--good)}
+.slot.wrong{border-color:var(--bad); background:color-mix(in srgb, var(--bad) 15%, transparent); color:var(--bad)}
+
+.word-bank{
+  position:fixed; top:130px; right:16px; width:190px; max-height:60vh; overflow-y:auto;
+  background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:12px;
+  box-shadow:var(--shadow-card); z-index:50;
+}
+.wb-label{font-size:.72rem; font-weight:800; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em; margin:0 0 8px}
+.wb-chips{display:flex; flex-wrap:wrap; gap:6px}
+.wb-chip{
+  background:var(--mint); color:var(--navy); border:1px solid var(--line); border-radius:999px;
+  padding:5px 12px; font:inherit; font-weight:700; font-size:.85rem; cursor:grab; user-select:none;
+}
+.wb-chip.selected{background:var(--accent); color:var(--accent-ink); box-shadow:0 0 0 2px var(--navy)}
+.wb-chip.used{opacity:.3; cursor:default; pointer-events:none}
+.wb-chip:active{cursor:grabbing}
+@media (max-width:760px){
+  .word-bank{
+    position:fixed; top:auto; bottom:0; left:0; right:0; width:auto; max-height:32vh;
+    border-radius:18px 18px 0 0; border-bottom:none; padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  }
+}
 
 .actions{display:flex; gap:12px; align-items:center; margin:18px 0; flex-wrap:wrap}
 .btn{
@@ -539,10 +579,21 @@ h2,h3{font-weight:800; color:var(--ink)}
       <a class="video-link" id="videoLink" href="#" target="_blank" rel="noopener" hidden>&#9654; Find video on YouTube</a>
     </div>
 
+    <div class="mode-switch" id="modeSwitch">
+      <button type="button" class="mode-btn active" data-mode="write">&#9999;&#65039; Write</button>
+      <button type="button" class="mode-btn" data-mode="prep">&#129513; Prep</button>
+    </div>
+    <div class="mode-note" id="modeNote"></div>
+
     <div class="tabs" id="tierTabs"></div>
     <div class="challenge" id="challenge"></div>
 
     <div class="dialogue" id="dialogue"></div>
+
+    <div class="word-bank" id="wordBank" hidden>
+      <div class="wb-label">Tap or drag a word into a blank</div>
+      <div class="wb-chips" id="wbChips"></div>
+    </div>
 
     <div class="actions">
       <button class="btn" id="checkBtn">Check answers</button>
@@ -1127,6 +1178,27 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   var currentSeq = null;
   var currentTier = "easy";
 
+  // Prep mode: a no-stakes warm-up that always uses the Mid tier's gaps,
+  // filled by tapping/dragging words from a floating bank instead of typing.
+  // Never touches progress/passedTiers/stars - purely rehearsal before
+  // attempting the real (write) tier.
+  var currentMode = "write"; // "write" | "prep"
+  var prepChips = [];        // [{id, word, placedAt}] - one chip per blank, shuffled
+  var prepFilled = {};       // slotIdx (string) -> chipId
+  var selectedChipId = null;
+
+  function effectiveTier(){
+    return currentMode === "prep" ? "mid" : currentTier;
+  }
+
+  function shuffleArray(arr){
+    for (var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
   function nextUnpassedTier(seq){
     var p = progress[progressKey(seq)] || {passedTiers:{}};
     for (var i=0;i<TIER_ORDER.length;i++){
@@ -1151,6 +1223,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   function openExercise(seq){
     currentSeq = seq;
     currentTier = nextUnpassedTier(seq);
+    currentMode = "write";
     document.getElementById("home").hidden = true;
     document.getElementById("exercise").hidden = false;
     renderExercise();
@@ -1237,7 +1310,16 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       }
     })();
 
-    renderTierTabs();
+    document.querySelectorAll("#modeSwitch .mode-btn").forEach(function(b){
+      b.classList.toggle("active", b.getAttribute("data-mode") === currentMode);
+    });
+    var prep = currentMode === "prep";
+    document.getElementById("tierTabs").hidden = prep;
+    document.getElementById("wordBank").hidden = !prep;
+    document.getElementById("modeNote").textContent = prep
+      ? "Prep mode uses the Mid-level gaps and doesn't earn stars - a warm-up before you write it yourself."
+      : "";
+    if (!prep) renderTierTabs();
 
     renderChallenge();
     renderDialogue();
@@ -1250,7 +1332,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
 
   function renderChallenge(){
     var lesson = getData()[currentSeq];
-    var tier = lesson.tiers[currentTier];
+    var tier = lesson.tiers[effectiveTier()];
     var gc = tier.grammar_challenge;
     var el = document.getElementById("challenge");
     el.innerHTML = '<span class="lab">Grammar challenge</span>';
@@ -1274,9 +1356,11 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
 
   function renderDialogue(){
     var lesson = getData()[currentSeq];
-    var tier = lesson.tiers[currentTier];
+    var tier = lesson.tiers[effectiveTier()];
     var box = document.getElementById("dialogue");
     box.innerHTML = "";
+    var prep = currentMode === "prep";
+    if (prep){ prepFilled = {}; selectedChipId = null; }
     tier.turns.forEach(function(turn){
       var lineEl = document.createElement("div");
       lineEl.className = "line";
@@ -1286,14 +1370,118 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       var txt = document.createElement("div");
       txt.className = "txt";
       var html = escapeHtml(turn.text).replace(/___(\d+)___/g, function(m, n){
+        if (prep){
+          return '<span class="slot" data-idx="' + n + '" tabindex="0" role="button" aria-label="Blank ' + n + '">___</span>';
+        }
         return '<input class="blank" type="text" autocomplete="off" autocapitalize="off" ' +
-               'spellcheck="false" data-idx="' + n + '" id="blank_' + currentSeq + '_' + currentTier + '_' + n + '">';
+               'spellcheck="false" data-idx="' + n + '" id="blank_' + currentSeq + '_' + effectiveTier() + '_' + n + '">';
       });
       txt.innerHTML = html;
       lineEl.appendChild(spk);
       lineEl.appendChild(txt);
       box.appendChild(lineEl);
     });
+    if (prep) renderWordBank(tier);
+  }
+
+  // --- Prep mode: floating word bank -----------------------------------
+  function renderWordBank(tier){
+    var chipsEl = document.getElementById("wbChips");
+    chipsEl.innerHTML = "";
+    prepChips = (tier.answers || []).map(function(w, i){
+      return {id: "chip_" + i, word: w, placedAt: null};
+    });
+    shuffleArray(prepChips);
+    prepChips.forEach(function(chip){
+      var el = document.createElement("button");
+      el.type = "button";
+      el.className = "wb-chip";
+      el.textContent = chip.word;
+      el.id = chip.id;
+      el.draggable = true;
+      chipsEl.appendChild(el);
+    });
+  }
+
+  function selectChip(chipId){
+    var chip = prepChips.filter(function(c){ return c.id === chipId; })[0];
+    if (!chip || chip.placedAt !== null) return;
+    selectedChipId = (selectedChipId === chipId) ? null : chipId;
+    updateChipBankUI();
+  }
+
+  function placeChipInSlot(chipId, slotIdx){
+    var chip = prepChips.filter(function(c){ return c.id === chipId; })[0];
+    if (!chip) return;
+    if (chip.placedAt !== null) delete prepFilled[chip.placedAt];
+    var bumped = prepFilled[slotIdx];
+    if (bumped){
+      var bumpedChip = prepChips.filter(function(c){ return c.id === bumped; })[0];
+      if (bumpedChip) bumpedChip.placedAt = null;
+    }
+    prepFilled[slotIdx] = chipId;
+    chip.placedAt = slotIdx;
+    selectedChipId = null;
+    renderPrepSlotsUI();
+    updateChipBankUI();
+  }
+
+  function clearSlot(slotIdx){
+    var chipId = prepFilled[slotIdx];
+    if (!chipId) return;
+    var chip = prepChips.filter(function(c){ return c.id === chipId; })[0];
+    if (chip) chip.placedAt = null;
+    delete prepFilled[slotIdx];
+    renderPrepSlotsUI();
+    updateChipBankUI();
+  }
+
+  function renderPrepSlotsUI(){
+    document.querySelectorAll("#dialogue .slot").forEach(function(slot){
+      var idx = slot.getAttribute("data-idx");
+      var chipId = prepFilled[idx];
+      var chip = chipId ? prepChips.filter(function(c){ return c.id === chipId; })[0] : null;
+      slot.textContent = chip ? chip.word : "___";
+      slot.classList.toggle("filled", !!chip);
+      if (!chip) slot.classList.remove("correct","wrong");
+    });
+  }
+
+  function updateChipBankUI(){
+    document.querySelectorAll(".wb-chip").forEach(function(el){
+      var chip = prepChips.filter(function(c){ return c.id === el.id; })[0];
+      el.classList.toggle("used", !!(chip && chip.placedAt !== null));
+      el.classList.toggle("selected", el.id === selectedChipId);
+    });
+  }
+
+  function checkPrepAnswers(){
+    var lesson = getData()[currentSeq];
+    var tier = lesson.tiers.mid;
+    var slots = document.querySelectorAll("#dialogue .slot");
+    var correct = 0;
+    slots.forEach(function(slot){
+      var idx = slot.getAttribute("data-idx");
+      var answer = tier.answers[parseInt(idx, 10) - 1];
+      var chipId = prepFilled[idx];
+      var chip = chipId ? prepChips.filter(function(c){ return c.id === chipId; })[0] : null;
+      var ok = chip && normalize(chip.word) === normalize(answer);
+      slot.classList.remove("correct","wrong");
+      slot.classList.add(ok ? "correct" : "wrong");
+      if (ok) correct++;
+    });
+    var pct = slots.length ? Math.round(100 * correct / slots.length) : 0;
+    var resultEl = document.getElementById("result");
+    resultEl.className = "result show";
+    var scoreEl = document.getElementById("resultScore");
+    scoreEl.textContent = correct + " / " + slots.length + " correct (" + pct + "%)";
+    scoreEl.className = "score " + (pct >= PASS_PCT ? "pass" : "fail");
+    document.getElementById("resultStars").innerHTML = "";
+    document.getElementById("resultNote").textContent = "Prep mode - just a warm-up, doesn't count toward your progress bar.";
+    document.getElementById("checkBtn").hidden = true;
+    document.getElementById("retryBtn").hidden = false;
+    document.getElementById("nextTierBtn").hidden = true;
+    document.getElementById("nextEpisodeBtn").hidden = true;
   }
 
   function normalize(s){
@@ -1424,10 +1612,53 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   });
 
   document.getElementById("backBtn").addEventListener("click", closeExercise);
-  document.getElementById("checkBtn").addEventListener("click", checkAnswers);
+  document.getElementById("checkBtn").addEventListener("click", function(){
+    if (currentMode === "prep") checkPrepAnswers(); else checkAnswers();
+  });
   document.getElementById("retryBtn").addEventListener("click", function(){
     renderExercise();
   });
+  document.getElementById("modeSwitch").addEventListener("click", function(e){
+    var btn = e.target.closest(".mode-btn");
+    if (!btn) return;
+    var m = btn.getAttribute("data-mode");
+    if (m === currentMode) return;
+    currentMode = m;
+    renderExercise();
+    window.scrollTo(0,0);
+  });
+  (function(){
+    var box = document.getElementById("dialogue");
+    box.addEventListener("click", function(e){
+      if (currentMode !== "prep") return;
+      var slot = e.target.closest(".slot");
+      if (!slot) return;
+      var idx = slot.getAttribute("data-idx");
+      if (slot.classList.contains("filled")) clearSlot(idx);
+      else if (selectedChipId) placeChipInSlot(selectedChipId, idx);
+    });
+    box.addEventListener("dragover", function(e){
+      if (currentMode !== "prep") return;
+      if (e.target.closest(".slot")) e.preventDefault();
+    });
+    box.addEventListener("drop", function(e){
+      if (currentMode !== "prep") return;
+      var slot = e.target.closest(".slot");
+      if (!slot) return;
+      e.preventDefault();
+      var chipId = e.dataTransfer.getData("text/plain");
+      if (chipId) placeChipInSlot(chipId, slot.getAttribute("data-idx"));
+    });
+    document.getElementById("wbChips").addEventListener("click", function(e){
+      var chip = e.target.closest(".wb-chip");
+      if (chip) selectChip(chip.id);
+    });
+    document.getElementById("wbChips").addEventListener("dragstart", function(e){
+      var chip = e.target.closest(".wb-chip");
+      if (!chip || chip.classList.contains("used")) return;
+      e.dataTransfer.setData("text/plain", chip.id);
+    });
+  })();
   document.getElementById("nextTierBtn").addEventListener("click", function(){
     var idx = TIER_ORDER.indexOf(currentTier);
     var nt = TIER_ORDER[idx + 1];
