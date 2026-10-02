@@ -157,12 +157,14 @@ h2,h3{font-weight:800; color:var(--ink)}
   font-weight:800; font-size:1.05rem; color:var(--accent);
 }
 .chapter-head .ch-title{color:var(--ink-soft); font-size:.9rem}
-.chapter-progress-row{display:flex; align-items:center; gap:10px; margin:0 0 14px}
-.chapter-progress-track{flex:1; min-width:0; height:8px; border-radius:999px; background:var(--chip); overflow:hidden; border:1px solid var(--line)}
+.chapter-progress-row{display:flex; align-items:center; gap:8px; margin:0 0 14px}
+.chapter-progress-track{flex:1; min-width:0; height:8px; border-radius:999px; background:var(--chip); border:1px solid var(--line); position:relative}
 .chapter-progress-fill{height:100%; border-radius:999px; transition:width .4s ease}
 .chapter-progress-fill.low{background:var(--mint-icon)}
 .chapter-progress-fill.high{background:var(--accent)}
 .chapter-progress-pct{font-variant-numeric:tabular-nums; font-weight:800; font-size:.8rem; color:var(--ink-soft); min-width:3em; text-align:right}
+/* Same key/lock idea as the level bar, just scaled down for the per-chapter row. */
+.chapter-progress-row .progress-icon svg{width:13px; height:13px; filter:drop-shadow(0 0 2px rgba(224,164,76,.65))}
 .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
 @media (max-width:640px){ .grid{grid-template-columns:repeat(2,1fr)} }
 
@@ -434,6 +436,16 @@ h2,h3{font-weight:800; color:var(--ink)}
 .scene-landing .scene-planet{width:160px; height:160px; top:10%; left:50%; transform:translate(-50%,0) rotate(-16deg)}
 .scene-flag{position:absolute; bottom:26%; left:calc(50% + 10px); font-size:1.5rem; line-height:1; transform:rotate(-8deg)}
 .scene-rover{position:absolute; bottom:25%; left:calc(50% - 28px); font-size:1.4rem; line-height:1; transform:scaleX(-1)}
+
+/* Flattened-scene prototype: flat color fill, no gradient/glow/clip-path. */
+.scene-flat-test{background:#0E172D; box-shadow:none}
+.flat-scene-svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+.flat-rocket{animation:flatRocketLaunch 2.2s cubic-bezier(.3,0,.2,1) forwards}
+@keyframes flatRocketLaunch{
+  0%{transform:translate(200px,160px)}
+  12%{transform:translate(200px,155px)}
+  100%{transform:translate(200px,-70px)}
+}
 
 .scene-preview-bar{
   position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:600;
@@ -889,6 +901,55 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   }
   function closeSpaceScene(){ document.getElementById("spaceModal").hidden = true; }
 
+  // --- Flattened-scene prototype (one scene, for review) ---------------
+  // Same story beat as LAUNCH, built the lightweight way: a handful of
+  // flat, single-color SVG shapes (no gradients, no clip-path, no
+  // drop-shadows) placed by a small data list instead of hand-tuned CSS
+  // per scene. A new scene with these pieces is just a new list of
+  // {shape, x, y} - that's what would actually make ~36 scenes cheap.
+  var FLAT_SHAPES = {
+    star: '<circle r="1.6" fill="#EEE5DA"/>',
+    mountain: '<path d="M-56 26 L-14 -40 L10 -10 L34 -56 L76 26 Z" fill="#1B2440"/>',
+    rocket: '<g>' +
+      '<path d="M0 -22 C9 -22 16 -7 16 11 L16 28 L-16 28 L-16 11 C-16 -7 -9 -22 0 -22Z" fill="#F66F54"/>' +
+      '<circle cx="0" cy="-2" r="4.5" fill="#EEE5DA"/>' +
+      '<path d="M-16 20 L-30 34 L-16 34Z" fill="#5E9A6A"/>' +
+      '<path d="M16 20 L30 34 L16 34Z" fill="#5E9A6A"/>' +
+      '<path d="M-7 28 L0 42 L7 28Z" fill="#E0B04C"/>' +
+    '</g>'
+  };
+  var FLAT_SCENE_LAUNCH = {
+    bg: "#0E172D", ground: "#1B2440",
+    stars: [[30,26],[70,14],[330,34],[300,66],[370,20],[140,10],[200,44],[260,22],[46,74],[360,92],[110,50],[250,80]],
+    shapes: [
+      { shape: "mountain", x: 200, y: 196 },
+      { shape: "rocket", x: 200, y: 160, cls: "flat-rocket" }
+    ]
+  };
+  function renderFlatScene(config){
+    var starsSvg = config.stars.map(function(p){
+      return '<g transform="translate(' + p[0] + ',' + p[1] + ')">' + FLAT_SHAPES.star + '</g>';
+    }).join("");
+    var shapesSvg = config.shapes.map(function(s){
+      return '<g class="' + (s.cls || "") + '" transform="translate(' + s.x + ',' + s.y + ')">' + FLAT_SHAPES[s.shape] + '</g>';
+    }).join("");
+    document.getElementById("spaceDecor").innerHTML =
+      '<svg class="flat-scene-svg" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">' +
+        '<rect x="0" y="0" width="400" height="220" fill="' + config.bg + '"/>' +
+        starsSvg +
+        '<rect x="0" y="196" width="400" height="24" fill="' + config.ground + '"/>' +
+        shapesSvg +
+      '</svg>';
+  }
+  function openFlatScene(){
+    var scene = document.getElementById("spaceScene");
+    scene.className = "space-scene scene-flat-test";
+    renderFlatScene(FLAT_SCENE_LAUNCH);
+    document.getElementById("spaceTitle").textContent = "Flat scene prototype";
+    document.getElementById("spaceSubtitle").textContent = "Same shapes, reused and repositioned by a short list - no gradients, no clip-path, no per-scene CSS.";
+    document.getElementById("spaceModal").hidden = false;
+  }
+
   // A scattering of plain white dots behind the planet - cheap, no assets,
   // regenerated each time so it never looks static.
   function renderSpaceStars(){
@@ -1031,10 +1092,14 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       var chEarned = 0;
       chSeqs.forEach(function(seq){ chEarned += lessonStars(seq); });
       var chPct = chMax ? Math.round(100 * chEarned / chMax) : 0;
+      var chDone = chMax > 0 && chEarned === chMax;
+      var chKeyLeft = chDone ? 100 : Math.max(4, Math.min(96, chPct));
       var chProgress = document.createElement("div");
       chProgress.className = "chapter-progress-row";
       chProgress.innerHTML =
-        '<div class="chapter-progress-track"><div class="chapter-progress-fill ' + (chPct >= 60 ? "high" : "low") + '" style="width:' + chPct + '%"></div></div>' +
+        '<div class="chapter-progress-track"><div class="chapter-progress-fill ' + (chPct >= 60 ? "high" : "low") + '" style="width:' + chPct + '%"></div>' +
+        '<span class="progress-icon key-icon" style="left:' + chKeyLeft + '%">' + (chDone ? KEY_SVG_OPEN : KEY_SVG_CLOSED) + '</span></div>' +
+        '<span class="progress-icon lock-icon">' + (chDone ? LOCK_SVG_OPEN : LOCK_SVG_CLOSED) + '</span>' +
         '<div class="chapter-progress-pct">' + chPct + '%</div>';
       section.appendChild(chProgress);
 
@@ -1482,10 +1547,14 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       '<span class="scene-preview-label">Preview:</span>' +
       '<button type="button" data-flavor="LAUNCH">🚀 Liftoff (A1)</button>' +
       '<button type="button" data-flavor="ARRIVAL">🪐 Titan Ahead (A2)</button>' +
-      '<button type="button" data-flavor="LANDING">🚩 Flag on Titan (both)</button>';
+      '<button type="button" data-flavor="LANDING">🚩 Flag on Titan (both)</button>' +
+      '<button type="button" data-flavor="FLAT_TEST">🧪 Flat scene (prototype)</button>';
     document.body.appendChild(panel);
     panel.querySelectorAll("button").forEach(function(btn){
-      btn.addEventListener("click", function(){ openSpaceScene(btn.getAttribute("data-flavor")); });
+      btn.addEventListener("click", function(){
+        var flavor = btn.getAttribute("data-flavor");
+        if (flavor === "FLAT_TEST") openFlatScene(); else openSpaceScene(flavor);
+      });
     });
   }
 
