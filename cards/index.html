@@ -1269,13 +1269,35 @@ function previewLabel(s,good){var n=plan(s,good);return fmt(n.due-now());}
 /* ---------- audio ---------- */
 var voices=[];
 function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
-if("speechSynthesis" in window){loadVoices();try{window.speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
+function deVoices(){return voices.filter(function(x){return /^de([-_]|$)/i.test(x.lang);});}
+function vScore(v){
+  var n=(v.name||"")+" "+(v.voiceURI||""),sc=0;
+  if(/natural|neural/i.test(n))sc+=60;
+  if(/online/i.test(n))sc+=20;
+  if(/premium|enhanced|erweitert|verbessert/i.test(n))sc+=45;
+  if(/siri/i.test(n))sc+=45;
+  if(/google/i.test(n))sc+=30;
+  if(/\b(katja|conrad|amala|seraphina|florian|killian|louisa|maja|anna|petra|markus|viktor|yannick)\b/i.test(n))sc+=8;
+  if(/compact|espeak|desktop|novelty|eloquence|zarvox|whisper|bad news|bells|boing|bubbles|cellos|deranged|good news|hysterical|pipe organ|trinoids|wobble/i.test(n))sc-=60;
+  if(v.localService===false)sc+=10;
+  if(/^de[-_]DE$/i.test(v.lang))sc+=5;
+  if(/^de[-_]CH$/i.test(v.lang))sc-=4;
+  return sc;
+}
+function rankedVoices(){return deVoices().slice().sort(function(a,b){return vScore(b)-vScore(a);});}
+function pickVoice(){
+  var r=rankedVoices();if(!r.length)return null;
+  if(S&&S.set&&S.set.voice){for(var i=0;i<r.length;i++){if(r[i].name===S.set.voice)return r[i];}}
+  return r[0];
+}
+if("speechSynthesis" in window){loadVoices();try{window.speechSynthesis.onvoiceschanged=function(){loadVoices();if(route==="settings"&&!sess)render();};}catch(e){}}
 function speak(text){
   if(!("speechSynthesis" in window))return false;
   try{
     window.speechSynthesis.cancel();
+    if(!voices.length)loadVoices();
     var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.rate=S.set.speed;
-    var v=voices.filter(function(x){return /^de/i.test(x.lang);})[0];if(v)u.voice=v;
+    var v=pickVoice();if(v){u.voice=v;u.lang=v.lang;}
     window.speechSynthesis.speak(u);return true;
   }catch(e){return false;}
 }
@@ -1578,12 +1600,20 @@ function viewCards(){
   return h+'</div>';
 }
 
+function voiceRow(){
+  var r=rankedVoices(),cur=pickVoice();
+  if(!("speechSynthesis" in window))return '<div class="sw"><div class="grow"><b>German voice</b><div class="small muted">This browser has no speech voices. Try Chrome, Edge or Safari.</div></div></div>';
+  if(!r.length)return '<div class="sw"><div class="grow"><b>German voice</b><div class="small muted">No German voice found on this device yet. On iPhone: Settings, Accessibility, Spoken Content, Voices, German, and download an Enhanced or Premium voice. On Android: Settings, System, Languages, Text-to-speech, install German voice data. On a computer, Microsoft Edge has the most natural German voices built in.</div></div></div>';
+  var opts=r.map(function(v,i){return '<option value="'+esc(v.name)+'"'+(cur&&cur.name===v.name?" selected":"")+'>'+esc(v.name)+' ('+esc(v.lang)+')'+(i===0&&!S.set.voice?" - recommended":"")+'</option>';}).join("");
+  var weak=vScore(r[0])<20;
+  return '<div class="sw" style="align-items:flex-start"><div class="grow"><b>German voice</b><div class="small muted">Pick the voice that sounds best to you, then test it.'+(weak?' The voices on this device are basic. For a much more natural sound, try Microsoft Edge, or download an Enhanced voice in your system settings.':'')+'</div></div><div class="stack" style="gap:8px;min-width:0;max-width:55%"><select id="voicesel" aria-label="German voice" style="width:100%;min-height:40px;font:inherit">'+opts+'</select><button class="btn small ghost" data-act="vtest">Test voice</button></div></div>';
+}
 function viewSettings(){
   var s=S.set;
   function seg(name,vals,cur,lab){return '<div class="seg" role="group" aria-label="'+name+'">'+vals.map(function(v){return '<button data-act="set" data-k="'+name+'" data-v="'+v+'" aria-pressed="'+(String(cur)===String(v))+'">'+(lab?lab(v):v)+'</button>';}).join("")+'</div>';}
   function sw(k,label,desc){return '<div class="sw"><div class="grow"><b>'+label+'</b><div class="small muted">'+desc+'</div></div><button class="statebtn '+(s[k]?"approved":"")+'" data-act="toggle" data-k="'+k+'" aria-pressed="'+(!!s[k])+'" style="min-width:56px;min-height:36px">'+(s[k]?"On":"Off")+'</button></div>';}
   var h='<div class="stack"><div><div class="eyebrow">Account</div><h1>Settings</h1></div>';
-  h+='<div class="card"><div class="sw"><div class="grow"><b>New cards a day</b><div class="small muted">Reviews come first, then new cards up to this number.</div></div>'+seg("goal",[5,10,20],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+
+  h+='<div class="card"><div class="sw"><div class="grow"><b>New cards a day</b><div class="small muted">Reviews come first, then new cards up to this number.</div></div>'+seg("goal",[5,10,20],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+voiceRow()+
     sw("hide","Hide the text","Cover the sentence until you reveal. The audio plays either way.")+sw("auto","Play audio automatically","The sentence plays when a card appears.")+sw("next","Show next review time","Show when each rating would bring a card back.")+'</div>';
   h+='<div class="card stack"><h2 style="margin:0">Demo controls</h2><p class="small muted">Reviews are scheduled in days, so use this to see them come back. The clock is shifted by '+Math.round(S.offset/DAY)+' day'+(Math.round(S.offset/DAY)===1?"":"s")+'.</p><div class="row"><button class="btn small" data-act="skip">Skip ahead 1 day</button><button class="btn small ghost" data-act="skipback">Reset clock</button></div></div>';
   h+='<div class="card stack"><h2 style="margin:0">Your data</h2><p class="small muted">Progress is saved in this browser only. Clearing site data or switching device starts you at the beginning. The real app will sync to your account.</p><div class="row"><button class="btn small ghost" data-act="export">Show progress as text</button>'+(S._confirm?'<button class="btn small" data-act="resetyes">Yes, erase everything</button><button class="btn small ghost" data-act="resetno">Cancel</button>':'<button class="btn small ghost" data-act="reset">Reset all progress</button>')+'</div>'+(S._export?'<textarea id="exp" readonly aria-label="Progress data">'+esc(S._export)+'</textarea>':"")+'</div></div>';
@@ -1591,6 +1621,7 @@ function viewSettings(){
 }
 
 /* ---------- events ---------- */
+document.addEventListener("change",function(e){var t=e.target;if(t&&t.id==="voicesel"){S.set.voice=t.value;save();speak("Guten Tag! Schön, dich zu sehen. Wie geht es dir heute?");}});
 document.addEventListener("click",function(e){
   var b=e.target.closest("[data-act]");if(!b)return;
   var a=b.getAttribute("data-act");
@@ -1621,6 +1652,7 @@ document.addEventListener("click",function(e){
   else if(a==="bulk"){var vv=b.getAttribute("data-v");CARDS.forEach(function(c){if(cfilter==="all"||revOf(c.n)===cfilter)S.rev[c.n]=vv;});save();render();}
   else if(a==="cplay"){var cc=CARDS[IDX[b.getAttribute("data-id")]];if(!speak(cc.de))b.textContent="No voice on this device";}
   else if(a==="cexport"){S.notes=S.notes||{};S._cexp=CARDS.map(function(c,i){return (i+1)+". ["+(revOf(c.n)==="fix"?"needs fix":revOf(c.n))+"] "+c.de+" / "+c.en+(S.notes[c.n]?"\n   Note: "+S.notes[c.n]:"");}).join("\n");render();}
+  else if(a==="vtest"){speak("Guten Tag! Schön, dich zu sehen. Wie geht es dir heute?");}
   else if(a==="set"){var k=b.getAttribute("data-k"),v=parseFloat(b.getAttribute("data-v"));S.set[k]=v;save();render();}
   else if(a==="toggle"){var k2=b.getAttribute("data-k");S.set[k2]=!S.set[k2];save();render();}
   else if(a==="skip"){S.offset+=DAY;save();render();}
