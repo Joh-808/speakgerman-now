@@ -2338,8 +2338,12 @@ function localCmp(user,key){
   kw.forEach(function(w){set[w]=1;});
   uw.forEach(function(w){if(set[w])hit++;});
   var jac=hit/(new Set(uw.concat(kw)).size);
-  return jac>=0.8?'close':'diff';
+  if(jac>=0.8) return 'close';
+  if(kw.length>=3&&lev(uw,kw)<=1) return 'close';
+  if(lev(u.split(''),k.split(''))<=Math.max(2,Math.round(k.length*0.12))) return 'close';
+  return 'diff';
 }
+function lev(a,b){var p=[],i,j;for(j=0;j<=b.length;j++)p[j]=j;for(i=1;i<=a.length;i++){var c=[i];for(j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c;}return p[b.length];}
 function bestCmp(user,key){var ks=Array.isArray(key)?key:[key],best='diff';for(var i=0;i<ks.length;i++){var r=localCmp(user,ks[i]);if(r==='ok'||r==='empty')return r;if(r==='close')best='close';}return best;}
 function endMark(s){var m=/([.?!])\s*$/.exec(String(s||''));return m?m[1]:'';}
 function okVariant(user,key){var ks=Array.isArray(key)?key:[key];for(var i=0;i<ks.length;i++){if(localCmp(user,ks[i])==='ok')return ks[i];}return null;}
