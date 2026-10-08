@@ -2339,7 +2339,7 @@ function localCmp(user,key){
   if(u===k) return 'ok';
   var uw=words(user),kw=words(key),n=kw.length;
   if(uw.slice().sort().join(' ')===kw.slice().sort().join(' ')) return 'close';
-  var max=n<=1?0:(n<=5?1:(n<=11?3:Math.floor(n*0.25)));
+  var max=n<=1?0:(n<=5?1:(n<=9?2:Math.floor(n*0.25)));
   return wlev(uw,kw)<=max?'close':'diff';
 }
 function bestCmp(user,key){var ks=Array.isArray(key)?key:[key],best='diff';for(var i=0;i<ks.length;i++){var r=localCmp(user,ks[i]);if(r==='ok'||r==='empty')return r;if(r==='close')best='close';}return best;}
