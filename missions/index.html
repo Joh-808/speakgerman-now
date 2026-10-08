@@ -647,6 +647,8 @@ var DOCTOR={
  id:'doctor',title:'At the doctor',tag:'Reception · Switzerland',cc:'ch',scene:'talk',ill:'doctorIll',
  blurb:'The receptionist keeps saying no. Learn the words that open the door.',
  goal:'Get your appointment, paying yourself, and leave with a bill you can send to your insurance.',
+ hint:'Tip: you can hand over your insurance card first or explain right away. Try both routes!',
+ alt:function(G){return G.st.card?{t:'There is a faster route',b:'You handed over the card first and had to explain afterwards. Play again and say the three sentences right away: no Swiss insurance, global insurance, I pay myself.'}:{t:'Another route is waiting',b:'You explained straight away. Play again and hand over your card first to see how the receptionist reacts, and how you can still save the visit.'}},
  vocab:[['die Versicherung','insurance'],['die Krankenversicherung','health insurance'],['Ich habe keine Schweizer Krankenversicherung.','I do not have Swiss health insurance.'],['Ich habe eine globale Krankenversicherung.','I have global health insurance.'],['Ich zahle hier selbst.','I pay here myself.'],['der Selbstzahler, die Selbstzahlerin','self-payer'],['Gibt es eine andere Möglichkeit?','Is there another option?'],['die Rechnung','invoice, bill']],
  costly:[['Das ist nicht möglich.','It is not possible. Do not leave! It is the start of a conversation, not the end. Stay calm, repeat your sentence, ask for another option.'],['Pflicht / obligatorisch','Obligatory. It describes the rule, not you. You can still say how you want to pay.'],['Selbstzahler','Someone who pays directly. Say it when the insurance question comes up.'],['Rechnung','The paper you need for reimbursement. Without it you pay and get nothing back.']],
  note:'Rules differ between countries. In Switzerland basic health insurance is obligatory for residents, so many practices first say that they only treat people with Swiss insurance. Whether you can pay yourself and get money back later depends on your own insurance, so check your contract. The skill in this mission works everywhere: say your situation in one clear sentence, repeat it calmly, ask "Gibt es eine andere Möglichkeit?" and do not give up after the first "no".',
@@ -659,8 +661,13 @@ var DOCTOR={
  {task:'Insurance card',narr:'She finds your name. Then she asks for your insurance card. Your company insurance is from abroad.',say:'Haben Sie Ihre Versichertenkarte dabei?',
   talk:{av:'reception',line:['Haben Sie Ihre Versichertenkarte dabei?','Do you have your insurance card with you?'],panel:'karte'},
   opts:[{de:'Ich habe keine Schweizer Krankenversicherung. Ich habe eine globale Krankenversicherung. Ich zahle hier selbst.',en:'I do not have Swiss health insurance. I have global health insurance. I pay here myself.',k:'good',fb:{b:'Three short sentences, one idea each. Practise them aloud. You may need them more than once in the conversation.'}},
-        {de:'Ja, hier ist meine Karte.',en:'Yes, here is my card.',k:'bad',fb:{t:'Wrong card',b:'You hand over a foreign card. The practice cannot use it in their system, and you have not explained anything yet. Say clearly what your situation is.'}},
+        {de:'Ja, hier ist meine Karte.',en:'Yes, here is my card.',k:'ok',set:function(s){s.card=true},fb:{t:'A detour',b:'You hand over your foreign card. That can work in other countries, but here the practice cannot use it in their system. Explaining first is quicker. Let us see what she says.',talk:{av:'reception',line:['Hm. Moment, bitte.','Hm. One moment, please.'],panel:'karte'}}},
         {de:'Nein.',en:'No.',k:'bad',fb:{t:'Too short',b:'"Nein" alone ends the conversation. She does not know what you want to do about it.'}}]},
+ {task:'Card refused',skipIf:function(G){return !G.st.card},narr:'She looks at your card, turns it over and hands it back.',say:'Diese Versicherung nehmen wir leider nicht an.',
+  talk:{av:'reception',line:['Diese Versicherung nehmen wir leider nicht an.','We unfortunately do not accept this insurance.'],panel:'karte'},
+  opts:[{de:'Ich habe keine Schweizer Krankenversicherung. Ich zahle hier selbst.',en:'I do not have Swiss health insurance. I pay here myself.',k:'good',fb:{b:'Now you explain it: no Swiss insurance, you pay yourself. Better late than never. Next time say it first.'}},
+        {de:'Doch, die Karte ist gültig!',en:'Yes it is, the card is valid!',k:'bad',fb:{t:'Arguing',b:'"Doch" insists she is wrong. The card may be valid at home, but the practice does not accept it. She repeats: "Wir nehmen sie nicht an."'}},
+        {de:'Okay. Dann gehe ich.',en:'Okay. Then I will go.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
  {task:'First "no"',narr:'She does not look happy. This is the moment where many people give up.',say:'Das geht nicht. Wir behandeln nur Patienten mit Schweizer Krankenversicherung.',
   talk:{av:'reception',line:['Das geht nicht. Wir behandeln nur Patienten mit Schweizer Krankenversicherung. Das ist obligatorisch.','That is not possible. We only treat patients with Swiss health insurance. It is obligatory.']},
   opts:[{de:'Ich verstehe. Ich zahle selbst. Ich bin Selbstzahler(in).',en:'I understand. I pay myself. I am a self-payer.',k:'good',fb:{b:'She states the rule. You do not argue with the rule, you say what you do: you are a Selbstzahler(in), someone who pays directly.'}},
@@ -927,6 +934,7 @@ function start(id){
   G.snap[0]=cp(G.st);
   render();window.scrollTo(0,0);
 }
+function skipped(i){var s=stepOf(i);return !!(s&&s.skipIf&&s.skipIf(G))}
 function home(){G=null;render();window.scrollTo(0,0)}
 
 /* ---------- renderers ---------- */
@@ -1061,11 +1069,12 @@ function fbHTML(){
   return h+'</div>';
 }
 function missionView(){
-  var step=stepOf(G.idx),n=G.m.steps.length;
-  var pct=Math.round((G.idx+(G.fb&&G.fb.o.k!=='bad'?1:0))/n*100);
+  var step=stepOf(G.idx),n=0,pos=0;
+  for(var q=0;q<G.m.steps.length;q++){if(!skipped(q)){n++;if(q<=G.idx)pos=n}}
+  var pct=Math.round(((pos-1)+(G.fb&&G.fb.o.k!=='bad'?1:0))/n*100);
   var h='<div class="bar"><div class="actions"><button class="btn ghost" data-home>← Missions</button><button class="btn ghost" data-back'+((G.idx===0&&!G.fb)?' disabled':'')+'>Back</button></div>'+toolsHTML()+'</div>'+
    '<div class="goal">'+KEY_C+'<div><b>Your mission</b><span>'+G.m.goal+'</span></div></div>'+
-   (G.m.hint?'<p class="tipline">'+G.m.hint+'</p>':'')+'<div class="prog"><div class="row"><span>'+step.task+'</span><span>Step '+(G.idx+1)+' / '+n+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'+
+   (G.m.hint?'<p class="tipline">'+G.m.hint+'</p>':'')+'<div class="prog"><div class="row"><span>'+step.task+'</span><span>Step '+pos+' / '+n+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'+
    '<div class="narr"><p>'+step.narr+'</p></div>';
   var sc=G.m.scene,mach=(sc==='atm'||sc==='ticket'||sc==='locker');
   h+=step.talk?talkScene(step):(sc==='web'?webScene(step):(mach?machineScene(step):storeScene(step)));
@@ -1116,6 +1125,7 @@ function pick(i){
 function unchoose(){G.st=cp(G.snap[G.idx]);G.fb=null;G.pin='';G.hint='';render()}
 function forward(){
   G.idx++;G.fb=null;G.pin='';G.hint='';
+  while(G.idx<G.m.steps.length&&skipped(G.idx)){G.snap[G.idx]=cp(G.st);G.idx++}
   if(G.idx>=G.m.steps.length){G.fin=true;done[G.m.id]=true;sset('lk_done',JSON.stringify(done))}
   else G.snap[G.idx]=cp(G.st);
   render();window.scrollTo(0,0);
@@ -1140,7 +1150,9 @@ function back(){
   if(!G||G.fin)return;
   if(G.fb){unchoose();return}
   if(G.idx===0)return;
-  G.idx--;G.st=cp(G.snap[G.idx]);G.fb=null;G.pin='';G.hint='';
+  G.idx--;
+  while(G.idx>0&&G.snap[G.idx]&&skipped(G.idx))G.idx--;
+  G.st=cp(G.snap[G.idx]);G.fb=null;G.pin='';G.hint='';
   render();window.scrollTo(0,0);
 }
 app.addEventListener('click',function(e){
