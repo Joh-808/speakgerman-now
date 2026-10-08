@@ -12,12 +12,12 @@
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#0B1223; --fg:#F3EBDF; --card:#16213B; --line:#26345A; --line-strong:#3A4B78; --sub:#B3BBCC;
   --btn:#F66F54; --btn-fg:#0E172D; --shadow:#04070E; --keyc:#F3EBDF; --keyo:#8CCB98;
-  --good-bg:#17382A; --good-fg:#BFE8C8; --ok-bg:#3B3216; --ok-fg:#F0DDA0; --bad-bg:#4A2019; --bad-fg:#FFB8A8;
+  --good-bg:#17382A; --good-fg:#BFE8C8; --ok-bg:#4A3B12; --ok-fg:#FFE5A0; --bad-bg:#4A2019; --bad-fg:#FFB8A8;
   --wall:#1E2A47; --floor:#2A3556; --shelf:#4C5A80; --paper:#F4EFE2; --ring:#8AB4FF; color-scheme:dark; } }
 :root[data-theme="dark"]{
   --bg:#0B1223; --fg:#F3EBDF; --card:#16213B; --line:#26345A; --line-strong:#3A4B78; --sub:#B3BBCC;
   --btn:#F66F54; --btn-fg:#0E172D; --shadow:#04070E; --keyc:#F3EBDF; --keyo:#8CCB98;
-  --good-bg:#17382A; --good-fg:#BFE8C8; --ok-bg:#3B3216; --ok-fg:#F0DDA0; --bad-bg:#4A2019; --bad-fg:#FFB8A8;
+  --good-bg:#17382A; --good-fg:#BFE8C8; --ok-bg:#4A3B12; --ok-fg:#FFE5A0; --bad-bg:#4A2019; --bad-fg:#FFB8A8;
   --wall:#1E2A47; --floor:#2A3556; --shelf:#4C5A80; --paper:#F4EFE2; --ring:#8AB4FF; color-scheme:dark; }
 
 *{box-sizing:border-box}
@@ -93,7 +93,7 @@ h1{color:var(--coral)}
 
 .sign .opt.static{cursor:default}
 .sign .opt.chosen.good{outline-color:#1b5e3b;border-color:#1b5e3b;background:#e3f3e6;color:#12401f}.sign .opt.chosen.ok{outline-color:#B9861C;border-color:#B9861C}.sign .opt.chosen.bad{outline-color:var(--coral);border-color:var(--coral)}
-.fb .reset{font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
+.fb .reset{font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(128,128,128,.16)}
 .klingel{background:#2b3140;border:3px solid #111;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:150px;color:#fff}
 .klingel div{display:flex;justify-content:space-between;gap:12px;align-items:center;font-weight:800;font-size:14px}
 .klingel i{width:14px;height:14px;border-radius:50%;background:#f2c300;border:2px solid #111}
@@ -112,9 +112,9 @@ h1{color:var(--coral)}
 .ruler{position:relative;height:46px;flex:1 1 260px;background:#f2d99a;border:2px solid #6b5300;border-radius:4px;color:#2b2200}.ruler .u{position:absolute;right:6px;bottom:4px;font-size:11px;font-weight:800}.ruler i{position:absolute;top:0;width:2px;height:16px;background:#2b2200}.ruler i b{position:absolute;top:18px;left:-4px;font-size:11px;font-style:normal}
 .de-sub{font-size:14px;font-weight:700;color:var(--sub)}.lit{font-style:italic;opacity:.85;font-size:14px}
 .replay{display:flex;gap:14px;align-items:flex-start;background:var(--coral);color:#0E172D;border-radius:18px;padding:16px;border:2px solid #0E172D}.replay .rp-k svg{width:40px;height:40px}.replay .rp-b{display:flex;flex-direction:column;gap:8px}.replay .rp-b b{font-size:20px}.replay .btn{background:#0E172D;color:#fff;align-self:flex-start}.tipline{background:var(--card);border:1px dashed var(--line-strong);border-radius:12px;padding:8px 12px;font-size:14px}
-.olist{display:flex;flex-direction:column;gap:4px;font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
+.olist{display:flex;flex-direction:column;gap:4px;font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(128,128,128,.16)}
 .olist span{font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
-.olist .me{font-weight:800}
+.olist .me{font-weight:400}.olist .me b{font-weight:800}
 .olist .me::after{content:" \2190 you"}
 
 /* dashboard */
@@ -279,7 +279,7 @@ var I={
  rcpt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>',
  nfc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 8a6 6 0 0 1 0 8"/><path d="M12 5.5a9.5 9.5 0 0 1 0 13"/><path d="M16 3a13 13 0 0 1 0 18"/></svg>',
  yes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>',
- mid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>',
+ mid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 7.5v9M7.5 12h9"/></svg>',
  no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5v.01"/></svg>',
  avatar:'<svg class="av" viewBox="0 0 64 64"><circle cx="32" cy="22" r="12" fill="#F0C9A4" stroke="#0E172D" stroke-width="2.5"/><path d="M19 20c0-9 6-13 13-13s13 4 13 13c-4-4-9-6-13-6s-9 2-13 6z" fill="#7A4B2A" stroke="#0E172D" stroke-width="2.5"/><path d="M8 62c0-14 10-22 24-22s24 8 24 22z" fill="#F66F54" stroke="#0E172D" stroke-width="2.5"/><circle cx="27.5" cy="23" r="1.4" fill="#0E172D"/><circle cx="36.5" cy="23" r="1.4" fill="#0E172D"/><path d="M28 28q4 3 8 0" fill="none" stroke="#0E172D" stroke-width="2" stroke-linecap="round"/></svg>',
  you:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M6 21v-6a6 6 0 0 1 12 0v6"/></svg>',
