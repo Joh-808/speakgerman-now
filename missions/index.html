@@ -380,7 +380,7 @@ function cp(o){return JSON.parse(JSON.stringify(o))}
 function stepOf(i){var s=G.m.steps[i];return typeof s==='function'?s(G):s}
 function start(id){
   var m=MISSIONS.filter(function(x){return x.id===id})[0];
-  G={m:m,idx:0,pin:'',fb:null,hint:'',mist:0,bad:{},fin:false,st:m.init?m.init():{},snap:[]};
+  G={m:m,idx:0,pin:'',fb:null,hint:'',mist:0,bad:{},right:{},fin:false,st:m.init?m.init():{},snap:[]};
   G.snap[0]=cp(G.st);
   render();window.scrollTo(0,0);
 }
@@ -510,7 +510,7 @@ function render(){
 function pick(i){
   if(!G||G.fb)return;
   var step=stepOf(G.idx),o=step.opts[i];if(!o)return;
-  if(o.k==='bad'){G.bad[G.idx]=true;G.mist=Object.keys(G.bad).length}
+  if(o.k==='bad'){if(!G.right[G.idx]){G.bad[G.idx]=true;G.mist=Object.keys(G.bad).length}}else G.right[G.idx]=true;
   if(o.k!=='bad'&&o.set)o.set(G.st);
   G.fb={o:o,i:i};G.hint='';
   if(prefs.snd&&o.k!=='bad'&&step.type!=='pin')speak(o.de);
