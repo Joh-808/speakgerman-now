@@ -110,6 +110,8 @@ h1{color:var(--coral)}
 .cc svg.flag{height:12px;width:auto}
 .howto{color:var(--sub);font-size:15px;max-width:60ch}
 .ruler{position:relative;height:46px;flex:1 1 260px;background:#f2d99a;border:2px solid #6b5300;border-radius:4px;color:#2b2200}.ruler .u{position:absolute;right:6px;bottom:4px;font-size:11px;font-weight:800}.ruler i{position:absolute;top:0;width:2px;height:16px;background:#2b2200}.ruler i b{position:absolute;top:18px;left:-4px;font-size:11px;font-style:normal}
+.de-sub{font-size:14px;font-weight:700;color:var(--sub)}.lit{font-style:italic;opacity:.85;font-size:14px}
+.replay{display:flex;gap:14px;align-items:flex-start;background:var(--coral);color:#0E172D;border-radius:18px;padding:16px;border:2px solid #0E172D}.replay .rp-k svg{width:40px;height:40px}.replay .rp-b{display:flex;flex-direction:column;gap:8px}.replay .rp-b b{font-size:20px}.replay .btn{background:#0E172D;color:#fff;align-self:flex-start}.tipline{background:var(--card);border:1px dashed var(--line-strong);border-radius:12px;padding:8px 12px;font-size:14px}
 .olist{display:flex;flex-direction:column;gap:4px;font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
 .olist span{font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
 .olist .me{font-weight:800}
@@ -590,7 +592,9 @@ var LOCKER={
 var DELIVERY={
  id:'delivery',title:'Food delivery',tag:'Delivery · Wrong floor',scene:'web',ill:'deliveryIll',
  webcfg:{brand:'ESSEN-EXPRESS',url:'essen-express-muster.de/lieferung',crumbs:['Menü','Adresse','Zahlung','Fertig']},
- blurb:'Your flat is on the 3rd floor, but the lift button says 4. Make sure dinner finds you.',
+ blurb:'Your flat is on the 3rd floor, but the lift button says 4. Several endings, some of them embarrassing.',
+ hint:'Tip: this mission has several endings. Come back and try other options, even the funny ones!',
+ alt:function(G){return G.st.path==='A'?{t:'Another ending is waiting',b:'Dinner arrived quietly because you wrote the lift number. Play again and write only "3. OG" in the note to find the ending where you shout through the stairwell. Then try the funny options.'}:{t:'A better ending is waiting',b:'You got your dinner, but you had to shout for it. Play again and write the lift number in the note for the quiet ending. And try the funny options too.'}},
  goal:'Get your dinner delivered to your door, on the right floor.',
  init:function(){return {path:''}},
  vocab:[['die Wohnung','flat, apartment'],['das Erdgeschoss (EG)','ground floor'],['das Obergeschoss (OG)','floor above the ground floor'],['das Untergeschoss (UG)','basement'],['der Aufzug','lift, elevator'],['klingeln','to ring the bell'],['Einmal bei Costa klingeln.','Ring Costa once.'],['die Lieferung','delivery'],['Haben Sie eine Lieferung für Costa?','Do you have a delivery for Costa?'],['Hier oben!','Up here!']],
@@ -602,30 +606,37 @@ var DELIVERY={
   opts:[{de:'EG',en:'Ground floor',k:'bad',fb:{t:'Ground floor',b:'EG is the Erdgeschoss, the ground floor. The driver stays downstairs and does not find you.'}},
         {de:'3. OG',en:'3rd floor above ground',k:'good',fb:{b:'OG is Obergeschoss (floor above the ground floor). Count the floors above the entrance: your flat is the 3rd one, so 3. OG.'}},
         {de:'4. OG',en:'4th floor above ground',k:'bad',fb:{t:'Copied the button',b:'You copied the number from the lift button. The 4. OG is the floor above yours, so the driver looks for you one floor too high.'}},
+        {de:'Auf dem Dach',en:'On the roof',k:'bad',fb:{t:'Pigeon delivery',b:'The driver climbs onto the roof. The pigeons are thrilled, and so is the neighbour with the roof terrace, who eats your dinner. Roof is Dach, and nobody lives there.'}},
         {de:'UG',en:'Basement',k:'bad',fb:{t:'Basement',b:'UG is Untergeschoss, the basement floor below the entrance. Nobody lives there, and the driver would walk the wrong way.'}}]},
  {task:'Note',narr:'The app has a box for a note to the driver. In your lift, the entrance level is button 1, so your floor is button 4. What do you write?',say:'Hinweis für den Fahrer',
   web:{crumb:2,ui:'radio',blocks:[{t:'bldg'},{t:'h',de:'Hinweis für den Fahrer',en:'Note for the driver'}]},
   opts:[{de:'Achtung: Im Aufzug die „4“ drücken!',en:'Attention: press 4 in the lift!',k:'good',set:function(s){s.path='A'},fb:{b:'The driver knows exactly which button to press. Floor name (3. OG) is in the address, the lift button (4) is in the note.'}},
         {de:'3. OG',en:'3rd floor above ground',k:'ok',set:function(s){s.path='B'},fb:{t:'Works, but risky',b:'This only repeats the address. The driver reads "3" and presses button 3 in the lift. Button 3 is the 2nd floor above ground. Let us see what happens.'}},
         {de:'Bitte nicht klingeln!',en:'Please do not ring!',k:'bad',fb:{t:'Locked out',b:'Without the bell the driver cannot get in. Many buildings only open the front door through the bell. The food stays outside.'}},
+        {de:'Der Hund beißt nicht. Meistens.',en:'The dog does not bite. Mostly.',k:'bad',fb:{t:'Not very reassuring',b:'The driver reads "meistens" (mostly) and leaves the food at the street door. He is not paid enough for this.'}},
         {de:'Vor die Haustür stellen.',en:'Put it in front of the front door.',k:'bad',fb:{t:'Cold and stolen',b:'The food would stand in the street, cold, maybe gone. The driver does not come up at all.'}}]},
  {task:'Doorbell',narr:'Your phone buzzes: the driver is outside. A moment later the intercom rings once.',say:'Lieferung für Costa!',
   talk:{av:'driver',line:['Lieferung für Costa!','Delivery for Costa!'],panel:'klingel'},
   opts:[{de:'Ja, ich mache auf. Kommen Sie hoch!',en:'Yes, I am opening. Come up!',k:'good',fb:{b:'You press the door opener (Türöffner). The front door buzzes and the driver comes in.'}},
         {de:'Wer ist da?',en:'Who is it?',k:'ok',fb:{t:'Polite, but slow',b:'He just said it: delivery for Costa. Not wrong, but you can open the door straight away.'}},
         {de:'Ich habe nichts bestellt.',en:'I did not order anything.',k:'bad',fb:{t:'Delivery refused',b:'The driver takes the food and leaves. You said you ordered nothing.'}},
-        {de:'Nein, danke.',en:'No, thank you.',k:'bad',fb:{t:'Delivery refused',b:'You sent your own dinner away.'}}]},
+        {de:'Nein, danke.',en:'No, thank you.',k:'bad',fb:{t:'Delivery refused',b:'You sent your own dinner away.'}},
+        {de:'Das ist Pizza? Ich habe Sushi bestellt!',en:'That is pizza? I ordered sushi!',k:'ok',fb:{t:'Detective work',b:'The driver checks the bag. It is sushi, and he enjoys it a little too much while you look foolish. He comes up anyway.'}}]},
  function(G){
   if(G.st.path==='A')return {task:'At your door',narr:'You hear the lift. Then a knock. The driver pressed 4, as your note said, and stands at your door.',say:'Guten Tag! Lieferung für Costa?',
   talk:{av:'driver',line:['Guten Tag! Lieferung für Costa?','Hello! Delivery for Costa?']},
   opts:[{de:'Ja, das bin ich. Danke!',en:'Yes, that is me. Thank you!',k:'good',fb:{t:'Dinner is served',b:'Quiet and quick: the right button, the right door, no shouting. This is the ending you want.'}},
         {de:'Hier oben!',en:'Up here!',k:'ok',fb:{t:'He is right in front of you',b:'You shout at someone one metre away. He steps back, hands over the food and smiles. Not wrong, only funny.'}},
-        {de:'Nein, das bin ich nicht.',en:'No, that is not me.',k:'bad',fb:{t:'Wrong answer',b:'The driver apologises and takes the food back down.'}}]};
+        {de:'Nein, das bin ich nicht.',en:'No, that is not me.',k:'bad',fb:{t:'Wrong answer',b:'The driver apologises and takes the food back down.'}},
+        {de:'Costa ist mein Zwillingsbruder.',en:'Costa is my twin brother.',k:'bad',fb:{t:'Plot twist',b:'The driver does not believe you, and neither does the app. Without a name on the door he takes the food back.'}},
+        {de:'Danke! Haben Sie auch Ihre Nummer?',en:'Thanks! Do you also have your number?',k:'ok',fb:{t:'Smooth, but no',b:'He turns red, hands over the food and leaves very fast. Delivered, dignity bruised, one star in his review.'}}]};
   return {task:'Lost in the building',narr:'You wait at your door. Below you hear steps. The driver pressed button 3 in the lift, which is the 2nd floor above ground. He is one floor below you and calls up the stairs.',say:'Hallo? Lieferung für Costa?',
   talk:{av:'driver',line:['Hallo? Lieferung für Costa? Costa?','Hello? Delivery for Costa? Costa?'],panel:'stairs'},
   opts:[{de:'Hier oben!',en:'Up here!',k:'ok',fb:{t:'Food saved, dignity not',b:'He hears you, climbs the stairs and hands over dinner. The whole house heard you, and a neighbour peeks out. Next time put the lift number in the note.'}},
         {de:'Hier unten!',en:'Down here!',k:'bad',goto:1,fb:{t:'Wrong direction',b:'"Unten" is down. The driver goes further down, finds nobody and leaves with your food. You must order again, so you go back to the note.'}},
         {de:'Hallo?',en:'Hello?',k:'bad',goto:1,fb:{t:'He cannot find you',b:'"Hallo?" tells him nothing. He cannot tell where you are and leaves. You order again, back to the note.'}},
+        {de:'Feuer!',en:'Fire!',k:'bad',goto:1,fb:{t:'Never shout this for fun',b:'Neighbours call 112. The fire brigade arrives with the siren, the driver flees and your dinner goes cold on the stairs. Never shout "Feuer" as a joke. You order again, back to the note.'}},
+        {de:'Ich singe ein Lied.',en:'I sing a song.',k:'ok',fb:{t:'The whole house applauds',b:'He follows the singing, finds you and hands over dinner. The neighbours clap, and you never use the stairwell again without blushing.'}},
         {de:'Ich sage nichts.',en:'I say nothing.',k:'bad',goto:1,fb:{t:'Silence',b:'If you say nothing, he cannot find you and the order is marked as not delivered. You order again, back to the note.'}}]};
  }
  ]
@@ -1054,7 +1065,7 @@ function missionView(){
   var pct=Math.round((G.idx+(G.fb&&G.fb.o.k!=='bad'?1:0))/n*100);
   var h='<div class="bar"><div class="actions"><button class="btn ghost" data-home>← Missions</button><button class="btn ghost" data-back'+((G.idx===0&&!G.fb)?' disabled':'')+'>Back</button></div>'+toolsHTML()+'</div>'+
    '<div class="goal">'+KEY_C+'<div><b>Your mission</b><span>'+G.m.goal+'</span></div></div>'+
-   '<div class="prog"><div class="row"><span>'+step.task+'</span><span>Step '+(G.idx+1)+' / '+n+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'+
+   (G.m.hint?'<p class="tipline">'+G.m.hint+'</p>':'')+'<div class="prog"><div class="row"><span>'+step.task+'</span><span>Step '+(G.idx+1)+' / '+n+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'+
    '<div class="narr"><p>'+step.narr+'</p></div>';
   var sc=G.m.scene,mach=(sc==='atm'||sc==='ticket'||sc==='locker');
   h+=step.talk?talkScene(step):(sc==='web'?webScene(step):(mach?machineScene(step):storeScene(step)));
@@ -1072,12 +1083,16 @@ function missionView(){
   } else h+=fbHTML();
   return h;
 }
+var LIT={'Heimatwährung':'home currency','Abbrechen':'to cancel, to abort','Karte einbehalten / eingezogen':'card kept / pulled in','Überweisung':'bank transfer (literally: carrying over)','Weggehen':'to walk away','Stimmt so':'is right like that (keep the change)','Ausgang':'exit','stornieren':'to void, to reverse','entwerten':'to un-value (to stamp, so the ticket counts as used)','erhöhtes Beförderungsentgelt':'increased transport fee','Kind':'child','zahlungspflichtig bestellen':'order with the duty to pay','Vorkasse':'cash in advance','Kauf auf Rechnung':'purchase on invoice','Widerruf':'withdrawal, revocation','Retoure':'return shipment','3. OG ≠ Taste 3':'3rd floor above ground is not button 3','Hier oben! / Hier unten!':'Up here! / Down here!','Bitte nicht klingeln':'Please do not ring','Das ist nicht möglich.':'That is not possible.','Pflicht / obligatorisch':'duty / obligatory','Selbstzahler':'self-payer','Rechnung':'invoice, bill','Freut mich!':'(It) pleases me! = Nice to meet you!','Hat mich gefreut!':'(It) has pleased me! = It was nice to meet you!','Umarmung / Kuss':'hug / kiss','Leise gehen':'to go quietly','Einschreiben':'to write in = registered mail','Übergabe / Einwurf':'hand-over / throw-in','Rückschein':'back slip = return receipt','Beleg':'proof, voucher','entfällt':'falls away = is cancelled','Linie 7 / Linie 17':'line 7 / line 17','Ich habe nichts verstanden.':'I understood nothing.','Sie müssen es mir geben.':'You must give it to me.','bei dir / bei Ihnen':'with you (informal) / with you (formal)','Ihr Paket ist bei mir.':'Your package is with me.','halb drei':'half three = half an hour before three = 2:30','absagen':'to say off = to cancel','Das passt.':'That fits. = That works for me.','schenken ≠ leihen':'to give as a gift is not to lend','Nein, danke!':'No, thank you!','Stock':'floor (literally: stick, storey)','Mahlzeit!':'meal time! = lunchtime greeting','Ich habe keine Lust.':'I have no desire = I do not feel like it.','Kommst du mit?':'Are you coming with?','Millimeter ≠ Zentimeter':'millimetre is not centimetre','Zoll':'inch','färben':'to dye, to colour'};
+function lit(k){return LIT[k]||LIT[k.replace(/\s*\(.*\)$/,'')]||''}
 function debrief(){
-  var m=G.m,flawless=G.mist===0;
-  var h='<div class="bar"><button class="btn ghost" data-home>← Missionen</button>'+toolsHTML()+'</div><div class="deb"><div class="big"><span class="key-done" style="color:'+(flawless?'var(--gold)':'var(--keyo)')+'">'+KEY_O+'</span><div><h2>Mission geschafft</h2><span class="note">'+(flawless?'Ohne einen Fehlversuch. Goldener Schlüssel.':G.mist+' Fehlversuch'+(G.mist===1?'':'e')+'. Spiel nochmal für den goldenen Schlüssel.')+'</span></div></div>'+
-   '<div><b>Diese Wörter hast du gebraucht</b><div class="vocab" style="margin-top:8px">'+m.vocab.map(function(v){return '<button data-say="'+esc(v[0])+'">'+v[0]+gl(v[1],1)+'</button>'}).join('')+'</div></div>'+
-   '<div class="cost"><b>Wörter, die dich kosten</b>'+m.costly.map(function(c){return '<div><b style="text-transform:none;letter-spacing:0;font-size:16px">'+c[0]+'</b><br>'+c[1]+'</div>'}).join('')+'</div>'+
-   '<p class="note">'+(typeof m.note==='function'?m.note(G):m.note)+'</p><div class="actions"><button class="btn" data-start="'+m.id+'">Nochmal spielen</button><button class="btn ghost" data-home>Alle Missionen</button></div></div>';
+  var m=G.m,flawless=G.mist===0,alt=m.alt?m.alt(G):null;
+  var rp=alt||(flawless?{t:'Golden key!',b:'You made no mistakes. Play again and pick the wrong answers on purpose to see what each one costs.'}:{t:'Go for the golden key',b:'You made '+G.mist+' mistake'+(G.mist===1?'':'s')+' this time. Play again and choose the right words every time.'});
+  var h='<div class="bar"><button class="btn ghost" data-home>← Missions</button>'+toolsHTML()+'</div><div class="deb"><div class="big"><span class="key-done" style="color:'+(flawless?'var(--gold)':'var(--keyo)')+'">'+KEY_O+'</span><div><h2>Mission complete <span class="de-sub">(Mission geschafft)</span></h2><span class="note">'+(flawless?'No mistakes. Golden key!':G.mist+' mistake'+(G.mist===1?'':'s')+'. Play again for the golden key.')+'</span></div></div>'+
+   '<div class="replay"><div class="rp-k">'+(alt?KEY_C:KEY_O)+'</div><div class="rp-b"><b>'+rp.t+'</b><span>'+rp.b+'</span><button class="btn" data-start="'+m.id+'">Play again</button></div></div>'+
+   '<div><b>Words you used</b><div class="vocab" style="margin-top:8px">'+m.vocab.map(function(v){return '<button data-say="'+esc(v[0])+'">'+v[0]+gl(v[1],1)+'</button>'}).join('')+'</div></div>'+
+   '<div class="cost"><b>Words that cost you</b>'+m.costly.map(function(c){var l=lit(c[0]);return '<div><b style="text-transform:none;letter-spacing:0;font-size:16px">'+c[0]+'</b>'+(l?' <span class="lit">= '+l+'</span>':'')+'<br>'+c[1]+'</div>'}).join('')+'</div>'+
+   '<p class="note">'+(typeof m.note==='function'?m.note(G):m.note)+'</p><div class="actions"><button class="btn ghost" data-home>All missions</button></div></div>';
   return h;
 }
 function render(){
