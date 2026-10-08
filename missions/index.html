@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Click-through German role-play missions for daily life in Germany: the cash machine and the supermarket checkout. From Speak German - now.">
+<meta name="theme-color" content="#F3EBDF">
+<style>html{color-scheme:light dark}body{margin:0}</style>
+<title>Missions · Speak German - now.</title>
+<style>
+:root{
+  --navy:#0E172D; --coral:#F66F54; --mint:#BCDDBF; --mint-icon:#5E9A6A; --sand:#F3EBDF; --cream:#EEE5DA; --linen:#ECE0D1; --muted:#4A5266; --gold:#D9A441;
+  --bg:#F3EBDF; --fg:#0E172D; --card:#EEE5DA; --line:#ECE0D1; --line-strong:#CDBFAA; --sub:#4A5266;
+  --btn:#F66F54; --btn-fg:#0E172D; --shadow:#0E172D; --keyc:#0E172D; --keyo:#5E9A6A;
+  --good-bg:#DCEEDD; --good-fg:#1D4A29; --ok-bg:#F7E9C2; --ok-fg:#5A4310; --bad-bg:#FBDFD7; --bad-fg:#86281A;
+  --dev:#39404F; --dev-hi:#5A6378; --dev-lo:#232833; --scr:#0F2A52; --scr-fg:#EAF2FF; --scr-line:#5B86C4; --scr-amber:#FFD34E; --scr-warn:#7A1F12;
+  --wall:#E4D8C6; --belt:#4B5263; --floor:#D9CCB7; --shelf:#B79F82; --lcd:#0C1F13; --lcd-fg:#7CF5A0; --paper:#FFFDF6; --ink:#222;
+  --ring:#1F6FEB;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0B1223; --fg:#F3EBDF; --card:#16213B; --line:#26345A; --line-strong:#3A4B78; --sub:#B3BBCC;
+  --btn:#F66F54; --btn-fg:#0E172D; --shadow:#04070E; --keyc:#F3EBDF; --keyo:#8CCB98;
+  --good-bg:#17382A; --good-fg:#BFE8C8; --ok-bg:#3B3216; --ok-fg:#F0DDA0; --bad-bg:#4A2019; --bad-fg:#FFB8A8;
+  --wall:#1E2A47; --floor:#2A3556; --shelf:#4C5A80; --paper:#F4EFE2; --ring:#8AB4FF; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0B1223; --fg:#F3EBDF; --card:#16213B; --line:#26345A; --line-strong:#3A4B78; --sub:#B3BBCC;
+  --btn:#F66F54; --btn-fg:#0E172D; --shadow:#04070E; --keyc:#F3EBDF; --keyo:#8CCB98;
+  --good-bg:#17382A; --good-fg:#BFE8C8; --ok-bg:#3B3216; --ok-fg:#F0DDA0; --bad-bg:#4A2019; --bad-fg:#FFB8A8;
+  --wall:#1E2A47; --floor:#2A3556; --shelf:#4C5A80; --paper:#F4EFE2; --ring:#8AB4FF; color-scheme:dark; }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.45;padding-inline:16px;padding-block:20px 56px}
+.wrap{max-width:720px;margin-inline:auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3,p{margin:0}
+h1{font-size:clamp(28px,7vw,40px);line-height:1.08;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:22px;font-weight:800;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+svg{display:block}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--sub)}
+.brand svg{width:24px;height:24px;color:var(--keyc)}
+.brand em{font-style:normal;color:var(--coral)}
+h1{color:var(--coral)}
+.lead{color:var(--sub);max-width:60ch}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line-strong)}
+.flag{width:18px;height:12px;border-radius:2px;overflow:hidden}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.tog{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;border:1.5px solid var(--line-strong);background:transparent;font-size:14px;font-weight:700}
+.tog[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn{background:var(--btn);color:var(--btn-fg);border:0;border-radius:16px;padding:14px 22px;font-weight:800;font-size:17px;box-shadow:0 6px 0 var(--shadow);transition:transform .08s,box-shadow .08s;align-self:flex-start}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--shadow)}
+.btn.ghost{background:transparent;color:var(--fg);border:2px solid var(--fg);box-shadow:none;padding:10px 16px;font-size:15px}
+.btn.ghost:active{transform:none;opacity:.7}
+
+/* dashboard */
+.tiles{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:560px){.tiles{grid-template-columns:1fr 1fr}}
+.tile{background:var(--card);border:1px solid var(--line-strong);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;text-align:left;min-width:0;color:var(--fg);box-shadow:0 6px 0 var(--line-strong);transition:transform .08s,box-shadow .08s}
+.tile:active{transform:translateY(5px);box-shadow:0 1px 0 var(--line-strong)}
+.tile .ill{height:96px;border-radius:14px;background:var(--bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+.tile .ill svg{height:76px;width:auto}
+.tile h2{font-size:24px}
+.tile .tag{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sub)}
+.tile p{color:var(--sub);font-size:15px}
+.tile .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;font-weight:800}
+.tile .foot svg{width:30px;height:30px}
+.tile.soon{background:transparent;border-style:dashed;box-shadow:none;cursor:default;opacity:.75}
+.tile.soon:active{transform:none}
+.key-done{color:var(--keyo)} .key-todo{color:var(--keyc)}
+
+/* mission chrome */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.prog{display:flex;flex-direction:column;gap:6px}
+.prog .row{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--sub)}
+.track{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.fill{height:100%;background:var(--coral);border-radius:99px;transition:width .3s}
+.goal{background:var(--card);border:1px solid var(--line-strong);border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.goal svg{width:28px;height:28px;flex:none;color:var(--keyc)}
+.goal b{display:block}
+.goal span{color:var(--sub);font-size:14px}
+.narr{border-left:5px solid var(--coral);padding:4px 0 4px 14px}
+.narr .task{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sub)}
+.narr p{font-size:17px}
+
+.optw{display:flex;gap:6px;align-items:stretch;min-width:0}
+.opt{flex:1;min-width:0;text-align:left;display:flex;flex-direction:column;gap:2px;border-radius:14px;padding:12px 14px}
+.opt .de{font-weight:800;font-size:18px;overflow-wrap:anywhere}
+.gl{display:block;font-size:13px;font-weight:500;opacity:.8}
+.spk{flex:none;width:44px;border-radius:14px;border:1.5px solid currentColor;background:transparent;display:flex;align-items:center;justify-content:center;opacity:.85}
+.spk svg{width:20px;height:20px}
+.tray{display:flex;flex-direction:column;gap:10px}
+.tray .lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sub)}
+.tray .opt,.say-opt .opt{background:var(--card);border:2px solid var(--fg);box-shadow:0 4px 0 var(--fg);transition:transform .08s,box-shadow .08s}
+.tray .opt:active,.say-opt .opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--fg)}
+.tray .spk,.say-opt .spk{color:var(--fg);border-color:var(--fg)}
+
+/* feedback */
+.fb{border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.fb.good{background:var(--good-bg);color:var(--good-fg)} .fb.ok{background:var(--ok-bg);color:var(--ok-fg)} .fb.bad{background:var(--bad-bg);color:var(--bad-fg)}
+.fb .h{display:flex;align-items:center;gap:8px;font-size:18px}
+.fb .h svg{width:24px;height:24px;flex:none}
+.fb .picked{font-size:14px;opacity:.85}
+.fb .btn{box-shadow:0 6px 0 var(--shadow)}
+
+/* ATM */
+.atm{background:linear-gradient(180deg,var(--dev-hi),var(--dev) 18%,var(--dev-lo));border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:12px;border:2px solid #11151d;box-shadow:0 8px 0 rgba(0,0,0,.25);color:#E7EAF2}
+.atm-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:800;letter-spacing:.2em;color:#C9CFDD}
+.atm-head .euro{background:#1c4fa3;color:#fff;border-radius:6px;padding:2px 8px;letter-spacing:0}
+.screen{background:var(--scr);color:var(--scr-fg);border-radius:10px;border:6px solid #11151d;padding:14px;min-height:190px;display:flex;flex-direction:column;gap:8px;box-shadow:inset 0 0 30px rgba(0,0,0,.5)}
+.screen.warn{background:var(--scr-warn)}
+.scr-t{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:800;font-size:19px;color:var(--scr-amber);border-bottom:1px solid var(--scr-line);padding-bottom:6px}
+.scr-l{font-size:18px;font-weight:600}
+.scr-l .gl{color:#BBD0F2;font-size:13px}
+.scr-ic{display:flex;gap:14px;align-items:center;color:var(--scr-amber);padding-block:4px}
+.scr-ic svg{width:44px;height:44px}
+.pin{display:flex;gap:10px;justify-content:center;font-size:34px;font-weight:800;letter-spacing:.1em;padding-block:6px;font-variant-numeric:tabular-nums;color:var(--scr-amber)}
+.pin i{font-style:normal;width:28px;text-align:center;border-bottom:3px solid var(--scr-line)}
+.hint{font-size:14px;color:var(--scr-amber);text-align:center;min-height:20px}
+.scr-opts{display:grid;grid-template-columns:1fr;gap:8px;margin-top:4px}
+.scr-opts.two{grid-template-columns:1fr 1fr}
+@media(max-width:420px){.scr-opts.two{grid-template-columns:1fr}}
+.sk .opt{background:#16427D;border:1.5px solid var(--scr-line);color:#fff;border-radius:6px;padding:10px 12px}
+.sk .opt::before{content:"\25B8";color:var(--scr-amber);position:absolute;margin-left:-2px;display:none}
+.sk .opt .de{font-size:17px}
+.sk .opt:active{background:#1d5aa8}
+.sk .spk{color:#fff;border-color:var(--scr-line);border-radius:6px;width:38px}
+.atm-body{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:420px){.atm-body{grid-template-columns:1fr}}
+.keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.keypad button{border:0;border-radius:8px;padding:12px 0;font-weight:800;font-size:18px;background:#C9CFDB;color:#161a22;box-shadow:0 3px 0 #101319;min-width:0}
+.keypad button:active{transform:translateY(2px);box-shadow:0 1px 0 #101319}
+.keypad button:disabled{opacity:.4;cursor:default}
+.keypad .k-ok{background:#2FA75A;color:#fff;grid-column:4;grid-row:2/3}
+.keypad .k-fix{background:#E6B800;grid-column:4;grid-row:3/4}
+.keypad .k-no{background:#D6382B;color:#fff;grid-column:4;grid-row:1/2}
+.keypad .zero{grid-column:2}
+.keypad .k-ok,.keypad .k-fix,.keypad .k-no{font-size:11px;letter-spacing:.02em;padding:6px 2px;line-height:1.1}
+.slots{display:flex;flex-direction:column;gap:8px}
+.slot{background:#0b0d12;border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9AA3B8;border:2px solid #1b1f29}
+.slot svg{width:26px;height:26px}
+.slot .bar-s{flex:1;height:8px;border-radius:4px;background:#252a36}
+.slot.glow{border-color:var(--scr-amber);color:var(--scr-amber);animation:pulse 1.2s ease-in-out infinite}
+.slot.glow .bar-s{background:var(--scr-amber)}
+@keyframes pulse{50%{box-shadow:0 0 14px 2px rgba(255,211,78,.6)}}
+@media(prefers-reduced-motion:reduce){.slot.glow{animation:none}.fill{transition:none}}
+
+/* store */
+.floor{background:var(--floor);border-radius:22px;border:1px solid var(--line-strong);padding:14px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.signs{display:grid;grid-template-columns:1fr 1fr;gap:34px 10px;padding-top:6px}
+.sign{position:relative;min-width:0}
+.sign::before{content:"";position:absolute;left:50%;top:-22px;height:22px;border-left:2px solid var(--fg);opacity:.5}
+.sign .opt{background:#12356E;color:#fff;border:2px solid #fff;outline:2px solid #12356E;border-radius:8px;align-items:center;text-align:center;padding:12px 8px}
+.sign .opt .de{font-size:19px}
+.sign .spk{color:#fff;background:#12356E;border-color:#fff;border-radius:8px;width:36px}
+.shelves{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.shelf{height:56px;border-radius:6px;background:var(--shelf);position:relative;overflow:hidden}
+.shelf::after{content:"";position:absolute;inset:8px 6px auto;height:10px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--coral) 0 14px,var(--mint) 14px 28px,var(--gold) 28px 42px,transparent 42px 46px);opacity:.9}
+.shelf::before{content:"";position:absolute;inset:30px 6px auto;height:10px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--mint-icon) 0 18px,var(--cream) 18px 34px,var(--coral) 34px 48px,transparent 48px 52px);opacity:.85}
+.you{font-size:13px;font-weight:700;color:var(--fg);display:flex;align-items:center;gap:8px}
+.you svg{width:26px;height:26px}
+.shop{background:var(--wall);border:1px solid var(--line-strong);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.cashier{display:flex;gap:10px;align-items:flex-start}
+.cashier svg.av{width:64px;height:64px;flex:none}
+.bubble{position:relative;background:var(--paper);color:var(--ink);border-radius:16px;padding:10px 12px;flex:1;min-width:0;border:2px solid var(--ink)}
+.bubble::before{content:"";position:absolute;left:-9px;top:18px;width:14px;height:14px;background:var(--paper);border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg)}
+.bubble .de{font-weight:700;font-size:18px}
+.bubble .gl{color:#444}
+.bubble .spk{color:var(--ink);width:34px;height:34px;border-radius:50%;float:right;margin-left:8px}
+.counter{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:stretch}
+@media(max-width:420px){.counter{grid-template-columns:1fr}}
+.belt{background:var(--belt);border-radius:10px;padding:10px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;min-height:92px;border-bottom:8px solid #2e3340}
+.item{background:var(--paper);color:var(--ink);font-size:12px;font-weight:700;border-radius:6px;padding:3px 7px;display:inline-flex;gap:6px;font-variant-numeric:tabular-nums}
+.item.bagi{background:var(--mint)}
+.till{display:flex;flex-direction:column;gap:8px;min-width:150px}
+.lcd{background:var(--lcd);color:var(--lcd-fg);font-family:ui-monospace,Menlo,Consolas,monospace;border-radius:8px;padding:8px 12px;border:3px solid #111;font-size:13px;font-variant-numeric:tabular-nums}
+.lcd b{display:block;font-size:24px}
+.term{display:flex;align-items:center;gap:8px;background:#2a2f3a;border-radius:8px;padding:8px;color:#cfd5e3}
+.term svg{width:28px;height:28px;flex:none}
+.term .nb{background:var(--paper);color:var(--ink);font-weight:800;font-size:11px;line-height:1.1;padding:4px 6px;border:2px solid #C0392B;border-radius:4px;text-transform:uppercase}
+.drawer{background:#2a2f3a;border-radius:8px;padding:8px;color:#cfd5e3;font-size:13px;display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.drawer b{color:var(--lcd-fg)}
+.say-wrap{display:flex;flex-direction:column;gap:10px}
+.say-wrap .lbl{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sub)}
+
+/* receipts / debrief */
+.bon{background:var(--paper);color:var(--ink);font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;padding:14px;max-width:300px;border-radius:2px;box-shadow:0 4px 0 var(--line-strong);align-self:center;width:100%}
+.bon div{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.bon hr{border:0;border-top:1px dashed #777;margin:6px 0}
+.deb{background:var(--card);border:1px solid var(--line-strong);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.deb .big{display:flex;align-items:center;gap:12px}
+.deb .big svg{width:48px;height:48px}
+.vocab{display:flex;flex-wrap:wrap;gap:8px}
+.vocab button{border:1.5px solid var(--fg);background:transparent;border-radius:12px;padding:6px 10px;text-align:left;font-weight:800;font-size:15px}
+.vocab button .gl{font-weight:500}
+.cost{background:var(--bad-bg);color:var(--bad-fg);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.cost b{font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.note{font-size:13px;color:var(--sub)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+</style>
+
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+(function(){
+var KEY_C='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="4.2"/><path d="M10.6 10.6 19.8 14.6"/><path d="M16.4 12.9 15.6 15.8"/><path d="M19.8 14.6 18.8 18.1"/></svg>';
+var KEY_O='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>';
+var I={
+ spk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+ card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><rect x="5.5" y="13" width="5" height="3" rx=".6"/></svg>',
+ cash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 9v.01M18 15v.01"/></svg>',
+ rcpt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>',
+ nfc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 8a6 6 0 0 1 0 8"/><path d="M12 5.5a9.5 9.5 0 0 1 0 13"/><path d="M16 3a13 13 0 0 1 0 18"/></svg>',
+ yes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-7"/></svg>',
+ mid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>',
+ no:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5v.01"/></svg>',
+ avatar:'<svg class="av" viewBox="0 0 64 64"><circle cx="32" cy="22" r="12" fill="#F0C9A4" stroke="#0E172D" stroke-width="2.5"/><path d="M19 20c0-9 6-13 13-13s13 4 13 13c-4-4-9-6-13-6s-9 2-13 6z" fill="#7A4B2A" stroke="#0E172D" stroke-width="2.5"/><path d="M8 62c0-14 10-22 24-22s24 8 24 22z" fill="#F66F54" stroke="#0E172D" stroke-width="2.5"/><circle cx="27.5" cy="23" r="1.4" fill="#0E172D"/><circle cx="36.5" cy="23" r="1.4" fill="#0E172D"/><path d="M28 28q4 3 8 0" fill="none" stroke="#0E172D" stroke-width="2" stroke-linecap="round"/></svg>',
+ you:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M6 21v-6a6 6 0 0 1 12 0v6"/></svg>',
+ atmIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round"><rect x="14" y="6" width="52" height="68" rx="6" fill="#39404F"/><rect x="20" y="12" width="40" height="24" rx="3" fill="#0F2A52"/><path d="M25 20h18M25 27h12" stroke="#FFD34E" stroke-linecap="round"/><rect x="20" y="42" width="22" height="16" rx="2" fill="#C9CFDB"/><rect x="46" y="42" width="14" height="4" rx="1" fill="#F66F54"/><rect x="46" y="50" width="14" height="8" rx="1" fill="#BCDDBF"/><rect x="20" y="63" width="40" height="5" rx="1.5" fill="#111"/></svg>',
+ kasseIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="46" width="68" height="12" rx="3" fill="#4B5263"/><rect x="10" y="62" width="60" height="8" rx="2" fill="#39404F"/><rect x="44" y="18" width="26" height="22" rx="3" fill="#EEE5DA"/><rect x="48" y="22" width="18" height="8" rx="1.5" fill="#0C1F13"/><path d="M48 34h6M58 34h8"/><rect x="12" y="32" width="14" height="14" rx="2" fill="#F66F54"/><rect x="28" y="36" width="12" height="10" rx="2" fill="#BCDDBF"/></svg>',
+ soonIll:'<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 6"><rect x="14" y="14" width="52" height="52" rx="12"/></svg>'
+};
+var FLAG='<svg class="flag" viewBox="0 0 3 2"><rect width="3" height=".67" fill="#000"/><rect y=".67" width="3" height=".67" fill="#DD0000"/><rect y="1.33" width="3" height=".67" fill="#FFCE00"/></svg>';
+
+/* ---------- storage ---------- */
+function sget(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function sset(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+var done={};try{done=JSON.parse(sget('lk_done')||'{}')||{}}catch(e){done={}}
+var prefs={en:sget('lk_en')!=='0',snd:sget('lk_snd')!=='0'};
+var CAN_SPEAK=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in window);
+
+/* ---------- speech ---------- */
+function speak(t){
+  if(!CAN_SPEAK||!t)return;
+  try{
+    window.speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=.9;
+    var v=(window.speechSynthesis.getVoices()||[]).filter(function(x){return /^de/i.test(x.lang)})[0];
+    if(v)u.voice=v;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------- helpers ---------- */
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function eur(c){return (c/100).toFixed(2).replace('.',',')}
+function gl(t){return (prefs.en&&t)?'<span class="gl">'+t+'</span>':''}
+function spk(t){return (CAN_SPEAK&&t)?'<button class="spk" data-say="'+esc(t)+'" aria-label="Vorlesen: '+esc(t)+'">'+I.spk+'</button>':''}
+function opt(o,i,cls){
+  return '<div class="optw '+cls+'"><button class="opt" data-pick="'+i+'"><span class="de">'+o.de+'</span>'+gl(o.en)+'</button>'+spk(o.say||o.de)+'</div>';
+}
+
+/* ---------- mission 1: Geldautomat ---------- */
+var AMT_BAD={
+ 20:'You would get 20 euros. Not wrong in real life, but your goal is 100.',
+ 50:'You would get 50 euros. Your goal is 100.',
+ 200:'You would get 200 euros. Many machines cap the daily amount, and more cash on you is more to lose. Your goal is 100.',
+ 0:'"Anderer Betrag" opens a second keypad where you type your own number. Not needed, 100 is already on the list.'
+};
+function amtOpt(v,label,en){
+  if(v===100)return {de:label,en:en,k:'good',fb:{b:'Tap the exact amount on the list. The machine will now count out the cash.',screen:{t:'Bitte warten',l:[['Ihre Auszahlung wird vorbereitet …','Preparing your payout …']]}}};
+  return {de:label,en:en,k:'bad',fb:{t:'Falscher Betrag',b:AMT_BAD[v]}};
+}
+var WEG_CARD={de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Karte einbehalten',b:'After a short wait (often about 30 seconds) the machine pulls the card back in. Same result as three wrong PINs: you must contact your bank.',screen:{t:'Karte einbehalten',warn:1,l:[['Ihre Karte wurde aus Sicherheitsgründen eingezogen.','Your card was retained for security.'],['Bitte wenden Sie sich an Ihre Bank.','Please contact your bank.']]}}};
+var ATM={
+ id:'atm',title:'Geld abheben',tag:'Geldautomat',scene:'atm',
+ blurb:'Withdraw 100 euros. Your PIN is shaky and the card is nearly swallowed.',
+ goalDe:'Hebe 100 Euro ab.',goalEn:'Withdraw 100 euros and leave with your card, your cash and the receipt.',
+ vocab:[['der Geldautomat','cash machine'],['Karte einführen','insert card'],['die PIN','PIN'],['bestätigen','confirm'],['die Korrektur','correction'],['Abbrechen','cancel'],['der Betrag','amount'],['der Beleg','receipt'],['entnehmen','take out'],['Letzter Versuch','last try'],['Karte einbehalten','card retained']],
+ costly:[['Abbrechen','Red key. Stops the process and gives the card back. Your best friend when you are unsure.'],['Karte einbehalten / eingezogen','The machine keeps the card after three wrong PINs or when you walk away. Call your bank or the Sperr-Notruf 116 116.'],['Überweisung','A bank transfer. Money leaves your account to someone else. Never tap it by accident.'],['Weggehen is not a button','On a real machine, walking away is the one action you cannot take back. Take card, cash and receipt before you leave.']],
+ note:'The screen wording is modelled on typical German bank machines. The exact text and the order of the screens differ by bank.',
+ steps:[
+ {task:'Karte',narr:'You stand in front of a Geldautomat. The screen is waiting for you.',zone:'card',say:'Bitte Karte einführen',
+  screen:{t:'Willkommen',l:[['Bitte Karte einführen','Please insert card']],ic:['card','nfc']},
+  opts:[{de:'Karte einführen',en:'Insert card',k:'good',fb:{b:'"einführen" means to put something in. Follow the card symbol and the arrow at the slot.',screen:{t:'Bitte warten',l:[['Karte wird gelesen …','Reading card …']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'Nothing was inserted, so nothing happened. Remember this word anyway: Abbrechen is the red key on every machine and always means stop.'}}]},
+ {task:'Sprache',narr:'Many machines ask for the language first.',say:'Bitte wählen Sie Ihre Sprache',
+  screen:{t:'Sprache / Language',l:[['Bitte wählen Sie Ihre Sprache','Please choose your language']]},two:1,
+  opts:[{de:'Deutsch',en:'German',k:'good',fb:{b:'Good. You will recognise every word that follows.'}},
+        {de:'English',en:'English',k:'ok',fb:{b:'Works fine in real life. In this mission you practise, so the next screens stay German.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'The card would pop out and you would start again.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
+ {task:'PIN',type:'pin',narr:'You are not sure about your PIN. Tap four digits, then press the green key. (In this story your first try fails.)',say:'Bitte geben Sie Ihre PIN ein',
+  screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
+  opts:[{de:'Bestätigen',en:'Confirm',k:'ok',key:'ok',fb:{t:'PIN falsch',b:'The first try fails. The machine allows a few tries, but not unlimited ones.',screen:{t:'PIN falsch',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Sie haben noch 2 Versuche.','You have 2 tries left.']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'The card would come out. You have not tried yet. Type four digits and press the green key.'}}]},
+ {task:'PIN',type:'pin',narr:'Second try. You change one digit and hope. (In this story it fails again.)',say:'Bitte geben Sie Ihre PIN ein',
+  screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
+  opts:[{de:'Bestätigen',en:'Confirm',k:'ok',key:'ok',fb:{t:'PIN falsch',b:'Read the next screen carefully. It is the most important one in this mission.',screen:{t:'Letzter Versuch!',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Letzter Versuch!','Last try!'],['Bei erneuter Fehleingabe wird die Karte eingezogen.','One more wrong entry and the card is retained.']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'Not yet. In this story you tap the green key and see the warning screen.'}}]},
+ {task:'Notbremse',narr:'Your heart rate goes up. You are still not sure about the PIN. What now?',say:'Letzter Versuch! Bei erneuter Fehleingabe wird die Karte eingezogen.',
+  screen:{t:'Letzter Versuch!',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Letzter Versuch!','Last try!'],['Bei erneuter Fehleingabe wird die Karte eingezogen.','One more wrong entry and the card is retained.']]},two:1,
+  opts:[{de:'PIN erneut eingeben',en:'Enter PIN again',k:'bad',fb:{t:'Karte einbehalten',b:'Wrong again, and the machine keeps your card. You have to contact your bank, block the card if needed (116 116) and wait for a new one. That can take days.',screen:{t:'Karte einbehalten',warn:1,l:[['Die PIN wurde dreimal falsch eingegeben.','The PIN was entered wrong three times.'],['Ihre Karte wurde eingezogen.','Your card was retained.'],['Bitte wenden Sie sich an Ihre Bank.','Please contact your bank.']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'good',fb:{t:'Richtig. Abbrechen rettet die Karte.',b:'Abbrechen stops the process and the card comes back. Your counter stays at one try left, so find the right PIN before you try again.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
+ {task:'Karte zurück',narr:'The machine beeps. The card sticks out of the slot.',zone:'card',say:'Bitte entnehmen Sie Ihre Karte',
+  screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']],ic:['card']},
+  opts:[{de:'Karte entnehmen',en:'Take card',k:'good',fb:{b:'"entnehmen" is the word for taking something out of a machine. Card first, then cash, so you do not forget it.'}},WEG_CARD]},
+ {task:'Neuer Versuch',info:1,narr:'Two minutes later. You find the right PIN in the letter from your bank. You step back to the machine, insert the card and choose Deutsch.',
+  screen:{t:'Willkommen',l:[['Bitte Karte einführen','Please insert card']],ic:['card','nfc']}},
+ {task:'PIN',type:'pin',narr:'Now type the correct PIN. Cover the keypad with your other hand.',say:'Bitte geben Sie Ihre PIN ein',
+  screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
+  opts:[{de:'Bestätigen',en:'Confirm',k:'good',key:'ok',fb:{b:'Accepted. The main menu follows.',screen:{t:'PIN akzeptiert',l:[['Einen Moment bitte …','One moment please …']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'The card would come out and you would start again. This time the PIN is right, so confirm.'}}]},
+ {task:'Menü',narr:'The main menu. Pick the line that matches your goal.',say:'Bitte wählen Sie',
+  screen:{t:'Hauptmenü',l:[['Bitte wählen Sie','Please choose']]},two:1,
+  opts:[{de:'Geld abheben',en:'Withdraw money',k:'good',fb:{b:'"abheben" is to withdraw. The opposite, "einzahlen", is to deposit.'}},
+        {de:'Kontostand',en:'Account balance',k:'bad',fb:{t:'Falsche Zeile',b:'This shows your balance. No cash comes out.'}},
+        {de:'Überweisung',en:'Bank transfer',k:'bad',fb:{t:'Gefährlich',b:'A transfer sends money to another account. At a machine you would have to type an IBAN. Cancel in time and never start one by accident.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'The card comes out and you lose your progress.'}}]},
+ {task:'Betrag',narr:'How much? Your goal is exactly 100 euros.',say:'Bitte wählen Sie den Betrag',
+  screen:{t:'Geld abheben',l:[['Bitte wählen Sie den Betrag','Please choose the amount']]},two:1,
+  opts:[amtOpt(20,'20 €','20 euros'),amtOpt(50,'50 €','50 euros'),amtOpt(100,'100 €','100 euros'),amtOpt(200,'200 €','200 euros'),amtOpt(0,'Anderer Betrag','Other amount')]},
+ {task:'Beleg',narr:'The machine asks about the receipt. You want proof of the withdrawal.',say:'Möchten Sie einen Beleg?',
+  screen:{t:'Beleg',l:[['Möchten Sie einen Beleg?','Do you want a receipt?']]},two:1,
+  opts:[{de:'Ja',en:'Yes',k:'good',fb:{b:'Ja means yes. The receipt shows amount and date, handy if something looks wrong on your statement.'}},
+        {de:'Nein',en:'No',k:'bad',fb:{t:'Nicht dein Ziel',b:'Fine in real life, but this mission says: leave with the receipt.'}}]},
+ {task:'Karte',narr:'The machine gives the card back first.',zone:'card',say:'Bitte entnehmen Sie Ihre Karte',
+  screen:{t:'Karte',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']],ic:['card']},
+  opts:[{de:'Karte entnehmen',en:'Take card',k:'good',fb:{b:'Card is back in your hand. Now the cash.'}},WEG_CARD]},
+ {task:'Geld',narr:'The cash flap opens. You have a short time to take the money.',zone:'cash',say:'Bitte entnehmen Sie Ihr Geld',
+  screen:{t:'Geldausgabe',l:[['Bitte entnehmen Sie Ihr Geld.','Please take your money.']],ic:['cash']},
+  opts:[{de:'Geld entnehmen',en:'Take cash',k:'good',fb:{b:'100 euros in your hand. Count them before you put them away.'}},
+        {de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Geld weg',b:'After a short time the machine pulls the cash back in, or worse, the next person takes it.',screen:{t:'Geld eingezogen',warn:1,l:[['Das Geld wurde nicht entnommen.','The money was not taken.']]}}}]},
+ {task:'Beleg',narr:'Last item. The receipt slot lights up.',zone:'rcpt',say:'Bitte entnehmen Sie den Beleg',
+  screen:{t:'Vielen Dank',l:[['Bitte entnehmen Sie den Beleg.','Please take your receipt.']],ic:['rcpt']},
+  opts:[{de:'Beleg entnehmen',en:'Take receipt',k:'good',fb:{t:'Mission geschafft',b:'Card, cash and receipt. Nothing left behind.'}},
+        {de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Beleg liegen gelassen',b:'Your receipt stays behind with date and amount on it. Take it and throw it away at home.'}}]}
+ ]
+};
+
+/* ---------- mission 2: Kasse ---------- */
+var BASE=2347;
+var ITEMS=[['Vollmilch','1,29'],['Bauernbrot','3,19'],['Äpfel 1 kg','2,99'],['Gouda','3,79'],['Spaghetti','1,49'],['Joghurt','0,89'],['Butter','2,29'],['Kaffee','5,99'],['Tomaten','1,55']];
+function total(G){return BASE+(G.st.bag?20:0)}
+var KASSE={
+ id:'kasse',title:'An der Kasse',tag:'Supermarkt',scene:'store',
+ blurb:'Find the Kasse. Cash only, a bag question, and the receipt.',
+ goalDe:'Bezahle bar und hol den Bon.',goalEn:'Pay your shopping in cash, deal with the bag question and leave with the receipt.',
+ vocab:[['die Kasse','checkout'],['Barzahlung','cash payment'],['bar zahlen','pay cash'],['die Tüte','bag'],['der Kassenbon','receipt'],['das Rückgeld','change'],['Das macht …','That comes to …'],['Das reicht nicht.','That is not enough.'],['stornieren','void'],['der Ausgang','exit'],['Stimmt so.','keep the change']],
+ costly:[['Stimmt so','You tell the cashier to keep the change. All of it. No taking it back.'],['Ausgang','Walking out with unpaid goods is theft. Staff may stop you and you can get a ban from the shop.'],['stornieren','The cashier voids the whole sale and your goods go back on the shelf.']],
+ note:'Shops that take only cash are still common in Germany. Since 2020 the shop must offer you a receipt, but you are allowed to say no.',
+ init:function(){return {bag:null}},
+ steps:[
+ {task:'Kasse finden',narr:'You have a basket with nine items and a Stoffbeutel that you left at home. Look up at the signs.',store:'signs',say:'Kasse',
+  opts:[{de:'Obst & Gemüse',en:'Fruit & vegetables',k:'bad',fb:{t:'Falsch abgebogen',b:'You are done shopping. Nobody here will scan your basket.'}},
+        {de:'Kasse',en:'Checkout',k:'good',fb:{b:'"Kasse" is the checkout. Look for the sign and the belts with the lit-up numbers.'}},
+        {de:'Pfandrückgabe',en:'Bottle return',k:'bad',fb:{t:'Falsch abgebogen',b:'Pfandrückgabe is where you return empty bottles. It is not a checkout.'}},
+        {de:'Ausgang',en:'Exit',k:'bad',fb:{t:'Gefährlich',b:'You would walk out with unpaid goods. That counts as theft. The staff stop you, they call the police, and you may get a Hausverbot.'}}]},
+ function(G){return {task:'Begrüßung',narr:'You put your things on the belt. The cashier scans everything.',cash:{line:['Guten Tag! Das macht '+eur(BASE)+' Euro.','Hello! That comes to '+eur(BASE)+' euros.'],disp:BASE},say:'Guten Tag! Das macht '+eur(BASE)+' Euro.',
+  opts:[{de:'Kann ich mit Karte zahlen?',en:'Can I pay by card?',k:'good',fb:{b:'Polite and exact. "Kann ich … zahlen?" is the question to ask before the cashier starts counting.'}},
+        {de:'Stornieren Sie bitte alles.',en:'Please void everything.',k:'bad',fb:{t:'Alles storniert',b:'"stornieren" cancels the whole sale. The cashier puts everything back and you start from zero.'}}]}},
+ function(G){return {task:'Nur Bargeld',narr:'The cashier shakes her head and points at the terminal.',cash:{line:['Nein, leider nur Barzahlung. Haben Sie Bargeld?','No, sorry, cash only. Do you have cash?'],disp:BASE,sign:1},say:'Nein, leider nur Barzahlung. Haben Sie Bargeld?',
+  opts:[{de:'Ja, ich zahle bar.',en:'Yes, I will pay cash.',k:'good',fb:{b:'"bar" means cash. "Barzahlung" is the noun. Remember the red sign on the terminal.'}},
+        {de:'Nein, dann lasse ich alles hier.',en:'No, then I will leave it all here.',k:'bad',fb:{t:'Einkauf weg',b:'Everything stays at the checkout and you leave with nothing. The better move is to pay with the cash you have.'}}]}},
+ function(G){return {task:'Tüte',narr:'Your Stoffbeutel is at home, so the next question matters.',cash:{line:['Brauchen Sie eine Tüte? Die kostet 20 Cent.','Do you need a bag? It costs 20 cents.'],disp:BASE,sign:1},say:'Brauchen Sie eine Tüte? Die kostet 20 Cent.',
+  opts:[{de:'Ja, bitte eine Tüte.',en:'Yes, one bag please.',k:'good',set:function(s){s.bag=true},fb:{b:'The bag is added to the bill: 20 cents. Plastic and paper bags usually cost something in Germany.'}},
+        {de:'Nein, danke.',en:'No, thank you.',k:'good',set:function(s){s.bag=false},fb:{b:'Nein, danke is a polite no. You carry the items in your hands and jacket pockets. Careful with the tomatoes.'}}]}},
+ function(G){var t=total(G);return {task:'Bezahlen',narr:'You have two notes in your wallet: a 20 and a 50. Choose your words.',cash:{line:['Das macht '+eur(t)+' Euro, bitte.','That comes to '+eur(t)+' euros, please.'],disp:t,sign:1},say:'Das macht '+eur(t)+' Euro, bitte.',wallet:1,
+  opts:[{de:'Hier, bitte. 50 Euro.',en:'Here you go. 50 euros.',k:'good',fb:{b:'Clean and clear. The cashier will count out your change (Rückgeld) from the drawer.'}},
+        {de:'50 Euro. Stimmt so!',en:'50 euros. Keep the change!',k:'bad',fb:{t:'Das kostet dich '+eur(5000-t)+' Euro',b:'"Stimmt so" means the cashier keeps all the change. That is '+eur(5000-t)+' euros you just gave away. Use it in restaurants for a few cents, never at a supermarket checkout.'}},
+        {de:'Hier, bitte. 20 Euro.',en:'Here you go. 20 euros.',k:'bad',fb:{t:'Das reicht nicht',b:'20 euros is less than '+eur(t)+'. The cashier says "Das reicht nicht" and waits. There is still '+eur(t-2000)+' euros missing.'}}]}},
+ function(G){var t=total(G),ch=5000-t;return {task:'Bon',narr:'The drawer pops open. The cashier counts the change into your hand and smiles. You want the receipt.',cash:{line:['Und '+eur(ch)+' Euro zurück. Schönen Tag noch!','And '+eur(ch)+' euros back. Have a nice day!'],disp:t,sign:1,tray:ch},say:'Und '+eur(ch)+' Euro zurück. Schönen Tag noch!',
+  opts:[{de:'Kann ich bitte den Kassenbon haben?',en:'Can I have the receipt, please?',k:'good',fb:{t:'Mission geschafft',b:'Der Kassenbon (also: der Beleg) is your proof if you need to return or complain about something. Keep it until you have checked the food.',bon:1}},
+        {de:'Tschüss!',en:'Bye!',k:'bad',fb:{t:'Kein Bon',b:'You leave without proof of purchase. Without the Bon, returning a spoiled yoghurt gets hard.'}}]}}
+ ]
+};
+var MISSIONS=[ATM,KASSE];
+
+/* ---------- state ---------- */
+var G=null,app=document.getElementById('app');
+function stepOf(i){var s=G.m.steps[i];return typeof s==='function'?s(G):s}
+function start(id){
+  var m=MISSIONS.filter(function(x){return x.id===id})[0];
+  G={m:m,idx:0,pin:'',fb:null,hint:'',mist:0,fin:false,st:m.init?m.init():{}};
+  render();window.scrollTo(0,0);
+}
+function home(){G=null;render();window.scrollTo(0,0)}
+
+/* ---------- renderers ---------- */
+function header(){
+  return '<div class="brand">'+KEY_O+'<span>Speak German <em>- now.</em></span></div>';
+}
+function toolsHTML(){
+  return '<div class="tools"><button class="tog" data-tog="en" aria-pressed="'+prefs.en+'">English help</button>'+
+   (CAN_SPEAK?'<button class="tog" data-tog="snd" aria-pressed="'+prefs.snd+'">Read aloud on tap</button>':'')+'</div>';
+}
+function dashboard(){
+  var h=header()+'<div><span class="chip">'+FLAG+'Deutschland</span></div><h1>Alltags-Missionen</h1>'+
+   '<p class="lead">Speak before you feel ready. Real situations with the real words on the real screens. Every step has at least two answers. One is what the machine or the person really says. The other is the move that can cost you.</p>'+toolsHTML()+'<div class="tiles">';
+  MISSIONS.forEach(function(m){
+    var d=done[m.id];
+    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+(m.id==='atm'?I.atmIll:I.kasseIll)+'</div><span class="tag">'+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Nochmal spielen':'Starten')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
+  });
+  ['Parkscheinautomat','Packstation','Online bezahlen'].forEach(function(n){
+    h+='<div class="tile soon"><div class="ill">'+I.soonIll+'</div><span class="tag">Bald</span><h2>'+n+'</h2></div>';
+  });
+  return h+'</div>';
+}
+function iconRow(ic){return ic?'<div class="scr-ic">'+ic.map(function(x){return I[x]}).join('')+'</div>':''}
+function screenHTML(step,inScreenOpts){
+  var sc=step.screen,f=G.fb&&G.fb.o.fb&&G.fb.o.fb.screen;
+  var showOpts=!G.fb&&inScreenOpts;
+  if(f)sc=f;
+  var h='<div class="screen'+(sc.warn?' warn':'')+'"><div class="scr-t"><span>'+sc.t+'</span>'+((!f&&step.say)?spk(step.say):'')+'</div>';
+  (sc.l||[]).forEach(function(l){h+='<div class="scr-l">'+l[0]+gl(l[1])+'</div>'});
+  if(!f)h+=iconRow(sc.ic);
+  if(sc.pin&&!f){
+    var d='';for(var i=0;i<4;i++)d+='<i>'+(i<G.pin.length?'•':'')+'</i>';
+    h+='<div class="pin" aria-label="PIN">'+d+'</div><div class="hint">'+G.hint+'</div>';
+  }
+  if(showOpts){
+    h+='<div class="scr-opts'+(step.two&&step.opts.length>2?' two':'')+'">'+step.opts.map(function(o,i){return opt(o,i,'sk')}).join('')+'</div>';
+  }
+  return h+'</div>';
+}
+function atmScene(step){
+  var pinStep=step.type==='pin'&&!G.fb&&!step.info;
+  var inScreen=!step.zone&&!step.type&&!step.info;
+  var z=(!G.fb)?step.zone:'';
+  var keys='';
+  ['1','2','3'].forEach(function(n){keys+='<button data-d="'+n+'"'+(pinStep?'':' disabled')+'>'+n+'</button>'});
+  keys+='<button class="k-no" data-key="no"'+(pinStep?'':' disabled')+'>Abbrechen</button>';
+  ['4','5','6'].forEach(function(n){keys+='<button data-d="'+n+'"'+(pinStep?'':' disabled')+'>'+n+'</button>'});
+  keys+='<button class="k-ok" data-key="ok"'+(pinStep?'':' disabled')+'>Bestätigen</button>';
+  ['7','8','9'].forEach(function(n){keys+='<button data-d="'+n+'"'+(pinStep?'':' disabled')+'>'+n+'</button>'});
+  keys+='<button class="k-fix" data-key="fix"'+(pinStep?'':' disabled')+'>Korrektur</button>';
+  keys+='<button class="zero" data-d="0"'+(pinStep?'':' disabled')+'>0</button>';
+  return '<div class="atm" role="group" aria-label="Geldautomat"><div class="atm-head"><span>GELDAUTOMAT</span><span class="euro">€</span></div>'+
+   screenHTML(step,inScreen)+
+   '<div class="atm-body"><div class="keypad">'+keys+'</div><div class="slots">'+
+   '<div class="slot'+(z==='card'?' glow':'')+'">'+I.card+'<span>Karte</span><span class="bar-s"></span></div>'+
+   '<div class="slot'+(z==='cash'?' glow':'')+'">'+I.cash+'<span>Geld</span><span class="bar-s"></span></div>'+
+   '<div class="slot'+(z==='rcpt'?' glow':'')+'">'+I.rcpt+'<span>Beleg</span><span class="bar-s"></span></div>'+
+   '</div></div></div>';
+}
+function storeScene(step){
+  if(step.store==='signs'){
+    var s='<div class="floor"><div class="signs">'+step.opts.map(function(o,i){return G.fb?'':opt(o,i,'sign')}).join('')+'</div><div class="shelves"><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div></div><div class="you">'+I.you+'Du, mit Einkaufskorb</div></div>';
+    return s;
+  }
+  var c=step.cash,line=c.line;
+  var b=ITEMS.map(function(x){return '<span class="item">'+x[0]+' '+x[1]+'</span>'}).join('');
+  if(G.st.bag)b+='<span class="item bagi">Tragetasche 0,20</span>';
+  var h='<div class="shop"><div class="cashier">'+I.avatar+'<div class="bubble">'+spk(step.say)+'<div class="de">'+line[0]+'</div>'+gl(line[1])+'</div></div>'+
+   '<div class="counter"><div class="belt" aria-label="Warenband">'+b+'</div><div class="till"><div class="lcd">SUMME<b>'+eur(c.disp)+' €</b></div>'+
+   '<div class="term">'+I.card+(c.sign?'<span class="nb">Nur Barzahlung</span>':'<span>EC-Terminal</span>')+'</div>'+
+   '<div class="drawer"><span>'+(c.tray?'Rückgeld':'Kassenlade')+'</span><b>'+(c.tray?eur(c.tray)+' €':'')+'</b></div></div></div>';
+  if(step.wallet)h+='<div class="you">'+I.cash+'Dein Portemonnaie: 20 €, 50 €</div>';
+  return h+'</div>';
+}
+function fbHTML(){
+  var o=G.fb.o,k=o.k,f=o.fb||{},T={good:'Richtig',ok:'Okay',bad:'Das hat Folgen'};
+  var ic=k==='good'?I.yes:(k==='ok'?I.mid:I.no);
+  var h='<div class="fb '+k+'" role="status" aria-live="polite" id="fb"><div class="h">'+ic+'<b>'+(f.t||T[k])+'</b></div><div class="picked">Du hast gewählt: <b>'+o.de+'</b></div><p>'+(f.b||'')+'</p>';
+  if(f.bon){
+    var t=total(G),ch=5000-t,it=ITEMS.map(function(x){return '<div><span>'+x[0]+'</span><span>'+x[1]+'</span></div>'}).join('');
+    if(G.st.bag)it+='<div><span>Tragetasche</span><span>0,20</span></div>';
+    h+='<div class="bon"><div><b>SUPERMARKT</b></div><hr>'+it+'<hr><div><b>SUMME EUR</b><b>'+eur(t)+'</b></div><div><span>Gegeben BAR</span><span>50,00</span></div><div><span>Rückgeld</span><span>'+eur(ch)+'</span></div><hr><div><span>Vielen Dank!</span><span></span></div></div>';
+  }
+  var last=G.idx===G.m.steps.length-1;
+  var lbl=k==='bad'?'Nochmal versuchen':(last?'Zur Auswertung':'Weiter');
+  return h+'<button class="btn" data-next>'+lbl+'</button></div>';
+}
+function missionView(){
+  var step=stepOf(G.idx),n=G.m.steps.length;
+  var pct=Math.round((G.idx+(G.fb&&G.fb.o.k!=='bad'?1:0))/n*100);
+  var h='<div class="bar"><button class="btn ghost" data-home>← Missionen</button>'+toolsHTML()+'</div>'+
+   '<div class="goal">'+KEY_C+'<div><b>'+G.m.goalDe+'</b><span>'+G.m.goalEn+'</span></div></div>'+
+   '<div class="prog"><div class="row"><span>'+step.task+'</span><span>Schritt '+(G.idx+1)+' / '+n+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'+
+   '<div class="narr"><p>'+step.narr+'</p></div>';
+  h+=G.m.scene==='atm'?atmScene(step):storeScene(step);
+  if(step.info&&!G.fb){
+    h+='<button class="btn" data-adv>Weiter</button>';
+  } else if(!G.fb){
+    if(G.m.scene==='atm'&&step.zone){
+      h+='<div class="tray"><span class="lbl">Was tust du?</span>'+step.opts.map(function(o,i){return opt(o,i,'tray-o')}).join('')+'</div>';
+    } else if(G.m.scene==='store'&&step.cash){
+      h+='<div class="say-wrap say-opt"><span class="lbl">Du sagst:</span>'+step.opts.map(function(o,i){return opt(o,i,'say-o')}).join('')+'</div>';
+    } else if(G.m.scene==='atm'&&step.type==='pin'){
+      h+='<p class="note">Tippe die Ziffern auf dem Tastenfeld. Grün bestätigt, rot bricht ab, gelb korrigiert.</p>';
+    }
+    h+='<p class="note">Lies die Antwort laut vor, dann tippe sie an.</p>';
+  } else h+=fbHTML();
+  return h;
+}
+function debrief(){
+  var m=G.m,flawless=G.mist===0;
+  var h='<div class="bar"><button class="btn ghost" data-home>← Missionen</button>'+toolsHTML()+'</div><div class="deb"><div class="big"><span class="key-done" style="color:'+(flawless?'var(--gold)':'var(--keyo)')+'">'+KEY_O+'</span><div><h2>Mission geschafft</h2><span class="note">'+(flawless?'Ohne einen Fehlversuch. Goldener Schlüssel.':G.mist+' Fehlversuch'+(G.mist===1?'':'e')+'. Spiel nochmal für den goldenen Schlüssel.')+'</span></div></div>'+
+   '<div><b>Diese Wörter hast du gebraucht</b><div class="vocab" style="margin-top:8px">'+m.vocab.map(function(v){return '<button data-say="'+esc(v[0])+'">'+v[0]+gl(v[1])+'</button>'}).join('')+'</div></div>'+
+   '<div class="cost"><b>Wörter, die dich kosten</b>'+m.costly.map(function(c){return '<div><b style="text-transform:none;letter-spacing:0;font-size:16px">'+c[0]+'</b><br>'+c[1]+'</div>'}).join('')+'</div>'+
+   '<p class="note">'+m.note+'</p><div class="actions"><button class="btn" data-start="'+m.id+'">Nochmal spielen</button><button class="btn ghost" data-home>Alle Missionen</button></div></div>';
+  return h;
+}
+function render(){
+  var h;
+  if(!G)h=dashboard();else if(G.fin)h=debrief();else h=missionView();
+  app.innerHTML=h;
+}
+
+/* ---------- events ---------- */
+function pick(i){
+  if(!G||G.fb)return;
+  var step=stepOf(G.idx),o=step.opts[i];if(!o)return;
+  if(o.k==='bad')G.mist++;
+  if(o.k!=='bad'&&o.set)o.set(G.st);
+  G.fb={o:o};G.hint='';
+  if(prefs.snd&&o.k!=='bad'&&step.type!=='pin')speak(o.de);
+  render();
+  var f=document.getElementById('fb');if(f&&f.scrollIntoView)f.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function next(){
+  if(!G||!G.fb)return;
+  var bad=G.fb.o.k==='bad';
+  G.fb=null;G.pin='';G.hint='';
+  if(!bad){
+    G.idx++;
+    if(G.idx>=G.m.steps.length){G.fin=true;done[G.m.id]=true;sset('lk_done',JSON.stringify(done))}
+  }
+  render();window.scrollTo(0,0);
+}
+app.addEventListener('click',function(e){
+  var t=e.target.closest('button');if(!t)return;
+  if(t.dataset.say!==undefined){speak(t.dataset.say);return}
+  if(t.dataset.start){start(t.dataset.start);return}
+  if('home' in t.dataset){home();return}
+  if(t.dataset.tog){prefs[t.dataset.tog]=!prefs[t.dataset.tog];sset('lk_'+t.dataset.tog,prefs[t.dataset.tog]?'1':'0');if(!prefs.snd&&CAN_SPEAK)try{speechSynthesis.cancel()}catch(x){};render();return}
+  if(t.dataset.pick!==undefined){pick(+t.dataset.pick);return}
+  if('next' in t.dataset){next();return}
+  if('adv' in t.dataset){G.idx++;G.fb=null;render();window.scrollTo(0,0);return}
+  if(t.dataset.d!==undefined){if(G&&!G.fb&&G.pin.length<4){G.pin+=t.dataset.d;G.hint='';render()}return}
+  if(t.dataset.key){
+    if(!G||G.fb)return;
+    var step=stepOf(G.idx);
+    if(t.dataset.key==='fix'){G.pin='';G.hint='';render();return}
+    if(t.dataset.key==='ok'&&G.pin.length<4){G.hint='Bitte 4 Ziffern eingeben';render();return}
+    for(var i=0;i<step.opts.length;i++){if(step.opts[i].key===t.dataset.key){pick(i);return}}
+  }
+});
+render();
+window.__lk={start:start,pick:pick,next:next,get G(){return G},stepOf:stepOf};
+})();
+</script>
+</body>
+</html>
