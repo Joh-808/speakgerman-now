@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Click-through German role-play missions for absolute beginners: the cash machine and the supermarket checkout. From Speak German - now.">
+<meta name="description" content="Click-through German role-play missions for absolute beginners: cash machine, supermarket checkout, ticket machine, online shop and parcel locker. From Speak German - now.">
 <meta name="theme-color" content="#F3EBDF">
 <style>html{color-scheme:light dark}body{margin:0}</style>
 <title>Missions · Speak German - now.</title>
@@ -52,6 +52,53 @@ h1{color:var(--coral)}
 .btn.ghost{background:transparent;color:var(--fg);border:2px solid var(--fg);box-shadow:none;padding:10px 16px;font-size:15px}
 .btn.ghost:active{transform:none;opacity:.7}
 .btn:disabled{opacity:.4;cursor:default}
+.atm.m-ticket{background:linear-gradient(180deg,#4a6ba3,#2f4a78 25%,#1c2c47);border-color:#0e1626}
+.atm.m-locker{background:linear-gradient(180deg,#f4c900,#e0b400 30%,#b88f00);color:#2b2200;border-color:#6b5300}
+.atm.m-locker .atm-head{color:#3a2d00}
+.atm-body.one{grid-template-columns:1fr}
+.lockers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.lk{height:46px;border-radius:5px;background:#8a6b00;border:2px solid #5a4500;color:#fff2b8;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.lk.glow{border-color:#fff;background:#fff2b8;color:#2b2200;animation:pulse 1.2s ease-in-out infinite}
+.lk.open{background:#2b2200;color:#ffd34e;border-color:#fff}
+@media(prefers-reduced-motion:reduce){.lk.glow{animation:none}}
+.platform{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.gsign{background:#0b5fa5;color:#fff;font-weight:800;border-radius:6px;padding:8px 12px}
+.entw{background:#f2c300;color:#2b2200;border-radius:10px;border:3px solid #6b5300;padding:8px 12px;font-weight:800;text-align:center;font-size:12px;letter-spacing:.08em}
+.entw i{display:block;height:8px;border-radius:4px;background:#2b2200;margin:6px 0}
+.tkt{background:var(--paper);color:var(--ink);border-radius:8px;border:1px dashed #777;padding:10px 12px;font-size:13px;flex:1 1 220px;display:flex;flex-direction:column;gap:2px}
+.stamps{display:flex;gap:6px;margin-top:6px}
+.stamps span{flex:1;min-height:40px;border:1.5px solid #888;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#b00020;text-align:center;line-height:1.1}
+.browser{background:#d9dde6;border-radius:14px;border:1px solid var(--line-strong);overflow:hidden}
+.urlbar{display:flex;gap:8px;align-items:center;padding:8px 12px;font-size:13px;color:#2a2f3a;background:#eceff5;min-width:0}
+.urlbar svg{width:14px;height:14px;flex:none;color:#2a7a4b}
+.urlbar span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page{background:#fff;color:#1b1f2a;padding:14px;display:flex;flex-direction:column;gap:10px}
+.page .gl{color:#5b6475}
+.shop-h{font-weight:900;letter-spacing:.14em;font-size:15px;border-bottom:2px solid #1b1f2a;padding-bottom:8px}
+.crumbs{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#8a92a3}
+.crumbs .on{color:#1b5e3b;text-decoration:underline}.crumbs .done{color:#1b1f2a}
+.wh{font-size:18px;margin:0}
+.wrow{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums;border-bottom:1px solid #e3e6ee;padding-bottom:6px}
+.wrow>div{min-width:0}
+.wrow.tot{font-size:18px;font-weight:800;border-bottom:0}
+.wp{font-size:13px;margin:0;color:#3a4152}
+.wchk{display:flex;gap:8px;align-items:flex-start;font-size:14px}
+.wchk i{width:18px;height:18px;border:2px solid #1b1f2a;border-radius:3px;flex:none;margin-top:2px}
+.wchk i.on{background:#1b5e3b;border-color:#1b5e3b;box-shadow:inset 0 0 0 3px #fff}
+.waddr{font-size:15px;background:#f3f5f9;border-radius:6px;padding:10px}
+.web-opts{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.web-opts.sizes{display:grid;grid-template-columns:repeat(4,1fr)}
+.web-opts.sizes .spk{display:none}
+.wopt .opt{background:#fff;color:#1b1f2a;border:1.5px solid #9aa3b5;border-radius:6px;padding:12px;align-items:center;text-align:center}
+.wopt.pri .opt{background:#1b5e3b;color:#fff;border-color:#1b5e3b}
+.wopt .spk{color:#1b1f2a;border-color:#9aa3b5;border-radius:6px;width:38px}
+.wopt.pri .spk{color:#1b5e3b;border-color:#1b5e3b}
+.web-opts.radio .opt{flex-direction:row;text-align:left;align-items:center;gap:10px}
+.web-opts.radio .opt .de{display:block}
+.web-opts.radio .opt::before{content:"";width:16px;height:16px;border:2px solid #1b1f2a;border-radius:50%;flex:none}
+.wstatic{border:1.5px solid #9aa3b5;border-radius:6px;padding:10px;text-align:center;font-weight:800;min-width:0}
+.wstatic.chosen{border-color:#F66F54;background:#fff3ef}
+
 .sign .opt.static{cursor:default}
 .sign .opt.chosen{outline-color:var(--coral);border-color:var(--coral)}
 .olist{display:flex;flex-direction:column;gap:4px;font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
@@ -227,8 +274,13 @@ var I={
  you:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M6 21v-6a6 6 0 0 1 12 0v6"/></svg>',
  atmIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round"><rect x="14" y="6" width="52" height="68" rx="6" fill="#39404F"/><rect x="20" y="12" width="40" height="24" rx="3" fill="#0F2A52"/><path d="M25 20h18M25 27h12" stroke="#FFD34E" stroke-linecap="round"/><rect x="20" y="42" width="22" height="16" rx="2" fill="#C9CFDB"/><rect x="46" y="42" width="14" height="4" rx="1" fill="#F66F54"/><rect x="46" y="50" width="14" height="8" rx="1" fill="#BCDDBF"/><rect x="20" y="63" width="40" height="5" rx="1.5" fill="#111"/></svg>',
  kasseIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="46" width="68" height="12" rx="3" fill="#4B5263"/><rect x="10" y="62" width="60" height="8" rx="2" fill="#39404F"/><rect x="44" y="18" width="26" height="22" rx="3" fill="#EEE5DA"/><rect x="48" y="22" width="18" height="8" rx="1.5" fill="#0C1F13"/><path d="M48 34h6M58 34h8"/><rect x="12" y="32" width="14" height="14" rx="2" fill="#F66F54"/><rect x="28" y="36" width="12" height="10" rx="2" fill="#BCDDBF"/></svg>',
+ inspector:'<svg class="av" viewBox="0 0 64 64"><circle cx="32" cy="24" r="12" fill="#F0C9A4" stroke="#0E172D" stroke-width="2.5"/><path d="M19 20c0-3 4-9 13-9s13 6 13 9z" fill="#12356E" stroke="#0E172D" stroke-width="2.5"/><rect x="17" y="18" width="30" height="5" rx="2" fill="#12356E" stroke="#0E172D" stroke-width="2.5"/><path d="M8 62c0-14 10-22 24-22s24 8 24 22z" fill="#12356E" stroke="#0E172D" stroke-width="2.5"/><path d="M26 40l6 8 6-8" fill="#fff" stroke="#0E172D" stroke-width="2"/><circle cx="27.5" cy="26" r="1.4" fill="#0E172D"/><circle cx="36.5" cy="26" r="1.4" fill="#0E172D"/><path d="M28 31q4 3 8 0" fill="none" stroke="#0E172D" stroke-width="2" stroke-linecap="round"/></svg>',
+ ticketIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="16" y="6" width="48" height="68" rx="6" fill="#2f4a78"/><rect x="21" y="12" width="38" height="24" rx="3" fill="#0F2A52"/><rect x="25" y="17" width="12" height="7" rx="1.5" fill="#FFD34E"/><rect x="41" y="17" width="14" height="7" rx="1.5" fill="#BCDDBF"/><rect x="25" y="27" width="30" height="5" rx="1.5" fill="#F66F54"/><rect x="21" y="42" width="38" height="6" rx="2" fill="#111"/><rect x="24" y="54" width="32" height="14" rx="2" fill="#EEE5DA"/><path d="M28 60h16M28 64h10"/></svg>',
+ shopIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="6" y="12" width="68" height="56" rx="6" fill="#fff"/><path d="M6 24h68"/><circle cx="14" cy="18" r="1.6" fill="#F66F54"/><circle cx="20" cy="18" r="1.6" fill="#D9A441"/><circle cx="26" cy="18" r="1.6" fill="#5E9A6A"/><path d="M26 34l6-5 8 3 8-3 6 5-5 6-4-2v18H35V38l-4 2z" fill="#5E9A6A"/><rect x="48" y="56" width="20" height="8" rx="2" fill="#1b5e3b"/></svg>',
+ lockerIll:'<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round"><rect x="8" y="8" width="64" height="64" rx="6" fill="#F4C900"/><rect x="14" y="14" width="22" height="14" rx="2" fill="#0F2A52"/><rect x="14" y="34" width="14" height="14" rx="2" fill="#B88F00"/><rect x="32" y="34" width="14" height="14" rx="2" fill="#B88F00"/><rect x="50" y="34" width="16" height="14" rx="2" fill="#2b2200"/><rect x="14" y="54" width="14" height="12" rx="2" fill="#B88F00"/><rect x="32" y="54" width="14" height="12" rx="2" fill="#B88F00"/><rect x="50" y="54" width="16" height="12" rx="2" fill="#B88F00"/><rect x="42" y="14" width="24" height="14" rx="2" fill="#B88F00"/></svg>',
  soonIll:'<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 6"><rect x="14" y="14" width="52" height="52" rx="12"/></svg>'
 };
+var KEY_LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
 var FLAG='<svg class="flag" viewBox="0 0 3 2"><rect width="3" height=".67" fill="#000"/><rect y=".67" width="3" height=".67" fill="#DD0000"/><rect y="1.33" width="3" height=".67" fill="#FFCE00"/></svg>';
 
 /* ---------- storage ---------- */
@@ -272,11 +324,11 @@ function amtOpt(v,label,en){
 }
 var WEG_CARD={de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Card retained',b:'After a short wait (often about 30 seconds) the machine pulls the card back in. Same result as three wrong PINs: you must contact your bank.',screen:{t:'Karte einbehalten',warn:1,l:[['Ihre Karte wurde aus Sicherheitsgründen eingezogen.','Your card was retained for security.'],['Bitte wenden Sie sich an Ihre Bank.','Please contact your bank.']]}}};
 var ATM={
- id:'atm',title:'Withdraw cash',tag:'Cash machine',scene:'atm',
+ id:'atm',title:'Withdraw cash',tag:'Cash machine',scene:'atm',ill:'atmIll',machine:{head:'GELDAUTOMAT',pad:true,badge:'\u20ac',slots:[['card','Karte','card'],['cash','Geld','cash'],['rcpt','Beleg','rcpt']]},
  blurb:'Take out 100 euros. Your PIN is shaky and the card is nearly swallowed.',
  goal:'Withdraw 100 euros and leave with your card, your cash and the receipt.',
- vocab:[['der Geldautomat','cash machine'],['Karte einführen','insert card'],['die PIN','PIN'],['bestätigen','confirm'],['die Korrektur','correction'],['Abbrechen','cancel'],['der Betrag','amount'],['der Beleg','receipt'],['entnehmen','take out'],['Letzter Versuch','last try'],['Karte einbehalten','card retained']],
- costly:[['Abbrechen (cancel)','Red key. Stops the process and gives the card back. Your best friend when you are unsure.'],['Karte einbehalten / eingezogen','The machine keeps the card after three wrong PINs or when you walk away. Call your bank or the Sperr-Notruf 116 116.'],['Überweisung','A bank transfer. Money leaves your account to someone else. Never tap it by accident.'],['Weggehen (walk away)','On a real machine, walking away is the one action you cannot take back. Take card, cash and receipt before you leave.']],
+ vocab:[['der Geldautomat','cash machine'],['Karte einführen','insert card'],['die PIN','PIN'],['bestätigen','confirm'],['die Korrektur','correction'],['Abbrechen','cancel'],['der Betrag','amount'],['die Heimatwährung','home currency'],['die Gebühr','fee'],['der Beleg','receipt'],['entnehmen','take out'],['Letzter Versuch','last try'],['Karte einbehalten','card retained']],
+ costly:[['Heimatwährung (home currency)','The machine offers to charge you in your own currency, at its own rate with a mark-up. Choose Euro.'],['Abbrechen (cancel)','Red key. Stops the process and gives the card back. Your best friend when you are unsure.'],['Karte einbehalten / eingezogen','The machine keeps the card after three wrong PINs or when you walk away. Call your bank or the Sperr-Notruf 116 116.'],['Überweisung','A bank transfer. Money leaves your account to someone else. Never tap it by accident.'],['Weggehen (walk away)','On a real machine, walking away is the one action you cannot take back. Take card, cash and receipt before you leave.']],
  note:'The screen wording is modelled on typical German bank machines. The exact text and the order of the screens differ by bank.',
  steps:[
  {task:'Card',narr:'You stand in front of a Geldautomat (cash machine). The screen is waiting for you.',zone:'card',say:'Bitte Karte einführen',
@@ -322,6 +374,10 @@ var ATM={
  {task:'Amount',narr:'How much? Your goal is exactly 100 euros.',say:'Bitte wählen Sie den Betrag',
   screen:{t:'Geld abheben',l:[['Bitte wählen Sie den Betrag','Please choose the amount']]},two:1,
   opts:[amtOpt(20,'20 €','20 euros'),amtOpt(50,'50 €','50 euros'),amtOpt(100,'100 €','100 euros'),amtOpt(200,'200 €','200 euros'),amtOpt(0,'Anderer Betrag','Other amount')]},
+ {task:'Currency',narr:'Your card comes from a bank in your home country, so the machine notices that it is a foreign card.',say:'Bitte wählen Sie die Währung der Abbuchung.',
+  screen:{t:'Währung',l:[['Ihre Karte wurde im Ausland ausgestellt.','Your card was issued abroad.'],['Bitte wählen Sie die Währung der Abbuchung.','Please choose the currency of the charge.']]},two:1,
+  opts:[{de:'In Euro: 100,00 EUR',en:'In euros: 100.00 EUR',k:'good',fb:{b:'Euro is the local currency. Your own bank converts at its own rate, which is usually better. If the machine also shows a Gebühr (fee), read it before Bestätigen.'}},
+        {de:'In Heimatwährung: 117,60 USD',en:'In your home currency: 117.60 USD',k:'bad',fb:{t:'Hidden mark-up',b:'"Heimatwährung" (home currency) sounds friendly, but then the machine converts at its own rate with a mark-up. You pay more than at your bank.'}}]},
  {task:'Receipt',narr:'The machine asks about the receipt. You want proof of the withdrawal.',say:'Möchten Sie einen Beleg?',
   screen:{t:'Beleg',l:[['Möchten Sie einen Beleg?','Do you want a receipt?']]},two:1,
   opts:[{de:'Ja',en:'Yes',k:'good',fb:{b:'Ja means yes. The receipt shows amount and date, handy if something looks wrong on your statement.'}},
@@ -345,7 +401,7 @@ var BASE=2347;
 var ITEMS=[['Vollmilch','1,29'],['Bauernbrot','3,19'],['Äpfel 1 kg','2,99'],['Gouda','3,79'],['Spaghetti','1,49'],['Joghurt','0,89'],['Butter','2,29'],['Kaffee','5,99'],['Tomaten','1,55']];
 function total(G){return BASE+(G.st.bag?20:0)}
 var KASSE={
- id:'kasse',title:'At the checkout',tag:'Supermarket',scene:'store',
+ id:'kasse',title:'At the checkout',tag:'Supermarket',scene:'store',ill:'kasseIll',
  blurb:'Find the checkout. Cash only, a bag question, and the receipt.',
  goal:'Pay for your shopping in cash, deal with the bag question and leave with the receipt.',
  vocab:[['die Kasse','checkout'],['Barzahlung','cash payment'],['bar zahlen','pay cash'],['die Tüte','bag'],['der Kassenbon','receipt'],['das Rückgeld','change'],['Das macht …','That comes to …'],['Das reicht nicht.','That is not enough.'],['stornieren','void'],['der Ausgang','exit'],['Stimmt so.','keep the change']],
@@ -376,7 +432,129 @@ var KASSE={
         {de:'Tschüss!',en:'Bye!',k:'bad',fb:{t:'No receipt',b:'You leave without proof of purchase. Without the Bon, returning a spoiled yoghurt gets hard.'}}]}}
  ]
 };
-var MISSIONS=[ATM,KASSE];
+
+var TICKET={
+ id:'ticket',title:'Buy a train ticket',tag:'Ticket machine',scene:'ticket',ill:'ticketIll',
+ machine:{head:'FAHRKARTEN',pad:false,slots:[['pay','Zahlung','card'],['tkt','Fahrschein','rcpt']]},
+ blurb:'Choose, pay for and stamp a ticket, then meet the inspector.',
+ goal:'Buy a 4-trip ticket for one adult in the city zone, take it with you, and make it valid before you board.',
+ vocab:[['der Fahrkartenautomat','ticket machine'],['die Fahrkarte / der Fahrschein','ticket'],['das 4er-Ticket','4-trip ticket'],['der Erwachsene','adult'],['die Preisstufe','fare zone'],['bezahlen','pay'],['entwerten','stamp, validate'],['der Entwerter','stamping box'],['die Fahrscheinkontrolle','ticket inspection']],
+ costly:[['entwerten (stamp)','A strip ticket is not valid until you stamp it at the Entwerter, before you board.'],['erhöhtes Beförderungsentgelt','The fine for travelling without a valid ticket. Usually 60 euros.'],['Kind (child)','A child fare. Using it as an adult counts as travelling without the right ticket.'],['Weggehen (walk away)','Leaving the printed ticket in the machine means you paid and have nothing.']],
+ note:'Machines, prices and stamping rules differ by city and operator. In many cities a single ticket from the machine is already valid, while strip tickets such as the 4er-Ticket usually have to be stamped. Always read what is printed on your ticket.',
+ steps:[
+ {task:'Choose',narr:'You stand at a Fahrkartenautomat (ticket machine). You need four rides this week, all inside the city.',say:'Bitte wählen Sie',
+  screen:{t:'Fahrkarten',l:[['Bitte wählen Sie','Please choose']]},two:1,
+  opts:[{de:'Einzelfahrt',en:'Single trip',k:'bad',fb:{t:'Wrong ticket',b:'A single trip is valid for one ride. Four of them cost more than a 4er-Ticket.'}},
+        {de:'4er-Ticket',en:'4-trip ticket',k:'good',fb:{b:'"4er" is read "vier-er": a strip of four rides, cheaper per ride.'}},
+        {de:'Tageskarte',en:'Day ticket',k:'bad',fb:{t:'Wrong ticket',b:'A day ticket is for many rides on one day. You need four rides on different days.'}}]},
+ {task:'Who',narr:'The machine asks who is travelling. You are an adult.',say:'Wer fährt?',
+  screen:{t:'Fahrgast',l:[['Wer fährt?','Who is travelling?']]},two:1,
+  opts:[{de:'Erwachsener',en:'Adult',k:'good',fb:{b:'Erwachsener is an adult.'}},
+        {de:'Kind',en:'Child',k:'bad',fb:{t:'Wrong fare',b:'Kind (child) is a cheaper fare for children. An adult with a child ticket has the wrong ticket, and an inspector will treat it as travelling without a valid one.'}}]},
+ {task:'Zone',narr:'You only travel inside the city centre.',say:'Preisstufe wählen',
+  screen:{t:'Preisstufe',l:[['Preisstufe wählen','Choose fare zone']]},two:1,
+  opts:[{de:'Preisstufe A',en:'Zone A, inside the city',k:'good',fb:{b:'Preisstufe A is the city zone. The higher the letter, the bigger the area and the price.'}},
+        {de:'Preisstufe D',en:'Zone D, the whole region',k:'bad',fb:{t:'Too expensive',b:'Zone D covers the whole region. You would pay for much more than you need.'}}]},
+ {task:'Basket',narr:'The machine shows your choice and the price.',say:'Ihre Auswahl',
+  screen:{t:'Ihre Auswahl',l:[['1 × 4er-Ticket, Erwachsener, Preisstufe A','1 × 4-trip ticket, adult, zone A'],['Gesamt: 12,40 €','Total: 12.40 €']]},two:1,
+  opts:[{de:'Bezahlen',en:'Pay',k:'good',fb:{b:'Bezahlen means pay. You are still free to stop before the money moves.'}},
+        {de:'Alles löschen',en:'Delete everything',k:'bad',fb:{t:'Everything deleted',b:'Löschen means delete. Your choices are gone and you start again.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'Abbrechen (cancel) stops everything and no ticket is printed.'}}]},
+ {task:'Pay',narr:'You have a bank card and a 20 euro note. Both work.',say:'Bitte wählen Sie die Zahlart',
+  screen:{t:'Zahlart',l:[['Bitte wählen Sie die Zahlart','Please choose how to pay']],ic:['card','cash']},two:1,
+  opts:[{de:'Karte',en:'Card',k:'good',fb:{b:'Card payment: follow the card reader next to the screen.'}},
+        {de:'Bargeld',en:'Cash',k:'good',fb:{b:'Bargeld is cash. Machines give change, but not all take large notes.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'Abbrechen (cancel) stops the sale. You have no ticket.'}}]},
+ {task:'Take ticket',narr:'The machine prints. The slot lights up.',zone:'tkt',say:'Bitte entnehmen Sie Ihren Fahrschein',
+  screen:{t:'Vielen Dank',l:[['Zahlung akzeptiert.','Payment accepted.'],['Bitte entnehmen Sie Ihren Fahrschein.','Please take your ticket.']],ic:['rcpt']},
+  opts:[{de:'Fahrschein entnehmen',en:'Take ticket',k:'good',fb:{b:'Ticket in hand. Read what is printed on it.'}},
+        {de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Ticket left behind',b:'You paid, but the ticket stays in the slot. Someone else takes it, and you have nothing.'}}]},
+ {task:'Platform',narr:'On the platform you find a small yellow box next to the stairs. Your ticket has a line about it. The train arrives in a minute.',you:0,say:'Hier entwerten',
+  talk:{panel:'entwerter'},
+  opts:[{de:'Einsteigen',en:'Board',k:'bad',fb:{t:'Not valid',b:'Without the stamp your ticket is not valid. You boarded, and an inspector asks to see it.',talk:{av:'inspector',line:['Fahrscheinkontrolle! Ihr Fahrschein ist nicht entwertet. Das kostet 60 Euro.','Ticket inspection! Your ticket is not stamped. That costs 60 euros.'],panel:'unstamped'}}},
+        {de:'Fahrschein entwerten',en:'Stamp the ticket',k:'good',fb:{b:'"entwerten" is the key word: you push the ticket into the Entwerter and it stamps date and time. Do it before you board.',talk:{panel:'stamped'}}}]},
+ {task:'Inspector',narr:'On the train, a person in a uniform comes down the aisle.',you:1,say:'Fahrscheinkontrolle, bitte!',
+  talk:{av:'inspector',line:['Fahrscheinkontrolle, bitte!','Ticket inspection, please!'],panel:'stamped'},
+  opts:[{de:'Ich habe keinen Fahrschein.',en:'I do not have a ticket.',k:'bad',fb:{t:'erhöhtes Beförderungsentgelt',b:'You are asked to pay the fine for travelling without a ticket, usually 60 euros.',talk:{av:'inspector',line:['Dann zahlen Sie ein erhöhtes Beförderungsentgelt: 60 Euro.','Then you pay an increased fare: 60 euros.'],panel:'stamped'}}},
+        {de:'Hier, bitte.',en:'Here you go.',k:'good',fb:{t:'Mission complete',b:'Stamped, valid, no problem. Hier, bitte is the short, polite way to hand something over.',talk:{av:'inspector',line:['Danke. Gute Fahrt!','Thank you. Have a good trip!'],panel:'stamped'}}}]}
+ ]
+};
+
+var ONLINE={
+ id:'online',title:'Order online',tag:'Online shop',scene:'web',ill:'shopIll',
+ blurb:'Buy a sweater. Read before you click the button that makes you pay.',
+ goal:'Order one green sweater in size M and pay by credit card.',
+ init:function(){return {pay:'Kreditkarte'}},
+ vocab:[['der Warenkorb','basket'],['die Kasse','checkout'],['die Lieferadresse','delivery address'],['die Versandkosten','shipping costs'],['die Zahlart','payment method'],['die Größe','size'],['die Bestellung','order'],['zahlungspflichtig bestellen','order with obligation to pay'],['der Widerruf','withdrawal']],
+ costly:[['zahlungspflichtig bestellen','The button that makes the order binding. From this click you owe the money.'],['Vorkasse','You pay first and the goods ship after. If the shop fails, your money is gone.'],['Kauf auf Rechnung','Pay later, usually within 30 days. Miss the date and a Mahnung with Mahngebühren (reminder with fees) follows.'],['Widerruf','Withdrawing from a purchase. The window is short, usually 14 days.']],
+ note:'The shop is invented. German law requires the final order button to say clearly that you are committing to pay, which is why you see "zahlungspflichtig bestellen". Your right to withdraw is usually 14 days for online purchases, but always check the shop terms.',
+ steps:[
+ {task:'Basket',narr:'You found a green sweater in size M. It is in your Warenkorb (basket). Your next move?',say:'Zur Kasse',
+  web:{crumb:1,ui:'btns',blocks:[{t:'h',de:'Ihr Warenkorb',en:'Your basket'},{t:'row',de:'Strickpullover, grün, Größe M',en:'Knit sweater, green, size M',v:'49,90 €'},{t:'row',de:'Versandkosten',en:'Shipping costs',v:'4,95 €'},{t:'tot',de:'Gesamtsumme',en:'Total',v:'54,85 €'}]},
+  opts:[{de:'Warenkorb leeren',en:'Empty basket',k:'bad',fb:{t:'Basket emptied',b:'"leeren" means to empty. Your sweater is gone and you start again.'}},
+        {de:'Zur Kasse',en:'To the checkout',k:'good',pri:1,fb:{b:'Kasse is the checkout, just like in a shop. Nothing is bought yet.'}},
+        {de:'Weiter einkaufen',en:'Keep shopping',k:'bad',fb:{t:'Not your goal',b:'You go back to the shop pages. Nothing wrong, but your mission is to check out.'}}]},
+ {task:'Address',narr:'The shop asks where to send it. Your address is already filled in.',say:'Weiter zur Zahlung',
+  web:{crumb:2,ui:'btns',blocks:[{t:'h',de:'Lieferadresse',en:'Delivery address'},{t:'addr',lines:['Anna Muster','Hauptstraße 12','45127 Essen']},{t:'chk',on:1,de:'Rechnungsadresse ist gleich Lieferadresse',en:'Billing address is the same as delivery address'}]},
+  opts:[{de:'Zurück zum Warenkorb',en:'Back to the basket',k:'bad',fb:{t:'Not your goal',b:'Nothing is wrong with going back, but the address is already right. Move on.'}},
+        {de:'Weiter zur Zahlung',en:'Continue to payment',k:'good',pri:1,fb:{b:'Zahlung is payment. "Weiter" (continue) only moves to the next page.'}}]},
+ {task:'Payment',narr:'The shop offers several ways to pay. You want to pay by credit card.',say:'Wie möchten Sie bezahlen?',
+  web:{crumb:3,ui:'radio',blocks:[{t:'h',de:'Wie möchten Sie bezahlen?',en:'How would you like to pay?'}]},
+  opts:[{de:'Vorkasse (Überweisung)',en:'Pay first (bank transfer)',k:'bad',fb:{t:'Risky',b:'Vorkasse means you pay first and the goods ship after. If the shop fails, your money is gone. Better for new shops: card or Rechnung.'}},
+        {de:'Kauf auf Rechnung',en:'Pay later by invoice',k:'ok',set:function(s){s.pay='Rechnung'},fb:{b:'Legit and common: you get about 30 days to pay. Miss the date and a Mahnung (formal reminder) with Mahngebühren (late fees) follows. Put the date in your calendar. In this story we continue.'}},
+        {de:'Kreditkarte',en:'Credit card',k:'good',fb:{b:'Kreditkarte is credit card. The charge is made when the order is placed.'}}]},
+ function(G){return {task:'Check',narr:'The last page before the order. Read everything on it, from top to bottom.',say:'Bestellung prüfen',
+  web:{crumb:4,ui:'btns',blocks:[{t:'h',de:'Bestellung prüfen',en:'Check your order'},{t:'row',de:'Strickpullover, grün, Größe XL',en:'Knit sweater, green, size XL',v:'49,90 €'},{t:'row',de:'Versandkosten',en:'Shipping costs',v:'4,95 €'},{t:'row',de:'Zahlungsart: '+G.st.pay,en:'Payment method: '+G.st.pay,v:''},{t:'tot',de:'Gesamtsumme',en:'Total',v:'54,85 €'},{t:'chk',on:1,de:'Ich habe die AGB gelesen.',en:'I have read the terms and conditions.'},{t:'p',de:'Mit Klick auf „Zahlungspflichtig bestellen“ gehen Sie eine Zahlungsverpflichtung ein.',en:'By clicking "Order with obligation to pay" you commit to paying.'}]},
+  opts:[{de:'Zahlungspflichtig bestellen',en:'Order with obligation to pay',k:'bad',pri:1,fb:{t:'Wrong size, binding order',b:'This button creates a binding order. From this click you owe the money, and it is the wrong size (XL instead of M). You could still use your Widerruf (right of withdrawal, usually 14 days), but returning costs time.'}},
+        {de:'Zurück zum Warenkorb',en:'Back to the basket',k:'good',fb:{b:'You spotted "Größe XL". Check size, amount and address on this page before the button.'}},
+        {de:'Bestellung abbrechen',en:'Cancel the order',k:'bad',fb:{t:'Order cancelled',b:'You throw the whole basket away. Better to go back and fix only the size.'}}]}},
+ {task:'Fix size',narr:'You are back in the basket and open the item to change the size.',say:'Größe wählen',
+  web:{crumb:1,ui:'sizes',blocks:[{t:'h',de:'Größe wählen',en:'Choose size'},{t:'p',de:'Strickpullover, grün',en:'Knit sweater, green'}]},
+  opts:[{de:'S',en:'S',k:'bad',fb:{t:'Wrong size',b:'S is small. You wanted M.'}},{de:'M',en:'M',k:'good',fb:{b:'Size M. Back to the checkout.'}},{de:'L',en:'L',k:'bad',fb:{t:'Wrong size',b:'L is large. You wanted M.'}},{de:'XL',en:'XL',k:'bad',fb:{t:'Wrong size',b:'XL is the size you already had. You wanted M.'}}]},
+ function(G){return {task:'Order',narr:'The same last page, now with the right size. Read it once more, then decide.',say:'Bestellung prüfen',
+  web:{crumb:4,ui:'btns',blocks:[{t:'h',de:'Bestellung prüfen',en:'Check your order'},{t:'row',de:'Strickpullover, grün, Größe M',en:'Knit sweater, green, size M',v:'49,90 €'},{t:'row',de:'Versandkosten',en:'Shipping costs',v:'4,95 €'},{t:'row',de:'Zahlungsart: '+G.st.pay,en:'Payment method: '+G.st.pay,v:''},{t:'tot',de:'Gesamtsumme',en:'Total',v:'54,85 €'},{t:'chk',on:1,de:'Ich habe die AGB gelesen.',en:'I have read the terms and conditions.'},{t:'p',de:'Mit Klick auf „Zahlungspflichtig bestellen“ gehen Sie eine Zahlungsverpflichtung ein.',en:'By clicking "Order with obligation to pay" you commit to paying.'}]},
+  opts:[{de:'Bestellung abbrechen',en:'Cancel the order',k:'bad',fb:{t:'Order cancelled',b:'Everything is right, so cancelling throws your sweater away.'}},
+        {de:'Zahlungspflichtig bestellen',en:'Order with obligation to pay',k:'good',pri:1,fb:{b:'This is the click that makes you owe the money. Here it is correct: size, amount and address are right.'}}]}},
+ {task:'Done',narr:'The shop confirms your order.',say:'Vielen Dank für Ihre Bestellung',
+  web:{crumb:0,ui:'btns',blocks:[{t:'h',de:'Vielen Dank für Ihre Bestellung!',en:'Thank you for your order!'},{t:'p',de:'Wir haben Ihnen eine Bestätigung per E-Mail geschickt. Voraussichtliche Lieferung: 3 bis 5 Werktage.',en:'We have sent you a confirmation by email. Expected delivery: 3 to 5 working days.'},{t:'p',de:'Bestellnummer: 4821-7730',en:'Order number: 4821-7730'}]},
+  opts:[{de:'Bestellung widerrufen',en:'Withdraw from the order',k:'bad',fb:{t:'Withdrawn',b:'Widerruf is how you withdraw from a purchase. You would cancel the order you just placed.'}},
+        {de:'Zur Startseite',en:'To the home page',k:'good',pri:1,fb:{t:'Mission complete',b:'Order placed, confirmation by email. Keep the order number and the date: your Widerrufsfrist (withdrawal period) starts now.'}}]}
+ ]
+};
+
+var LOCKER={
+ id:'locker',title:'Collect a parcel',tag:'Packstation',scene:'locker',ill:'lockerIll',
+ machine:{head:'PACKSTATION',pad:false,slots:[],lockers:true},
+ blurb:'Scan your code and open the right compartment.',
+ goal:'Collect your parcel from the Packstation and close the compartment.',
+ vocab:[['die Packstation','parcel locker'],['die Sendung','parcel, shipment'],['abholen','collect'],['der QR-Code','QR code'],['scannen','scan'],['das Fach','compartment'],['öffnen','open'],['entnehmen','take out'],['schließen','close']],
+ costly:[['Abbrechen (cancel)','You leave and the parcel stays in the locker, but only for a limited time. Check your app.'],['Retoure','A return shipment. Choosing it starts sending a parcel back.'],['Weggehen (walk away)','An open compartment blocks the machine for the next person.']],
+ note:'The wording is modelled on typical parcel lockers. Providers differ in screens and in how long a parcel waits for you, so check your app.',
+ steps:[
+ {task:'Start',narr:'You stand at a Packstation, a wall of lockers with a screen. Your phone says a parcel is waiting.',say:'Was möchten Sie tun?',
+  screen:{t:'Willkommen',l:[['Was möchten Sie tun?','What would you like to do?']]},two:1,
+  opts:[{de:'Sendung versenden',en:'Send a parcel',k:'bad',fb:{t:'Wrong menu',b:'Versenden is sending. You would start the shipping flow and pay for a label.'}},
+        {de:'Sendung abholen',en:'Collect a parcel',k:'good',fb:{b:'"abholen" means to pick something up. It is the word on your parcel message too.'}},
+        {de:'Retoure',en:'Return shipment',k:'bad',fb:{t:'Wrong menu',b:'Retoure is a return. You would start sending a parcel back to the shop.'}}]},
+ {task:'Scan',narr:'Your app shows a QR code on your phone.',say:'Bitte halten Sie den QR-Code vor den Scanner',
+  screen:{t:'Sendung abholen',l:[['Bitte halten Sie den QR-Code aus Ihrer App vor den Scanner.','Please hold the QR code from your app in front of the scanner.']]},two:1,
+  opts:[{de:'QR-Code scannen',en:'Scan QR code',k:'good',fb:{b:'"scannen" is scan. Hold the phone steady, screen towards the scanner.',screen:{t:'Bitte warten',l:[['Ihre Sendung wird gesucht …','Looking for your parcel …']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'Abbrechen (cancel) leaves the parcel in the locker. It only waits for a limited time, so do not walk away.'}}]},
+ {task:'Found',narr:'The machine finds your parcel.',say:'Ihre Sendung wurde gefunden',
+  screen:{t:'Sendung gefunden',l:[['Ihre Sendung wurde gefunden.','Your parcel was found.'],['Fach 27','Compartment 27']]},two:1,
+  opts:[{de:'Fach öffnen',en:'Open compartment',k:'good',fb:{b:'"öffnen" is open. Watch for the glowing door.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'You leave without the parcel. It stays in the locker for a limited time only.'}}]},
+ {task:'Take it',narr:'A door clicks open and a light blinks. Look at the lockers.',zone:'fach',open:1,say:'Bitte entnehmen Sie Ihre Sendung',
+  screen:{t:'Fach 27',l:[['Das Fach ist geöffnet.','The compartment is open.'],['Bitte entnehmen Sie Ihre Sendung.','Please take your parcel.']]},
+  opts:[{de:'Fach schließen',en:'Close compartment',k:'bad',fb:{t:'Parcel still inside',b:'You closed the door with the parcel still inside. You would have to start over.'}},
+        {de:'Sendung entnehmen',en:'Take the parcel',k:'good',fb:{b:'"entnehmen" again: take something out. Same word as at the cash machine.'}}]},
+ {task:'Close',narr:'You hold the parcel. The door is still open.',zone:'fach',open:1,say:'Bitte schließen Sie das Fach',
+  screen:{t:'Fach 27',l:[['Bitte schließen Sie das Fach.','Please close the compartment.']]},
+  opts:[{de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Door left open',b:'An open compartment blocks the machine and the next person has to wait.'}},
+        {de:'Fach schließen',en:'Close compartment',k:'good',fb:{t:'Mission complete',b:'Parcel in your hands, door closed. Nothing left behind.'}}]}
+ ]
+};
+var MISSIONS=[ATM,KASSE,TICKET,ONLINE,LOCKER];
 
 /* ---------- state ---------- */
 var G=null,app=document.getElementById('app');
@@ -402,9 +580,9 @@ function dashboard(){
    '<p class="lead">Real situations, real screens, real words. Inside every mission everything is in German, just like in real life, so at first you have to guess. Pick an answer, then see the translation and what happens. Use Back to try the other option.</p>'+toolsHTML()+'<div class="tiles">';
   MISSIONS.forEach(function(m){
     var d=done[m.id];
-    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+(m.id==='atm'?I.atmIll:I.kasseIll)+'</div><span class="tag">'+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Play again':'Start')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
+    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+I[m.ill]+'</div><span class="tag">'+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Play again':'Start')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
   });
-  ['Parking meter','Parcel locker','Paying online'].forEach(function(n){
+  ['Parking meter','Laptop reset'].forEach(function(n){
     h+='<div class="tile soon"><div class="ill">'+I.soonIll+'</div><span class="tag">Soon</span><h2>'+n+'</h2></div>';
   });
   return h+'</div>';
@@ -426,25 +604,59 @@ function screenHTML(step,inScreenOpts){
   }
   return h+'</div>';
 }
-function atmScene(step){
-  var pinStep=false;
+function machineScene(step){
+  var cfg=G.m.machine;
   var inScreen=!step.zone&&!step.type&&!step.info;
   var z=(!G.fb)?step.zone:'';
   var keys='';
-  ['1','2','3'].forEach(function(n){keys+='<button data-d="'+n+'"'+(pinStep?'':' disabled')+'>'+n+'</button>'});
-  keys+='<button class="k-no" data-key="no"'+(pinStep?'':' disabled')+'>Abbrechen</button>';
-  ['4','5','6'].forEach(function(n){keys+='<button data-d="'+n+'"'+(pinStep?'':' disabled')+'>'+n+'</button>'});
-  keys+='<button class="k-ok" data-key="ok"'+(pinStep?'':' disabled')+'>Bestätigen</button>';
-  ['7','8','9'].forEach(function(n){keys+='<button data-d="'+n+'"'+(pinStep?'':' disabled')+'>'+n+'</button>'});
-  keys+='<button class="k-fix" data-key="fix"'+(pinStep?'':' disabled')+'>Korrektur</button>';
-  keys+='<button class="zero" data-d="0"'+(pinStep?'':' disabled')+'>0</button>';
-  return '<div class="atm" role="group" aria-label="Geldautomat"><div class="atm-head"><span>GELDAUTOMAT</span><span class="euro">€</span></div>'+
-   screenHTML(step,inScreen)+
-   '<div class="atm-body"><div class="keypad">'+keys+'</div><div class="slots">'+
-   '<div class="slot'+(z==='card'?' glow':'')+'">'+I.card+'<span>Karte</span><span class="bar-s"></span></div>'+
-   '<div class="slot'+(z==='cash'?' glow':'')+'">'+I.cash+'<span>Geld</span><span class="bar-s"></span></div>'+
-   '<div class="slot'+(z==='rcpt'?' glow':'')+'">'+I.rcpt+'<span>Beleg</span><span class="bar-s"></span></div>'+
-   '</div></div></div>';
+  if(cfg.pad){
+    ['1','2','3'].forEach(function(n){keys+='<button data-d="'+n+'" disabled>'+n+'</button>'});
+    keys+='<button class="k-no" disabled>Abbrechen</button>';
+    ['4','5','6'].forEach(function(n){keys+='<button data-d="'+n+'" disabled>'+n+'</button>'});
+    keys+='<button class="k-ok" disabled>Bestätigen</button>';
+    ['7','8','9'].forEach(function(n){keys+='<button data-d="'+n+'" disabled>'+n+'</button>'});
+    keys+='<button class="k-fix" disabled>Korrektur</button><button class="zero" data-d="0" disabled>0</button>';
+  }
+  var slots=(cfg.slots||[]).map(function(x){return '<div class="slot'+(z===x[0]?' glow':'')+'">'+I[x[2]]+'<span>'+x[1]+'</span><span class="bar-s"></span></div>'}).join('');
+  var body='';
+  if(cfg.pad||slots)body='<div class="atm-body'+(cfg.pad?'':' one')+'">'+(cfg.pad?'<div class="keypad">'+keys+'</div>':'')+(slots?'<div class="slots">'+slots+'</div>':'')+'</div>';
+  var lock='';
+  if(cfg.lockers){
+    lock='<div class="lockers">';
+    for(var n=21;n<=32;n++)lock+='<div class="lk'+(n===27&&step.open?' open':'')+(n===27&&z==='fach'?' glow':'')+'">'+n+'</div>';
+    lock+='</div>';
+  }
+  return '<div class="atm m-'+G.m.id+'" role="group" aria-label="'+cfg.head+'"><div class="atm-head"><span>'+cfg.head+'</span>'+(cfg.badge?'<span class="euro">'+cfg.badge+'</span>':'')+'</div>'+screenHTML(step,inScreen)+body+lock+'</div>';
+}
+function ticketHTML(stamped){
+  return '<div class="tkt"><b>STADTVERKEHR MUSTER</b><span>4er-Ticket · Erwachsener · Preisstufe A</span><b>Vor Fahrtantritt entwerten!</b><div class="stamps">'+[1,2,3,4].map(function(n){return '<span>'+(stamped&&n===1?'08.10.<br>15:41':n)+'</span>'}).join('')+'</div></div>';
+}
+function panelHTML(kind){
+  if(kind==='entwerter')return '<div class="platform"><div class="gsign">Gleis 2</div><div class="entw">ENTWERTER<i></i>Hier entwerten</div>'+ticketHTML(false)+'</div>';
+  if(kind==='stamped')return '<div class="platform">'+ticketHTML(true)+'</div>';
+  if(kind==='unstamped')return '<div class="platform">'+ticketHTML(false)+'</div>';
+  return '';
+}
+function talkScene(step){
+  var t=step.talk,f=G.fb&&G.fb.o.fb&&G.fb.o.fb.talk;
+  if(f)t=f;
+  var h='<div class="shop">';
+  if(t.line)h+='<div class="cashier">'+I[t.av||'avatar']+'<div class="bubble">'+spk(t.line[0])+'<div class="de">'+t.line[0]+'</div>'+gl(t.line[1])+'</div></div>';
+  return h+panelHTML(t.panel)+'</div>';
+}
+function wblock(b){
+  if(b.t==='h')return '<h3 class="wh">'+b.de+gl(b.en)+'</h3>';
+  if(b.t==='row'||b.t==='tot')return '<div class="wrow'+(b.t==='tot'?' tot':'')+'"><div><span>'+b.de+'</span>'+gl(b.en)+'</div><b>'+b.v+'</b></div>';
+  if(b.t==='p')return '<p class="wp">'+b.de+gl(b.en)+'</p>';
+  if(b.t==='chk')return '<div class="wchk"><i class="'+(b.on?'on':'')+'"></i><span>'+b.de+gl(b.en)+'</span></div>';
+  if(b.t==='addr')return '<div class="waddr">'+b.lines.join('<br>')+'</div>';
+  return '';
+}
+function webScene(step){
+  var w=step.web,names=['Warenkorb','Adresse','Zahlung','Prüfen'];
+  var crumbs=w.crumb?'<div class="crumbs">'+names.map(function(c,i){return '<span class="'+(i+1===w.crumb?'on':(i+1<w.crumb?'done':''))+'">'+(i+1)+' '+c+'</span>'}).join('')+'</div>':'';
+  var opts=G.fb?step.opts.map(function(o,i){return '<div class="wstatic'+(i===G.fb.i?' chosen':'')+'">'+o.de+gl(o.en)+'</div>'}).join(''):step.opts.map(function(o,i){return opt(o,i,'wopt'+(o.pri?' pri':''))}).join('');
+  return '<div class="browser"><div class="urlbar">'+KEY_LOCK+'<span>kleiderhaus-muster.de/kasse</span></div><div class="page"><div class="shop-h">KLEIDERHAUS MUSTER</div>'+crumbs+w.blocks.map(wblock).join('')+'<div class="web-opts '+w.ui+'">'+opts+'</div></div></div>';
 }
 function storeScene(step){
   if(step.store==='signs'){
@@ -483,13 +695,16 @@ function missionView(){
    '<div class="goal">'+KEY_C+'<div><b>Your mission</b><span>'+G.m.goal+'</span></div></div>'+
    '<div class="prog"><div class="row"><span>'+step.task+'</span><span>Step '+(G.idx+1)+' / '+n+'</span></div><div class="track"><div class="fill" style="width:'+pct+'%"></div></div></div>'+
    '<div class="narr"><p>'+step.narr+'</p></div>';
-  h+=G.m.scene==='atm'?atmScene(step):storeScene(step);
+  var sc=G.m.scene,mach=(sc==='atm'||sc==='ticket'||sc==='locker');
+  h+=step.talk?talkScene(step):(sc==='web'?webScene(step):(mach?machineScene(step):storeScene(step)));
   if(step.info&&!G.fb){
     h+='<button class="btn" data-adv>Next</button>';
   } else if(!G.fb){
-    if(G.m.scene==='atm'&&(step.zone||step.type==='pin')){
+    if(step.talk){
+      h+='<div class="tray"><span class="lbl">'+(step.you?'You say:':'What do you do?')+'</span>'+step.opts.map(function(o,i){return opt(o,i,'tray-o')}).join('')+'</div>';
+    } else if(mach&&(step.zone||step.type==='pin')){
       h+='<div class="tray"><span class="lbl">What do you do?</span>'+step.opts.map(function(o,i){return opt(o,i,'tray-o')}).join('')+'</div>';
-    } else if(G.m.scene==='store'&&step.cash){
+    } else if(sc==='store'&&step.cash){
       h+='<div class="say-wrap say-opt"><span class="lbl">You say:</span>'+step.opts.map(function(o,i){return opt(o,i,'say-o')}).join('')+'</div>';
     }
     h+='<p class="note">Tap the speaker to hear the German. Say it aloud, then tap your choice. Nothing is translated until you choose.</p>';
