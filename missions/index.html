@@ -109,6 +109,7 @@ h1{color:var(--coral)}
 .cc{display:inline-flex;align-items:center;gap:6px}.cc-row{display:flex;gap:8px;flex-wrap:wrap}
 .cc svg.flag{height:12px;width:auto}
 .howto{color:var(--sub);font-size:15px;max-width:60ch}
+.ruler{position:relative;height:46px;flex:1 1 260px;background:#f2d99a;border:2px solid #6b5300;border-radius:4px;color:#2b2200}.ruler .u{position:absolute;right:6px;bottom:4px;font-size:11px;font-weight:800}.ruler i{position:absolute;top:0;width:2px;height:16px;background:#2b2200}.ruler i b{position:absolute;top:18px;left:-4px;font-size:11px;font-style:normal}
 .olist{display:flex;flex-direction:column;gap:4px;font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
 .olist span{font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
 .olist .me{font-weight:800}
@@ -325,11 +326,18 @@ I.deliveryIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-widt
 I.doctorIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="16" y="10" width="48" height="62" rx="6" fill="#fff"/><rect x="30" y="5" width="20" height="10" rx="3" fill="#BCDDBF"/><path d="M40 28v22M29 39h22" stroke="#F66F54" stroke-width="6"/><path d="M26 60h28"/></svg>';
 I.partyIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M4 16q36 20 72 0"/><circle cx="20" cy="22" r="4.5" fill="#FFD34E"/><circle cx="40" cy="27" r="4.5" fill="#F66F54"/><circle cx="60" cy="22" r="4.5" fill="#BCDDBF"/><path d="M8 72h64"/><rect x="18" y="46" width="12" height="26" rx="2" fill="#F66F54"/><path d="M50 72V58M43 46h24l-3 12H46z" fill="#FFD34E"/></svg>';
 I.letterIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="20" width="64" height="42" rx="4" fill="#fff"/><path d="M8 24l32 22 32-22"/><rect x="52" y="26" width="14" height="12" rx="1.5" fill="#FFD34E"/><rect x="22" y="48" width="22" height="8" rx="2" fill="#F66F54"/></svg>';
+I.railIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="16" y="8" width="48" height="52" rx="10" fill="#2f4a78"/><rect x="22" y="16" width="36" height="18" rx="4" fill="#BCDDBF"/><circle cx="28" cy="46" r="3" fill="#FFD34E"/><circle cx="52" cy="46" r="3" fill="#FFD34E"/><path d="M10 72h60M24 60l-8 12M56 60l8 12"/><path d="M30 24l20 0" stroke="#F66F54"/></svg>';
+I.doorIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="18" y="6" width="36" height="66" rx="3" fill="#ECE0D1"/><circle cx="46" cy="40" r="2.5" fill="#0E172D"/><rect x="26" y="14" width="20" height="14" rx="2" fill="#BCDDBF"/><rect x="48" y="52" width="26" height="20" rx="2" fill="#D9A441"/><path d="M48 60h26M61 52v8"/></svg>';
+I.calendarIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="12" y="14" width="56" height="56" rx="6" fill="#fff"/><path d="M12 28h56M26 8v12M54 8v12"/><circle cx="40" cy="50" r="12" fill="#BCDDBF"/><path d="M40 42v8l6 3"/></svg>';
+I.fanIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="40" cy="34" r="24" fill="#BCDDBF"/><path d="M40 34c-4-12 4-18 8-14s0 12-8 14zM40 34c12-4 18 4 14 8s-12 0-14-8zM40 34c4 12-4 18-8 14s0-12 8-14z" fill="#F66F54"/><circle cx="40" cy="34" r="3" fill="#0E172D"/><path d="M40 58v10M28 72h24"/></svg>';
+I.lunchIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="46" width="64" height="14" rx="3" fill="#F3EBDF"/><ellipse cx="32" cy="42" rx="18" ry="6" fill="#fff"/><path d="M20 40c6-10 18-10 24 0" fill="#F66F54"/><path d="M60 24v22M54 24v10a6 6 0 0 0 12 0V24"/><path d="M10 72h60"/></svg>';
+I.scissorsIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="24" cy="58" r="9" fill="#BCDDBF"/><circle cx="56" cy="58" r="9" fill="#BCDDBF"/><path d="M30 52L58 10M50 52L22 10"/><path d="M12 72h56" /></svg>';
 function av(hair,shirt,extra){return I.avatar.replace('#7A4B2A',hair).replace('#F66F54',shirt).replace('</svg>',(extra||'')+'</svg>')}
 I.driver=av('#2b2b2b','#2E7D5B','<path d="M19 17c0-6 5-10 13-10s13 4 13 10z" fill="#2E7D5B" stroke="#0E172D" stroke-width="2.5"/><rect x="16" y="16" width="32" height="4" rx="2" fill="#2E7D5B" stroke="#0E172D" stroke-width="2.5"/>');
 I.reception=av('#D9B25A','#7FA6D6','<path d="M18 24c-2-12 6-18 14-18s16 6 14 18" fill="none" stroke="#0E172D" stroke-width="2.5"/><rect x="13" y="22" width="5" height="9" rx="2" fill="#0E172D"/><path d="M16 31q2 6 12 5" fill="none" stroke="#0E172D" stroke-width="2"/>');
 I.host=av('#C0521F','#BCDDBF','');
 I.guest=av('#4A3A2A','#12356E','');
+I.hair=av('#7A3F9D','#E8D4F0','<path d="M24 22c2-6 6-8 8-8s6 2 8 8" fill="none" stroke="#0E172D" stroke-width="2"/>');
 I.clerk=av('#4A3A2A','#F4C900','<rect x="24" y="48" width="16" height="9" rx="2" fill="#fff" stroke="#0E172D" stroke-width="2"/>');
 var AMT_BAD={
  20:'You would get 20 euros. Not wrong in real life, but your goal is 100.',
@@ -732,7 +740,166 @@ var LETTER={
  ]
 };
 
-var MISSIONS=[ATM,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,PARTY,LETTER];
+/* ---------- mission 10: Schienenersatzverkehr ---------- */
+var RAIL={
+ id:'rail',title:'Train cancelled',tag:'Station · Announcement',scene:'talk',ill:'railIll',
+ blurb:'A fast announcement, a strange word, a wrong bus. Make sure you get to your appointment.',
+ goal:'Find out how to get to Südpark and check that you understood the route.',
+ vocab:[['entfällt','is cancelled'],['der Schienenersatzverkehr','replacement bus for trains'],['das Gleis','platform, track'],['die Haltestelle','stop'],['die Linie','line'],['Wie war die Haltestelle nochmal?','What was the stop again?'],['umsteigen','to change, to transfer']],
+ costly:[['entfällt','Cancelled. The train does not come at all. Waiting for it is the costly mistake.'],['Linie 7 / Linie 17','One digit, a different bus. Repeat the number back.'],['Ich habe nichts verstanden.','Too vague. The person says the same fast sentence again. Ask for the one missing piece.']],
+ note:'The line numbers and stops are invented. The trick works everywhere: do not say "I understood nothing", ask for the one detail you missed, then say the whole route back in one sentence.',
+ steps:[
+ {task:'The announcement',narr:'You stand on the platform on your way to a doctor\'s appointment. The announcement is fast and the board changes. A stranger stands next to you.',say:'Die U4 entfällt.',
+  talk:{av:'guest',line:['Die U4 entfällt heute. Es gibt Schienenersatzverkehr ab Gleis 7.','The U4 is cancelled today. There is a replacement service from platform 7.'],panel:'anzeige'},
+  opts:[{de:'Entschuldigung, was bedeutet „entfällt“?',en:'Excuse me, what does "entfällt" mean?',k:'good',fb:{b:'Ask about the one word you do not know. "Entfällt" means the train does not run at all.'}},
+        {de:'Entschuldigung, wann kommt die U4?',en:'Excuse me, when does the U4 come?',k:'bad',fb:{t:'You keep waiting',b:'The U4 does not come. You would wait on the platform until you give up, and your appointment is gone.'}},
+        {de:'Entschuldigung, wo ist die U4?',en:'Excuse me, where is the U4?',k:'bad',fb:{t:'Wrong question',b:'The stranger points at the empty track. You still do not know what to do.'}}]},
+ {task:'The route',narr:'The stranger explains the new route, fast.',say:'Nehmen Sie die S3 bis Marktplatz, dann Linie 17.',
+  talk:{av:'guest',line:['Nehmen Sie die S3 Richtung Alte Brücke, vier Stationen bis Marktplatz. Dann steigen Sie um in Linie 17 Richtung Südpark.','Take the S3 towards Alte Brücke, four stations to Marktplatz. Then change to line 17 towards Südpark.']},
+  opts:[{de:'Moment, wie war die Haltestelle nochmal?',en:'One moment, what was the stop again?',k:'good',fb:{b:'Ask for the missing piece, not for everything. The stranger answers in one word: Marktplatz.'}},
+        {de:'Moment, ich habe nichts verstanden.',en:'One moment, I understood nothing.',k:'bad',fb:{t:'Too vague',b:'The stranger says the whole fast sentence again. Ask for the one thing you missed.'}},
+        {de:'Moment, können Sie alles wiederholen?',en:'One moment, can you repeat everything?',k:'bad',fb:{t:'Same speed again',b:'You get the same fast sentence. A specific question gets a short answer.'}}]},
+ {task:'Say it back',narr:'Now you know the stop. Say the route back so the stranger can correct you.',say:'Also: S3 bis Marktplatz, dann Linie 17. Richtig?',
+  talk:{av:'guest',line:['Genau, Marktplatz!','Exactly, Marktplatz!']},
+  opts:[{de:'Also: S3 bis Marktplatz, dann Linie 17. Richtig?',en:'So: S3 to Marktplatz, then line 17. Right?',k:'good',fb:{t:'Mission complete',b:'You have the route, and the stranger confirms it. Saying it back is how you catch mistakes.',talk:{av:'guest',line:['Genau, perfekt! Gute Besserung!','Exactly, perfect! Get well soon!']}}},
+        {de:'Also: S3 bis Marktplatz, dann Linie 7. Richtig?',en:'So: S3 to Marktplatz, then line 7. Right?',k:'ok',fb:{t:'Caught in time',b:'You said line 7 and the stranger corrects you: "Nicht 7, sondern 17. Linie 7 fährt nach Nordstadt." This is why you say it back.',talk:{av:'guest',line:['Fast! Nicht Linie 7, sondern Linie 17.','Almost! Not line 7, but line 17.']}}},
+        {de:'Danke, dann nehme ich Linie 7.',en:'Thanks, then I will take line 7.',k:'bad',fb:{t:'Wrong bus',b:'You misheard and did not check. Line 7 goes to Nordstadt. You miss your appointment.'}}]}
+ ]
+};
+
+/* ---------- mission 11: Paket beim Nachbarn ---------- */
+var NEIGHBOUR={
+ id:'neighbour',title:'Package at the neighbour',tag:'Doorbell · Neighbour',scene:'talk',ill:'doorIll',
+ blurb:'Your package is next door. Ring, ask, and sound friendly without sounding bossy.',
+ goal:'Get your package from the neighbour and leave on good terms.',
+ vocab:[['das Paket','package'],['der Nachbar, die Nachbarin','neighbour'],['klingeln','to ring the bell'],['annehmen','to accept'],['unterschreiben','to sign'],['Ich glaube, mein Paket ist bei Ihnen.','I think my package is with you.'],['Verstehe ich richtig: ...?','Do I understand correctly: ...?'],['Sagen Sie Bescheid.','Let me know.']],
+ costly:[['Sie müssen es mir geben.','"You must give it to me." Müssen sounds like an order. Say "Haben Sie ein Paket für mich?".'],['bei dir / bei Ihnen','Du is for friends. With a neighbour you have not talked to, start with Sie.'],['Ihr Paket ist bei mir.','Bei mir means with me. Two words swapped, and the neighbour is confused.']],
+ note:'Names are invented. Neighbours often take in packages for each other. The thank-you matters more than the grammar, and the friendly goodbye keeps the next doorbell easy.',
+ steps:[
+ {task:'Ring',narr:'The delivery card in your mailbox says your package is with the neighbour on the 2nd floor. You ring. She opens.',say:'Ja, hallo?',
+  talk:{av:'host',line:['Ja, hallo?','Yes, hello?']},
+  opts:[{de:'Hallo, ich glaube, mein Paket ist bei Ihnen.',en:'Hello, I think my package is with you.',k:'good',fb:{b:'Polite and clear. "Bei Ihnen" means with you.'}},
+        {de:'Hallo, ich glaube, mein Paket ist bei dir.',en:'Hello, I think my package is with you (informal).',k:'ok',fb:{t:'Too friendly',b:'"Dir" is informal. Many neighbours say du quickly, but let her offer it first.'}},
+        {de:'Hallo, ich glaube, Ihr Paket ist bei mir.',en:'Hello, I think your package is with me.',k:'bad',fb:{t:'Swapped',b:'You said her package is with you. She is confused and asks if you took it.'}}]},
+ {task:'Name check',narr:'She speaks fast. You catch "Paket", "heute Morgen" and "Wie heißen Sie?".',say:'Ich habe es angenommen. Wie heißen Sie?',
+  talk:{av:'host',line:['Ah ja, heute Morgen ist ein Paket gekommen. Ich habe es angenommen. Wie heißen Sie?','Ah yes, a package came this morning. I accepted it. What is your name?']},
+  opts:[{de:'Ich heiße Costa. Verstehe ich richtig: Sie haben mein Paket?',en:'My name is Costa. Do I understand correctly: you have my package?',k:'good',fb:{b:'You give your name and check that you understood. "Verstehe ich richtig?" is a good phrase to keep.'}},
+        {de:'Ich heiße Costa. Ja, danke!',en:'My name is Costa. Yes, thanks!',k:'ok',fb:{t:'Works',b:'Fine, but you did not check that you understood her. With a longer sentence you might miss something.'}},
+        {de:'Ich heiße Costa. Sie müssen es mir geben.',en:'My name is Costa. You must give it to me.',k:'bad',fb:{t:'Sounds like an order',b:'"Müssen" (must) sounds bossy, even if your grammar is right. Her smile is gone.'}}]},
+ {task:'Thank you',narr:'She comes back with the package. It has your name on it.',say:'Hier ist es. Ich habe schon unterschrieben.',
+  talk:{av:'host',line:['Hier ist es. Ich habe schon unterschrieben. Sagen Sie Bescheid, wenn das nochmal passiert.','Here it is. I already signed. Let me know if it happens again.']},
+  opts:[{de:'Vielen Dank! Das ist sehr nett. Schönen Tag noch!',en:'Thank you very much! That is very kind. Have a nice day!',k:'good',fb:{t:'Mission complete',b:'Short, warm, and you leave a good impression for next time.'}},
+        {de:'Vielen Dank! Schönen Tag noch!',en:'Thank you very much! Have a nice day!',k:'ok',fb:{t:'Good',b:'Polite and enough. Adding "Das ist sehr nett" makes it warmer.'}}]}
+ ]
+};
+
+/* ---------- mission 12: Arzttermin am Telefon ---------- */
+var TERMIN={
+ id:'termin',title:'Doctor\'s appointment',tag:'Phone · Time words',scene:'talk',ill:'calendarIll',
+ blurb:'"Halb drei" is not 3:30. Book a time and make sure you arrive on time.',
+ goal:'Book an afternoon appointment and be sure of the time.',
+ vocab:[['der Termin','appointment'],['vormittags / nachmittags','in the morning / in the afternoon'],['Das passt.','That works.'],['Da kann ich leider nicht.','I cannot then, unfortunately.'],['halb drei','half past two (14:30)'],['am Dienstag um halb drei','on Tuesday at half past two'],['Auf Wiederhören!','Goodbye! (on the phone)']],
+ costly:[['halb drei','Half before three. That is 14:30, not 15:30.'],['absagen','To cancel. "Einen Termin absagen" is the opposite of what you want.'],['Das passt.','The phrase to agree. If it does not fit, say "Da kann ich leider nicht".']],
+ note:'The clinic is invented. On the phone, time is often said the formal way (vierzehn Uhr dreißig) but with friends "halb drei" is common. When you are unsure, repeat the time back.',
+ steps:[
+ {task:'The call',narr:'You call a doctor\'s office. A voice answers.',say:'Praxis Dr. Schmidt, guten Tag!',
+  talk:{av:'reception',line:['Praxis Dr. Schmidt, guten Tag!','Dr. Schmidt\'s practice, hello!']},
+  opts:[{de:'Guten Tag, ich möchte einen Termin, bitte.',en:'Hello, I would like an appointment, please.',k:'good',fb:{b:'Clear: you want an appointment. "Termin" is the word to remember.'}},
+        {de:'Guten Tag, ich möchte einen Termin absagen.',en:'Hello, I would like to cancel an appointment.',k:'bad',fb:{t:'Cancelled',b:'"Absagen" means to cancel. She cancels an appointment you did not even have.'}},
+        {de:'Guten Tag, ich möchte ein Rezept, bitte.',en:'Hello, I would like a prescription, please.',k:'bad',fb:{t:'Wrong request',b:'A Rezept is a prescription. She asks if you have been a patient before.'}}]},
+ {task:'Morning or afternoon',narr:'You work until 2 pm, so you can only go in the afternoon.',say:'Ist Ihnen vormittags oder nachmittags lieber?',
+  talk:{av:'reception',line:['Ist Ihnen vormittags oder nachmittags lieber?','Do you prefer mornings or afternoons?']},
+  opts:[{de:'Nachmittags, bitte.',en:'Afternoons, please.',k:'good',fb:{b:'"Nachmittags" means in the afternoon, after about 12. "Vormittags" is the morning.'}},
+        {de:'Vormittags, bitte.',en:'Mornings, please.',k:'bad',fb:{t:'Morning',b:'She books you at 9 o\'clock. You are at work then. Remember: vormittags = before noon, nachmittags = after noon.'}}]},
+ {task:'The time',narr:'She offers a day and a time. Listen to the time word.',say:'Dienstag um halb drei. Passt das?',
+  talk:{av:'reception',line:['Dienstag um halb drei. Passt das?','Tuesday at half past two. Does that work?']},
+  opts:[{de:'Ja, das passt. Also Dienstag um halb drei, richtig?',en:'Yes, that works. So Tuesday at half past two, right?',k:'good',fb:{t:'Mission complete',b:'"Halb drei" is half an hour before three: 14:30. You said it back, so you both know.',talk:{av:'reception',line:['Genau, richtig! Auf Wiederhören!','Exactly, right! Goodbye!'],panel:'termin'}}},
+        {de:'Ja, das passt. Also Dienstag um drei Uhr dreißig, richtig?',en:'Yes, that works. So Tuesday at three thirty, right?',k:'bad',fb:{t:'An hour late',b:'You heard "half three" as 3:30. In German "halb drei" is 2:30. You arrive an hour late and the appointment is gone.',talk:{av:'reception',line:['Nein, halb drei ist vierzehn Uhr dreißig.','No, half three is 14:30.']}}},
+        {de:'Ja, das passt. Dann bis Dienstag um halb vier!',en:'Yes, that works. See you Tuesday at half past three!',k:'bad',fb:{t:'Wrong hour',b:'"Halb vier" is 3:30. You are an hour late.'}}]}
+ ]
+};
+
+/* ---------- mission 13: Hitzewelle ---------- */
+var FAN={
+ id:'fan',title:'Heatwave',tag:'Neighbour · Giving or lending',scene:'talk',ill:'fanIll',
+ blurb:'Your neighbour offers you a fan. Gift or loan? One word decides.',
+ goal:'Accept the fan the right way and tell your neighbour where you live.',
+ vocab:[['der Ventilator','fan'],['die Klimaanlage','air conditioning'],['schenken','to give as a gift'],['leihen','to lend'],['zurückgeben','to give back'],['Es ist krass heiß.','It is crazy hot.'],['im dritten Stock','on the 3rd floor']],
+ costly:[['schenken ≠ leihen','To give as a gift or to lend. If you think it is a gift, she is waiting for it back.'],['Nein, danke!','No. With a "gern" before it, it is confusing. Say "Ja, gern!" when you want something.'],['Stock','Floor. "Im dritten Stock" is the 3rd floor above the ground floor.']],
+ note:'An invented neighbour. Heat waves make neighbours helpful, and the word "leihen" is easy to miss in fast speech. When you hear "zurück" (back), you know it is a loan.',
+ steps:[
+ {task:'The offer',narr:'It is 38 degrees. Your neighbour knocks. She has a fan she does not need.',say:'Es ist krass heiß, oder? Möchten Sie einen Ventilator haben?',
+  talk:{av:'guest',line:['Es ist krass heiß, oder? Ich habe einen Ventilator übrig. Möchten Sie ihn haben?','It is crazy hot, right? I have a fan left over. Would you like it?']},
+  opts:[{de:'Ja, gern! Ich habe keinen Ventilator.',en:'Yes, gladly! I do not have a fan.',k:'good',fb:{b:'"Ja, gern!" is the warm yes. You also say why you need it.'}},
+        {de:'Ja, gern! Ich habe keine Klimaanlage.',en:'Yes, gladly! I do not have air conditioning.',k:'ok',fb:{t:'Also fine',b:'It works, but the fan is what you need.'}},
+        {de:'Nein, danke! Ich habe keinen Ventilator.',en:'No, thank you! I do not have a fan.',k:'bad',fb:{t:'Mixed signals',b:'"Nein, danke" says no. She takes the fan back inside, puzzled.'}}]},
+ {task:'Gift or loan',narr:'She explains the deal. Listen for one word.',say:'Ich leihe Ihnen den Ventilator.',
+  talk:{av:'guest',line:['Ich leihe Ihnen den Ventilator. Sie geben ihn zurück, wenn die Hitzewelle vorbei ist.','I am lending you the fan. You give it back when the heatwave is over.']},
+  opts:[{de:'Danke! Ich gebe ihn zurück.',en:'Thanks! I will give it back.',k:'good',fb:{b:'"Leihen" is to lend, so "zurückgeben" is exactly right.'}},
+        {de:'Danke für das Geschenk! Ich behalte ihn.',en:'Thanks for the gift! I will keep it.',k:'bad',fb:{t:'Gift or loan?',b:'"Schenken" is a gift, but she said "leihen". She wants it back, and keeping it is awkward.'}}]},
+ {task:'Where to',narr:'She wants to bring it over. You live on the 3rd floor above the ground floor.',say:'Im wievielten Stock wohnen Sie?',
+  talk:{av:'guest',line:['Gut, ich bringe ihn gleich vorbei. Im wievielten Stock wohnen Sie?','Good, I will bring it over in a moment. Which floor do you live on?']},
+  opts:[{de:'Im dritten Stock, bei Costa.',en:'On the 3rd floor, at Costa.',k:'good',fb:{t:'Mission complete',b:'"Im dritten Stock" is the 3rd floor above the entrance level. She rings once and brings the fan up.'}},
+        {de:'Im vierten Stock, bei Costa.',en:'On the 4th floor, at Costa.',k:'bad',fb:{t:'Wrong floor',b:'You counted like the lift button. She goes to the 4th floor and finds a stranger.'}},
+        {de:'Im Erdgeschoss, bei Costa.',en:'On the ground floor, at Costa.',k:'bad',fb:{t:'Wrong floor',b:'She stays on the ground floor, rings, and nobody opens.'}}]}
+ ]
+};
+
+/* ---------- mission 14: Kantine ---------- */
+var KANTINE={
+ id:'kantine',title:'Lunch with colleagues',tag:'Office · Invitations',scene:'talk',ill:'lunchIll',
+ blurb:'Say yes warmly, say no without sounding cold. Learn the lunchtime greeting.',
+ goal:'Greet your colleagues at lunch, join them, and turn down an evening invitation politely.',
+ vocab:[['Mahlzeit!','Lunchtime greeting'],['die Kantine','canteen'],['Kommst du mit?','Are you coming along?'],['Gerne!','Gladly!'],['Heute leider nicht.','Not today, unfortunately.'],['Viel Spaß!','Have fun!'],['das Feierabendbier','after-work beer']],
+ costly:[['Mahlzeit!','Used around midday in many offices. "Guten Morgen" at noon sounds off.'],['Ich habe keine Lust.','"I do not feel like it." Too blunt for a colleague. Say "Heute leider nicht".'],['Kommst du mit?','If you do not say Gerne or leider nicht, it feels like you ignored them.']],
+ note:'Invented colleagues. "Mahlzeit" is a regional greeting: very common in many offices at lunchtime, less so elsewhere. When in doubt, answer with the same word.',
+ steps:[
+ {task:'Lunchtime',narr:'It is 12:30. A colleague walks past your desk.',say:'Mahlzeit!',
+  talk:{av:'guest',line:['Mahlzeit!','Lunchtime!']},
+  opts:[{de:'Mahlzeit! Guten Appetit!',en:'Lunchtime! Enjoy your meal!',k:'good',fb:{b:'Answering with the same word is the standard reply.'}},
+        {de:'Guten Tag! Guten Appetit!',en:'Good day! Enjoy your meal!',k:'ok',fb:{t:'Fine',b:'Correct and polite. It just sounds a bit formal.'}},
+        {de:'Guten Morgen! Guten Appetit!',en:'Good morning! Enjoy your meal!',k:'bad',fb:{t:'Wrong time',b:'It is 12:30. Your colleague smiles: "Morgen ist schon lange vorbei."'}}]},
+ {task:'The invitation',narr:'Another colleague stops at your desk.',say:'Wir gehen in die Kantine. Kommst du mit?',
+  talk:{av:'host',line:['Wir gehen in die Kantine. Kommst du mit?','We are going to the canteen. Are you coming along?']},
+  opts:[{de:'Gerne! Ich komme mit.',en:'Gladly! I am coming along.',k:'good',fb:{b:'"Gerne!" is the warm yes, then "Ich komme mit".'}},
+        {de:'Gerne! Ich komme nicht mit.',en:'Gladly! I am not coming along.',k:'bad',fb:{t:'Contradiction',b:'"Gerne" means yes, "nicht mit" means no. Your colleague is confused and walks on.'}},
+        {de:'Nein, danke! Ich komme mit.',en:'No, thanks! I am coming along.',k:'bad',fb:{t:'Contradiction',b:'"Nein, danke" and "ich komme mit" do not go together. Stick to one.'}}]},
+ {task:'After work',narr:'Later, the same colleague asks about tonight. You are tired.',say:'Und heute Abend ein Feierabendbier?',
+  talk:{av:'host',line:['Und heute Abend ein Feierabendbier? Hast du Lust?','And a beer after work tonight? Do you feel like it?']},
+  opts:[{de:'Heute leider nicht, aber gerne nächstes Mal!',en:'Not today, unfortunately, but gladly next time!',k:'good',fb:{t:'Mission complete',b:'A "no" with a reason and a "next time". That keeps the door open.'}},
+        {de:'Heute leider nicht. Viel Spaß!',en:'Not today, unfortunately. Have fun!',k:'ok',fb:{t:'Polite',b:'Friendly and clear. Adding "nächstes Mal" shows you want to join.'}},
+        {de:'Heute nicht. Ich habe keine Lust.',en:'Not today. I do not feel like it.',k:'bad',fb:{t:'Too blunt',b:'"Ich habe keine Lust" sounds like you do not want to be with them. Use "leider nicht".'}}]}
+ ]
+};
+
+/* ---------- mission 15: Friseur ---------- */
+var FRISEUR={
+ id:'friseur',title:'At the hairdresser',tag:'Shop · Centimetres',scene:'talk',ill:'scissorsIll',
+ blurb:'Inches, centimetres, millimetres. Get the cut you want, not a buzz cut.',
+ goal:'Get about 3 centimetres (one inch) cut off, and the back clipped to about 6 millimetres.',
+ vocab:[['die Spitzen kürzen','trim the ends'],['der Zentimeter (cm)','centimetre'],['der Millimeter (mm)','millimetre'],['der Zoll','inch (rarely used for hair)'],['die Maschine','clippers'],['hinten','at the back'],['So ungefähr?','About like this?']],
+ costly:[['Millimeter ≠ Zentimeter','6 mm is a buzz cut. 6 cm is a lot of hair left. Ten times the difference.'],['Zoll','Inch. Germans know it, but use centimetres. 1 inch is about 2.5 cm.'],['färben','To dye. A different service, a different bill.']],
+ note:'1 inch is 2.5 cm, 1 cm is 10 mm. If you are used to inches, learn two numbers: 3 cm (about 1 inch) and 6 mm (about a quarter inch). Metric readers: the same two numbers still help you picture what you are asking for.',
+ steps:[
+ {task:'What you want',narr:'You sit in the chair. The hairdresser looks at your hair in the mirror.',say:'Guten Tag! Was möchten Sie heute?',
+  talk:{av:'hair',line:['Guten Tag! Was möchten Sie heute?','Hello! What would you like today?']},
+  opts:[{de:'Die Spitzen kürzen, bitte.',en:'Trim the ends, please.',k:'good',fb:{b:'"Kürzen" is to shorten. "Die Spitzen" are the ends of your hair.'}},
+        {de:'Die Spitzen färben, bitte.',en:'Dye the ends, please.',k:'bad',fb:{t:'Colour instead of a cut',b:'"Färben" is to dye. She mixes a colour for your ends.'}},
+        {de:'Die Spitzen verlängern, bitte.',en:'Lengthen the ends, please.',k:'bad',fb:{t:'Extensions',b:'"Verlängern" is to make longer. That means extensions and a long bill.'}}]},
+ {task:'How much',narr:'You want about one inch off the length. One inch is 2.5 centimetres, so you ask for 3. She shows you a ruler.',say:'Wie viel soll ab?',
+  talk:{av:'hair',line:['Wie viel soll ab? Zeigen Sie es mir.','How much should come off? Show me.'],panel:'lineal'},
+  opts:[{de:'Drei Zentimeter ab, bitte.',en:'Three centimetres off, please.',k:'good',fb:{b:'3 cm is about one inch. Show it with your fingers on the ruler.'}},
+        {de:'Drei Millimeter ab, bitte.',en:'Three millimetres off, please.',k:'bad',fb:{t:'Barely anything',b:'3 mm is a tiny trim, a tenth of what you wanted. You walk out looking the same.'}},
+        {de:'Dreißig Zentimeter ab, bitte.',en:'Thirty centimetres off, please.',k:'bad',fb:{t:'Far too much',b:'30 cm is a foot. You would leave with a very short cut.'}}]},
+ {task:'The back',narr:'Now the back of your neck. You want it clipped short, about a quarter inch, which is 6 millimetres.',say:'Und hinten? Mit der Maschine?',
+  talk:{av:'hair',line:['Und hinten? Mit der Maschine? Wie viele Millimeter?','And at the back? With the clippers? How many millimetres?'],panel:'lineal'},
+  opts:[{de:'Sechs Millimeter, bitte.',en:'Six millimetres, please.',k:'good',fb:{t:'Mission complete',b:'6 mm is a short, neat back. About a quarter of an inch.'}},
+        {de:'Sechs Zentimeter, bitte.',en:'Six centimetres, please.',k:'bad',fb:{t:'Not short at all',b:'6 cm is 60 mm: the hair stays long. You wanted it short, so you ask again with "Millimeter".'}},
+        {de:'Sechs Zoll, bitte.',en:'Six inches, please.',k:'bad',fb:{t:'Six inches',b:'6 Zoll is about 15 cm. That is longer than most of your hair.'}}]}
+ ]
+};
+
+var MISSIONS=[ATM,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,PARTY,LETTER,RAIL,NEIGHBOUR,TERMIN,FAN,KANTINE,FRISEUR];
 
 /* ---------- state ---------- */
 var G=null,app=document.getElementById('app');
@@ -815,6 +982,9 @@ function panelHTML(kind){
   if(kind==='unstamped')return '<div class="platform">'+ticketHTML(false)+'</div>';
   if(kind==='klingel')return '<div class="platform"><div class="klingel"><div><span>Müller</span><i></i></div><div><span>Weber</span><i></i></div><div><span>Schulz</span><i></i></div><div><span>Costa</span><i></i></div></div></div>';
   if(kind==='stairs')return '<div class="platform"><div class="bldg" style="flex:1 1 220px"><div class="bl-r"><b>3. OG</b><em>Du</em><i>4</i></div><div class="bl-r"><b>2. OG</b><em>Fahrer</em><i>3</i></div><div class="bl-r"><b>1. OG</b><span></span><i>2</i></div><div class="bl-r"><b>EG</b><span></span><i>1</i></div></div></div>';
+  if(kind==='anzeige')return '<div class="platform"><div class="klingel" style="flex:1 1 220px"><div><span>U4 Südpark</span><span style="color:#ff8f7a">entfällt</span></div><div><span>S3 Alte Brücke</span><span>Gleis 3</span></div><div><span>Schienenersatz</span><span>Gleis 7</span></div></div></div>';
+  if(kind==='lineal'){var tk='';for(var q=0;q<=12;q++)tk+='<i style="left:'+(q*7.9)+'%"><b>'+q+'</b></i>';return '<div class="platform"><div class="ruler"><span class="u">cm</span>'+tk+'</div></div>'}
+  if(kind==='termin')return '<div class="platform"><div class="inv"><b>TERMIN</b><span>Dr. Schmidt</span><span>Dienstag, 14:30 Uhr</span></div></div>';
   if(kind==='karte')return '<div class="platform"><div class="icard"><b>GLOBAL CARE</b><span>International Health Plan</span><span>Mitglied seit 2024</span></div></div>';
   if(kind==='rechnung')return '<div class="platform"><div class="inv"><b>RECHNUNG Nr. 2041</b><span>Konsultation 10:00</span><span>Selbstzahler(in)</span><b>Total CHF 180.00</b></div></div>';
   if(kind==='beleg')return '<div class="platform"><div class="slip"><b>EINLIEFERUNGSBELEG</b><span>Einschreiben Übergabe + Rückschein</span><span>Sendungsnummer: RR 4821 7730 7DE</span><b>5,15 EUR</b></div></div>';
