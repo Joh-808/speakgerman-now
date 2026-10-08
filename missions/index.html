@@ -301,8 +301,13 @@ var prefs={en:sget('lk_en')!=='0',snd:sget('lk_snd')!=='0'};
 var CAN_SPEAK=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in window);
 
 /* ---------- speech ---------- */
+var ORD=['','erstes','zweites','drittes','viertes','fünftes'];
+function pron(t){
+  return String(t).replace(/\b([Ii]m)\s+(\d)\.\s*OG\b/g,function(m,w,n){return w+' '+(ORD[+n]||n+'.').replace(/s$/,'n')+' Obergeschoss'}).replace(/(\d)\.\s*OG\b/g,function(m,n){return (ORD[+n]||n+'.')+' Obergeschoss'}).replace(/\bOG\b/g,'Obergeschoss').replace(/\bEG\b/g,'Erdgeschoss').replace(/\bUG\b/g,'Untergeschoss');
+}
 function speak(t){
   if(!CAN_SPEAK||!t)return;
+  t=pron(t);
   try{
     window.speechSynthesis.cancel();
     var u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=.9;
