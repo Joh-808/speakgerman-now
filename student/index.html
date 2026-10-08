@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Dashboard · Speak German - now.</title>
+<meta name="theme-color" content="#F3EBDF">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E172D' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='7' r='4'/%3E%3Cpath d='M10 10l9 9'/%3E%3Cpath d='M15.5 15.5l2.5-2.5'/%3E%3Cpath d='M17.5 17.5l2.5-2.5'/%3E%3C/svg%3E">
+<style>
+:root{--navy:#0E172D;--coral:#F66F54;--mint:#BCDDBF;--mint-icon:#5E9A6A;--sand:#F3EBDF;--cream:#EEE5DA;--linen:#ECE0D1;--muted:#4A5266}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;color-scheme:light}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--navy);background:var(--sand);line-height:1.55;font-size:1.05rem;padding:24px 16px 56px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.01em;text-decoration:none;color:var(--navy)}
+.brand svg{width:26px;height:26px;color:var(--coral)}.brand em{font-style:normal;color:var(--coral)}
+h1{font-size:clamp(2.2rem,7vw,3.6rem);line-height:1.02;font-weight:900;letter-spacing:-.03em;color:var(--coral)}
+h1 span{color:var(--navy);display:block}
+.lead{color:var(--muted);max-width:52ch;margin-top:12px}
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}.grid .wide{grid-column:1/-1}}
+.tool{display:flex;flex-direction:column;gap:10px;background:var(--cream);border:1px solid var(--linen);border-radius:20px;padding:20px;text-decoration:none;color:var(--navy);box-shadow:0 6px 0 var(--linen),0 10px 24px rgba(14,23,45,.06);transition:transform .08s,box-shadow .08s;min-width:0}
+.tool:active{transform:translateY(5px);box-shadow:0 1px 0 var(--linen)}
+.tool:focus-visible,.cta:focus-visible{outline:3px solid var(--navy);outline-offset:3px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ic{width:52px;height:52px;border-radius:16px;background:var(--mint);display:flex;align-items:center;justify-content:center;flex:none}
+.ic svg{width:28px;height:28px;stroke:var(--navy);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.badge{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--navy);color:var(--sand);padding:4px 10px;border-radius:999px}
+.tool h2{font-size:1.45rem;font-weight:900;letter-spacing:-.01em}
+.tool p{color:var(--muted);font-size:.98rem}
+.lv{font-size:.8rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mint-icon)}
+.go{margin-top:auto;font-weight:800;color:var(--coral);text-decoration:underline;text-underline-offset:4px}
+.coach{display:flex;flex-direction:column;gap:12px;align-items:flex-start;background:var(--navy);color:var(--sand);border-radius:20px;padding:22px}
+.coach p{max-width:46ch}
+.cta{display:inline-block;background:var(--coral);color:var(--navy);font-weight:800;text-decoration:none;border-radius:16px;padding:16px 22px;box-shadow:0 6px 0 var(--sand);transition:transform .08s,box-shadow .08s}
+.cta:active{transform:translateY(5px);box-shadow:0 1px 0 var(--sand)}
+.foot{color:var(--muted);font-size:.9rem;text-align:center}
+.foot a{color:var(--coral);font-weight:800;text-underline-offset:4px}
+</style>
+<meta name="description" content="All your German practice tools in one place: missions, vocabulary cards, shadowing practice, WhatsApp chats and the exam study path.">
+<meta property="og:site_name" content="Speak German - now.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Student Dashboard · Speak German - now.">
+<meta property="og:description" content="All your German practice tools in one place: missions, vocabulary cards, shadowing practice, WhatsApp chats and the exam study path.">
+<meta property="og:url" content="https://speakgerman-now.com/student/">
+<meta property="og:image" content="https://speakgerman-now.com/og/student.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Student Dashboard · Speak German - now.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Student Dashboard · Speak German - now.">
+<meta name="twitter:description" content="All your German practice tools in one place: missions, vocabulary cards, shadowing practice, WhatsApp chats and the exam study path.">
+<meta name="twitter:image" content="https://speakgerman-now.com/og/student.png">
+</head>
+<body>
+<main class="wrap">
+  <a class="brand" href="/" aria-label="Speak German - now. home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg><span>Speak German <em>- now.</em></span></a>
+  <header>
+    <h1>Student<span>Dashboard</span></h1>
+    <p class="lead">Everything you need between lessons, in one place. Pick a tool and practise for ten minutes. Short and often beats long and rare.</p>
+  </header>
+  <section class="grid" aria-label="Practice tools">
+    <a class="tool wide" href="/missions/">
+      <div class="top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg></div><span class="badge">New</span></div>
+      <h2>Everyday Missions</h2>
+      <p>Play through real-life situations, find the one word that makes things go wrong, and learn how to avoid it in your own life. Cash machine, doctor, delivery driver and more.</p>
+      <span class="lv">Absolute beginners and up</span>
+      <span class="go">Play a mission</span>
+    </a>
+    <a class="tool" href="/cards/">
+      <div class="top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v10"/><path d="M7 11h6"/></svg></div></div>
+      <h2>Vocabulary Cards</h2>
+      <p>Short daily sessions that make real German words stick. Listen, say it, rate it, come back tomorrow.</p>
+      <span class="lv">All levels</span>
+      <span class="go">Open the cards</span>
+    </a>
+    <a class="tool" href="/practice/">
+      <div class="top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div></div>
+      <h2>Shadowing Practice</h2>
+      <p>Gap-fill listening and speaking practice, chapter by chapter, for Nicos Weg.</p>
+      <span class="lv">A1 and A2</span>
+      <span class="go">Start practising</span>
+    </a>
+    <a class="tool" href="/writechats/">
+      <div class="top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div></div>
+      <h2>WhatsApp-Werkstatt</h2>
+      <p>Turn short, messy expat chats into full German. Word-order puzzles, sentence building and chat rewriting.</p>
+      <span class="lv">A1 to B1</span>
+      <span class="go">Open the workshop</span>
+    </a>
+    <a class="tool" href="/exampath/">
+      <div class="top"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M9 9l2 2 4-4M9 15h6"/></svg></div></div>
+      <h2>Exam Study Path</h2>
+      <p>See how the Goethe exam adds up and tick off every task type as you practise.</p>
+      <span class="lv">A1, A2 and B1</span>
+      <span class="go">Open the study path</span>
+    </a>
+  </section>
+  <section class="coach">
+    <strong>Stuck on a word, a letter or a situation?</strong>
+    <p>Send me a message. Tell me which situation is yours, and let's start.</p>
+    <a class="cta" href="https://wa.me/5548999373120" target="_blank" rel="noopener">Message your coach</a>
+  </section>
+  <p class="foot">Back to <a href="/">speakgerman-now.com</a></p>
+</main>
+</body>
+</html>
