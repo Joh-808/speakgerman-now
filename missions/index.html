@@ -1,12 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Click-through German role-play missions for absolute beginners: cash machine, supermarket checkout, ticket machine, online shop and parcel locker. From Speak German - now.">
-<meta name="theme-color" content="#F3EBDF">
-<style>html{color-scheme:light dark}body{margin:0}</style>
-<title>Missions · Speak German - now.</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Play through real-life situations in German, find the one word that makes things go wrong, and learn how to avoid it."><meta name="theme-color" content="#F3EBDF"><style>html{color-scheme:light dark}body{margin:0}</style><title>Missions · Speak German - now.</title>
 <style>
 :root{
   --navy:#0E172D; --coral:#F66F54; --mint:#BCDDBF; --mint-icon:#5E9A6A; --sand:#F3EBDF; --cream:#EEE5DA; --linen:#ECE0D1; --muted:#4A5266; --gold:#D9A441;
@@ -97,10 +89,26 @@ h1{color:var(--coral)}
 .web-opts.radio .opt .de{display:block}
 .web-opts.radio .opt::before{content:"";width:16px;height:16px;border:2px solid #1b1f2a;border-radius:50%;flex:none}
 .wstatic{border:1.5px solid #9aa3b5;border-radius:6px;padding:10px;text-align:center;font-weight:800;min-width:0}
-.wstatic.chosen{border-color:#F66F54;background:#fff3ef}
+.wstatic.chosen{border-width:2.5px}.wstatic.chosen.good{border-color:#1b5e3b;background:#e3f3e6;color:#12401f}.wstatic.chosen.ok{border-color:#B9861C;background:#fbf0cf;color:#4a3608}.wstatic.chosen.bad{border-color:#F66F54;background:#fff3ef;color:#7a2417}
 
 .sign .opt.static{cursor:default}
-.sign .opt.chosen{outline-color:var(--coral);border-color:var(--coral)}
+.sign .opt.chosen.good{outline-color:#1b5e3b;border-color:#1b5e3b;background:#e3f3e6;color:#12401f}.sign .opt.chosen.ok{outline-color:#B9861C;border-color:#B9861C}.sign .opt.chosen.bad{outline-color:var(--coral);border-color:var(--coral)}
+.fb .reset{font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
+.klingel{background:#2b3140;border:3px solid #111;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;min-width:150px;color:#fff}
+.klingel div{display:flex;justify-content:space-between;gap:12px;align-items:center;font-weight:800;font-size:14px}
+.klingel i{width:14px;height:14px;border-radius:50%;background:#f2c300;border:2px solid #111}
+.bldg{border:2px solid #1b1f2a;border-radius:6px;background:#fff;color:#1b1f2a;padding:8px 10px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.bldg .bl-r{display:grid;grid-template-columns:70px 1fr 44px;gap:8px;align-items:center;border-top:1px solid #cfd3dc;padding-top:4px}
+.bldg .bl-r:first-child{border-top:0;padding-top:0}
+.bldg .bl-r i{font-style:normal;font-weight:900;background:#1b1f2a;color:#fff;border-radius:6px;text-align:center;padding:2px 0}
+.bldg .bl-r em{font-style:normal;color:#8a1f10;font-weight:800}
+.bldg .bl-h{display:grid;grid-template-columns:70px 1fr 44px;gap:8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#6b7080}
+.icard{background:linear-gradient(135deg,#d7e6f6,#b9d1ea);color:#12315a;border:2px solid #12315a;border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:2px;font-size:13px;min-width:200px}
+.icard b{letter-spacing:.1em}
+.inv,.slip{background:var(--paper);color:var(--ink);border:1px dashed #777;border-radius:8px;padding:10px 12px;font-size:13px;display:flex;flex-direction:column;gap:2px;flex:1 1 220px}
+.cc{display:inline-flex;align-items:center;gap:6px}.cc-row{display:flex;gap:8px;flex-wrap:wrap}
+.cc svg.flag{height:12px;width:auto}
+.howto{color:var(--sub);font-size:15px;max-width:60ch}
 .olist{display:flex;flex-direction:column;gap:4px;font-size:14px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.35)}
 .olist span{font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
 .olist .me{font-weight:800}
@@ -281,6 +289,7 @@ var I={
  soonIll:'<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 6"><rect x="14" y="14" width="52" height="52" rx="12"/></svg>'
 };
 var KEY_LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+var FLAG_CH='<svg class="flag" viewBox="0 0 3 2"><rect x=".5" width="2" height="2" fill="#D52B1E"/><path fill="#fff" d="M1.4.35h.2v.55h.55v.2h-.55v.55h-.2v-.55h-.55v-.2h.55z"/></svg>';
 var FLAG='<svg class="flag" viewBox="0 0 3 2"><rect width="3" height=".67" fill="#000"/><rect y=".67" width="3" height=".67" fill="#DD0000"/><rect y="1.33" width="3" height=".67" fill="#FFCE00"/></svg>';
 
 /* ---------- storage ---------- */
@@ -312,6 +321,16 @@ function opt(o,i,cls){
 }
 
 /* ---------- mission 1: Geldautomat ---------- */
+I.deliveryIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="12" y="8" width="36" height="60" rx="3" fill="#ECE0D1"/><rect x="18" y="14" width="8" height="8" fill="#BCDDBF"/><rect x="34" y="14" width="8" height="8" fill="#BCDDBF"/><rect x="18" y="30" width="8" height="8" fill="#BCDDBF"/><rect x="34" y="30" width="8" height="8" fill="#F66F54"/><rect x="18" y="46" width="8" height="8" fill="#BCDDBF"/><rect x="34" y="52" width="8" height="16" fill="#0E172D"/><rect x="54" y="40" width="20" height="20" rx="3" fill="#F66F54"/><path d="M60 40v-4h8v4M6 70h68"/></svg>';
+I.doctorIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="16" y="10" width="48" height="62" rx="6" fill="#fff"/><rect x="30" y="5" width="20" height="10" rx="3" fill="#BCDDBF"/><path d="M40 28v22M29 39h22" stroke="#F66F54" stroke-width="6"/><path d="M26 60h28"/></svg>';
+I.partyIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M4 16q36 20 72 0"/><circle cx="20" cy="22" r="4.5" fill="#FFD34E"/><circle cx="40" cy="27" r="4.5" fill="#F66F54"/><circle cx="60" cy="22" r="4.5" fill="#BCDDBF"/><path d="M8 72h64"/><rect x="18" y="46" width="12" height="26" rx="2" fill="#F66F54"/><path d="M50 72V58M43 46h24l-3 12H46z" fill="#FFD34E"/></svg>';
+I.letterIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="8" y="20" width="64" height="42" rx="4" fill="#fff"/><path d="M8 24l32 22 32-22"/><rect x="52" y="26" width="14" height="12" rx="1.5" fill="#FFD34E"/><rect x="22" y="48" width="22" height="8" rx="2" fill="#F66F54"/></svg>';
+function av(hair,shirt,extra){return I.avatar.replace('#7A4B2A',hair).replace('#F66F54',shirt).replace('</svg>',(extra||'')+'</svg>')}
+I.driver=av('#2b2b2b','#2E7D5B','<path d="M19 17c0-6 5-10 13-10s13 4 13 10z" fill="#2E7D5B" stroke="#0E172D" stroke-width="2.5"/><rect x="16" y="16" width="32" height="4" rx="2" fill="#2E7D5B" stroke="#0E172D" stroke-width="2.5"/>');
+I.reception=av('#D9B25A','#7FA6D6','<path d="M18 24c-2-12 6-18 14-18s16 6 14 18" fill="none" stroke="#0E172D" stroke-width="2.5"/><rect x="13" y="22" width="5" height="9" rx="2" fill="#0E172D"/><path d="M16 31q2 6 12 5" fill="none" stroke="#0E172D" stroke-width="2"/>');
+I.host=av('#C0521F','#BCDDBF','');
+I.guest=av('#4A3A2A','#12356E','');
+I.clerk=av('#4A3A2A','#F4C900','<rect x="24" y="48" width="16" height="9" rx="2" fill="#fff" stroke="#0E172D" stroke-width="2"/>');
 var AMT_BAD={
  20:'You would get 20 euros. Not wrong in real life, but your goal is 100.',
  50:'You would get 50 euros. Your goal is 100.',
@@ -339,7 +358,7 @@ var ATM={
   screen:{t:'Sprache / Language',l:[['Bitte wählen Sie Ihre Sprache','Please choose your language']]},two:1,
   opts:[{de:'Deutsch',en:'German',k:'good',fb:{b:'Good. You will recognise every word that follows.'}},
         {de:'English',en:'English',k:'ok',fb:{b:'Works fine in real life. In this mission you practise, so the next screens stay German.'}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'The card would pop out and you would start again.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:0,fb:{b:'The card would pop out and you would start again.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
  {task:'PIN',type:'pin',narr:'You are not sure about your PIN (secret number). Your four digits are already typed in for you. In this story the first try fails.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
   opts:[{de:'Bestätigen',en:'Confirm',k:'good',key:'ok',skip:1,fb:{}},
@@ -347,7 +366,7 @@ var ATM={
  {task:'PIN',narr:'The machine answers. What do you do?',say:'Die PIN ist nicht korrekt. Sie haben noch 2 Versuche.',
   screen:{t:'PIN falsch',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Sie haben noch 2 Versuche.','You have 2 tries left.']]},two:1,
   opts:[{de:'PIN erneut eingeben',en:'Enter PIN again',k:'good',fb:{b:'Right for now: you still have two tries left. "erneut" means again.'}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'Abbrechen (cancel) is safe and the card comes out, but you would start from the beginning. You still have two tries, so go on.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:0,fb:{b:'Abbrechen (cancel) is safe and the card comes out, but you would start from the beginning. You still have two tries, so go on.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
  {task:'PIN',type:'pin',narr:'Second try. You changed one digit and hope. The four digits are typed in again. In this story it fails again.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
   opts:[{de:'Bestätigen',en:'Confirm',k:'good',key:'ok',skip:1,fb:{}},
@@ -370,7 +389,7 @@ var ATM={
   opts:[{de:'Geld abheben',en:'Withdraw money',k:'good',fb:{b:'"abheben" is to withdraw. The opposite, "einzahlen", is to deposit.'}},
         {de:'Kontostand',en:'Account balance',k:'bad',fb:{t:'Wrong line',b:'This shows your balance. No cash comes out.'}},
         {de:'Überweisung',en:'Bank transfer',k:'bad',fb:{t:'Dangerous',b:'"Überweisung" is a bank transfer. A transfer sends money to another account. At a machine you would have to type an IBAN. Cancel in time and never start one by accident.'}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'The card comes out and you lose your progress.'}}]},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:7,fb:{b:'The card comes out and you lose your progress.'}}]},
  {task:'Amount',narr:'How much? Your goal is exactly 100 euros.',say:'Bitte wählen Sie den Betrag',
   screen:{t:'Geld abheben',l:[['Bitte wählen Sie den Betrag','Please choose the amount']]},two:1,
   opts:[amtOpt(20,'20 €','20 euros'),amtOpt(50,'50 €','50 euros'),amtOpt(100,'100 €','100 euros'),amtOpt(200,'200 €','200 euros'),amtOpt(0,'Anderer Betrag','Other amount')]},
@@ -416,7 +435,7 @@ var KASSE={
         {de:'Ausgang',en:'Exit',k:'bad',fb:{t:'Dangerous',b:'You would walk out with unpaid goods. That counts as theft. The staff stop you, they call the police, and you may get a Hausverbot (a ban from the shop).'}}]},
  function(G){return {task:'Greeting',narr:'You put your things on the belt. The cashier scans everything.',cash:{line:['Guten Tag! Das macht '+eur(BASE)+' Euro.','Hello! That comes to '+eur(BASE)+' euros.'],disp:BASE},say:'Guten Tag! Das macht '+eur(BASE)+' Euro.',
   opts:[{de:'Kann ich mit Karte zahlen?',en:'Can I pay by card?',k:'good',fb:{b:'Polite and exact. "Kann ich … zahlen?" is the question to ask before the cashier starts counting.'}},
-        {de:'Stornieren Sie bitte alles.',en:'Please void everything.',k:'bad',fb:{t:'Everything voided',b:'"stornieren" cancels the whole sale. The cashier puts everything back and you start from zero.'}}]}},
+        {de:'Stornieren Sie bitte alles.',en:'Please void everything.',k:'bad',goto:1,fb:{t:'Everything voided',b:'"stornieren" cancels the whole sale. The cashier puts everything back and you start from zero.'}}]}},
  function(G){return {task:'Cash only',narr:'The cashier shakes her head and points at the terminal.',cash:{line:['Nein, leider nur Barzahlung. Haben Sie Bargeld?','No, sorry, cash only. Do you have cash?'],disp:BASE,sign:1},say:'Nein, leider nur Barzahlung. Haben Sie Bargeld?',
   opts:[{de:'Ja, ich zahle bar.',en:'Yes, I will pay cash.',k:'good',fb:{b:'"bar" means cash. "Barzahlung" is the noun. Remember the red sign on the terminal.'}},
         {de:'Nein, dann lasse ich alles hier.',en:'No, then I will leave it all here.',k:'bad',fb:{t:'Shopping gone',b:'Everything stays at the checkout and you leave with nothing. The better move is to pay with the cash you have.'}}]}},
@@ -458,13 +477,13 @@ var TICKET={
  {task:'Basket',narr:'The machine shows your choice and the price.',say:'Ihre Auswahl',
   screen:{t:'Ihre Auswahl',l:[['1 × 4er-Ticket, Erwachsener, Preisstufe A','1 × 4-trip ticket, adult, zone A'],['Gesamt: 12,40 €','Total: 12.40 €']]},two:1,
   opts:[{de:'Bezahlen',en:'Pay',k:'good',fb:{b:'Bezahlen means pay. You are still free to stop before the money moves.'}},
-        {de:'Alles löschen',en:'Delete everything',k:'bad',fb:{t:'Everything deleted',b:'Löschen means delete. Your choices are gone and you start again.'}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'Abbrechen (cancel) stops everything and no ticket is printed.'}}]},
+        {de:'Alles löschen',en:'Delete everything',k:'bad',goto:0,fb:{t:'Everything deleted',b:'Löschen means delete. Your choices are gone and you start again.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:0,fb:{t:'Cancelled',b:'Abbrechen (cancel) stops everything and no ticket is printed.'}}]},
  {task:'Pay',narr:'You have a bank card and a 20 euro note. Both work.',say:'Bitte wählen Sie die Zahlart',
   screen:{t:'Zahlart',l:[['Bitte wählen Sie die Zahlart','Please choose how to pay']],ic:['card','cash']},two:1,
   opts:[{de:'Karte',en:'Card',k:'good',fb:{b:'Card payment: follow the card reader next to the screen.'}},
         {de:'Bargeld',en:'Cash',k:'good',fb:{b:'Bargeld is cash. Machines give change, but not all take large notes.'}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'Abbrechen (cancel) stops the sale. You have no ticket.'}}]},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:0,fb:{t:'Cancelled',b:'Abbrechen (cancel) stops the sale. You have no ticket.'}}]},
  {task:'Take ticket',narr:'The machine prints. The slot lights up.',zone:'tkt',say:'Bitte entnehmen Sie Ihren Fahrschein',
   screen:{t:'Vielen Dank',l:[['Zahlung akzeptiert.','Payment accepted.'],['Bitte entnehmen Sie Ihren Fahrschein.','Please take your ticket.']],ic:['rcpt']},
   opts:[{de:'Fahrschein entnehmen',en:'Take ticket',k:'good',fb:{b:'Ticket in hand. Read what is printed on it.'}},
@@ -491,12 +510,12 @@ var ONLINE={
  steps:[
  {task:'Basket',narr:'You found a green sweater in size M. It is in your Warenkorb (basket). Your next move?',say:'Zur Kasse',
   web:{crumb:1,ui:'btns',blocks:[{t:'h',de:'Ihr Warenkorb',en:'Your basket'},{t:'row',de:'Strickpullover, grün, Größe M',en:'Knit sweater, green, size M',v:'49,90 €'},{t:'row',de:'Versandkosten',en:'Shipping costs',v:'4,95 €'},{t:'tot',de:'Gesamtsumme',en:'Total',v:'54,85 €'}]},
-  opts:[{de:'Warenkorb leeren',en:'Empty basket',k:'bad',fb:{t:'Basket emptied',b:'"leeren" means to empty. Your sweater is gone and you start again.'}},
+  opts:[{de:'Warenkorb leeren',en:'Empty basket',k:'bad',goto:0,fb:{t:'Basket emptied',b:'"leeren" means to empty. Your sweater is gone and you start again.'}},
         {de:'Zur Kasse',en:'To the checkout',k:'good',pri:1,fb:{b:'Kasse is the checkout, just like in a shop. Nothing is bought yet.'}},
-        {de:'Weiter einkaufen',en:'Keep shopping',k:'bad',fb:{t:'Not your goal',b:'You go back to the shop pages. Nothing wrong, but your mission is to check out.'}}]},
+        {de:'Weiter einkaufen',en:'Keep shopping',k:'bad',goto:0,fb:{t:'Not your goal',b:'You go back to the shop pages. Nothing wrong, but your mission is to check out.'}}]},
  {task:'Address',narr:'The shop asks where to send it. Your address is already filled in.',say:'Weiter zur Zahlung',
   web:{crumb:2,ui:'btns',blocks:[{t:'h',de:'Lieferadresse',en:'Delivery address'},{t:'addr',lines:['Anna Muster','Hauptstraße 12','45127 Essen']},{t:'chk',on:1,de:'Rechnungsadresse ist gleich Lieferadresse',en:'Billing address is the same as delivery address'}]},
-  opts:[{de:'Zurück zum Warenkorb',en:'Back to the basket',k:'bad',fb:{t:'Not your goal',b:'Nothing is wrong with going back, but the address is already right. Move on.'}},
+  opts:[{de:'Zurück zum Warenkorb',en:'Back to the basket',k:'bad',goto:0,fb:{t:'Not your goal',b:'Nothing is wrong with going back, but the address is already right. Move on.'}},
         {de:'Weiter zur Zahlung',en:'Continue to payment',k:'good',pri:1,fb:{b:'Zahlung is payment. "Weiter" (continue) only moves to the next page.'}}]},
  {task:'Payment',narr:'The shop offers several ways to pay. You want to pay by credit card.',say:'Wie möchten Sie bezahlen?',
   web:{crumb:3,ui:'radio',blocks:[{t:'h',de:'Wie möchten Sie bezahlen?',en:'How would you like to pay?'}]},
@@ -507,13 +526,13 @@ var ONLINE={
   web:{crumb:4,ui:'btns',blocks:[{t:'h',de:'Bestellung prüfen',en:'Check your order'},{t:'row',de:'Strickpullover, grün, Größe XL',en:'Knit sweater, green, size XL',v:'49,90 €'},{t:'row',de:'Versandkosten',en:'Shipping costs',v:'4,95 €'},{t:'row',de:'Zahlungsart: '+G.st.pay,en:'Payment method: '+G.st.pay,v:''},{t:'tot',de:'Gesamtsumme',en:'Total',v:'54,85 €'},{t:'chk',on:1,de:'Ich habe die AGB gelesen.',en:'I have read the terms and conditions.'},{t:'p',de:'Mit Klick auf „Zahlungspflichtig bestellen“ gehen Sie eine Zahlungsverpflichtung ein.',en:'By clicking "Order with obligation to pay" you commit to paying.'}]},
   opts:[{de:'Zahlungspflichtig bestellen',en:'Order with obligation to pay',k:'bad',pri:1,fb:{t:'Wrong size, binding order',b:'This button creates a binding order. From this click you owe the money, and it is the wrong size (XL instead of M). You could still use your Widerruf (right of withdrawal, usually 14 days), but returning costs time.'}},
         {de:'Zurück zum Warenkorb',en:'Back to the basket',k:'good',fb:{b:'You spotted "Größe XL". Check size, amount and address on this page before the button.'}},
-        {de:'Bestellung abbrechen',en:'Cancel the order',k:'bad',fb:{t:'Order cancelled',b:'You throw the whole basket away. Better to go back and fix only the size.'}}]}},
+        {de:'Bestellung abbrechen',en:'Cancel the order',k:'bad',goto:0,fb:{t:'Order cancelled',b:'You throw the whole basket away. Better to go back and fix only the size.'}}]}},
  {task:'Fix size',narr:'You are back in the basket and open the item to change the size.',say:'Größe wählen',
   web:{crumb:1,ui:'sizes',blocks:[{t:'h',de:'Größe wählen',en:'Choose size'},{t:'p',de:'Strickpullover, grün',en:'Knit sweater, green'}]},
   opts:[{de:'S',en:'S',k:'bad',fb:{t:'Wrong size',b:'S is small. You wanted M.'}},{de:'M',en:'M',k:'good',fb:{b:'Size M. Back to the checkout.'}},{de:'L',en:'L',k:'bad',fb:{t:'Wrong size',b:'L is large. You wanted M.'}},{de:'XL',en:'XL',k:'bad',fb:{t:'Wrong size',b:'XL is the size you already had. You wanted M.'}}]},
  function(G){return {task:'Order',narr:'The same last page, now with the right size. Read it once more, then decide.',say:'Bestellung prüfen',
   web:{crumb:4,ui:'btns',blocks:[{t:'h',de:'Bestellung prüfen',en:'Check your order'},{t:'row',de:'Strickpullover, grün, Größe M',en:'Knit sweater, green, size M',v:'49,90 €'},{t:'row',de:'Versandkosten',en:'Shipping costs',v:'4,95 €'},{t:'row',de:'Zahlungsart: '+G.st.pay,en:'Payment method: '+G.st.pay,v:''},{t:'tot',de:'Gesamtsumme',en:'Total',v:'54,85 €'},{t:'chk',on:1,de:'Ich habe die AGB gelesen.',en:'I have read the terms and conditions.'},{t:'p',de:'Mit Klick auf „Zahlungspflichtig bestellen“ gehen Sie eine Zahlungsverpflichtung ein.',en:'By clicking "Order with obligation to pay" you commit to paying.'}]},
-  opts:[{de:'Bestellung abbrechen',en:'Cancel the order',k:'bad',fb:{t:'Order cancelled',b:'Everything is right, so cancelling throws your sweater away.'}},
+  opts:[{de:'Bestellung abbrechen',en:'Cancel the order',k:'bad',goto:0,fb:{t:'Order cancelled',b:'Everything is right, so cancelling throws your sweater away.'}},
         {de:'Zahlungspflichtig bestellen',en:'Order with obligation to pay',k:'good',pri:1,fb:{b:'This is the click that makes you owe the money. Here it is correct: size, amount and address are right.'}}]}},
  {task:'Done',narr:'The shop confirms your order.',say:'Vielen Dank für Ihre Bestellung',
   web:{crumb:0,ui:'btns',blocks:[{t:'h',de:'Vielen Dank für Ihre Bestellung!',en:'Thank you for your order!'},{t:'p',de:'Wir haben Ihnen eine Bestätigung per E-Mail geschickt. Voraussichtliche Lieferung: 3 bis 5 Werktage.',en:'We have sent you a confirmation by email. Expected delivery: 3 to 5 working days.'},{t:'p',de:'Bestellnummer: 4821-7730',en:'Order number: 4821-7730'}]},
@@ -523,38 +542,197 @@ var ONLINE={
 };
 
 var LOCKER={
- id:'locker',title:'Collect a parcel',tag:'Packstation',scene:'locker',ill:'lockerIll',
+ id:'locker',title:'Collect a package',tag:'Packstation',scene:'locker',ill:'lockerIll',
  machine:{head:'PACKSTATION',pad:false,slots:[],lockers:true},
  blurb:'Scan your code and open the right compartment.',
- goal:'Collect your parcel from the Packstation and close the compartment.',
- vocab:[['die Packstation','parcel locker'],['die Sendung','parcel, shipment'],['abholen','collect'],['der QR-Code','QR code'],['scannen','scan'],['das Fach','compartment'],['öffnen','open'],['entnehmen','take out'],['schließen','close']],
- costly:[['Abbrechen (cancel)','You leave and the parcel stays in the locker, but only for a limited time. Check your app.'],['Retoure','A return shipment. Choosing it starts sending a parcel back.'],['Weggehen (walk away)','An open compartment blocks the machine for the next person.']],
- note:'The wording is modelled on typical parcel lockers. Providers differ in screens and in how long a parcel waits for you, so check your app.',
+ goal:'Collect your package from the Packstation and close the compartment.',
+ vocab:[['die Packstation','package locker'],['die Sendung','package, shipment'],['abholen','collect'],['der QR-Code','QR code'],['scannen','scan'],['das Fach','compartment'],['öffnen','open'],['entnehmen','take out'],['schließen','close']],
+ costly:[['Abbrechen (cancel)','You leave and the package stays in the locker, but only for a limited time. Check your app.'],['Retoure','A return shipment. Choosing it starts sending a package back.'],['Weggehen (walk away)','An open compartment blocks the machine for the next person.']],
+ note:'The wording is modelled on typical package lockers. Providers differ in screens and in how long a package waits for you, so check your app.',
  steps:[
- {task:'Start',narr:'You stand at a Packstation, a wall of lockers with a screen. Your phone says a parcel is waiting.',say:'Was möchten Sie tun?',
+ {task:'Start',narr:'You stand at a Packstation, a wall of lockers with a screen. Your phone says a package is waiting.',say:'Was möchten Sie tun?',
   screen:{t:'Willkommen',l:[['Was möchten Sie tun?','What would you like to do?']]},two:1,
-  opts:[{de:'Sendung versenden',en:'Send a parcel',k:'bad',fb:{t:'Wrong menu',b:'Versenden is sending. You would start the shipping flow and pay for a label.'}},
-        {de:'Sendung abholen',en:'Collect a parcel',k:'good',fb:{b:'"abholen" means to pick something up. It is the word on your parcel message too.'}},
-        {de:'Retoure',en:'Return shipment',k:'bad',fb:{t:'Wrong menu',b:'Retoure is a return. You would start sending a parcel back to the shop.'}}]},
+  opts:[{de:'Sendung versenden',en:'Send a package',k:'bad',fb:{t:'Wrong menu',b:'Versenden is sending. You would start the shipping flow and pay for a label.'}},
+        {de:'Sendung abholen',en:'Collect a package',k:'good',fb:{b:'"abholen" means to pick something up. It is the word on your package message too.'}},
+        {de:'Retoure',en:'Return shipment',k:'bad',fb:{t:'Wrong menu',b:'Retoure is a return. You would start sending a package back to the shop.'}}]},
  {task:'Scan',narr:'Your app shows a QR code on your phone.',say:'Bitte halten Sie den QR-Code vor den Scanner',
   screen:{t:'Sendung abholen',l:[['Bitte halten Sie den QR-Code aus Ihrer App vor den Scanner.','Please hold the QR code from your app in front of the scanner.']]},two:1,
-  opts:[{de:'QR-Code scannen',en:'Scan QR code',k:'good',fb:{b:'"scannen" is scan. Hold the phone steady, screen towards the scanner.',screen:{t:'Bitte warten',l:[['Ihre Sendung wird gesucht …','Looking for your parcel …']]}}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'Abbrechen (cancel) leaves the parcel in the locker. It only waits for a limited time, so do not walk away.'}}]},
- {task:'Found',narr:'The machine finds your parcel.',say:'Ihre Sendung wurde gefunden',
-  screen:{t:'Sendung gefunden',l:[['Ihre Sendung wurde gefunden.','Your parcel was found.'],['Fach 27','Compartment 27']]},two:1,
+  opts:[{de:'QR-Code scannen',en:'Scan QR code',k:'good',fb:{b:'"scannen" is scan. Hold the phone steady, screen towards the scanner.',screen:{t:'Bitte warten',l:[['Ihre Sendung wird gesucht …','Looking for your package …']]}}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:0,fb:{t:'Cancelled',b:'Abbrechen (cancel) leaves the package in the locker. It only waits for a limited time, so do not walk away.'}}]},
+ {task:'Found',narr:'The machine finds your package.',say:'Ihre Sendung wurde gefunden',
+  screen:{t:'Sendung gefunden',l:[['Ihre Sendung wurde gefunden.','Your package was found.'],['Fach 27','Compartment 27']]},two:1,
   opts:[{de:'Fach öffnen',en:'Open compartment',k:'good',fb:{b:'"öffnen" is open. Watch for the glowing door.'}},
-        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{t:'Cancelled',b:'You leave without the parcel. It stays in the locker for a limited time only.'}}]},
+        {de:'Abbrechen',en:'Cancel',k:'bad',goto:0,fb:{t:'Cancelled',b:'You leave without the package. It stays in the locker for a limited time only.'}}]},
  {task:'Take it',narr:'A door clicks open and a light blinks. Look at the lockers.',zone:'fach',open:1,say:'Bitte entnehmen Sie Ihre Sendung',
-  screen:{t:'Fach 27',l:[['Das Fach ist geöffnet.','The compartment is open.'],['Bitte entnehmen Sie Ihre Sendung.','Please take your parcel.']]},
-  opts:[{de:'Fach schließen',en:'Close compartment',k:'bad',fb:{t:'Parcel still inside',b:'You closed the door with the parcel still inside. You would have to start over.'}},
-        {de:'Sendung entnehmen',en:'Take the parcel',k:'good',fb:{b:'"entnehmen" again: take something out. Same word as at the cash machine.'}}]},
- {task:'Close',narr:'You hold the parcel. The door is still open.',zone:'fach',open:1,say:'Bitte schließen Sie das Fach',
+  screen:{t:'Fach 27',l:[['Das Fach ist geöffnet.','The compartment is open.'],['Bitte entnehmen Sie Ihre Sendung.','Please take your package.']]},
+  opts:[{de:'Fach schließen',en:'Close compartment',k:'bad',fb:{t:'Package still inside',b:'You closed the door with the package still inside. You would have to start over.'}},
+        {de:'Sendung entnehmen',en:'Take the package',k:'good',fb:{b:'"entnehmen" again: take something out. Same word as at the cash machine.'}}]},
+ {task:'Close',narr:'You hold the package. The door is still open.',zone:'fach',open:1,say:'Bitte schließen Sie das Fach',
   screen:{t:'Fach 27',l:[['Bitte schließen Sie das Fach.','Please close the compartment.']]},
   opts:[{de:'Weggehen',en:'Walk away',k:'bad',fb:{t:'Door left open',b:'An open compartment blocks the machine and the next person has to wait.'}},
-        {de:'Fach schließen',en:'Close compartment',k:'good',fb:{t:'Mission complete',b:'Parcel in your hands, door closed. Nothing left behind.'}}]}
+        {de:'Fach schließen',en:'Close compartment',k:'good',fb:{t:'Mission complete',b:'Package in your hands, door closed. Nothing left behind.'}}]}
  ]
 };
-var MISSIONS=[ATM,KASSE,TICKET,ONLINE,LOCKER];
+/* ---------- mission 6: Lieferung, falsches Stockwerk ---------- */
+var DELIVERY={
+ id:'delivery',title:'Food delivery',tag:'Delivery · Wrong floor',scene:'web',ill:'deliveryIll',
+ webcfg:{brand:'ESSEN-EXPRESS',url:'essen-express-muster.de/lieferung',crumbs:['Menü','Adresse','Zahlung','Fertig']},
+ blurb:'Your flat is on the 3rd floor, but the lift button says 4. Make sure dinner finds you.',
+ goal:'Get your dinner delivered to your door, on the right floor.',
+ init:function(){return {path:''}},
+ vocab:[['die Wohnung','flat, apartment'],['das Erdgeschoss (EG)','ground floor'],['das Obergeschoss (OG)','floor above the ground floor'],['das Untergeschoss (UG)','basement'],['der Aufzug','lift, elevator'],['klingeln','to ring the bell'],['Einmal bei Costa klingeln.','Ring Costa once.'],['die Lieferung','delivery'],['Haben Sie eine Lieferung für Costa?','Do you have a delivery for Costa?'],['Hier oben!','Up here!']],
+ costly:[['3. OG ≠ Taste 3','The floor name and the lift button can differ. In many buildings the ground floor (EG) is button 1 or 0, so the 3rd floor above it can be button 4. Tell the driver both.'],['Hier oben! / Hier unten!','One letter apart in your head, a whole floor apart in real life: up or down.'],['Bitte nicht klingeln','The driver cannot reach you. The food goes cold or goes back.']],
+ note:function(G){return G.st.path==='A'?'Best ending: your note told the driver which button to press, so he stood at your door and handed it over. Replay and write only "3. OG" in the note to see the other ending.':'Ending with a shout: you got your food, but the whole stairwell heard you. Replay and try the lift note for the quiet ending. Names and address in this story are invented.'},
+ steps:[
+ {task:'Floor',narr:'You order dinner in an app. Your flat is on the third floor above the entrance level (the entrance level is called EG). Which floor do you enter?',say:'In welcher Etage wohnen Sie?',
+  web:{crumb:2,ui:'radio',blocks:[{t:'h',de:'Lieferadresse',en:'Delivery address'},{t:'row',de:'Straße',en:'Street',v:'Birkenstraße 14'},{t:'row',de:'Ort',en:'Town',v:'80999 Musterstadt'},{t:'row',de:'Klingel',en:'Doorbell name',v:'Costa'},{t:'p',de:'In welcher Etage wohnen Sie?',en:'Which floor do you live on?'}]},
+  opts:[{de:'EG',en:'Ground floor',k:'bad',fb:{t:'Ground floor',b:'EG is the Erdgeschoss, the ground floor. The driver stays downstairs and does not find you.'}},
+        {de:'3. OG',en:'3rd floor above ground',k:'good',fb:{b:'OG is Obergeschoss (floor above the ground floor). Count the floors above the entrance: your flat is the 3rd one, so 3. OG.'}},
+        {de:'4. OG',en:'4th floor above ground',k:'bad',fb:{t:'Copied the button',b:'You copied the number from the lift button. The 4. OG is the floor above yours, so the driver looks for you one floor too high.'}},
+        {de:'UG',en:'Basement',k:'bad',fb:{t:'Basement',b:'UG is Untergeschoss, the basement floor below the entrance. Nobody lives there, and the driver would walk the wrong way.'}}]},
+ {task:'Note',narr:'The app has a box for a note to the driver. In your lift, the entrance level is button 1, so your floor is button 4. What do you write?',say:'Hinweis für den Fahrer',
+  web:{crumb:2,ui:'radio',blocks:[{t:'bldg'},{t:'h',de:'Hinweis für den Fahrer',en:'Note for the driver'}]},
+  opts:[{de:'Achtung: Im Aufzug die „4“ drücken!',en:'Attention: press 4 in the lift!',k:'good',set:function(s){s.path='A'},fb:{b:'The driver knows exactly which button to press. Floor name (3. OG) is in the address, the lift button (4) is in the note.'}},
+        {de:'3. OG',en:'3rd floor above ground',k:'ok',set:function(s){s.path='B'},fb:{t:'Works, but risky',b:'This only repeats the address. The driver reads "3" and presses button 3 in the lift. Button 3 is the 2nd floor above ground. Let us see what happens.'}},
+        {de:'Bitte nicht klingeln!',en:'Please do not ring!',k:'bad',fb:{t:'Locked out',b:'Without the bell the driver cannot get in. Many buildings only open the front door through the bell. The food stays outside.'}},
+        {de:'Vor die Haustür stellen.',en:'Put it in front of the front door.',k:'bad',fb:{t:'Cold and stolen',b:'The food would stand in the street, cold, maybe gone. The driver does not come up at all.'}}]},
+ {task:'Doorbell',narr:'Your phone buzzes: the driver is outside. A moment later the intercom rings once.',say:'Lieferung für Costa!',
+  talk:{av:'driver',line:['Lieferung für Costa!','Delivery for Costa!'],panel:'klingel'},
+  opts:[{de:'Ja, ich mache auf. Kommen Sie hoch!',en:'Yes, I am opening. Come up!',k:'good',fb:{b:'You press the door opener (Türöffner). The front door buzzes and the driver comes in.'}},
+        {de:'Wer ist da?',en:'Who is it?',k:'ok',fb:{t:'Polite, but slow',b:'He just said it: delivery for Costa. Not wrong, but you can open the door straight away.'}},
+        {de:'Ich habe nichts bestellt.',en:'I did not order anything.',k:'bad',fb:{t:'Delivery refused',b:'The driver takes the food and leaves. You said you ordered nothing.'}},
+        {de:'Nein, danke.',en:'No, thank you.',k:'bad',fb:{t:'Delivery refused',b:'You sent your own dinner away.'}}]},
+ function(G){
+  if(G.st.path==='A')return {task:'At your door',narr:'You hear the lift. Then a knock. The driver pressed 4, as your note said, and stands at your door.',say:'Guten Tag! Lieferung für Costa?',
+  talk:{av:'driver',line:['Guten Tag! Lieferung für Costa?','Hello! Delivery for Costa?']},
+  opts:[{de:'Ja, das bin ich. Danke!',en:'Yes, that is me. Thank you!',k:'good',fb:{t:'Dinner is served',b:'Quiet and quick: the right button, the right door, no shouting. This is the ending you want.'}},
+        {de:'Hier oben!',en:'Up here!',k:'ok',fb:{t:'He is right in front of you',b:'You shout at someone one metre away. He steps back, hands over the food and smiles. Not wrong, only funny.'}},
+        {de:'Nein, das bin ich nicht.',en:'No, that is not me.',k:'bad',fb:{t:'Wrong answer',b:'The driver apologises and takes the food back down.'}}]};
+  return {task:'Lost in the building',narr:'You wait at your door. Below you hear steps. The driver pressed button 3 in the lift, which is the 2nd floor above ground. He is one floor below you and calls up the stairs.',say:'Hallo? Lieferung für Costa?',
+  talk:{av:'driver',line:['Hallo? Lieferung für Costa? Costa?','Hello? Delivery for Costa? Costa?'],panel:'stairs'},
+  opts:[{de:'Hier oben!',en:'Up here!',k:'ok',fb:{t:'Food saved, dignity not',b:'He hears you, climbs the stairs and hands over dinner. The whole house heard you, and a neighbour peeks out. Next time put the lift number in the note.'}},
+        {de:'Hier unten!',en:'Down here!',k:'bad',goto:1,fb:{t:'Wrong direction',b:'"Unten" is down. The driver goes further down, finds nobody and leaves with your food. You must order again, so you go back to the note.'}},
+        {de:'Hallo?',en:'Hello?',k:'bad',goto:1,fb:{t:'He cannot find you',b:'"Hallo?" tells him nothing. He cannot tell where you are and leaves. You order again, back to the note.'}},
+        {de:'Ich sage nichts.',en:'I say nothing.',k:'bad',goto:1,fb:{t:'Silence',b:'If you say nothing, he cannot find you and the order is marked as not delivered. You order again, back to the note.'}}]};
+ }
+ ]
+};
+
+/* ---------- mission 7: Arztpraxis in der Schweiz ---------- */
+var DOCTOR={
+ id:'doctor',title:'At the doctor',tag:'Reception · Switzerland',cc:'ch',scene:'talk',ill:'doctorIll',
+ blurb:'The receptionist keeps saying no. Learn the words that open the door.',
+ goal:'Get your appointment, paying yourself, and leave with a bill you can send to your insurance.',
+ vocab:[['die Versicherung','insurance'],['die Krankenversicherung','health insurance'],['Ich habe keine Schweizer Krankenversicherung.','I do not have Swiss health insurance.'],['Ich habe eine globale Krankenversicherung.','I have global health insurance.'],['Ich zahle hier selbst.','I pay here myself.'],['der Selbstzahler, die Selbstzahlerin','self-payer'],['Gibt es eine andere Möglichkeit?','Is there another option?'],['die Rechnung','invoice, bill']],
+ costly:[['Das ist nicht möglich.','It is not possible. Do not leave! It is the start of a conversation, not the end. Stay calm, repeat your sentence, ask for another option.'],['Pflicht / obligatorisch','Obligatory. It describes the rule, not you. You can still say how you want to pay.'],['Selbstzahler','Someone who pays directly. Say it when the insurance question comes up.'],['Rechnung','The paper you need for reimbursement. Without it you pay and get nothing back.']],
+ note:'Rules differ between countries. In Switzerland basic health insurance is obligatory for residents, so many practices first say that they only treat people with Swiss insurance. Whether you can pay yourself and get money back later depends on your own insurance, so check your contract. The skill in this mission works everywhere: say your situation in one clear sentence, repeat it calmly, ask "Gibt es eine andere Möglichkeit?" and do not give up after the first "no".',
+ steps:[
+ {task:'Arrival',narr:'You have an appointment at 10:00 at a doctor\'s practice in Zürich. The receptionist looks up.',say:'Grüezi. Wie kann ich Ihnen helfen?',
+  talk:{av:'reception',line:['Grüezi. Wie kann ich Ihnen helfen?','Hello. How can I help you?']},
+  opts:[{de:'Guten Tag. Ich habe einen Termin um 10 Uhr.',en:'Hello. I have an appointment at 10 o\'clock.',k:'good',fb:{b:'Clear and polite. "Termin" is appointment, and the time makes it easy to find you.'}},
+        {de:'Grüezi! Ich habe einen Termin um 10 Uhr.',en:'Hello! I have an appointment at 10 o\'clock.',k:'ok',fb:{t:'Very nice',b:'"Grüezi" is the Swiss greeting. Using it is a lovely touch. "Guten Tag" works everywhere.'}},
+        {de:'Ich bin krank.',en:'I am sick.',k:'bad',fb:{t:'Too little',b:'She can see that you need a doctor. She needs to know if you have an appointment.'}}]},
+ {task:'Insurance card',narr:'She finds your name. Then she asks for your insurance card. Your company insurance is from abroad.',say:'Haben Sie Ihre Versichertenkarte dabei?',
+  talk:{av:'reception',line:['Haben Sie Ihre Versichertenkarte dabei?','Do you have your insurance card with you?'],panel:'karte'},
+  opts:[{de:'Ich habe keine Schweizer Krankenversicherung. Ich habe eine globale Krankenversicherung. Ich zahle hier selbst.',en:'I do not have Swiss health insurance. I have global health insurance. I pay here myself.',k:'good',fb:{b:'Three short sentences, one idea each. Practise them aloud. You may need them more than once in the conversation.'}},
+        {de:'Ja, hier ist meine Karte.',en:'Yes, here is my card.',k:'bad',fb:{t:'Wrong card',b:'You hand over a foreign card. The practice cannot use it in their system, and you have not explained anything yet. Say clearly what your situation is.'}},
+        {de:'Nein.',en:'No.',k:'bad',fb:{t:'Too short',b:'"Nein" alone ends the conversation. She does not know what you want to do about it.'}}]},
+ {task:'First "no"',narr:'She does not look happy. This is the moment where many people give up.',say:'Das geht nicht. Wir behandeln nur Patienten mit Schweizer Krankenversicherung.',
+  talk:{av:'reception',line:['Das geht nicht. Wir behandeln nur Patienten mit Schweizer Krankenversicherung. Das ist obligatorisch.','That is not possible. We only treat patients with Swiss health insurance. It is obligatory.']},
+  opts:[{de:'Ich verstehe. Ich zahle selbst. Ich bin Selbstzahler(in).',en:'I understand. I pay myself. I am a self-payer.',k:'good',fb:{b:'She states the rule. You do not argue with the rule, you say what you do: you are a Selbstzahler(in), someone who pays directly.'}},
+        {de:'Das ist nicht fair!',en:'That is not fair!',k:'bad',fb:{t:'Arguing',b:'She answers "Das ist die Regel" (that is the rule). Arguing about rules goes nowhere. State your plan instead.'}},
+        {de:'Okay. Dann gehe ich.',en:'Okay. Then I will go.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'Second "no"',narr:'She says it again, in almost the same words. Stay calm.',say:'Das ist nicht möglich. Es ist Pflicht.',
+  talk:{av:'reception',line:['Das ist nicht möglich. Es ist Pflicht.','That is not possible. It is a must.']},
+  opts:[{de:'Ich zahle hier selbst. Gibt es eine andere Möglichkeit?',en:'I pay here myself. Is there another option?',k:'good',fb:{b:'Repeat your sentence, then ask for an alternative. A question makes her think about solutions. A statement only gets another "no".'}},
+        {de:'Ich zahle hier selbst.',en:'I pay here myself.',k:'ok',fb:{t:'Calm, but incomplete',b:'Repeating calmly is right, but it gives her nothing new to answer. Add the question: "Gibt es eine andere Möglichkeit?"'}},
+        {de:'Okay. Tschüss.',en:'Okay. Goodbye.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'Invoice',narr:'She checks with the doctor. She comes back and says it works, if you pay yourself. Now think about your insurance: your company will pay you back later.',say:'Gut. Dann sind Sie Selbstzahler(in). Das geht.',
+  talk:{av:'reception',line:['Gut. Dann sind Sie Selbstzahler(in). Das geht.','Good. Then you are a self-payer. That works.']},
+  opts:[{de:'Ich brauche eine Rechnung für meine Versicherung, bitte.',en:'I need an invoice for my insurance, please.',k:'good',fb:{t:'Appointment saved',b:'An itemised Rechnung is what your insurance needs for reimbursement. Without it you pay and get nothing back.',talk:{av:'reception',line:['Natürlich. Die Rechnung bekommen Sie nach dem Termin.','Of course. You will get the invoice after your appointment.'],panel:'rechnung'}}},
+        {de:'Ich brauche eine Quittung, bitte.',en:'I need a receipt, please.',k:'ok',fb:{t:'Almost',b:'A Quittung only shows that you paid. Many insurers want an itemised Rechnung. Ask for the Rechnung to be safe.'}},
+        {de:'Ich brauche keine Rechnung.',en:'I do not need an invoice.',k:'bad',fb:{t:'No money back',b:'Without an invoice you cannot send anything to your insurance. You would pay the full price yourself.'}}]}
+ ]
+};
+
+/* ---------- mission 8: Gartenparty ---------- */
+var PARTY={
+ id:'party',title:'Garden party',tag:'Small talk · Greetings',scene:'talk',ill:'partyIll',
+ blurb:'Meet new people, say hello the right way, and leave without an awkward goodbye.',
+ goal:'Get through a garden party: greet, chat, order a drink and say goodbye in a friendly way.',
+ vocab:[['Freut mich!','Nice to meet you!'],['Hat mich gefreut!','It was nice to meet you!'],['Wie geht\'s?','How are you?'],['Gut, danke! Und dir?','Good, thanks! And you?'],['Eine Apfelschorle, bitte.','An apple spritzer, please.'],['Danke für die Einladung!','Thanks for the invitation!'],['Schönen Abend noch!','Have a nice evening!'],['Tschüss!','Bye!']],
+ costly:[['Freut mich!','Only when you meet someone. Not an answer to "Wie geht\'s?", and not a goodbye.'],['Hat mich gefreut!','The goodbye version: it was nice to meet you. Use it when you leave.'],['Umarmung / Kuss','Hug or cheek kisses are for friends, not strangers. A handshake is safe.'],['Leise gehen','Leaving without saying goodbye is rude at a small party. Say it to the host and to the people you talked to.']],
+ note:'Greetings are the same few phrases again and again. "Freut mich" is the one people mix up the most: it belongs to the moment you meet. At the end you switch to "Hat mich gefreut". In many circles in Germany, people say goodbye to each person individually. Names in this story are invented.',
+ steps:[
+ {task:'Meet the host',narr:'You arrive at a garden party. The host walks towards you.',say:'Hallo! Ich bin Jana. Schön, dass du da bist!',
+  talk:{av:'host',line:['Hallo! Ich bin Jana. Schön, dass du da bist!','Hello! I am Jana. Great that you are here!']},
+  opts:[{de:'Freut mich! Ich bin Alex.',en:'Nice to meet you! I am Alex.',k:'good',fb:{b:'"Freut mich" is the standard reply to someone you just met, followed by your name.'}},
+        {de:'Hallo.',en:'Hello.',k:'ok',fb:{t:'Fine, a bit cold',b:'Not wrong, but you did not give your name. Add "Ich bin ...".'}},
+        {de:'Ich bin glücklich!',en:'I am happy!',k:'bad',fb:{t:'Too much',b:'"Glücklich" means deeply happy. It sounds odd as a greeting. "Freut mich" does the job.'}}]},
+ {task:'Hand or hug',narr:'Jana introduces her friend Tom. He smiles and holds out his hand.',say:'Das ist Tom.',
+  talk:{av:'guest',line:['Hallo! Ich bin Tom.','Hello! I am Tom.']},
+  opts:[{de:'Ich gebe Tom die Hand.',en:'I shake Tom\'s hand.',k:'good',fb:{b:'A handshake is the safe choice with someone you have just met.'}},
+        {de:'Ich winke.',en:'I wave.',k:'ok',fb:{t:'Okay',b:'Waving works from a distance, but his hand is out. Take it.'}},
+        {de:'Ich umarme Tom.',en:'I hug Tom.',k:'bad',fb:{t:'Too close',b:'Hugging is for friends. Tom freezes for a second. A handshake would have been right.'}},
+        {de:'Ich küsse Tom auf die Wange.',en:'I kiss Tom on the cheek.',k:'bad',fb:{t:'Too close',b:'Cheek kisses are not common between strangers in Germany. Tom steps back.'}}]},
+ {task:'How are you?',narr:'Tom asks you a question while the music plays.',say:'Und, wie geht\'s dir?',
+  talk:{av:'guest',line:['Und, wie geht\'s dir?','And, how are you?']},
+  opts:[{de:'Gut, danke! Und dir?',en:'Good, thanks! And you?',k:'good',fb:{b:'Short answer, then you ask back. That is the whole ritual.'}},
+        {de:'Gut.',en:'Good.',k:'ok',fb:{t:'A bit dry',b:'Fine, but no question back. "Und dir?" keeps the chat going.'}},
+        {de:'Freut mich!',en:'Nice to meet you!',k:'bad',fb:{t:'Wrong phrase',b:'"Freut mich" is for meeting someone, not for answering "Wie geht\'s?". Tom looks confused.'}}]},
+ {task:'A drink',narr:'Jana comes back with a tray of drinks.',say:'Möchtest du etwas trinken? Wasser, Apfelschorle oder Bier?',
+  talk:{av:'host',line:['Möchtest du etwas trinken? Wasser, Apfelschorle oder Bier?','Would you like something to drink? Water, apple spritzer or beer?']},
+  opts:[{de:'Eine Apfelschorle, bitte.',en:'An apple spritzer, please.',k:'good',fb:{b:'Clear and polite. Apfelschorle is apple juice with sparkling water, a classic.'}},
+        {de:'Nein, danke.',en:'No, thank you.',k:'ok',fb:{t:'Allowed',b:'Perfectly fine. You can always ask for water.'}},
+        {de:'Ja.',en:'Yes.',k:'bad',fb:{t:'Yes, what?',b:'"Ja" to an "or" question does not choose anything. Jana waits.'}}]},
+ {task:'Time to go',narr:'Two hours later. The party is thinning out and you are tired. Jana sits at the table.',say:'Schon so spät?',
+  talk:{av:'host',line:['Schon so spät? Gehst du schon?','So late already? Are you leaving?']},
+  opts:[{de:'Es war schön! Danke für die Einladung. Tschüss, Jana!',en:'It was lovely! Thanks for the invitation. Bye, Jana!',k:'good',fb:{b:'Thank the host, say it was nice, say goodbye. Three things and you are done.'}},
+        {de:'Ich muss gehen. Tschüss!',en:'I have to go. Bye!',k:'ok',fb:{t:'Okay',b:'Polite enough. Add "Danke für die Einladung" next time.'}},
+        {de:'Ich gehe leise nach Hause.',en:'I quietly go home.',k:'bad',fb:{t:'Disappeared',b:'People notice that you left without a word. Say goodbye to the host and to the people you talked to.'}}]},
+ {task:'Last goodbye',narr:'On your way out you meet Tom again.',say:'Tschüss! Schönen Abend noch!',
+  talk:{av:'guest',line:['Tschüss! Schönen Abend noch!','Bye! Have a nice evening!']},
+  opts:[{de:'Hat mich gefreut, Tom! Dir auch einen schönen Abend!',en:'It was nice to meet you, Tom! You too, have a nice evening!',k:'good',fb:{t:'Perfect goodbye',b:'"Hat mich gefreut" is the goodbye version of "Freut mich".'}},
+        {de:'Tschüss!',en:'Bye!',k:'ok',fb:{t:'Okay',b:'Fine, short and friendly.'}},
+        {de:'Freut mich, Tom!',en:'Nice to meet you, Tom!',k:'bad',fb:{t:'Wrong tense',b:'"Freut mich" sounds like a first meeting. At the end you say "Hat mich gefreut".'}}]}
+ ]
+};
+
+/* ---------- mission 9: Einschreiben ---------- */
+var LETTER={
+ id:'letter',title:'Registered letter',tag:'Post office',scene:'talk',ill:'letterIll',
+ blurb:'Send a letter you can prove arrived. Know which words cost extra.',
+ goal:'Send one signed letter by registered mail and keep the proof.',
+ vocab:[['das Einschreiben','registered mail'],['der Brief','letter'],['der Umschlag','envelope'],['der Absender','sender'],['der Empfänger','recipient'],['die Übergabe','hand-over'],['der Einwurf','drop in the mailbox'],['der Rückschein','return receipt'],['der Einlieferungsbeleg','proof of posting'],['die Sendungsnummer','tracking number']],
+ costly:[['Einschreiben','Registered mail. Without this word you get a normal letter and no proof.'],['Übergabe / Einwurf','Handed to the person with a signature, or dropped in the mailbox with a note. Hand-over is the stronger proof.'],['Rückschein','The signed card comes back to you. An extra fee.'],['Beleg','Your receipt with the tracking number. Throw it away and you cannot prove anything.']],
+ note:'Names and prices are invented, and post office prices change. Registered mail (Einschreiben) is the usual way to send contracts, cancellations and anything with a deadline. Always keep the Einlieferungsbeleg until the recipient has confirmed.',
+ steps:[
+ {task:'What you want',narr:'You have a signed contract for your landlord and you need proof that he got it.',say:'Guten Tag. Was kann ich für Sie tun?',
+  talk:{av:'clerk',line:['Guten Tag. Was kann ich für Sie tun?','Hello. What can I do for you?']},
+  opts:[{de:'Ich möchte einen Brief per Einschreiben schicken.',en:'I would like to send a letter by registered mail.',k:'good',fb:{b:'"Einschreiben" is the keyword. It means a letter with a tracking and signature trail.'}},
+        {de:'Ich möchte eine Briefmarke.',en:'I would like a stamp.',k:'bad',fb:{t:'Normal letter',b:'A stamp sends a normal letter. No tracking, no proof. If it goes missing, you cannot show that you sent it.'}},
+        {de:'Ich möchte ein Paket schicken.',en:'I would like to send a package.',k:'bad',fb:{t:'Wrong counter',b:'A Paket is a package. You want a letter, so the clerk would start the wrong form.'}}]},
+ {task:'Type',narr:'The clerk puts your envelope on the scale and asks which type you want.',say:'Einwurf-Einschreiben oder Übergabe-Einschreiben?',
+  talk:{av:'clerk',line:['Einwurf-Einschreiben oder Übergabe-Einschreiben?','Drop-in registered mail or hand-over registered mail?']},
+  opts:[{de:'Übergabe-Einschreiben, bitte.',en:'Hand-over registered mail, please.',k:'good',fb:{b:'The landlord or someone at his address has to sign. That is the strongest proof.'}},
+        {de:'Einwurf-Einschreiben, bitte.',en:'Drop-in registered mail, please.',k:'ok',fb:{t:'Cheaper',b:'The postal worker drops it into the mailbox and notes the date. Proof of delivery, but no signature. Fine for many things, weaker for a dispute.'}},
+        {de:'Ich weiß nicht.',en:'I do not know.',k:'bad',fb:{t:'Not an answer',b:'She cannot choose for you. Ask "Was ist der Unterschied?" (what is the difference?) instead.'}}]},
+ {task:'Extras',narr:'She asks about one more option. It costs extra.',say:'Möchten Sie einen Rückschein?',
+  talk:{av:'clerk',line:['Möchten Sie einen Rückschein?','Would you like a return receipt?']},
+  opts:[{de:'Ja, bitte mit Rückschein.',en:'Yes, please with a return receipt.',k:'good',fb:{b:'The signed card comes back to you by post. With a deadline, this is your proof in your hands.'}},
+        {de:'Nein, danke.',en:'No, thank you.',k:'ok',fb:{t:'Cheaper, less proof',b:'You still get the tracking number, but not the signed card. Fine if you only need to know that it arrived.'}}]},
+ {task:'Paying',narr:'She types and shows you the screen.',say:'Das macht 5 Euro 15. Bar oder mit Karte?',
+  talk:{av:'clerk',line:['Das macht 5 Euro 15. Bar oder mit Karte?','That is 5 euros 15. Cash or card?']},
+  opts:[{de:'Mit Karte, bitte.',en:'By card, please.',k:'good',fb:{b:'Card works at nearly every post office counter.'}},
+        {de:'Bar, bitte.',en:'Cash, please.',k:'good',fb:{b:'Cash is fine as well.'}}]},
+ {task:'Proof',narr:'The clerk prints a small slip and holds it out.',say:'Hier ist Ihr Einlieferungsbeleg. Bitte gut aufbewahren!',
+  talk:{av:'clerk',line:['Hier ist Ihr Einlieferungsbeleg. Bitte gut aufbewahren!','Here is your proof of posting. Please keep it safe!'],panel:'beleg'},
+  opts:[{de:'Danke! Ich nehme den Beleg mit.',en:'Thanks! I will take the slip.',k:'good',fb:{t:'Mission complete',b:'The slip has the tracking number (Sendungsnummer). Keep it until the landlord confirms.'}},
+        {de:'Den Beleg brauche ich nicht.',en:'I do not need the slip.',k:'bad',fb:{t:'No proof',b:'The slip is your proof. Without the tracking number you cannot follow the letter or show that you sent it.'}}]}
+ ]
+};
+
+var MISSIONS=[ATM,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,PARTY,LETTER];
 
 /* ---------- state ---------- */
 var G=null,app=document.getElementById('app');
@@ -576,11 +754,11 @@ function toolsHTML(){
   return CAN_SPEAK?'<div class="tools"><button class="tog" data-tog="snd" aria-pressed="'+prefs.snd+'">Read aloud on tap</button></div>':'';
 }
 function dashboard(){
-  var h=header()+'<div><span class="chip">'+FLAG+'Germany</span></div><h1>Everyday Missions</h1>'+
-   '<p class="lead">Real situations, real screens, real words. Inside every mission everything is in German, just like in real life, so at first you have to guess. Pick an answer, then see the translation and what happens. Use Back to try the other option.</p>'+toolsHTML()+'<div class="tiles">';
+  var h=header()+'<div class="cc-row"><span class="chip">'+FLAG+'Germany</span> <span class="chip">'+FLAG_CH+'Switzerland</span></div><h1>Everyday Missions</h1>'+
+   '<p class="lead">Play through real-life situations, find the one word that makes things go wrong, and learn how to avoid it in your own life.</p><p class="howto">Inside every mission everything is in German, just like in real life, so at first you have to guess. Pick an answer, then see the translation and what happens. Use Back to try the other option.</p>'+toolsHTML()+'<div class="tiles">';
   MISSIONS.forEach(function(m){
     var d=done[m.id];
-    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+I[m.ill]+'</div><span class="tag">'+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Play again':'Start')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
+    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+I[m.ill]+'</div><span class="tag cc">'+(m.cc==='ch'?FLAG_CH:'')+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Play again':'Start')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
   });
   ['Parking meter','Laptop reset'].forEach(function(n){
     h+='<div class="tile soon"><div class="ill">'+I.soonIll+'</div><span class="tag">Soon</span><h2>'+n+'</h2></div>';
@@ -635,6 +813,11 @@ function panelHTML(kind){
   if(kind==='entwerter')return '<div class="platform"><div class="gsign">Gleis 2</div><div class="entw">ENTWERTER<i></i>Hier entwerten</div>'+ticketHTML(false)+'</div>';
   if(kind==='stamped')return '<div class="platform">'+ticketHTML(true)+'</div>';
   if(kind==='unstamped')return '<div class="platform">'+ticketHTML(false)+'</div>';
+  if(kind==='klingel')return '<div class="platform"><div class="klingel"><div><span>Müller</span><i></i></div><div><span>Weber</span><i></i></div><div><span>Schulz</span><i></i></div><div><span>Costa</span><i></i></div></div></div>';
+  if(kind==='stairs')return '<div class="platform"><div class="bldg" style="flex:1 1 220px"><div class="bl-r"><b>3. OG</b><em>Du</em><i>4</i></div><div class="bl-r"><b>2. OG</b><em>Fahrer</em><i>3</i></div><div class="bl-r"><b>1. OG</b><span></span><i>2</i></div><div class="bl-r"><b>EG</b><span></span><i>1</i></div></div></div>';
+  if(kind==='karte')return '<div class="platform"><div class="icard"><b>GLOBAL CARE</b><span>International Health Plan</span><span>Mitglied seit 2024</span></div></div>';
+  if(kind==='rechnung')return '<div class="platform"><div class="inv"><b>RECHNUNG Nr. 2041</b><span>Konsultation 10:00</span><span>Selbstzahler(in)</span><b>Total CHF 180.00</b></div></div>';
+  if(kind==='beleg')return '<div class="platform"><div class="slip"><b>EINLIEFERUNGSBELEG</b><span>Einschreiben Übergabe + Rückschein</span><span>Sendungsnummer: RR 4821 7730 7DE</span><b>5,15 EUR</b></div></div>';
   return '';
 }
 function talkScene(step){
@@ -649,18 +832,19 @@ function wblock(b){
   if(b.t==='row'||b.t==='tot')return '<div class="wrow'+(b.t==='tot'?' tot':'')+'"><div><span>'+b.de+'</span>'+gl(b.en)+'</div><b>'+b.v+'</b></div>';
   if(b.t==='p')return '<p class="wp">'+b.de+gl(b.en)+'</p>';
   if(b.t==='chk')return '<div class="wchk"><i class="'+(b.on?'on':'')+'"></i><span>'+b.de+gl(b.en)+'</span></div>';
+  if(b.t==='bldg')return '<div class="bldg"><div class="bl-h"><span>Etage</span><span></span><span>Aufzug</span></div><div class="bl-r"><b>3. OG</b><em>Costa</em><i>4</i></div><div class="bl-r"><b>2. OG</b><span></span><i>3</i></div><div class="bl-r"><b>1. OG</b><span></span><i>2</i></div><div class="bl-r"><b>EG</b><span></span><i>1</i></div></div>';
   if(b.t==='addr')return '<div class="waddr">'+b.lines.join('<br>')+'</div>';
   return '';
 }
 function webScene(step){
-  var w=step.web,names=['Warenkorb','Adresse','Zahlung','Prüfen'];
+  var w=step.web,cf=G.m.webcfg||{brand:'KLEIDERHAUS MUSTER',url:'kleiderhaus-muster.de/kasse',crumbs:['Warenkorb','Adresse','Zahlung','Prüfen']},names=cf.crumbs;
   var crumbs=w.crumb?'<div class="crumbs">'+names.map(function(c,i){return '<span class="'+(i+1===w.crumb?'on':(i+1<w.crumb?'done':''))+'">'+(i+1)+' '+c+'</span>'}).join('')+'</div>':'';
-  var opts=G.fb?step.opts.map(function(o,i){return '<div class="wstatic'+(i===G.fb.i?' chosen':'')+'">'+o.de+gl(o.en)+'</div>'}).join(''):step.opts.map(function(o,i){return opt(o,i,'wopt'+(o.pri?' pri':''))}).join('');
-  return '<div class="browser"><div class="urlbar">'+KEY_LOCK+'<span>kleiderhaus-muster.de/kasse</span></div><div class="page"><div class="shop-h">KLEIDERHAUS MUSTER</div>'+crumbs+w.blocks.map(wblock).join('')+'<div class="web-opts '+w.ui+'">'+opts+'</div></div></div>';
+  var opts=G.fb?step.opts.map(function(o,i){return '<div class="wstatic'+(i===G.fb.i?' chosen '+G.fb.o.k:'')+'">'+o.de+gl(o.en)+'</div>'}).join(''):step.opts.map(function(o,i){return opt(o,i,'wopt'+(o.pri?' pri':''))}).join('');
+  return '<div class="browser"><div class="urlbar">'+KEY_LOCK+'<span>'+cf.url+'</span></div><div class="page"><div class="shop-h">'+cf.brand+'</div>'+crumbs+w.blocks.map(wblock).join('')+'<div class="web-opts '+w.ui+'">'+opts+'</div></div></div>';
 }
 function storeScene(step){
   if(step.store==='signs'){
-    var s='<div class="floor"><div class="signs">'+step.opts.map(function(o,i){return G.fb?'<div class="sign"><div class="optw"><div class="opt static'+(i===G.fb.i?' chosen':'')+'"><span class="de">'+o.de+'</span>'+gl(o.en)+'</div></div></div>':opt(o,i,'sign')}).join('')+'</div><div class="shelves"><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div></div><div class="you">'+I.you+'Du, mit Einkaufskorb</div></div>';
+    var s='<div class="floor"><div class="signs">'+step.opts.map(function(o,i){return G.fb?'<div class="sign"><div class="optw"><div class="opt static'+(i===G.fb.i?' chosen '+G.fb.o.k:'')+'"><span class="de">'+o.de+'</span>'+gl(o.en)+'</div></div></div>':opt(o,i,'sign')}).join('')+'</div><div class="shelves"><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div></div><div class="you">'+I.you+'Du, mit Einkaufskorb</div></div>';
     return s;
   }
   var c=step.cash,line=c.line;
@@ -684,7 +868,9 @@ function fbHTML(){
     h+='<div class="bon"><div><b>SUPERMARKT</b></div><hr>'+it+'<hr><div><b>SUMME EUR</b><b>'+eur(t)+'</b></div><div><span>Gegeben BAR</span><span>50,00</span></div><div><span>Rückgeld</span><span>'+eur(ch)+'</span></div><hr><div><span>Vielen Dank!</span><span></span></div></div>';
   }
   var last=G.idx===G.m.steps.length-1;
-  var lbl=k==='bad'?'Try again':(last?'See the summary':'Next');
+  var gt=(k==='bad'&&o.goto!=null&&o.goto<G.idx)?o.goto:null;
+  var lbl=k==='bad'?(gt!=null?'Back to step '+(gt+1):'Try again'):((last||o.end)?'See the summary':'Next');
+  if(gt!=null)h+='<p class="reset"><b>Back to step '+(gt+1)+' ('+stepOf(gt).task+').</b> Just like in real life, you start over from there and the progress after it is erased.</p>';
   h+='<div class="actions"><button class="btn" data-next>'+lbl+'</button>'+(k==='bad'?'':'<button class="btn ghost" data-unchoose>Try another option</button>')+'</div>';
   return h+'</div>';
 }
@@ -716,7 +902,7 @@ function debrief(){
   var h='<div class="bar"><button class="btn ghost" data-home>← Missionen</button>'+toolsHTML()+'</div><div class="deb"><div class="big"><span class="key-done" style="color:'+(flawless?'var(--gold)':'var(--keyo)')+'">'+KEY_O+'</span><div><h2>Mission geschafft</h2><span class="note">'+(flawless?'Ohne einen Fehlversuch. Goldener Schlüssel.':G.mist+' Fehlversuch'+(G.mist===1?'':'e')+'. Spiel nochmal für den goldenen Schlüssel.')+'</span></div></div>'+
    '<div><b>Diese Wörter hast du gebraucht</b><div class="vocab" style="margin-top:8px">'+m.vocab.map(function(v){return '<button data-say="'+esc(v[0])+'">'+v[0]+gl(v[1],1)+'</button>'}).join('')+'</div></div>'+
    '<div class="cost"><b>Wörter, die dich kosten</b>'+m.costly.map(function(c){return '<div><b style="text-transform:none;letter-spacing:0;font-size:16px">'+c[0]+'</b><br>'+c[1]+'</div>'}).join('')+'</div>'+
-   '<p class="note">'+m.note+'</p><div class="actions"><button class="btn" data-start="'+m.id+'">Nochmal spielen</button><button class="btn ghost" data-home>Alle Missionen</button></div></div>';
+   '<p class="note">'+(typeof m.note==='function'?m.note(G):m.note)+'</p><div class="actions"><button class="btn" data-start="'+m.id+'">Nochmal spielen</button><button class="btn ghost" data-home>Alle Missionen</button></div></div>';
   return h;
 }
 function render(){
@@ -744,9 +930,20 @@ function forward(){
   else G.snap[G.idx]=cp(G.st);
   render();window.scrollTo(0,0);
 }
+function finish(){G.fb=null;G.fin=true;done[G.m.id]=true;sset('lk_done',JSON.stringify(done));render();window.scrollTo(0,0)}
 function next(){
   if(!G||!G.fb)return;
-  if(G.fb.o.k==='bad'){unchoose();return}
+  var o=G.fb.o;
+  if(o.k==='bad'){
+    var g=o.goto;
+    if(g!=null&&g<G.idx){
+      for(var i=g;i<=G.idx;i++)delete G.right[i];
+      G.idx=g;G.st=cp(G.snap[g]);G.snap.length=g+1;G.fb=null;G.pin='';G.hint='';
+      render();window.scrollTo(0,0);return;
+    }
+    unchoose();return;
+  }
+  if(o.end){finish();return}
   forward();
 }
 function back(){
@@ -780,5 +977,6 @@ render();
 window.__lk={start:start,pick:pick,next:next,back:back,get G(){return G},stepOf:stepOf};
 })();
 </script>
+
 </body>
 </html>
