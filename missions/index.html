@@ -290,11 +290,15 @@ var ATM={
         {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'The card would pop out and you would start again.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
  {task:'PIN',type:'pin',narr:'You are not sure about your PIN (secret number). Your four digits are already typed in for you. In this story the first try fails.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
-  opts:[{de:'Bestätigen',en:'Confirm',k:'ok',key:'ok',fb:{t:'Wrong PIN',b:'The first try fails. The machine allows a few tries, but not unlimited ones.',screen:{t:'PIN falsch',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Sie haben noch 2 Versuche.','You have 2 tries left.']]}}},
+  opts:[{de:'Bestätigen',en:'Confirm',k:'good',key:'ok',skip:1,fb:{}},
         {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'The card would come out. You have not tried yet. Type four digits and press the green key.'}}]},
+ {task:'PIN',narr:'The machine answers. What do you do?',say:'Die PIN ist nicht korrekt. Sie haben noch 2 Versuche.',
+  screen:{t:'PIN falsch',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Sie haben noch 2 Versuche.','You have 2 tries left.']]},two:1,
+  opts:[{de:'PIN erneut eingeben',en:'Enter PIN again',k:'good',fb:{b:'Right for now: you still have two tries left. "erneut" means again.'}},
+        {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'Abbrechen (cancel) is safe and the card comes out, but you would start from the beginning. You still have two tries, so go on.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
  {task:'PIN',type:'pin',narr:'Second try. You changed one digit and hope. The four digits are typed in again. In this story it fails again.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
-  opts:[{de:'Bestätigen',en:'Confirm',k:'ok',key:'ok',fb:{t:'Wrong PIN',b:'Read the next screen carefully. It is the most important one in this mission.',screen:{t:'Letzter Versuch!',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Letzter Versuch!','Last try!'],['Bei erneuter Fehleingabe wird die Karte eingezogen.','One more wrong entry and the card is retained.']]}}},
+  opts:[{de:'Bestätigen',en:'Confirm',k:'good',key:'ok',skip:1,fb:{}},
         {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'Not yet. In this story you tap the green key and see the warning screen.'}}]},
  {task:'Emergency brake',narr:'Your heart rate goes up. You are still not sure about the PIN. What now?',say:'Letzter Versuch! Bei erneuter Fehleingabe wird die Karte eingezogen.',
   screen:{t:'Letzter Versuch!',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Letzter Versuch!','Last try!'],['Bei erneuter Fehleingabe wird die Karte eingezogen.','One more wrong entry and the card is retained.']]},two:1,
@@ -512,6 +516,7 @@ function pick(i){
   var step=stepOf(G.idx),o=step.opts[i];if(!o)return;
   if(o.k==='bad'){if(!G.right[G.idx]){G.bad[G.idx]=true;G.mist=Object.keys(G.bad).length}}else G.right[G.idx]=true;
   if(o.k!=='bad'&&o.set)o.set(G.st);
+  if(o.skip){G.right[G.idx]=true;if(o.set)o.set(G.st);forward();return}
   G.fb={o:o,i:i};G.hint='';
   if(prefs.snd&&o.k!=='bad'&&step.type!=='pin')speak(o.de);
   render();
