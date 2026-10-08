@@ -288,11 +288,11 @@ var ATM={
   opts:[{de:'Deutsch',en:'German',k:'good',fb:{b:'Good. You will recognise every word that follows.'}},
         {de:'English',en:'English',k:'ok',fb:{b:'Works fine in real life. In this mission you practise, so the next screens stay German.'}},
         {de:'Abbrechen',en:'Cancel',k:'bad',fb:{b:'The card would pop out and you would start again.',screen:{t:'Vorgang abgebrochen',l:[['Bitte entnehmen Sie Ihre Karte.','Please take your card.']]}}}]},
- {task:'PIN',type:'pin',narr:'You are not sure about your PIN (secret number). Tap four digits on the keypad, then choose a key. In this story your first try fails.',say:'Bitte geben Sie Ihre PIN ein',
+ {task:'PIN',type:'pin',narr:'You are not sure about your PIN (secret number). Your four digits are already typed in for you. In this story the first try fails.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
   opts:[{de:'Bestätigen',en:'Confirm',k:'ok',key:'ok',fb:{t:'Wrong PIN',b:'The first try fails. The machine allows a few tries, but not unlimited ones.',screen:{t:'PIN falsch',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Sie haben noch 2 Versuche.','You have 2 tries left.']]}}},
         {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'The card would come out. You have not tried yet. Type four digits and press the green key.'}}]},
- {task:'PIN',type:'pin',narr:'Second try. You change one digit and hope. In this story it fails again.',say:'Bitte geben Sie Ihre PIN ein',
+ {task:'PIN',type:'pin',narr:'Second try. You changed one digit and hope. The four digits are typed in again. In this story it fails again.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
   opts:[{de:'Bestätigen',en:'Confirm',k:'ok',key:'ok',fb:{t:'Wrong PIN',b:'Read the next screen carefully. It is the most important one in this mission.',screen:{t:'Letzter Versuch!',warn:1,l:[['Die PIN ist nicht korrekt.','The PIN is not correct.'],['Letzter Versuch!','Last try!'],['Bei erneuter Fehleingabe wird die Karte eingezogen.','One more wrong entry and the card is retained.']]}}},
         {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'Not yet. In this story you tap the green key and see the warning screen.'}}]},
@@ -305,7 +305,7 @@ var ATM={
   opts:[{de:'Karte entnehmen',en:'Take card',k:'good',fb:{b:'"entnehmen" is the word for taking something out of a machine. Card first, then cash, so you do not forget it.'}},WEG_CARD]},
  {task:'New attempt',info:1,narr:'Two minutes later. You find the right PIN in the letter from your bank. You step back to the machine, insert the card and choose German.',
   screen:{t:'Willkommen',l:[['Bitte Karte einführen','Please insert card']],ic:['card','nfc']}},
- {task:'PIN',type:'pin',narr:'Now type the correct PIN. Cover the keypad with your other hand.',say:'Bitte geben Sie Ihre PIN ein',
+ {task:'PIN',type:'pin',narr:'Now the correct PIN is typed in. Cover the keypad with your other hand.',say:'Bitte geben Sie Ihre PIN ein',
   screen:{t:'PIN-Eingabe',l:[['Bitte geben Sie Ihre PIN ein','Please enter your PIN']],pin:1},
   opts:[{de:'Bestätigen',en:'Confirm',k:'good',key:'ok',fb:{b:'Accepted. The main menu follows.',screen:{t:'PIN akzeptiert',l:[['Einen Moment bitte …','One moment please …']]}}},
         {de:'Abbrechen',en:'Cancel',k:'bad',key:'no',fb:{b:'The card would come out and you would start again. This time the PIN is right, so confirm.'}}]},
@@ -414,7 +414,7 @@ function screenHTML(step,inScreenOpts){
   (sc.l||[]).forEach(function(l){h+='<div class="scr-l">'+l[0]+gl(l[1])+'</div>'});
   if(!f)h+=iconRow(sc.ic);
   if(sc.pin&&!f){
-    var d='';for(var i=0;i<4;i++)d+='<i>'+(i<G.pin.length?'•':'')+'</i>';
+    var d='';for(var i=0;i<4;i++)d+='<i>•</i>';
     h+='<div class="pin" aria-label="PIN">'+d+'</div><div class="hint">'+G.hint+'</div>';
   }
   if(showOpts){
@@ -423,7 +423,7 @@ function screenHTML(step,inScreenOpts){
   return h+'</div>';
 }
 function atmScene(step){
-  var pinStep=step.type==='pin'&&!G.fb&&!step.info;
+  var pinStep=false;
   var inScreen=!step.zone&&!step.type&&!step.info;
   var z=(!G.fb)?step.zone:'';
   var keys='';
@@ -483,12 +483,10 @@ function missionView(){
   if(step.info&&!G.fb){
     h+='<button class="btn" data-adv>Next</button>';
   } else if(!G.fb){
-    if(G.m.scene==='atm'&&step.zone){
+    if(G.m.scene==='atm'&&(step.zone||step.type==='pin')){
       h+='<div class="tray"><span class="lbl">What do you do?</span>'+step.opts.map(function(o,i){return opt(o,i,'tray-o')}).join('')+'</div>';
     } else if(G.m.scene==='store'&&step.cash){
       h+='<div class="say-wrap say-opt"><span class="lbl">You say:</span>'+step.opts.map(function(o,i){return opt(o,i,'say-o')}).join('')+'</div>';
-    } else if(G.m.scene==='atm'&&step.type==='pin'){
-      h+='<p class="note">Tap four digits on the keypad, then choose a key.</p>';
     }
     h+='<p class="note">Tap the speaker to hear the German. Say it aloud, then tap your choice. Nothing is translated until you choose.</p>';
   } else h+=fbHTML();
