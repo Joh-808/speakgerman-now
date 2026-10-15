@@ -646,6 +646,7 @@ h2,h3{font-weight:800; color:var(--ink)}
     <div class="actions">
       <button class="btn" id="checkBtn">Check answers</button>
       <button class="btn ghost" id="retryBtn" hidden>Try again</button>
+      <button class="btn" id="nextWriteBtn" hidden>Next: Write &rarr;</button>
       <button class="btn" id="nextTierBtn" hidden>Next difficulty &rarr;</button>
       <button class="btn" id="nextEpisodeBtn" hidden>Next episode &rarr;</button>
     </div>
@@ -1385,6 +1386,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     document.getElementById("checkBtn").hidden = false;
     document.getElementById("nextTierBtn").hidden = true;
     document.getElementById("nextEpisodeBtn").hidden = true;
+    document.getElementById("nextWriteBtn").hidden = true;
   }
 
   function renderChallenge(){
@@ -1535,7 +1537,8 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     scoreEl.className = "score " + (pct >= PASS_PCT ? "pass" : "fail");
     document.getElementById("resultStars").innerHTML = "";
     document.getElementById("resultNote").textContent = "Prep mode - just a warm-up, doesn't count toward your progress bar.";
-    showPrepTranslations();
+    showTranslations();
+    document.getElementById("nextWriteBtn").hidden = false;
     document.getElementById("checkBtn").hidden = true;
     document.getElementById("retryBtn").hidden = false;
     document.getElementById("nextTierBtn").hidden = true;
@@ -1543,7 +1546,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   }
 
 
-  // ---------- Prep mode: literal + natural English translations after Check ----------
+  // ---------- literal + natural English translations after Check (Prep mode and Entry Level) ----------
   var trCache = {};
   function loadTranslations(level){
     if (trCache[level]) return trCache[level];
@@ -1552,10 +1555,11 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       .catch(function(){ trCache[level] = null; return null; });
     return trCache[level];
   }
-  function showPrepTranslations(){
+  function showTranslations(){
     var seq = currentSeq, level = currentLevel;
     loadTranslations(level).then(function(all){
-      if (!all || currentMode !== "prep" || currentSeq !== seq || currentLevel !== level) return;
+      if (!all || currentSeq !== seq || currentLevel !== level) return;
+      if (!(currentMode === "prep" || currentTier === "easy")) return;
       var lines = all[String(seq)];
       if (!lines) return;
       var rows = document.querySelectorAll("#dialogue .line");
@@ -1657,6 +1661,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     document.getElementById("checkBtn").hidden = true;
     document.getElementById("retryBtn").hidden = false;
     document.getElementById("exStars").innerHTML = starsHtml(lessonStars(currentSeq),3);
+    if (currentTier === "easy") showTranslations();
 
     var nextTierBtn = document.getElementById("nextTierBtn");
     var nextEpisodeBtn = document.getElementById("nextEpisodeBtn");
@@ -1874,6 +1879,11 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     var idx = TIER_ORDER.indexOf(currentTier);
     var nt = TIER_ORDER[idx + 1];
     if (nt){ currentTier = nt; renderExercise(); window.scrollTo(0,0); }
+  });
+  document.getElementById("nextWriteBtn").addEventListener("click", function(){
+    currentMode = "write";
+    renderExercise();
+    window.scrollTo(0,0);
   });
   document.getElementById("nextEpisodeBtn").addEventListener("click", function(){
     var ns = nextEpisodeSeq(currentSeq);
