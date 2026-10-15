@@ -313,9 +313,13 @@ h2,h3{font-weight:800; color:var(--ink)}
 .line{display:flex; gap:10px; flex-wrap:wrap; align-items:baseline}
 .line .spk{font-weight:800; color:var(--accent); min-width:5.5em; flex-shrink:0}
 .line .txt{flex:1; min-width:0; line-height:1.7}
-.tr-block{margin-top:0; font-size:inherit; line-height:1.7}
-.tr-block .tr-lit{color:var(--ink-soft)}
-.tr-block .tr-idio{color:color-mix(in srgb, var(--good) 62%, var(--ink))}
+.tr-block{margin-top:6px; padding-top:6px; border-top:1px dashed var(--line, rgba(0,0,0,.15))}
+.tr-chunk{margin:0 0 8px}
+.tr-words{display:flex; flex-wrap:wrap; gap:0 .7em; align-items:flex-start}
+.tr-w{display:inline-flex; flex-direction:column; align-items:flex-start}
+.tr-w .de{font-size:inherit; line-height:1.4}
+.tr-w .gl{font-size:.74rem; line-height:1.3; color:var(--ink-soft); min-height:1em}
+.tr-e{font-size:.88rem; line-height:1.4; color:color-mix(in srgb, var(--good) 62%, var(--ink))}
 .blank{
   border:none; border-bottom:2px solid var(--ink-soft); background:transparent; color:var(--ink);
   font:inherit; font-weight:700; width:6.5em; padding:1px 4px; text-align:center; margin:0 2px;
@@ -1550,7 +1554,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   var trCache = {};
   function loadTranslations(level){
     if (trCache[level]) return trCache[level];
-    trCache[level] = fetch("translations/" + level + ".json")
+    trCache[level] = fetch("translations/" + level + ".json?v=3")
       .then(function(r){ if (!r.ok) throw new Error("no translations"); return r.json(); })
       .catch(function(){ trCache[level] = null; return null; });
     return trCache[level];
@@ -1563,18 +1567,23 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       if (!lines) return;
       var rows = document.querySelectorAll("#dialogue .line");
       rows.forEach(function(row, i){
-        var tr = lines[i];
+        var chunks = lines[i];
         var txt = row.querySelector(".txt");
-        if (!tr || !txt || (!tr.lit && !tr.idio) || txt.querySelector(".tr-block")) return;
+        if (!chunks || !chunks.length || !txt || txt.querySelector(".tr-block")) return;
         var blk = document.createElement("div");
         blk.className = "tr-block";
-        var a = document.createElement("div");
-        a.className = "tr-lit";
-        a.textContent = "w\u00f6rt.: " + tr.lit;
-        var b = document.createElement("div");
-        b.className = "tr-idio";
-        b.textContent = "engl.: " + tr.idio;
-        blk.appendChild(a); blk.appendChild(b);
+        chunks.forEach(function(c){
+          var ch = document.createElement("div"); ch.className = "tr-chunk";
+          var ws = document.createElement("div"); ws.className = "tr-words";
+          c.w.forEach(function(p){
+            var w = document.createElement("span"); w.className = "tr-w";
+            var d = document.createElement("span"); d.className = "de"; d.textContent = p[0];
+            var g = document.createElement("span"); g.className = "gl"; g.textContent = p[1] || "";
+            w.appendChild(d); w.appendChild(g); ws.appendChild(w);
+          });
+          var e = document.createElement("div"); e.className = "tr-e"; e.textContent = c.e;
+          ch.appendChild(ws); ch.appendChild(e); blk.appendChild(ch);
+        });
         txt.appendChild(blk);
       });
     });
