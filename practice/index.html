@@ -313,6 +313,9 @@ h2,h3{font-weight:800; color:var(--ink)}
 .line{display:flex; gap:10px; flex-wrap:wrap; align-items:baseline}
 .line .spk{font-weight:800; color:var(--accent); min-width:5.5em; flex-shrink:0}
 .line .txt{flex:1; min-width:0; line-height:1.7}
+.tr-block{margin-top:2px; font-size:.82rem; line-height:1.45}
+.tr-block .tr-lit{color:var(--ink-soft)}
+.tr-block .tr-idio{color:color-mix(in srgb, var(--good) 62%, var(--ink))}
 .blank{
   border:none; border-bottom:2px solid var(--ink-soft); background:transparent; color:var(--ink);
   font:inherit; font-weight:700; width:6.5em; padding:1px 4px; text-align:center; margin:0 2px;
@@ -1532,10 +1535,46 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     scoreEl.className = "score " + (pct >= PASS_PCT ? "pass" : "fail");
     document.getElementById("resultStars").innerHTML = "";
     document.getElementById("resultNote").textContent = "Prep mode - just a warm-up, doesn't count toward your progress bar.";
+    showPrepTranslations();
     document.getElementById("checkBtn").hidden = true;
     document.getElementById("retryBtn").hidden = false;
     document.getElementById("nextTierBtn").hidden = true;
     document.getElementById("nextEpisodeBtn").hidden = true;
+  }
+
+
+  // ---------- Prep mode: literal + natural English translations after Check ----------
+  var trCache = {};
+  function loadTranslations(level){
+    if (trCache[level]) return trCache[level];
+    trCache[level] = fetch("translations/" + level + ".json")
+      .then(function(r){ if (!r.ok) throw new Error("no translations"); return r.json(); })
+      .catch(function(){ trCache[level] = null; return null; });
+    return trCache[level];
+  }
+  function showPrepTranslations(){
+    var seq = currentSeq, level = currentLevel;
+    loadTranslations(level).then(function(all){
+      if (!all || currentMode !== "prep" || currentSeq !== seq || currentLevel !== level) return;
+      var lines = all[String(seq)];
+      if (!lines) return;
+      var rows = document.querySelectorAll("#dialogue .line");
+      rows.forEach(function(row, i){
+        var tr = lines[i];
+        var txt = row.querySelector(".txt");
+        if (!tr || !txt || (!tr.lit && !tr.idio) || txt.querySelector(".tr-block")) return;
+        var blk = document.createElement("div");
+        blk.className = "tr-block";
+        var a = document.createElement("div");
+        a.className = "tr-lit";
+        a.textContent = "w\u00f6rt.: " + tr.lit;
+        var b = document.createElement("div");
+        b.className = "tr-idio";
+        b.textContent = "engl.: " + tr.idio;
+        blk.appendChild(a); blk.appendChild(b);
+        txt.appendChild(blk);
+      });
+    });
   }
 
   function normalize(s){
