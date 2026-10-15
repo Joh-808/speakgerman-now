@@ -1546,7 +1546,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
   }
 
 
-  // ---------- literal + natural English translations after Check (Prep mode and Entry Level) ----------
+  // ---------- literal + natural English translations after Check (Prep mode and every Write tier) ----------
   var trCache = {};
   function loadTranslations(level){
     if (trCache[level]) return trCache[level];
@@ -1559,7 +1559,6 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     var seq = currentSeq, level = currentLevel;
     loadTranslations(level).then(function(all){
       if (!all || currentSeq !== seq || currentLevel !== level) return;
-      if (!(currentMode === "prep" || currentTier === "easy")) return;
       var lines = all[String(seq)];
       if (!lines) return;
       var rows = document.querySelectorAll("#dialogue .line");
@@ -1661,7 +1660,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     document.getElementById("checkBtn").hidden = true;
     document.getElementById("retryBtn").hidden = false;
     document.getElementById("exStars").innerHTML = starsHtml(lessonStars(currentSeq),3);
-    if (currentTier === "easy") showTranslations();
+    showTranslations();
 
     var nextTierBtn = document.getElementById("nextTierBtn");
     var nextEpisodeBtn = document.getElementById("nextEpisodeBtn");
