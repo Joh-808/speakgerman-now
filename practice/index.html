@@ -233,6 +233,37 @@ h2,h3{font-weight:800; color:var(--ink)}
   font-size:1.2rem;
 }
 .float-nav .fn-play:active{filter:brightness(.92)}
+
+/* ---------- floating German keyboard ---------- */
+.kb-toggle{
+  position:fixed; left:16px; bottom:18px; z-index:51;
+  width:52px; height:52px; border-radius:50%; border:0; cursor:pointer;
+  background:var(--navy); color:#fff; font:inherit; font-weight:800; font-size:1.25rem;
+  box-shadow:0 8px 24px rgba(14,23,45,.35); -webkit-tap-highlight-color:transparent;
+}
+.kb-toggle[aria-expanded="true"]{background:var(--accent); color:var(--accent-ink)}
+.kb-panel{
+  position:fixed; left:16px; bottom:80px; z-index:52; width:min(300px, calc(100vw - 32px));
+  background:var(--navy); border-radius:18px; padding:8px 10px 12px;
+  box-shadow:0 10px 30px rgba(14,23,45,.4); touch-action:none;
+}
+.kb-head{
+  display:flex; align-items:center; justify-content:space-between; cursor:grab; user-select:none;
+  color:rgba(255,255,255,.7); font-size:.72rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  padding:4px 4px 8px; touch-action:none;
+}
+.kb-head:active{cursor:grabbing}
+.kb-close{border:0; background:transparent; color:#fff; font-size:1.1rem; cursor:pointer; padding:0 4px; line-height:1}
+.kb-keys{display:grid; grid-template-columns:repeat(4, 1fr); gap:6px}
+.kb-key{
+  border:0; cursor:pointer; font:inherit; font-weight:800; font-size:1.25rem; color:var(--navy);
+  background:var(--sand); border-radius:12px; height:46px; box-shadow:0 3px 0 rgba(0,0,0,.35);
+  -webkit-tap-highlight-color:transparent;
+}
+.kb-key:active{transform:translateY(2px); box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.kb-key.kb-util{background:rgba(255,255,255,.16); color:#fff; box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.kb-key.kb-util.on{background:var(--accent); color:var(--accent-ink)}
+.kb-tip{margin:8px 2px 0; font-size:.72rem; color:rgba(255,255,255,.6); line-height:1.35}
 .credit-box{margin:28px 0 8px; padding-top:18px; border-top:1px solid var(--line)}
 .credit-box p{font-size:.78rem; color:var(--ink-soft); line-height:1.5; max-width:62ch}
 .credit-box p a{color:var(--ink-soft)}
@@ -637,6 +668,13 @@ h2,h3{font-weight:800; color:var(--ink)}
   <button type="button" class="fn-seek" id="fnBack" aria-label="Back 5 seconds"><span class="fn-arrow">&#8630;</span><span>5s</span></button>
   <button type="button" class="fn-play" id="fnPlay" aria-label="Play">&#9658;</button>
   <button type="button" class="fn-seek" id="fnFwd" aria-label="Forward 5 seconds"><span class="fn-arrow">&#8631;</span><span>5s</span></button>
+</div>
+
+<button type="button" class="kb-toggle" id="kbToggle" aria-label="German keyboard" aria-expanded="false" aria-controls="kbPanel" hidden>&auml;</button>
+<div class="kb-panel" id="kbPanel" role="group" aria-label="German special characters" hidden>
+  <div class="kb-head" id="kbHead"><span>German keys</span><button type="button" class="kb-close" id="kbClose" aria-label="Close keyboard">&times;</button></div>
+  <div class="kb-keys" id="kbKeys"></div>
+  <div class="kb-tip">Tap a key to type it into the blank you're on. Drag the bar to move this.</div>
 </div>
 
 <div class="achv-modal" id="achvModal" hidden>
@@ -1249,6 +1287,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     document.getElementById("home").hidden = false;
     if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
     document.getElementById("floatNav").hidden = true;
+    syncUmlautKb();
     renderHome();
   }
 
@@ -1334,6 +1373,7 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
       ? "Prep mode uses the Mid-level gaps and doesn't earn stars - a warm-up before you write it yourself."
       : "";
     if (!prep) renderTierTabs();
+    syncUmlautKb();
 
     renderChallenge();
     renderDialogue();
@@ -1641,6 +1681,124 @@ function progressKey(seq){ return currentLevel === "A1" ? String(seq) : (current
     renderExercise();
     window.scrollTo(0,0);
   });
+
+  // ---------- floating German keyboard ----------
+  var kbLastBlank = null;
+  var kbShift = false;
+  function kbBuildKeys(){
+    var lower = ["\u00e4","\u00f6","\u00fc","\u00df"];
+    var upper = ["\u00c4","\u00d6","\u00dc","\u1e9e"];
+    var keys = kbShift ? upper : lower;
+    var wrap = document.getElementById("kbKeys");
+    wrap.innerHTML = "";
+    keys.forEach(function(ch){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "kb-key"; b.textContent = ch; b.setAttribute("data-ch", ch);
+      wrap.appendChild(b);
+    });
+    var sh = document.createElement("button");
+    sh.type = "button"; sh.className = "kb-key kb-util" + (kbShift ? " on" : "");
+    sh.id = "kbShift"; sh.textContent = "\u21e7"; sh.setAttribute("aria-label", "Capital letters");
+    sh.setAttribute("aria-pressed", kbShift ? "true" : "false");
+    wrap.appendChild(sh);
+    var bs = document.createElement("button");
+    bs.type = "button"; bs.className = "kb-key kb-util"; bs.id = "kbBack"; bs.textContent = "\u232b";
+    bs.setAttribute("aria-label", "Backspace");
+    wrap.appendChild(bs);
+  }
+  function kbTarget(){
+    if (kbLastBlank && document.body.contains(kbLastBlank) && !kbLastBlank.disabled) return kbLastBlank;
+    var first = document.querySelector("#dialogue .blank");
+    return first || null;
+  }
+  function kbInsert(ch){
+    var inp = kbTarget();
+    if (!inp) return;
+    inp.focus();
+    var start = inp.selectionStart == null ? inp.value.length : inp.selectionStart;
+    var end = inp.selectionEnd == null ? start : inp.selectionEnd;
+    inp.value = inp.value.slice(0, start) + ch + inp.value.slice(end);
+    var pos = start + ch.length;
+    try { inp.setSelectionRange(pos, pos); } catch(e){}
+    inp.dispatchEvent(new Event("input", {bubbles:true}));
+    if (kbShift){ kbShift = false; kbBuildKeys(); }
+  }
+  function kbBackspace(){
+    var inp = kbTarget();
+    if (!inp) return;
+    inp.focus();
+    var start = inp.selectionStart == null ? inp.value.length : inp.selectionStart;
+    var end = inp.selectionEnd == null ? start : inp.selectionEnd;
+    if (start === end && start > 0) start -= 1;
+    inp.value = inp.value.slice(0, start) + inp.value.slice(end);
+    try { inp.setSelectionRange(start, start); } catch(e){}
+    inp.dispatchEvent(new Event("input", {bubbles:true}));
+  }
+  function syncUmlautKb(){
+    var ex = document.getElementById("exercise");
+    var show = ex && !ex.hidden && currentMode === "write";
+    var toggle = document.getElementById("kbToggle");
+    var panel = document.getElementById("kbPanel");
+    toggle.hidden = !show;
+    if (!show){
+      panel.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  }
+  (function(){
+    var toggle = document.getElementById("kbToggle");
+    var panel = document.getElementById("kbPanel");
+    var head = document.getElementById("kbHead");
+    kbBuildKeys();
+    document.addEventListener("focusin", function(e){
+      if (e.target && e.target.classList && e.target.classList.contains("blank")) kbLastBlank = e.target;
+    });
+    // keep focus in the blank while tapping keys (no mobile keyboard flicker)
+    panel.addEventListener("mousedown", function(e){
+      if (e.target.closest(".kb-key")) e.preventDefault();
+    });
+    panel.addEventListener("pointerdown", function(e){
+      if (e.target.closest(".kb-key") && e.pointerType !== "mouse") e.preventDefault();
+    });
+    panel.addEventListener("click", function(e){
+      var key = e.target.closest(".kb-key");
+      if (!key) return;
+      if (key.id === "kbShift"){ kbShift = !kbShift; kbBuildKeys(); return; }
+      if (key.id === "kbBack"){ kbBackspace(); return; }
+      var ch = key.getAttribute("data-ch");
+      if (ch) kbInsert(ch);
+    });
+    toggle.addEventListener("click", function(){
+      var open = panel.hidden;
+      panel.hidden = !open;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    toggle.addEventListener("mousedown", function(e){ e.preventDefault(); });
+    document.getElementById("kbClose").addEventListener("click", function(){
+      panel.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    });
+    // drag by the header bar
+    var drag = null;
+    head.addEventListener("pointerdown", function(e){
+      if (e.target.closest(".kb-close")) return;
+      var r = panel.getBoundingClientRect();
+      drag = {dx: e.clientX - r.left, dy: e.clientY - r.top};
+      try { head.setPointerCapture(e.pointerId); } catch(err){}
+      e.preventDefault();
+    });
+    head.addEventListener("pointermove", function(e){
+      if (!drag) return;
+      var w = panel.offsetWidth, h = panel.offsetHeight;
+      var x = Math.min(Math.max(0, e.clientX - drag.dx), window.innerWidth - w);
+      var y = Math.min(Math.max(0, e.clientY - drag.dy), window.innerHeight - h);
+      panel.style.left = x + "px"; panel.style.top = y + "px";
+      panel.style.bottom = "auto";
+    });
+    function endDrag(){ drag = null; }
+    head.addEventListener("pointerup", endDrag);
+    head.addEventListener("pointercancel", endDrag);
+  })();
   (function(){
     var box = document.getElementById("dialogue");
     box.addEventListener("click", function(e){
