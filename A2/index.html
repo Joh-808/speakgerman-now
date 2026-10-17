@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Speak German Now &middot; A2</title>
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F3EBDF">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E172D' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='7' r='4'/%3E%3Cpath d='M10 10l9 9'/%3E%3Cpath d='M15.5 15.5l-2.5 2.5'/%3E%3Cpath d='M17.5 17.5l-2.5 2.5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Dyslexia-friendly worksheet: Atkinson Hyperlegible, left-aligned, no italics,
+   generous line-height, one check button per section instead of per-item controls. */
+:root{
+  --navy:#0E172D;
+  --coral:#F66F54;
+  --mint:#BCDDBF;
+  --mint-icon:#5E9A6A;
+  --sand:#F3EBDF;
+  --cream:#EEE5DA;
+  --linen:#ECE0D1;
+  --muted:#4A5266;
+  --key-gold:#D9A441;
+  --good:#3F8F5C;
+  --bad:#C14B3A;
+
+  --bg:var(--sand);
+  --surface:var(--cream);
+  --surface-2:var(--linen);
+  --ink:var(--navy);
+  --ink-muted:var(--muted);
+  --accent:var(--coral);
+  --learn-fg:var(--navy);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1526;
+    --surface:#16203A;
+    --surface-2:#263252;
+    --ink:#F3EBDF;
+    --ink-muted:#A6ADC2;
+    --accent:#F6886F;
+    --mint:#223A2C;
+    --mint-icon:#8FD1A0;
+    --learn-fg:#EAF3EA;
+    --good:#7FD39A;
+    --bad:#F29184;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1526;
+  --surface:#16203A;
+  --surface-2:#263252;
+  --ink:#F3EBDF;
+  --ink-muted:#A6ADC2;
+  --accent:#F6886F;
+  --mint:#223A2C;
+  --mint-icon:#8FD1A0;
+  --learn-fg:#EAF3EA;
+  --good:#7FD39A;
+  --bad:#F29184;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  letter-spacing:.01em;
+  text-align:left;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+}
+.wrap{max-width:640px;margin:0 auto}
+
+header{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:10;
+  background:var(--bg);
+  padding-block:14px 8px;
+  border-bottom:1px solid var(--surface-2);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0 0 auto;
+  height:env(safe-area-inset-top,0px);
+  z-index:10;
+  background:var(--bg);
+}
+.crumb{
+  font-size:.78rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+h1{
+  font-size:1.5rem;
+  font-weight:700;
+  margin:.25em 0 .1em;
+  color:var(--ink);
+}
+.sub{color:var(--ink-muted);font-size:.95rem;margin:0}
+
+main{padding-block:20px 50px}
+
+section{margin-bottom:28px}
+h2{
+  font-size:1.05rem;
+  font-weight:700;
+  color:var(--ink);
+  margin:0 0 6px;
+}
+.intro{
+  color:var(--ink-muted);
+  font-size:.95rem;
+  margin:0 0 14px;
+  max-width:34em;
+}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--surface-2);
+  border-radius:12px;
+  padding:16px;
+}
+
+.group{margin-bottom:14px}
+.group:last-of-type{margin-bottom:0}
+.grouplabel{
+  font-size:.75rem;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--mint-icon);
+  margin:0 0 8px;
+}
+
+.row{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:4px 8px;
+  padding:8px 0;
+  border-top:1px solid var(--surface-2);
+}
+.group .row:first-of-type{border-top:none;padding-top:0}
+.row .tag{
+  flex:none;
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--ink-muted);
+  background:var(--bg);
+  border-radius:6px;
+  padding:1px 6px;
+  align-self:flex-start;
+  margin-top:3px;
+}
+.row .text{flex:1 1 220px;min-width:0}
+
+.letter{
+  font-weight:700;
+  color:var(--ink-muted);
+}
+input.gap{
+  font:inherit;
+  font-weight:700;
+  color:var(--ink);
+  background:var(--bg);
+  border:none;
+  border-bottom:2px solid var(--ink-muted);
+  border-radius:0;
+  padding:2px 4px;
+  width:6em;
+  text-align:center;
+  min-height:32px;
+}
+input.gap:focus{outline:2px solid var(--accent);outline-offset:2px}
+input.gap.ok{border-bottom-color:var(--good);background:color-mix(in srgb, var(--good) 14%, var(--bg))}
+input.gap.bad{border-bottom-color:var(--bad);background:color-mix(in srgb, var(--bad) 14%, var(--bg))}
+.hint{
+  display:inline;
+  font-size:.85rem;
+  font-weight:700;
+  color:var(--bad);
+  margin-left:4px;
+  white-space:nowrap;
+}
+
+.sline{
+  display:block;
+  margin-bottom:18px;
+}
+.sline:last-child{margin-bottom:0}
+.gloss{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  column-gap:.5em;
+  row-gap:8px;
+}
+.gw{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  line-height:1.3;
+}
+.gw .en{
+  display:none;
+  font-size:.72rem;
+  font-weight:400;
+  color:var(--ink-muted);
+  margin-top:2px;
+  white-space:nowrap;
+}
+.card.checked .gw .en{display:block}
+.natural{
+  display:none;
+  margin-top:8px;
+  color:var(--mint-icon);
+  font-weight:700;
+  font-size:.95rem;
+  line-height:1.4;
+}
+.card.checked .natural{display:block}
+
+.footnote{
+  font-size:.85rem;
+  color:var(--ink-muted);
+  margin:12px 0 0;
+  padding-top:10px;
+  border-top:1px solid var(--surface-2);
+}
+
+.checkbar{
+  display:flex;
+  justify-content:center;
+  margin-top:16px;
+}
+.check-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent);
+  color:var(--navy);
+  border:none;
+  border-radius:10px;
+  padding:10px 20px;
+  min-height:44px;
+  font:inherit;font-weight:700;font-size:1rem;
+  cursor:pointer;
+}
+.check-btn svg{width:18px;height:18px;flex:none}
+.check-btn .teeth{transform-origin:14px 14px;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.check-btn.done .teeth{transform:scale(-1,-1)}
+
+.result{
+  text-align:center;
+  font-size:.9rem;
+  font-weight:700;
+  margin-top:10px;
+  min-height:1.3em;
+}
+.result.good{color:var(--good)}
+.result.bad{color:var(--bad)}
+
+.story p{margin:0 0 12px}
+
+footer{
+  color:var(--ink-muted);
+  font-size:.85rem;
+  padding-bottom:30px;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="crumb">A2 Übungen</div>
+    <h1>der/die/das &amp; kein-/mein-/ein-</h1>
+    <p class="sub">Nominativ &middot; Akkusativ &middot; Dativ</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <h2>1. der-Pronomen: der / die / das / die</h2>
+    <p class="intro">der/die/das/die stands in for a noun already mentioned - "that one," stressed. The first letter is given - type the ending.</p>
+    <div class="card" id="block1">
+
+      <div class="group">
+        <p class="grouplabel">Nominativ</p>
+        <div class="row"><span class="tag">m</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Da</span><span class="en">there</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">ein</span><span class="en">a</span></span><span class="gw"><span class="de">Mantel.</span><span class="en">coat.</span></span></span><span class="natural">There’s a coat.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Meinst</span><span class="en">mean</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">den</span><span class="en">that</span></span><span class="gw"><span class="de">da?&rdquo;</span><span class="en">there?</span></span></span><span class="natural">“Do you mean that one?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&ndash;</span></span><span class="gw"><span class="de">&bdquo;Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="er"></span><span class="en">that</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">elegant.&rdquo;</span><span class="en">elegant.</span></span></span><span class="natural">“Yeah, that one’s elegant.”</span></span></span></div>
+        <div class="row"><span class="tag">f</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Da</span><span class="en">there</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">eine</span><span class="en">a</span></span><span class="gw"><span class="de">M&uuml;tze.</span><span class="en">cap.</span></span></span><span class="natural">There’s a cap.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Meinst</span><span class="en">mean</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">die</span><span class="en">that</span></span><span class="gw"><span class="de">da?&rdquo;</span><span class="en">there?</span></span></span><span class="natural">“Do you mean that one?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&ndash;</span></span><span class="gw"><span class="de">&bdquo;Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="ie"></span><span class="en">that</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">cool.&rdquo;</span><span class="en">cool.</span></span></span><span class="natural">“Yeah, that one’s cool.”</span></span></span></div>
+        <div class="row"><span class="tag">n</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Da</span><span class="en">there</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">ein</span><span class="en">a</span></span><span class="gw"><span class="de">Hemd.</span><span class="en">shirt.</span></span></span><span class="natural">There’s a shirt.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Meinst</span><span class="en">mean</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">das</span><span class="en">that</span></span><span class="gw"><span class="de">da?&rdquo;</span><span class="en">there?</span></span></span><span class="natural">“Do you mean that one?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&ndash;</span></span><span class="gw"><span class="de">&bdquo;Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="as"></span><span class="en">that</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">schick.&rdquo;</span><span class="en">chic.</span></span></span><span class="natural">“Yeah, that one’s chic.”</span></span></span></div>
+        <div class="row"><span class="tag">pl</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Da</span><span class="en">there</span></span><span class="gw"><span class="de">sind</span><span class="en">are</span></span><span class="gw"><span class="de">Stiefel.</span><span class="en">boots.</span></span></span><span class="natural">There are some boots.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Meinst</span><span class="en">mean</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">die</span><span class="en">those</span></span><span class="gw"><span class="de">da?&rdquo;</span><span class="en">there?</span></span></span><span class="natural">“Do you mean those?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&ndash;</span></span><span class="gw"><span class="de">&bdquo;Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="ie"></span><span class="en">those</span></span><span class="gw"><span class="de">sind</span><span class="en">are</span></span><span class="gw"><span class="de">sch&ouml;n.&rdquo;</span><span class="en">nice.</span></span></span><span class="natural">“Yeah, they’re really nice.”</span></span></span></div>
+      </div>
+
+      <div class="group">
+        <p class="grouplabel">Akkusativ</p>
+        <div class="row"><span class="tag">m</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mariana</span><span class="en">Mariana</span></span><span class="gw"><span class="de">zeigt</span><span class="en">shows</span></span><span class="gw"><span class="de">auf</span><span class="en">at</span></span><span class="gw"><span class="de">zwei</span><span class="en">two</span></span><span class="gw"><span class="de">M&auml;ntel.</span><span class="en">coats.</span></span></span><span class="natural">Mariana points to two coats.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ich</span><span class="en">I</span></span><span class="gw"><span class="de">nehme</span><span class="en">take</span></span><span class="gw"><span class="de">nicht</span><span class="en">not</span></span><span class="gw"><span class="de">den</span><span class="en">the</span></span><span class="gw"><span class="de">grauen,</span><span class="en">grey-one,</span></span><span class="gw"><span class="de">sondern</span><span class="en">but</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="en"></span><span class="en">that</span></span><span class="gw"><span class="de">da.&rdquo;</span><span class="en">there.</span></span></span><span class="natural">“I’m not taking the grey one, I’ll take that one instead.”</span></span></span></div>
+        <div class="row"><span class="tag">f</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mariana</span><span class="en">Mariana</span></span><span class="gw"><span class="de">zeigt</span><span class="en">shows</span></span><span class="gw"><span class="de">auf</span><span class="en">at</span></span><span class="gw"><span class="de">zwei</span><span class="en">two</span></span><span class="gw"><span class="de">M&uuml;tzen.</span><span class="en">caps.</span></span></span><span class="natural">Mariana points to two caps.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ich</span><span class="en">I</span></span><span class="gw"><span class="de">nehme</span><span class="en">take</span></span><span class="gw"><span class="de">nicht</span><span class="en">not</span></span><span class="gw"><span class="de">die</span><span class="en">the</span></span><span class="gw"><span class="de">rote,</span><span class="en">red-one,</span></span><span class="gw"><span class="de">sondern</span><span class="en">but</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="ie"></span><span class="en">that</span></span><span class="gw"><span class="de">da.&rdquo;</span><span class="en">there.</span></span></span><span class="natural">“Not the red one, I’ll take that one instead.”</span></span></span></div>
+        <div class="row"><span class="tag">n</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mariana</span><span class="en">Mariana</span></span><span class="gw"><span class="de">zeigt</span><span class="en">shows</span></span><span class="gw"><span class="de">auf</span><span class="en">at</span></span><span class="gw"><span class="de">zwei</span><span class="en">two</span></span><span class="gw"><span class="de">Hemden.</span><span class="en">shirts.</span></span></span><span class="natural">Mariana points to two shirts.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ich</span><span class="en">I</span></span><span class="gw"><span class="de">nehme</span><span class="en">take</span></span><span class="gw"><span class="de">nicht</span><span class="en">not</span></span><span class="gw"><span class="de">das</span><span class="en">the</span></span><span class="gw"><span class="de">wei&szlig;e,</span><span class="en">white-one,</span></span><span class="gw"><span class="de">sondern</span><span class="en">but</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="as"></span><span class="en">that</span></span><span class="gw"><span class="de">da.&rdquo;</span><span class="en">there.</span></span></span><span class="natural">“Not the white one, I’ll take that one instead.”</span></span></span></div>
+        <div class="row"><span class="tag">pl</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mariana</span><span class="en">Mariana</span></span><span class="gw"><span class="de">zeigt</span><span class="en">shows</span></span><span class="gw"><span class="de">auf</span><span class="en">at</span></span><span class="gw"><span class="de">zwei</span><span class="en">two</span></span><span class="gw"><span class="de">Paar</span><span class="en">pairs-of</span></span><span class="gw"><span class="de">Stiefel.</span><span class="en">boots.</span></span></span><span class="natural">Mariana points to two pairs of boots.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ich</span><span class="en">I</span></span><span class="gw"><span class="de">nehme</span><span class="en">take</span></span><span class="gw"><span class="de">nicht</span><span class="en">not</span></span><span class="gw"><span class="de">die</span><span class="en">the</span></span><span class="gw"><span class="de">schwarzen,</span><span class="en">black-ones,</span></span><span class="gw"><span class="de">sondern</span><span class="en">but</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="ie"></span><span class="en">those</span></span><span class="gw"><span class="de">da.&rdquo;</span><span class="en">there.</span></span></span><span class="natural">“Not the black ones, I’ll take those instead.”</span></span></span></div>
+      </div>
+
+      <div class="group">
+        <p class="grouplabel">Dativ</p>
+        <div class="row"><span class="tag">m</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Womit</span><span class="en">with-what</span></span><span class="gw"><span class="de">schreibst</span><span class="en">write</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">gerade?</span><span class="en">right-now?</span></span></span><span class="natural">What are you writing with right now?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="em"></span><span class="en">that</span></span><span class="gw"><span class="de">da,</span><span class="en">there,</span></span><span class="gw"><span class="de">dem</span><span class="en">the</span></span><span class="gw"><span class="de">schwarzen</span><span class="en">black</span></span><span class="gw"><span class="de">Stift.</span><span class="en">pen.</span></span></span><span class="natural">With that one, the black pen.</span></span></span></div>
+        <div class="row"><span class="tag">f</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Womit</span><span class="en">with-what</span></span><span class="gw"><span class="de">schneidest</span><span class="en">cut</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">das</span><span class="en">the</span></span><span class="gw"><span class="de">Papier</span><span class="en">paper</span></span><span class="gw"><span class="de">gerade?</span><span class="en">right-now?</span></span></span><span class="natural">What are you cutting the paper with right now?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="er"></span><span class="en">that</span></span><span class="gw"><span class="de">da,</span><span class="en">there,</span></span><span class="gw"><span class="de">der</span><span class="en">the</span></span><span class="gw"><span class="de">kleinen</span><span class="en">small</span></span><span class="gw"><span class="de">Schere.</span><span class="en">scissors.</span></span></span><span class="natural">With that one, the small scissors.</span></span></span></div>
+        <div class="row"><span class="tag">n</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Womit</span><span class="en">with-what</span></span><span class="gw"><span class="de">l&auml;dst</span><span class="en">charge</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">dein</span><span class="en">your</span></span><span class="gw"><span class="de">Handy</span><span class="en">phone</span></span><span class="gw"><span class="de">gerade?</span><span class="en">right-now?</span></span></span><span class="natural">What are you charging your phone with right now?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="em"></span><span class="en">that</span></span><span class="gw"><span class="de">da,</span><span class="en">there,</span></span><span class="gw"><span class="de">dem</span><span class="en">the</span></span><span class="gw"><span class="de">schwarzen</span><span class="en">black</span></span><span class="gw"><span class="de">Ladekabel.</span><span class="en">cable.</span></span></span><span class="natural">With that one, the black cable.</span></span></span></div>
+        <div class="row"><span class="tag">pl</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Womit</span><span class="en">with-what</span></span><span class="gw"><span class="de">h&ouml;rst</span><span class="en">hear</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">gerade</span><span class="en">right-now</span></span><span class="gw"><span class="de">Musik?</span><span class="en">music?</span></span></span><span class="natural">What are you listening to music with right now?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">d</span><input class="gap" data-letter="d" data-ans="enen"></span><span class="en">those</span></span><span class="gw"><span class="de">da,</span><span class="en">there,</span></span><span class="gw"><span class="de">den</span><span class="en">the</span></span><span class="gw"><span class="de">schwarzen</span><span class="en">black</span></span><span class="gw"><span class="de">Kopfh&ouml;rern.</span><span class="en">headphones.</span></span></span><span class="natural">With those, the black headphones.</span></span></span></div>
+      </div>
+
+      <div class="checkbar">
+        <button class="check-btn" type="button" data-target="block1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/>
+            <g class="teeth"><path d="M15.5 15.5l-2.5 2.5"/><path d="M17.5 17.5l-2.5 2.5"/></g>
+          </svg>
+          <span class="label">Check answers</span>
+        </button>
+      </div>
+      <p class="result" id="block1-result"></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. kein- / mein- / ein-Pronomen</h2>
+    <p class="intro">keiner/keine/keins/keine = "none," meiner/meine/meins/meine = "mine," einer/eine/eins/welche = "one/some." The first letter is given - type the ending.</p>
+    <div class="card" id="block2">
+
+      <div class="group">
+        <p class="grouplabel">Nominativ</p>
+        <div class="row"><span class="tag">m</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ist</span><span class="en">is</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">ein</span><span class="en">a</span></span><span class="gw"><span class="de">Stift?</span><span class="en">pen?</span></span></span><span class="natural">Is there a pen here?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Nein,</span><span class="en">no,</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">leider</span><span class="en">unfortunately</span></span><span class="gw"><span class="de"><span class="letter">k</span><input class="gap" data-letter="k" data-ans="einer">.</span><span class="en">none.</span></span></span><span class="natural">No, there isn’t one, unfortunately.</span></span></span></div>
+        <div class="row"><span class="tag">f</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ist</span><span class="en">is</span></span><span class="gw"><span class="de">die</span><span class="en">the</span></span><span class="gw"><span class="de">Brille</span><span class="en">glasses</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">gut?</span><span class="en">good?</span></span></span><span class="natural">Are these glasses any good?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ah,</span><span class="en">ah,</span></span><span class="gw"><span class="de">danke,</span><span class="en">thanks,</span></span><span class="gw"><span class="de">nein.</span><span class="en">no.</span></span></span><span class="natural">Ah, thanks, no.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de"><span class="letter">M</span><input class="gap" data-letter="M" data-ans="eine"></span><span class="en">mine</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">wieder</span><span class="en">again</span></span><span class="gw"><span class="de">da.</span><span class="en">there.</span></span></span><span class="natural">Mine turned up again.</span></span></span></div>
+        <div class="row"><span class="tag">n</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ist</span><span class="en">is</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">ein</span><span class="en">a</span></span><span class="gw"><span class="de">Ladekabel?</span><span class="en">charging-cable?</span></span></span><span class="natural">Is there a charging cable here?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de"><span class="letter">e</span><input class="gap" data-letter="e" data-ans="ins">.</span><span class="en">one.</span></span></span><span class="natural">Yes, there’s one.</span></span></span></div>
+        <div class="row"><span class="tag">pl*</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Habt</span><span class="en">have</span></span><span class="gw"><span class="de">ihr</span><span class="en">you</span></span><span class="gw"><span class="de">Taschent&uuml;cher</span><span class="en">tissues</span></span><span class="gw"><span class="de">dabei?</span><span class="en">with-you?</span></span></span><span class="natural">Do you have tissues on you?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de">wir</span><span class="en">we</span></span><span class="gw"><span class="de">haben</span><span class="en">have</span></span><span class="gw"><span class="de"><span class="letter">w</span><input class="gap" data-letter="w" data-ans="elche">.</span><span class="en">some.</span></span></span><span class="natural">Yeah, we’ve got some.</span></span></span></div>
+      </div>
+
+      <div class="group">
+        <p class="grouplabel">Akkusativ</p>
+        <div class="row"><span class="tag">m</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Hast</span><span class="en">have</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">einen</span><span class="en">a</span></span><span class="gw"><span class="de">Stift</span><span class="en">pen</span></span><span class="gw"><span class="de">dabei?</span><span class="en">with-you?</span></span></span><span class="natural">Do you have a pen on you?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Nein,</span><span class="en">no,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de">leider</span><span class="en">sorry</span></span><span class="gw"><span class="de"><span class="letter">k</span><input class="gap" data-letter="k" data-ans="einen">.</span><span class="en">none.</span></span></span><span class="natural">No, I don’t, sorry.</span></span></span></div>
+        <div class="row"><span class="tag">f</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Hast</span><span class="en">have</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">eine</span><span class="en">a</span></span><span class="gw"><span class="de">Schere</span><span class="en">scissors</span></span><span class="gw"><span class="de">dabei?</span><span class="en">with-you?</span></span></span><span class="natural">Do you have scissors on you?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de"><span class="letter">e</span><input class="gap" data-letter="e" data-ans="ine">.</span><span class="en">one.</span></span></span><span class="natural">Yeah, I’ve got some.</span></span></span></div>
+        <div class="row"><span class="tag">n</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Brauchst</span><span class="en">need</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">mein</span><span class="en">my</span></span><span class="gw"><span class="de">Ladekabel?</span><span class="en">charging-cable?</span></span></span><span class="natural">Do you need my charging cable?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Nein</span><span class="en">no</span></span><span class="gw"><span class="de">danke,</span><span class="en">thanks,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de"><span class="letter">m</span><input class="gap" data-letter="m" data-ans="eins"></span><span class="en">mine</span></span><span class="gw"><span class="de">dabei.</span><span class="en">with-me.</span></span></span><span class="natural">No thanks, I’ve got my own.</span></span></span></div>
+        <div class="row"><span class="tag">pl*</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Hast</span><span class="en">have</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">Taschent&uuml;cher</span><span class="en">tissues</span></span><span class="gw"><span class="de">dabei?</span><span class="en">with-you?</span></span></span><span class="natural">Do you have tissues on you?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de"><span class="letter">w</span><input class="gap" data-letter="w" data-ans="elche">.</span><span class="en">some.</span></span></span><span class="natural">Yeah, I’ve got some.</span></span></span></div>
+      </div>
+
+      <div class="group">
+        <p class="grouplabel">Dativ</p>
+        <div class="row"><span class="tag">m</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Hast</span><span class="en">have</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">keinen</span><span class="en">no</span></span><span class="gw"><span class="de">Stift</span><span class="en">pen</span></span><span class="gw"><span class="de">dabei?</span><span class="en">with-you?</span></span></span><span class="natural">Don’t have a pen?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Nimm</span><span class="en">take</span></span><span class="gw"><span class="de">meinen</span><span class="en">mine</span></span><span class="gw"><span class="de">&ndash;</span></span><span class="gw"><span class="de">schreib</span><span class="en">write</span></span><span class="gw"><span class="de">einfach</span><span class="en">just</span></span><span class="gw"><span class="de">mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">m</span><input class="gap" data-letter="m" data-ans="einem">.</span><span class="en">mine.</span></span></span><span class="natural">Take mine – just write with it.</span></span></span></div>
+        <div class="row"><span class="tag">f</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Womit</span><span class="en">with-what</span></span><span class="gw"><span class="de">schneidest</span><span class="en">cut</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">das</span><span class="en">the</span></span><span class="gw"><span class="de">Papier?</span><span class="en">paper?</span></span></span><span class="natural">What are you cutting the paper with?</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">k</span><input class="gap" data-letter="k" data-ans="einer">,</span><span class="en">none,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de">keine</span><span class="en">no</span></span><span class="gw"><span class="de">Schere</span><span class="en">scissors</span></span><span class="gw"><span class="de">dabei.</span><span class="en">with-me.</span></span></span><span class="natural">With nothing – I don’t have scissors on me.</span></span></span></div>
+        <div class="row"><span class="tag">n</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ich</span><span class="en">I</span></span><span class="gw"><span class="de">brauche</span><span class="en">need</span></span><span class="gw"><span class="de">ein</span><span class="en">a</span></span><span class="gw"><span class="de">Ladekabel.</span><span class="en">charging-cable.</span></span></span><span class="natural">I need a charging cable.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Kannst</span><span class="en">can</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">mir</span><span class="en">me</span></span><span class="gw"><span class="de">mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">e</span><input class="gap" data-letter="e" data-ans="inem"></span><span class="en">one</span></span><span class="gw"><span class="de">aushelfen?</span><span class="en">help-out?</span></span></span><span class="natural">Can you lend me one?</span></span></span></div>
+        <div class="row"><span class="tag">pl*</span><span class="text"><span class="sline"><span class="gloss"><span class="gw"><span class="de">Ich</span><span class="en">I</span></span><span class="gw"><span class="de">brauche</span><span class="en">need</span></span><span class="gw"><span class="de">Kopfh&ouml;rer.</span><span class="en">headphones.</span></span></span><span class="natural">I need headphones.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Kannst</span><span class="en">can</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">mir</span><span class="en">me</span></span><span class="gw"><span class="de">mit</span><span class="en">with</span></span><span class="gw"><span class="de"><span class="letter">w</span><input class="gap" data-letter="w" data-ans="elchen"></span><span class="en">some</span></span><span class="gw"><span class="de">aushelfen?</span><span class="en">help-out?</span></span></span><span class="natural">Can you lend me some?</span></span></span></div>
+      </div>
+
+      <p class="footnote">* welche/welchen is the plural stand-in for "one/some" - it's not a question word. Don't confuse it with "welcher?" ("which one?").</p>
+
+      <div class="checkbar">
+        <button class="check-btn" type="button" data-target="block2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/>
+            <g class="teeth"><path d="M15.5 15.5l-2.5 2.5"/><path d="M17.5 17.5l-2.5 2.5"/></g>
+          </svg>
+          <span class="label">Check answers</span>
+        </button>
+      </div>
+      <p class="result" id="block2-result"></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. Gemischt - aus dem Kontext</h2>
+    <p class="intro">Lukas, Mariana and Jana pack for a trip. Work out which word fits.</p>
+    <div class="card story" id="block3">
+      <p><span class="sline"><span class="gloss"><span class="gw"><span class="de">Lukas</span><span class="en">Lukas</span></span><span class="gw"><span class="de">sucht</span><span class="en">searches</span></span><span class="gw"><span class="de">seine</span><span class="en">his</span></span><span class="gw"><span class="de">Sachen</span><span class="en">things</span></span><span class="gw"><span class="de">f&uuml;r</span><span class="en">for</span></span><span class="gw"><span class="de">die</span><span class="en">the</span></span><span class="gw"><span class="de">Reise.</span><span class="en">trip.</span></span></span><span class="natural">Lukas is looking for his things for the trip.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Mariana,</span><span class="en">Mariana,</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">mein</span><span class="en">my</span></span><span class="gw"><span class="de">Stift?&rdquo;</span><span class="en">pen?</span></span></span><span class="natural">“Mariana, is my pen here?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Nein,</span><span class="en">no,</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">leider</span><span class="en">unfortunately</span></span><span class="gw"><span class="de"><input class="gap" data-ans="keiner">.</span><span class="en">none.</span></span><span class="gw"><span class="de">Frag</span><span class="en">ask</span></span><span class="gw"><span class="de">mal</span><span class="en">just</span></span><span class="gw"><span class="de">Jana.</span><span class="en">Jana.</span></span><span class="gw"><span class="de"><input class="gap" data-ans="die"></span><span class="en">she</span></span><span class="gw"><span class="de">wei&szlig;</span><span class="en">knows</span></span><span class="gw"><span class="de">bestimmt,</span><span class="en">surely,</span></span><span class="gw"><span class="de">wo</span><span class="en">where</span></span><span class="gw"><span class="de"><input class="gap" data-ans="einer"></span><span class="en">one</span></span><span class="gw"><span class="de">ist.&rdquo;</span><span class="en">is.</span></span></span><span class="natural">“No, there isn’t one, sorry. Ask Jana, she’ll know where one is.”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Jana,</span><span class="en">Jana,</span></span><span class="gw"><span class="de">hast</span><span class="en">have</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">einen</span><span class="en">a</span></span><span class="gw"><span class="de">Stift?&rdquo;</span><span class="en">pen?</span></span></span><span class="natural">“Jana, do you have a pen?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de"><input class="gap" data-ans="einen">!&rdquo;</span><span class="en">one!&rdquo;</span></span></span><span class="natural">“Yeah, I’ve got one!”</span></span></p>
+      <p><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ist</span><span class="en">is</span></span><span class="gw"><span class="de"><input class="gap" data-ans="der"></span><span class="en">that</span></span><span class="gw"><span class="de">hier</span><span class="en">here</span></span><span class="gw"><span class="de">auch</span><span class="en">also</span></span><span class="gw"><span class="de">gut?&rdquo;</span><span class="en">good?&rdquo;</span></span></span><span class="natural">“Is this one good too?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Lukas</span><span class="en">Lukas</span></span><span class="gw"><span class="de">zeigt</span><span class="en">shows</span></span><span class="gw"><span class="de">einen</span><span class="en">an</span></span><span class="gw"><span class="de">anderen</span><span class="en">other</span></span><span class="gw"><span class="de">Stift.</span><span class="en">pen.</span></span></span><span class="natural">Lukas shows another pen.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ah,</span><span class="en">ah,</span></span><span class="gw"><span class="de">danke,</span><span class="en">thanks,</span></span><span class="gw"><span class="de">nein.</span><span class="en">no.</span></span><span class="gw"><span class="de"><input class="gap" data-ans="meiner"></span><span class="en">mine</span></span><span class="gw"><span class="de">ist</span><span class="en">is</span></span><span class="gw"><span class="de">wieder</span><span class="en">again</span></span><span class="gw"><span class="de">da&rdquo;,</span><span class="en">there,</span></span><span class="gw"><span class="de">sagt</span><span class="en">says</span></span><span class="gw"><span class="de">Mariana.</span><span class="en">Mariana.</span></span></span><span class="natural">“Ah, thanks, no, mine turned up again”, says Mariana.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">Sp&auml;ter</span><span class="en">later</span></span><span class="gw"><span class="de">packt</span><span class="en">packs</span></span><span class="gw"><span class="de">sie</span><span class="en">she</span></span><span class="gw"><span class="de">ihre</span><span class="en">her</span></span><span class="gw"><span class="de">Taschen.</span><span class="en">bags.</span></span></span><span class="natural">Later she’s packing her bags.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Nimmst</span><span class="en">take</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">die</span><span class="en">the</span></span><span class="gw"><span class="de">blaue</span><span class="en">blue</span></span><span class="gw"><span class="de">Tasche</span><span class="en">bag</span></span><span class="gw"><span class="de">mit?&rdquo;</span><span class="en">along?</span></span></span><span class="natural">“Are you taking the blue bag?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Nein,</span><span class="en">no,</span></span><span class="gw"><span class="de"><input class="gap" data-ans="die"></span><span class="en">that</span></span><span class="gw"><span class="de">nehme</span><span class="en">take</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">nicht,</span><span class="en">not,</span></span><span class="gw"><span class="de">sondern</span><span class="en">but</span></span><span class="gw"><span class="de"><input class="gap" data-ans="eine"></span><span class="en">a</span></span><span class="gw"><span class="de">andere.&rdquo;</span><span class="en">different-one.</span></span></span><span class="natural">“No, not that one – I’ll take a different one.”</span></span></p>
+      <p><span class="sline"><span class="gloss"><span class="gw"><span class="de">Mariana</span><span class="en">Mariana</span></span><span class="gw"><span class="de">braucht</span><span class="en">needs</span></span><span class="gw"><span class="de">noch</span><span class="en">still</span></span><span class="gw"><span class="de">Kopfh&ouml;rer</span><span class="en">headphones</span></span><span class="gw"><span class="de">f&uuml;r</span><span class="en">for</span></span><span class="gw"><span class="de">den</span><span class="en">the</span></span><span class="gw"><span class="de">Flug.</span><span class="en">flight.</span></span></span><span class="natural">Mariana still needs headphones for the flight.</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Hast</span><span class="en">have</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">Kopfh&ouml;rer?&rdquo;</span><span class="en">headphones?</span></span></span><span class="natural">“Do you have headphones?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Ja,</span><span class="en">yes,</span></span><span class="gw"><span class="de">ich</span><span class="en">I</span></span><span class="gw"><span class="de">habe</span><span class="en">have</span></span><span class="gw"><span class="de"><input class="gap" data-ans="welche">.</span><span class="en">some.</span></span><span class="gw"><span class="de">Meine</span><span class="en">mine</span></span><span class="gw"><span class="de">sind</span><span class="en">are</span></span><span class="gw"><span class="de">kaputt</span><span class="en">broken</span></span><span class="gw"><span class="de">&ndash;</span></span><span class="gw"><span class="de">kannst</span><span class="en">can</span></span><span class="gw"><span class="de">du</span><span class="en">you</span></span><span class="gw"><span class="de">mir</span><span class="en">me</span></span><span class="gw"><span class="de">mit</span><span class="en">with</span></span><span class="gw"><span class="de"><input class="gap" data-ans="welchen"></span><span class="en">some</span></span><span class="gw"><span class="de">aushelfen?&rdquo;</span><span class="en">help-out?</span></span></span><span class="natural">“Yeah, I’ve got some. Mine are broken, can you lend me some?”</span></span><span class="sline"><span class="gloss"><span class="gw"><span class="de">&bdquo;Klar,</span><span class="en">sure,</span></span><span class="gw"><span class="de">nimm</span><span class="en">take</span></span><span class="gw"><span class="de">meine!&rdquo;</span><span class="en">mine!</span></span></span><span class="natural">“Sure, take mine!”</span></span></p>
+
+      <div class="checkbar">
+        <button class="check-btn" type="button" data-target="block3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/>
+            <g class="teeth"><path d="M15.5 15.5l-2.5 2.5"/><path d="M17.5 17.5l-2.5 2.5"/></g>
+          </svg>
+          <span class="label">Check answers</span>
+        </button>
+      </div>
+      <p class="result" id="block3-result"></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">LingoKey &middot; speakgerman-now.com/A2</footer>
+
+<script>
+function normalize(s){
+  return s.trim().toLocaleLowerCase('de').replace(/ß/g,'ss');
+}
+document.querySelectorAll('.check-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var id = btn.getAttribute('data-target');
+    var container = document.getElementById(id);
+    var inputs = container.querySelectorAll('input.gap');
+    var correct = 0;
+    inputs.forEach(function(inp){
+      var ok = normalize(inp.value) === normalize(inp.getAttribute('data-ans'));
+      inp.classList.remove('ok','bad');
+      inp.classList.add(ok ? 'ok' : 'bad');
+      var hint = inp.nextSibling;
+      // remove any existing hint span right after this input
+      if(inp._hintEl){ inp._hintEl.remove(); inp._hintEl = null; }
+      if(!ok){
+        var h = document.createElement('span');
+        h.className = 'hint';
+        var letter = inp.getAttribute('data-letter') || '';
+        h.textContent = '→ ' + letter + inp.getAttribute('data-ans');
+        inp.insertAdjacentElement('afterend', h);
+        inp._hintEl = h;
+      } else {
+        correct++;
+      }
+    });
+    btn.classList.toggle('done', true);
+    container.classList.add('checked');
+    var result = document.getElementById(id + '-result');
+    if(correct === inputs.length){
+      result.textContent = 'All ' + inputs.length + ' correct!';
+      result.className = 'result good';
+    } else {
+      result.textContent = correct + ' of ' + inputs.length + ' correct - corrections shown below the gaps.';
+      result.className = 'result bad';
+    }
+  });
+});
+</script>
+</body>
+</html>
