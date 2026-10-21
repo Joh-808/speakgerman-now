@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Speak German - now. Pilot cards</title>
+<title>Learn Words | Speak German - now.</title>
 <style>
 /* Layout: one phone-width column, centred on larger screens. Bottom tab bar. Cards sit on cream, page on sand. */
 :root{
@@ -164,7 +164,7 @@ textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid var(--l
 <div class="app" id="app"></div>
 <nav class="tabs" aria-label="Main"><div class="tabs-in" id="tabs"></div></nav>
 
-<script src="/pilot/shared.js?v=3"></script>
+<script src="/pilot/shared.js?v=4"></script>
 <script>
 // Pilot deck: parallel to /cards, new priority order. See PILOT decision log. rank = row number in german_2400_v2 core2400 (composite order); 0 = free word (name or cognate).
 const UNITS = {
@@ -310,8 +310,8 @@ var PLAY='<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';
 /* ---------- state ---------- */
 var STORE_KEY="lingokey-pilot-cards-v1";
 var mem=null, S=null;
-function fresh(){return {v:1,cards:{},log:[],dayNew:{},set:{goal:15,speed:0.85,hide:false,next:true,auto:true},rev:{},notes:{},offset:0,studyMs:0,overdue:{},dayDone:{}};}
-function load(){try{var r=localStorage.getItem(STORE_KEY);if(r){var o=JSON.parse(r);if(o&&o.v===1){o.dayDone=o.dayDone||{};o.set=o.set||{};if([5,15,30].indexOf(o.set.goal)<0)o.set.goal=15;if(o.dv!==DATAVER){o.rev=o.rev||{};RESET.forEach(function(k){delete o.rev[k];});o.notes=o.notes||{};if(typeof NOTECLEAR!=="undefined")NOTECLEAR.forEach(function(k){delete o.notes[k];});o.dv=DATAVER;}return o;}}}catch(e){}return fresh();}
+function fresh(){return {v:1,cards:{},log:[],dayNew:{},set:{goal:15,speed:0.85,hide:false,next:true,auto:true},rev:{},notes:{},offset:0,studyMs:0,overdue:{},dayDone:{},dayAns:{}};}
+function load(){try{var r=localStorage.getItem(STORE_KEY);if(r){var o=JSON.parse(r);if(o&&o.v===1){o.dayDone=o.dayDone||{};o.dayAns=o.dayAns||{};o.set=o.set||{};if([5,15,30].indexOf(o.set.goal)<0)o.set.goal=15;if(o.dv!==DATAVER){o.rev=o.rev||{};RESET.forEach(function(k){delete o.rev[k];});o.notes=o.notes||{};if(typeof NOTECLEAR!=="undefined")NOTECLEAR.forEach(function(k){delete o.notes[k];});o.dv=DATAVER;}return o;}}}catch(e){}return fresh();}
 function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(S));}catch(e){mem=JSON.stringify(S);}}
 S=load();
 function now(){return Date.now()+S.offset;}
@@ -337,27 +337,16 @@ function validate(i){
   return {ok:ok,unk:unk,fresh:fresh};
 }
 function newToday(){return S.dayNew[dkey(now())]||0;}
-function doneToday(){return Object.keys(S.dayDone[dkey(now())]||{}).length;}
-function isCounted(id){return !!(S.dayDone[dkey(now())]||{})[id];}
-function markCounted(id){var k=dkey(now());S.dayDone[k]=S.dayDone[k]||{};S.dayDone[k][id]=1;}
+function doneToday(){return S.dayAns[dkey(now())]||0;}
 function pickCard(){
-  // The scheduler decides the mix. N = cards per day the student chose (5, 15, 30), reviews and new together.
-  // Cards still in their learning steps today cost nothing extra. Reviews come first, but at least 20% of the day is reserved for new cards.
-  var N=S.set.goal,t=now(),due=dueList();
-  var free=due.filter(function(c){return isCounted(c.n);});
-  if(free.length)return {c:free[0],kind:"rev"};
-  var freshDue=due.filter(function(c){return !isCounted(c.n);});
-  var counted=doneToday(),nIdx=nextNewIdx();
-  if(counted<N){
-    var newN=newToday(),revN=counted-newN,reserve=Math.max(1,Math.ceil(N*0.2)),canNew=nIdx>=0;
-    if(freshDue.length&&(revN<N-reserve||!canNew||newN>=reserve))return {c:freshDue[0],kind:"rev"};
-    if(canNew)return {c:CARDS[nIdx],kind:"new"};
-    if(freshDue.length)return {c:freshDue[0],kind:"rev"};
-  }
-  if(typeof sess!=="undefined"&&sess&&sess.touched){
-    var pend=CARDS.filter(function(c){var s=S.cards[c.n];return s&&s.st==="learn"&&sess.touched[c.n]&&s.due<=t+30*MIN;}).sort(function(a,b){return S.cards[a.n].due-S.cards[b.n].due;});
-    if(pend.length)return {c:pend[0],kind:"rev"};
-  }
+  // N = cards per day the student chose (5, 15 or 30). Every answer (new, review or repeat) counts toward N.
+  // Due reviews come first, but at least 20% of the day is kept for new cards. How many new cards fit depends on the review queue.
+  var N=S.set.goal,counted=doneToday();
+  if(counted>=N)return null;
+  var due=dueList(),nIdx=nextNewIdx(),newN=newToday(),revN=counted-newN,reserve=Math.max(1,Math.ceil(N*0.2)),canNew=nIdx>=0;
+  if(due.length&&(revN<N-reserve||!canNew||newN>=reserve))return {c:due[0],kind:"rev"};
+  if(canNew)return {c:CARDS[nIdx],kind:"new"};
+  if(due.length)return {c:due[0],kind:"rev"};
   return null;
 }
 function nextNewIdx(){for(var i=0;i<CARDS.length;i++){if(!S.cards[CARDS[i].n])return i;}return -1;}
@@ -471,7 +460,7 @@ function answer(good){
   if(good&&s.st==="learn"&&n.st==="review"){n.learnedAt=now();}
   if(s.learnedAt&&!n.learnedAt)n.learnedAt=s.learnedAt;
   S.cards[c.n]=n;
-  var firstToday=!isCounted(c.n);markCounted(c.n);
+  var firstToday=true;S.dayAns[dkey(now())]=doneToday()+1;if(window.LK){LK.setProgress(doneToday(),S.set.goal);if(doneToday()>=S.set.goal)LK.markDone('cards');}
   if(isNew){S.dayNew[dkey(now())]=newToday()+1;sess.newDone++;if(window.LK)LK.cardStat('n');}else{sess.rev++;if(firstToday&&window.LK)LK.cardStat('r');}
   if(window.LK)LK.cardStat(good?'gd':'ag');
   if(good){sess.good++;if(sess.passed.indexOf(c.n)<0)sess.passed.push(c.n);}else sess.again++;
@@ -493,7 +482,7 @@ function finish(){
   summary={ms:ms,newN:sess.newDone,rev:sess.rev,recall:tot?Math.round(100*sess.good/tot):100,idxBefore:sess.before,idxAfter:indexPct(),passed:sess.passed.slice(),learned:Object.keys(learnedSet()).length,left:CARDS.length-Object.keys(S.cards).length};
   sess=null;route="summary";render();
 }
-function quit(){if(sess&&(sess.newDone+sess.rev)>0&&window.LK)LK.markDone('cards');if(timer){clearInterval(timer);timer=null;}if(sess){S.studyMs+=Date.now()-sess.t0;S.log.push({t:now(),day:dkey(now()),ms:Date.now()-sess.t0,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again});save();}sess=null;route="today";render();}
+function quit(){if(timer){clearInterval(timer);timer=null;}if(sess){S.studyMs+=Date.now()-sess.t0;S.log.push({t:now(),day:dkey(now()),ms:Date.now()-sess.t0,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again});save();}sess=null;route="today";render();}
 
 /* ---------- derived stats ---------- */
 function streak(){
@@ -544,7 +533,7 @@ function underlined(c){
   }).join(" ");
 }
 function render(){
-  if(window.LK){if(route==="session"||route==="summary"||route==="shadow")LK.start("cards",{badge:false});else LK.stop();}
+  if(window.LK){if(route==="session"||route==="summary"||route==="shadow")LK.start("cards",{badge:false});else LK.stop();LK.setProgress(doneToday(),S.set.goal);}
   if(route==="session")return renderSession();
   if(route==="shadow")return renderShadow();
   var html=top();

@@ -71,7 +71,7 @@ details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;alig
 <body>
 <main class="wrap" id="top"><div id="app"></div></main>
 <canvas id="confetti" aria-hidden="true"></canvas>
-<script src="/pilot/shared.js?v=3"></script>
+<script src="/pilot/shared.js?v=4"></script>
 <script>
 (function(){
 "use strict";
@@ -107,6 +107,7 @@ function door(closed,msg){
 var panelOpen=false,noteOpen=false,exType="",exMin=0;
 function row(vd,key,icon,title,sub,btn,tm,toggleable){
   var on=isOn(vd,key);
+  if(key==="cards"&&!on&&vd===todayNum()){var c=LK.day().cards,g=c.goal||0,a=c.ans||0;if(g&&a>0)sub=Math.min(99,Math.round(100*a/g))+"% of daily goal";}
   return '<div class="row" data-on="'+(on?1:0)+'"><button class="tog" type="button" data-t="'+key+'" aria-pressed="'+on+'" aria-label="Done: '+esc(title)+'">'+CHECK+'</button><div class="mid"><b>'+IC[icon]+esc(title)+'</b>'+(tm?'<span class="tm" data-tm="'+tm+'">'+tm2(tm)+'</span>':'')+(sub?'<span class="sub">'+esc(sub)+'</span>':'')+'</div>'+(btn||'')+'</div>';
 }
 function tm2(t){return t==="other"?LK.extraMin()+" min":LK.fmt(LK.day().ms[t]);}
@@ -123,7 +124,7 @@ function render(){
   }else{
     h+='<div class="doorwrap">'+door(first,"")+'</div>';
     if(vd!==today)h+='<div class="banner small">Looking at day '+vd+'. <button class="linkbtn" type="button" id="gotoday" style="padding:0;min-height:32px">Back to today</button></div>';
-    h+=row(vd,"cards","cards","Cards","",'<a class="btn" href="/pilot/cards/">Start</a>',"cards");
+    h+=row(vd,"cards","cards","Learn Words","",'<a class="btn" href="/pilot/cards/">Start</a>',"cards");
     if(x.chain)h+=row(vd,"chain","chain","Chain: Stage "+x.chain,"",'<a class="btn" href="/pilot/chains/">Start</a>',"chains");
     else if(x.rep)h+=row(vd,"chain","chain","Chain","",'<a class="btn second" href="/pilot/chains/">Start</a>',"chains");
     h+=row(vd,"listen","listen","Listen","10 min, hands-off",'<a class="btn" href="/pilot/listen/">Start</a>',"listen");

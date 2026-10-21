@@ -80,6 +80,7 @@ function setPlaying(b){T.playing=!!b;paint();}
 window.addEventListener("pagehide",function(){if(T.type)tick();});
 /* ---- records ---- */
 function addExtra(type,min,note){refresh();day().extra.push({type:type,min:min,note:note||"",t:Date.now()});save();}
+function setProgress(a,g){refresh();var c=day().cards;if(c.ans!==a||c.goal!==g){c.ans=a;c.goal=g;save();}}
 function markDone(t){refresh();day().done[t]=1;save();}
 function isDone(t){return !!day().done[t];}
 function removeExtra(i){refresh();day().extra.splice(i,1);save();}
@@ -100,6 +101,6 @@ function checkin(k,dayNo,note){
 }
 function uncheckin(k){refresh();day(k).checkin=null;save();}
 window.LK={dkey:dkey,isTest:isTest,refresh:refresh,get:function(){return S;},save:save,day:day,appMs:appMs,extraMin:extraMin,totalMs:totalMs,overallMs:overallMs,fmt:fmt,fmtMin:fmtMin,
-  start:start,stop:stop,setPlaying:setPlaying,sessionMs:function(){return T.sess;},addExtra:addExtra,markDone:markDone,isDone:isDone,removeExtra:removeExtra,cardStat:cardStat,rate:rate,lastRating:lastRating,
+  start:start,stop:stop,setPlaying:setPlaying,sessionMs:function(){return T.sess;},addExtra:addExtra,setProgress:setProgress,markDone:markDone,isDone:isDone,removeExtra:removeExtra,cardStat:cardStat,rate:rate,lastRating:lastRating,
   checkin:checkin,uncheckin:uncheckin,post:post,summaryText:summaryText,TYPES:TYPES,LABEL:LABEL,EXTRA:EXTRA};
 })();
