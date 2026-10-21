@@ -281,14 +281,14 @@ var STAGES = [
   { id:"D", title:"etwas / nichts + comparative",
     note:"After etwas and nichts the comparative becomes a noun: capital letter and the ending -es (etwas Größeres, nichts Besseres).",
     rows:[
-      r("Die Wohnung ist klein. Ich suche **etwas Größeres**.", "The apartment is small. I am looking for something bigger.", "switch: das Handy, teuer, Billigeres"),
-      r("Das Handy ist teuer. Ich suche **etwas Billigeres**.", "The phone is expensive. I am looking for something cheaper.", "switch: die Jacke, nicht warm, Wärmeres"),
-      r("Die Jacke ist nicht warm. Ich suche **etwas Wärmeres**.", "The jacket is not warm. I am looking for something warmer.", "new: die Wohnung, klein, ich, finden, nichts, Größeres"),
-      r("Die Wohnung ist klein. Ich finde **nichts Größeres**.", "The apartment is small. I can't find anything bigger.", "switch: das Handy, teuer, Billigeres"),
-      r("Das Handy ist teuer. Ich finde **nichts Billigeres**.", "The phone is expensive. I can't find anything cheaper.", "switch: das Restaurant, laut, Ruhigeres"),
+      r("Die Wohnung ist klein. Ich suche **etwas Größeres**.", "The apartment is small. I am looking for something bigger.", "switch: das Handy, teuer, Günstigeres"),
+      r("Das Handy ist teuer. Ich suche **etwas Günstigeres**.", "The phone is expensive. I am looking for something cheaper.", "switch: die Jacke, nicht warm genug, Wärmeres"),
+      r("Die Jacke ist nicht warm genug. Ich suche **etwas Wärmeres**.", "The jacket is not warm enough. I am looking for something warmer.", "new: die Wohnung, klein, ich, finden, nichts, Größeres"),
+      r("Die Wohnung ist klein. Ich finde **nichts Größeres**.", "The apartment is small. I can't find anything bigger.", "switch: das Handy, teuer, Günstigeres"),
+      r("Das Handy ist teuer. Ich finde **nichts Günstigeres**.", "The phone is expensive. I can't find anything cheaper.", "switch: das Restaurant, laut, Ruhigeres"),
       r("Das Restaurant ist laut. Ich finde **nichts Ruhigeres**.", "The restaurant is loud. I can't find anything quieter.", "new: die Wohnung, klein, Haben Sie, etwas, Größeres"),
-      r("Die Wohnung ist klein. Haben Sie **etwas Größeres**?", "The apartment is small. Do you have something bigger?", "switch: das Handy, teuer, Billigeres"),
-      r("Das Handy ist teuer. Haben Sie **etwas Billigeres**?", "The phone is expensive. Do you have something cheaper?", "switch: das Restaurant, laut, Ruhigeres"),
+      r("Die Wohnung ist klein. Haben Sie **etwas Größeres**?", "The apartment is small. Do you have something bigger?", "switch: das Handy, teuer, Günstigeres"),
+      r("Das Handy ist teuer. Haben Sie **etwas Günstigeres**?", "The phone is expensive. Do you have something cheaper?", "switch: das Restaurant, laut, Ruhigeres"),
       r("Das Restaurant ist laut. Haben Sie **etwas Ruhigeres**?", "The restaurant is loud. Do you have something quieter?", "new: das Essen, nicht gut, Gibt es, etwas Besseres"),
       r("Das Essen ist nicht gut. Gibt es **etwas Besseres**?", "The food is not good. Is there something better?", "switch: gut, Es gibt, nichts"),
       r("Das Essen ist gut. Es gibt **nichts Besseres**.", "The food is good. There is nothing better.", "switch: das Handy"),
@@ -681,7 +681,7 @@ function giveHint(){
   var toks = tokenize(plain(row.de));
   var n = toks.length;
   var sents = plain(row.de).split(/[.!?]+/).filter(function(x){ return x.trim().length>0; }).length;
-  showFeedback("<strong>Hint:</strong> use the previous phrase as a model. Only swap or add the few words the prompt gives you. Keep the first word (<strong lang=\"de\">"+esc(toks[0])+"</strong>), the number of sentences ("+sents+") and the total number of words ("+n+").", "");
+  showFeedback("<strong>Hint:</strong> Use the previous phrase as a model. Only swap or add the few words the prompt gives you. First word: <strong lang=\"de\">"+esc(toks[0])+"</strong>; number of sentences: "+sents+"; total number of words: "+n+"."", "");
   $("answer").focus();
 }
 function revealAnswer(){
