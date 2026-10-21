@@ -672,7 +672,7 @@ function checkAnswer(){
     var msg = "Not quite. The marked words do not fit.";
     if(d.typed.every(function(t){ return t.ok; }) && d.missing > 0){ msg = "Close. You are missing "+d.missing+" word"+(d.missing>1?"s":"")+"."; }
     else if(d.missing > 0){ msg += " You are also missing "+d.missing+" word"+(d.missing>1?"s":"")+"."; }
-    showFeedback('<div><strong>'+msg+'</strong></div><div class="typed" lang="de">'+spans+'</div>', "");
+    showFeedback('<div><strong>'+msg+'</strong></div><div class="typed" lang="de">'+spans+'</div><div>Correct your sentence and click "Check" again.</div>', "");
     input.focus();
   }
 }
