@@ -43,9 +43,7 @@ ol.lines{padding-left:22px;margin:0}ol.lines li{margin:6px 0}
 <div class="top"><a href="/pilot/">Back to your pilot path</a></div>
 <h1>Listen: 10 min hands-off</h1>
 <div class="card">
-<p><b>Commute, dishes, walking. You do not need to do anything.</b> It is fine to zone out. The voice plays each phrase in German twice, then in English, then once more in German.</p>
-<p>Best is to <b>shadow</b>: listen and speak along as you hear it, not afterwards. Say it with the voice, quietly is fine.</p>
-<p class="small muted">Play starts with the first ten phrases, even if you have not seen them all in the cards yet. Keep this page open and the screen on while it plays.</p>
+<p style="margin:0"><b>Commute, dishes, walking.</b> Zoning out is fine. Even better: say it along with the voice.</p>
 </div>
 <h2>Levels</h2>
 <div class="levels" id="levels" role="group" aria-label="Levels"></div>
@@ -57,11 +55,11 @@ ol.lines{padding-left:22px;margin:0}ol.lines li{margin:6px 0}
 <details style="margin-top:10px"><summary>Show the phrases of this level</summary><ol class="lines" id="lines"></ol></details>
 </div>
 <div class="card" id="ratebox">
-<h2>How was this level?</h2>
+<h2>How was it?</h2>
 <div class="rate" role="group" aria-label="Rate this level">
-<button type="button" data-r="again">Again<small>It is hard. Play this level again.</small></button>
-<button type="button" data-r="good">Good<small>Play it once more on a different day.</small></button>
-<button type="button" data-r="done">Done<small>Too easy. Move to the next level.</small></button>
+<button type="button" data-r="again">Again<small>Hard</small></button>
+<button type="button" data-r="good">Good<small>Once more on another day</small></button>
+<button type="button" data-r="done">Done<small>Too easy, next level</small></button>
 </div>
 <p class="small muted" id="rmsg" role="status" style="margin:8px 0 0"></p>
 </div>
@@ -94,14 +92,14 @@ function render(){
   $("lvTag").textContent="Level "+(sel+1)+" of "+LV.length+" · "+L.length+" phrases";
   $("lines").innerHTML=L.map(function(c){return '<li><b>'+esc(c.de)+'</b> <span class="muted">'+esc(c.en)+'</span></li>';}).join("");
   var s=status(sel+1),l=st().levels[sel+1];
-  $("stat").textContent=s==="good"&&l?"You rated this one good on "+l.date+". Play it once more on a different day, then tap Done.":(s==="again"?"You marked this one as hard. Play it again.":"");
+  $("stat").textContent="";
   $("play").textContent=playing?"Stop":"Play level "+(sel+1);
   Array.prototype.forEach.call(document.querySelectorAll("[data-r]"),function(b){b.setAttribute("aria-pressed",s===b.getAttribute("data-r")?"true":"false");});
 }
 function stopPlay(){playing=false;tok++;try{speechSynthesis.cancel();}catch(e){}LK.setPlaying(false);if(wake){try{wake.release();}catch(e){}wake=null;}render();}
 function startPlay(){
   if(!("speechSynthesis" in window)){$("nowDe").textContent="No voice on this device";return;}
-  playing=true;tok++;var my=tok;line=0;round=1;LK.setPlaying(true);render();
+  playing=true;tok++;var my=tok;line=0;round=1;LK.setPlaying(true);render();setTimeout(function(){if(playing&&my===tok)LK.markDone("listen");},120000);
   try{if(navigator.wakeLock)navigator.wakeLock.request("screen").then(function(w){wake=w;},function(){});}catch(e){}
   step(my);
 }
@@ -127,9 +125,9 @@ Array.prototype.forEach.call(document.querySelectorAll("[data-r]"),function(b){b
   var r=b.getAttribute("data-r"),L=LV[sel];
   var phrase=playing?L[Math.min(line,L.length-1)].de:L[0].de;
   var s=st();s.levels[sel+1]={status:r,date:LK.dkey()};LK.save();
-  LK.rate("listen","L"+(sel+1),phrase,r);
+  LK.rate("listen","L"+(sel+1),phrase,r);LK.markDone("listen");
   if(playing)stopPlay();
-  var msg=r==="done"?"Level "+(sel+1)+" done. Next level is ready.":r==="good"?"Saved. Play this level once more on a different day.":"Saved. We will keep this level for you.";
+  var msg="Saved";
   if(r==="done"&&sel<LV.length-1){sel++;$("nowDe").textContent="Press play";$("nowEn").textContent="";}
   render();$("rmsg").textContent=msg;
 });});

@@ -174,6 +174,7 @@ input[type=text]{
   .card{padding:16px}
 }
 .rate{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.rate button{flex:1;min-width:100px;border:2px solid var(--navy);background:transparent;border-radius:12px;padding:10px;font:inherit;font-weight:700;cursor:pointer;min-height:48px;color:var(--navy)}.rate button[aria-pressed=true]{background:var(--navy);color:var(--sand)}
+#note{display:none!important}
 </style>
 </head>
 <body>
@@ -191,18 +192,9 @@ input[type=text]{
 
   <section id="intro">
     <h1>Phrase <span class="accent">chains</span> <span class="muted" style="font-size:.5em">pilot</span></h1>
-    <p class="lead">Build each phrase from a clue, one step at a time. You hear it, you type it, you say it.</p>
-    <div class="card">
-      <h2>How it works</h2>
-      <ol class="how">
-        <li><span class="num">1</span><span><strong>Listen.</strong> You see and hear the start phrase, in English and in German.</span></li>
-        <li><span class="num">2</span><span><strong>Build.</strong> You see and hear the next phrase in English, plus the words to use. Type it in German.</span></li>
-        <li><span class="num">3</span><span><strong>Say it.</strong> Your German phrase joins the chain and is read out. Say it out loud, then the next clue appears.</span></li>
-      </ol>
-      <p class="muted">Steps 2 and 3 repeat until the chain is finished. Tip: wear headphones and speak out loud.</p>
-      <button class="btn primary" id="startBtn" type="button">Start with Stage A</button>
-    </div>
-    <h2>Or jump to a stage</h2>
+    
+    <button class="btn primary" id="startBtn" type="button">Start</button>
+    <h2>Stages</h2>
     <div class="stages" id="stageList"></div>
     <p class="muted" id="voiceNote" hidden></p>
   </section>
@@ -228,7 +220,7 @@ input[type=text]{
     </div>
     <ol class="chain" id="chain" aria-label="Your chain so far"></ol>
     <div id="current"></div>
-    <div class="card" id="ratebar"><div class="eyebrow">How is this stage going?</div><div class="rate" role="group" aria-label="Rate this stage"><button type="button" data-rate="too hard">Too hard</button><button type="button" data-rate="fine">Fine</button><button type="button" data-rate="too easy">Too easy</button></div><p class="muted" id="rateMsg" role="status" style="margin:8px 0 0">Tap any time. It is saved with the phrase you are on.</p></div>
+    <div class="card" id="ratebar"><div class="eyebrow">How is it?</div><div class="rate" role="group" aria-label="Rate this stage"><button type="button" data-rate="too hard">Too hard</button><button type="button" data-rate="fine">Fine</button><button type="button" data-rate="too easy">Too easy</button></div><p class="muted" id="rateMsg" role="status" style="margin:8px 0 0"></p></div>
     <div class="foot row">
       <button class="btn second" id="toStages" type="button">All stages</button>
     </div>
@@ -245,8 +237,8 @@ input[type=text]{
 function r(de, en, next){ return {de:de, en:en, next:next||""}; }
 
 var STAGES = [
-  { id:"A", title:"sein: ich, du, er, wir",
-    note:"Sein changes shape with the person: ich bin, du bist, er ist, wir sind. Nicht comes after the verb. Suggested from day 4 of your path. A word or two may be new: that is fine, the chain teaches it.",
+  { id:"A", title:"sein",
+    note:"",
     rows:[
       r("Ich bin **hier**.", "I am here.", "switch: du"),
       r("**Du bist** hier.", "You are here.", "switch: er"),
@@ -261,8 +253,8 @@ var STAGES = [
       r("Das ist **sehr** gut.", "That is very good.", "switch: nicht"),
       r("Das ist **nicht** gut.", "That is not good.", "")
     ]},
-  { id:"B", title:"haben: Zeit, Geld, kein",
-    note:"Haben changes too: ich habe, du hast. Questions flip the order: Hast du Zeit? Keine goes with Zeit, kein goes with Geld. Suggested from day 7. A word or two may be new: that is fine, the chain teaches it.",
+  { id:"B", title:"haben",
+    note:"",
     rows:[
       r("Ich habe **Zeit**.", "I have time.", "switch: du, Geld"),
       r("Du hast **Geld**.", "You have money.", "switch: ich, Kaffee"),
@@ -277,8 +269,8 @@ var STAGES = [
       r("Hast du **keine** Zeit?", "Do you not have time?", "switch: kein, Geld"),
       r("Hast du **kein** Geld?", "Do you not have money?", "")
     ]},
-  { id:"C", title:"möchte and kann",
-    note:"Möchte is the polite way to ask for something. Kann and kannst: the verb comes first in a question. Suggested from day 8. A word or two may be new: that is fine.",
+  { id:"C", title:"möchte, kann",
+    note:"",
     rows:[
       r("Ich **möchte** Kaffee, bitte.", "I would like coffee, please.", "switch: Wasser"),
       r("Ich möchte **Wasser**, bitte.", "I would like water, please.", "switch: hast du, Wasser"),
@@ -289,8 +281,8 @@ var STAGES = [
       r("**Kannst du** das?", "Can you do that?", "switch: bitte"),
       r("Kannst du das, **bitte**?", "Can you do that, please?", "")
     ]},
-  { id:"D", title:"not knowing, not understanding",
-    note:"Ich weiß nicht, Ich verstehe das nicht, Keine Ahnung and Wie bitte? are the sentences that stop you freezing. Suggested from day 9. A word or two may be new: that is fine.",
+  { id:"D", title:"not knowing",
+    note:"",
     rows:[
       r("Ich **weiß** nicht.", "I do not know.", "switch: verstehe, das"),
       r("Ich **verstehe** das nicht.", "I do not understand that.", "switch: weiß, das"),
@@ -301,8 +293,8 @@ var STAGES = [
       r("Ich verstehe das nicht.", "I do not understand that.", "new: kein, Problem"),
       r("**Kein Problem**.", "No problem.", "")
     ]},
-  { id:"E", title:"today, and, but, because",
-    note:"Aber and und join two parts. After weil the verb goes to the end: weil ich arbeite. Suggested from day 14. A word or two may be new: that is fine.",
+  { id:"E", title:"heute, aber, weil",
+    note:"",
     rows:[
       r("Ich habe **heute** keine Zeit.", "I do not have time today.", "switch: kein, Geld"),
       r("Ich habe heute kein Geld.", "I do not have money today.", "new: Zeit, und, Geld"),
@@ -525,8 +517,8 @@ function renderCurrent(){
 
   if(state.mode === "start"){
     h = '<div class="card focus">'
-      + '<h3>Step 1: listen</h3>'
-      + '<p>Read and listen to the start phrase, in English and in German. Say the German out loud.</p>'
+      + '<h3>Listen</h3>'
+      + '<p>Listen, then say it.</p>'
       + '<div class="row"><button class="btn primary" type="button" data-act="continue">Next clue</button>'
       + '<button class="btn second" type="button" data-act="replayStart">'+SPEAKER+' Listen again</button></div>'
       + '</div>';
@@ -534,16 +526,16 @@ function renderCurrent(){
   else if(state.mode === "build"){
     var cl = parseNext(state.prevNext);
     var kindLabel = cl.kind === "new" ? "New" : "Switch";
-    var kindText = cl.kind === "new" ? "New structure. Build it with these words:" : "Same structure as before. Swap in these words:";
+    var kindText = cl.kind === "new" ? "New words:" : "Swap in:";
     var chips = cl.items.map(function(x){ return '<span class="chip" lang="de">'+esc(x)+'</span>'; }).join("");
     h = '<div class="card focus">'
-      + '<h3>Step 2: build</h3>'
+      + ''
       + '<div class="row" style="align-items:flex-start;flex-wrap:nowrap">'
       +   '<div class="entext" lang="en" style="flex:1">'+esc(row.en)+'</div>'
       +   '<button class="icon-btn" type="button" data-act="sayEn" aria-label="Listen to the English phrase">'+SPEAKER+'</button>'
       + '</div>'
-      + '<div class="clue"><span class="label">'+kindLabel+'</span><span>'+kindText+'</span><div class="chips">'+chips+'</div></div>'
-      + '<label class="field" for="answer">Type the German phrase</label>'
+      + '<div class="clue"><span>'+kindText+'</span><div class="chips">'+chips+'</div></div>'
+      + '<label class="field" for="answer">Type it in German</label>'
       + '<input type="text" id="answer" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" lang="de" enterkeyhint="done">'
       + '<div class="umlauts" aria-label="Special characters">'
       +   '<button type="button" data-ins="ä">ä</button><button type="button" data-ins="ö">ö</button>'
@@ -559,7 +551,7 @@ function renderCurrent(){
   }
   else if(state.mode === "correct"){
     h = '<div class="card focus">'
-      + '<div class="feedback good" aria-live="polite"><strong>Correct.</strong> Step 3: say it out loud, then continue.'
+      + '<div class="feedback good" aria-live="polite"><strong>Correct.</strong> Say it out loud.'
       + (state.tip ? '<br>'+esc(state.tip) : '')
       + '</div>'
       + '<div class="row"><button class="btn primary" type="button" data-act="continue">'+(lastRow ? 'Finish stage' : 'Next clue')+'</button>'
@@ -571,7 +563,7 @@ function renderCurrent(){
     h = '<div class="card focus">'
       + '<div class="done-key">'+KEY_OPEN+'</div>'
       + '<h2>Stage '+s.id+' complete</h2>'
-      + '<p>You built every phrase of this stage. Listen to the whole chain and shadow it: speak along with the audio. Then tell Johanna how it went on your <a href="/pilot/#feedback">pilot path</a>.</p>'
+      + '<p>Say the whole chain along with the voice.</p>'
       + '<div class="row">'
       + (nextStage ? '<button class="btn primary" type="button" data-act="nextStage">Continue to Stage '+nextStage.id+'</button>'
                    : '<button class="btn primary" type="button" data-act="toStages">Back to all stages</button>')
@@ -589,7 +581,7 @@ document.addEventListener("click", function(e){
   var rating = b.getAttribute("data-rate"), ph = latestPhrase();
   if(window.LK) LK.rate("chains", stage().id, ph, rating);
   Array.prototype.forEach.call(document.querySelectorAll("[data-rate]"), function(x){ x.setAttribute("aria-pressed", x===b ? "true" : "false"); });
-  $("rateMsg").textContent = "Saved: " + rating + " (after: " + ph + ")";
+  $("rateMsg").textContent = "Saved: " + rating;
 });
 function render(){
   var idle = (state.mode === "idle");
@@ -653,7 +645,7 @@ function goContinue(){
   }
   if(state.mode === "correct"){
     if(state.ri === s.rows.length-1){
-      doneStages[s.id] = true; saveDone();
+      doneStages[s.id] = true; saveDone(); if(window.LK) LK.markDone("chains");
       state.mode = "stageDone";
       render();
       return;

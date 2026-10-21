@@ -139,6 +139,8 @@ td.num{font-variant-numeric:tabular-nums;color:var(--muted)}
 .legend i{display:inline-block;width:18px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
 textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid var(--line);background:var(--sand);color:var(--navy);padding:10px;font:inherit;font-size:.8rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.more{display:block}
 </style>
 <meta name="description" content="Short daily vocabulary sessions that make real German words stick. A free tool from Speak German - now.">
 <meta property="og:site_name" content="Speak German - now.">
@@ -481,6 +483,7 @@ function answer(good){
   render();
 }
 function finish(){
+  if(window.LK)LK.markDone('cards');
   if(timer){clearInterval(timer);timer=null;}
   var ms=Date.now()-sess.t0;
   S.studyMs+=ms;
@@ -490,7 +493,7 @@ function finish(){
   summary={ms:ms,newN:sess.newDone,rev:sess.rev,recall:tot?Math.round(100*sess.good/tot):100,idxBefore:sess.before,idxAfter:indexPct(),passed:sess.passed.slice(),learned:Object.keys(learnedSet()).length,left:CARDS.length-Object.keys(S.cards).length};
   sess=null;route="summary";render();
 }
-function quit(){if(timer){clearInterval(timer);timer=null;}if(sess){S.studyMs+=Date.now()-sess.t0;S.log.push({t:now(),day:dkey(now()),ms:Date.now()-sess.t0,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again});save();}sess=null;route="today";render();}
+function quit(){if(sess&&(sess.newDone+sess.rev)>0&&window.LK)LK.markDone('cards');if(timer){clearInterval(timer);timer=null;}if(sess){S.studyMs+=Date.now()-sess.t0;S.log.push({t:now(),day:dkey(now()),ms:Date.now()-sess.t0,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again});save();}sess=null;route="today";render();}
 
 /* ---------- derived stats ---------- */
 function streak(){
@@ -518,13 +521,14 @@ function todayMs(){var k=dkey(now()),ms=0;S.log.forEach(function(r){if(r.day===k
 /* ---------- render ---------- */
 var app=document.getElementById("app"),tabs=document.getElementById("tabs");
 function top(){return '<div class="top"><div class="brand">'+KEYSVG+'<span>Speak German<span class="now"> - now.</span></span></div><a class="chip" href="/pilot/" style="color:inherit;text-decoration:none">Back to path</a></div>';}
+var TEACHER=false;try{if(/[?&]teacher=1/.test(location.search))localStorage.setItem('lingokey-pilot-teacher','1');if(/[?&]teacher=0/.test(location.search))localStorage.removeItem('lingokey-pilot-teacher');TEACHER=localStorage.getItem('lingokey-pilot-teacher')==='1';}catch(e){}
 function tabbar(){
-  var items=[["today","Today"],["progress","Progress"],["path","Path"],["cards","Cards"],["settings","Settings"]];
+  var items=[["today","Today"],["progress","Progress"],["path","Path"],["cards","Cards"],["settings","Settings"]].filter(function(it){return TEACHER||(it[0]!=="path"&&it[0]!=="cards");});
   var cur=route==="summary"||route==="session"||route==="shadow"?"today":route;
   tabs.innerHTML=items.map(function(it){return '<button class="tab" data-act="tab" data-to="'+it[0]+'"'+(cur===it[0]?' aria-current="page"':"")+'>'+ICONS[it[0]]+it[1]+'</button>';}).join("");
   document.querySelector(".tabs").hidden=(route==="session"||route==="shadow");
 }
-function pic(c,small){
+function pic(c,small){return "";
   return '<div class="pic" role="img" aria-label="Picture slot. Scene: '+esc(c.scene)+'"'+(small?' style="aspect-ratio:16/7"':"")+'>'+KEYSVG+'<span class="slot">Picture slot</span><span class="scene">'+esc(c.scene)+'</span></div>';
 }
 function nd(w){var lc=w.replace(/[.,?!]/g,"").toLowerCase();return (typeof NUMS!=="undefined"&&NUMS[lc]!==undefined)?'<sup class="nd">'+NUMS[lc]+'</sup>':"";}
@@ -567,12 +571,11 @@ function viewToday(){
   if(can)por+='<button class="keybtn" data-act="begin" aria-label="Unlock today\'s session"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg></button>';
   else por+='<div class="portalmsg">'+(nt>=goal?'Done for today':'Nothing due')+'</div>';
   por+='</div>';
-  h+='<div class="card" style="text-align:center;padding-bottom:36px"><div class="eyebrow">Today\'s session</div>'+por+(can?'<p class="small" style="margin:44px 0 0;font-weight:800">Tap the key to open the door.</p>':'');
-  h+='<p class="small muted" style="margin-top:10px">'+(nt>=goal?'Done for today: '+goal+' cards. The app mixes reviews and new cards for you.':'Today: up to '+goal+' cards. The app decides how many are new and how many are reviews. '+(due?due+' due for review.':'Nothing due yet.'))+'</p></div>';
-  h+='<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Today so far</h2><span class="small muted">'+nt+' of '+goal+' cards</span></div><div class="stats" style="margin-top:10px"><div class="stat"><b>'+newToday()+'</b><span>New</span></div><div class="stat"><b>'+todayRevDone()+'</b><span>Reviews</span></div><div class="stat"><b>'+Math.round(todayMs()/MIN)+'m</b><span>Studied</span></div></div></div>';
+  h+='<div class="card" style="text-align:center;padding-bottom:36px"><div class="eyebrow">Today\'s session</div>'+por+(can?'<p class="small" style="margin:44px 0 0;font-weight:800">Tap the key.</p>':'');
+  h+='<p class="small muted" style="margin-top:10px">'+(nt>=goal?'Done for today.':nt+' of '+goal+' cards')+'</p></div>';
   var shn=Object.keys(S.cards).filter(function(k){return S.cards[k].st==="shelved";}).length;
-  if(shn)h+='<p class="small muted">'+shn+' shelved card'+(shn===1?'':'s')+' count as learned and are not scheduled. <button class="link" data-act="unshelve">Bring them back</button></p>';
-  h+='<p class="small muted">This is a working prototype of the student app. Audio uses your browser\'s German voice. Pictures are slots. Progress is saved in this browser only.</p></div>';
+  if(shn)h+='<p class="small muted">'+shn+' shelved. <button class="link" data-act="unshelve">Bring back</button></p>';
+  h+='</div>';
   return h;
 }
 
@@ -586,21 +589,19 @@ function renderSession(){
   var prog=Math.min(100,Math.round(100*doneToday()/S.set.goal));
   var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(window.LK?LK.sessionMs():Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
   h+='<div class="counts" style="justify-content:center"><span><i class="dot" style="background:var(--coral)"></i>'+newLeft+' left today</span><span><i class="dot" style="background:var(--mint-ink)"></i>'+(learning+dueN)+' learning</span></div><div class="bar" aria-hidden="true"><i style="width:'+prog+'%"></i></div>';
-  h+='<div class="card stack" style="position:relative;align-items:stretch"><div class="row" style="justify-content:space-between"><span class="tag '+(cur.kind==="new"?"new":"rev")+'">'+(cur.kind==="new"?"New":"Review")+'</span><span class="tag">'+esc(c.f)+'</span></div>';
+  h+='<div class="card stack" style="position:relative;align-items:stretch"><div class="row" style="justify-content:space-between"><span class="tag '+(cur.kind==="new"?"new":"rev")+'">'+(cur.kind==="new"?"New":"Review")+'</span></div>';
   h+=pic(c);
   h+='<div class="row" style="justify-content:center"><button class="play" data-act="speak">'+PLAY+'Play</button></div>';
   h+='<div class="sentence'+(S.set.hide&&!shown?" hidden":"")+'" lang="de">'+underlined(c)+'</div>';
-  if(!shown)h+='<p class="eyebrow" style="text-align:center">Recall first, then reveal</p>';
+  if(!shown)h+='';
   else{
-    h+='<div class="reveal"><span class="eyebrow">Meaning</span><span class="mean">'+esc(c.en)+'</span><span class="muted small">literally: '+esc(c.lit)+'</span><span class="small"><b>'+esc(c.gloss)+'</b></span>'+(c.gp?'<span class="small gp"><b>Noun:</b> '+esc(c.gp)+'</span>':"")+(c.opp?'<span class="small"><b>Opposite:</b> <span lang="de">'+esc(c.opp[0])+'</span> ('+esc(c.opp[1])+')</span>':"")+(c.pat?'<span class="small pat"><b>Pattern:</b> '+esc(c.pat)+'</span>':"")+(c.fam?'<span class="small"><b>Word family:</b> <span lang="de">'+esc(c.fam)+'</span></span>':"")+(c.alt&&c.alt.length?'<span class="small"><b>Just as good:</b> <span lang="de">'+c.alt.map(esc).join(" / ")+'</span></span>':"")+(c.note?'<span class="small muted"><b>Good to know.</b> '+esc(c.note)+'</span>':"")+'</div>';
-    var ts=c.t.concat(rk(c)?["list rank "+rk(c)]:[]);
-    h+='<div class="tagrow">'+ts.map(function(x){return '<span class="tag">'+esc(x)+'</span>';}).join("")+'</div>';
+    h+='<div class="reveal"><span class="eyebrow">Meaning</span><span class="mean">'+esc(c.en)+'</span><details class="more"><summary>More</summary><span class="muted small">literally: '+esc(c.lit)+'</span><span class="small"><b>'+esc(c.gloss)+'</b></span>'+(c.gp?'<span class="small gp"><b>Noun:</b> '+esc(c.gp)+'</span>':"")+(c.opp?'<span class="small"><b>Opposite:</b> <span lang="de">'+esc(c.opp[0])+'</span> ('+esc(c.opp[1])+')</span>':"")+(c.pat?'<span class="small pat"><b>Pattern:</b> '+esc(c.pat)+'</span>':"")+(c.fam?'<span class="small"><b>Word family:</b> <span lang="de">'+esc(c.fam)+'</span></span>':"")+(c.alt&&c.alt.length?'<span class="small"><b>Just as good:</b> <span lang="de">'+c.alt.map(esc).join(" / ")+'</span></span>':"")+(c.note?'<span class="small muted"><b>Good to know.</b> '+esc(c.note)+'</span>':"")+'</details></div>';
   }
   h+='</div>';
-  if(!shown)h+='<button class="btn" data-act="show">Show answer <span class="small" style="font-weight:600">(Space)</span></button><p class="small muted" style="text-align:center">then rate yourself: Again or Good</p><button class="shelve" data-act="shelve"><span>Too easy</span><small>Shelve this card (3)</small></button>';
+  if(!shown)h+='<button class="btn" data-act="show">Show answer <span class="small" style="font-weight:600">(Space)</span></button><button class="shelve" data-act="shelve"><span>Too easy</span><small>Shelve this card (3)</small></button>';
   else{
     var sa=S.set.next;
-    h+='<p class="small muted" style="text-align:center">Guessed it, even slowly? Good. New, or it slipped? Again.</p><div class="grade"><button class="btn again" data-act="again"><span>Again (1)</span>'+(sa?'<small>'+previewLabel(s,false)+'</small>':"")+'</button><button class="btn good" data-act="good"><span>Good (2)</span>'+(sa?'<small>'+previewLabel(s,true)+'</small>':"")+'</button></div><button class="shelve" data-act="shelve"><span>Too easy</span><small>Shelve this card (3)</small></button>';
+    h+='<div class="grade"><button class="btn again" data-act="again"><span>Again (1)</span>'+(sa?'<small>'+previewLabel(s,false)+'</small>':"")+'</button><button class="btn good" data-act="good"><span>Good (2)</span>'+(sa?'<small>'+previewLabel(s,true)+'</small>':"")+'</button></div><button class="shelve" data-act="shelve"><span>Too easy</span><small>Shelve this card (3)</small></button>';
   }
   h+='</div>';
   app.innerHTML=h;tabbar();
@@ -608,11 +609,10 @@ function renderSession(){
 
 function viewSummary(){
   var m=summary;
-  var h='<div class="stack"><div class="card" style="text-align:center"><div class="eyebrow">Session done</div><h1 style="margin-top:6px">That was real German</h1><p class="muted" style="margin-top:6px">'+clock(m.ms)+' for '+(m.newN+m.rev)+' cards.</p></div>';
+  var h='<div class="stack"><div class="card" style="text-align:center"><div class="eyebrow">Session done</div><h1 style="margin-top:6px">Well done</h1><p class="muted" style="margin-top:6px">'+clock(m.ms)+' for '+(m.newN+m.rev)+' cards.</p></div>';
   h+='<div class="card"><div class="stats"><div class="stat"><b>+'+m.newN+'</b><span>New cards</span></div><div class="stat"><b>'+m.recall+'%</b><span>Recall</span></div><div class="stat"><b>'+clock(m.ms)+'</b><span>Time</span></div></div></div>';
-  h+='<div class="card" style="text-align:center"><div class="eyebrow">You can now understand</div><div class="big" style="margin:8px 0">'+m.idxAfter+'%</div><p class="small muted">of the demo set of '+TARGETS.length+' everyday lines'+(m.idxAfter>m.idxBefore?' (up from '+m.idxBefore+'%)':'')+'. A line counts once you have learned every word in it.</p></div>';
-  h+='<div class="card"><h2>Items learned</h2><p class="muted small">'+m.learned+' of '+CARDS.length+' prototype items.'+(m.left>0?' '+m.left+' not started.':' All started.')+'</p></div>';
-  if(m.passed.length)h+='<div class="card stack"><h2 style="margin:0">Shadow what you just learned</h2><p class="small muted">Replay the audio of the '+m.passed.length+' card'+(m.passed.length>1?'s':'')+' you got right today. You already know what every line means, so you can repeat it along with the voice.</p><button class="btn" data-act="shadow">Shadow today\'s cards</button></div>';
+  h+='<div class="card" style="text-align:center"><div class="eyebrow">You can now understand</div><div class="big" style="margin:8px 0">'+m.idxAfter+'%</div><p class="small muted">of everyday lines'+(m.idxAfter>m.idxBefore?' (up from '+m.idxBefore+'%)':'')+'</p></div>';
+  if(m.passed.length)h+='<div class="card stack"><h2 style="margin:0">Say it along</h2><button class="btn" data-act="shadow">Play today\'s cards</button></div>';
   h+='<button class="btn ghost" data-act="tab" data-to="today">Back to Today</button></div>';
   return h;
 }
@@ -655,7 +655,7 @@ function viewProgress(){
   var h='<div class="stack"><div><div class="eyebrow">A0 to prototype path</div><h1>Progress</h1></div>';
   h+='<div class="card" style="text-align:center"><div class="eyebrow">Path ring</div><div class="ringwrap" style="width:min(220px,60vw)"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="84" fill="none" stroke="var(--linen)" stroke-width="14"/><circle cx="100" cy="100" r="84" fill="none" stroke="var(--coral)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+(C*pct/100)+' '+C+'"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center"><div class="big">'+pct+'%</div></div></div>';
   h+='<p><b>'+learned+'</b> learned of '+total+'</p><p class="small muted">'+started+' cards seen, '+Math.round(S.studyMs/MIN)+' min studied.</p><p class="small muted" style="margin-top:6px">'+(left>0?left+' cards not started yet. The app decides each day how many are new.':'Every card in this prototype has been started.')+'</p></div>';
-  h+='<div class="card"><div class="eyebrow">Understanding Index</div><div class="big" style="margin:6px 0">'+indexPct()+'%</div><p class="small">You understand '+indexPct()+'% of the demo set of '+TARGETS.length+' everyday lines.</p><p class="small muted" style="margin-top:6px">A line counts once you have learned every word in it. In the real app the lines come from a weighted spoken-German sample, so the number tracks everyday speech.</p></div>';
+  h+='<div class="card"><div class="eyebrow">Understanding Index</div><div class="big" style="margin:6px 0">'+indexPct()+'%</div><p class="small">You understand '+indexPct()+'% of the demo set of '+TARGETS.length+' everyday lines.</p></div>';
   h+='<div class="card"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Current streak</div><b style="font-size:1.4rem">'+streak()+' day'+(streak()===1?"":"s")+'</b></div></div><div class="eyebrow" style="margin-top:14px">Minutes this week</div><svg viewBox="0 0 280 110" width="100%" role="img" aria-label="Minutes studied in the last seven days">';
   wk.forEach(function(d,i){var x=14+i*38,hgt=d.m?Math.max(6,Math.round(64*d.m/mx)):2;h+='<rect x="'+x+'" y="'+(78-hgt)+'" width="24" height="'+hgt+'" rx="6" fill="'+(d.m?"var(--coral)":"var(--line)")+'"/><text x="'+(x+12)+'" y="'+(70-hgt)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--navy)">'+(d.m?d.m:"")+'</text><text x="'+(x+12)+'" y="98" text-anchor="middle" font-size="11" fill="'+(d.today?"var(--navy)":"var(--muted)")+'" font-weight="'+(d.today?800:500)+'">'+d.l+'</text>';});
   h+='</svg><div class="row" style="justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;margin-top:6px"><span class="small muted">Share of due reviews you completed, 30 days</span><b>'+(comp===null?"No data yet":comp+"%")+'</b></div></div>';
@@ -723,10 +723,10 @@ function viewSettings(){
   function seg(name,vals,cur,lab){return '<div class="seg" role="group" aria-label="'+name+'">'+vals.map(function(v){return '<button data-act="set" data-k="'+name+'" data-v="'+v+'" aria-pressed="'+(String(cur)===String(v))+'">'+(lab?lab(v):v)+'</button>';}).join("")+'</div>';}
   function sw(k,label,desc){return '<div class="sw"><div class="grow"><b>'+label+'</b><div class="small muted">'+desc+'</div></div><button class="statebtn '+(s[k]?"approved":"")+'" data-act="toggle" data-k="'+k+'" aria-pressed="'+(!!s[k])+'" style="min-width:56px;min-height:36px">'+(s[k]?"On":"Off")+'</button></div>';}
   var h='<div class="stack"><div><div class="eyebrow">Account</div><h1>Settings</h1></div>';
-  h+='<div class="card"><div class="sw"><div class="grow"><b>Cards a day</b><div class="small muted">Reviews and new cards together. The app decides the mix: reviews come first, with some new cards always mixed in. 5 is a light day, 30 is fast.</div></div>'+seg("goal",[5,15,30],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+voiceRow()+
-    sw("hide","Hide the text","Cover the sentence until you reveal. The audio plays either way.")+sw("auto","Play audio automatically","The sentence plays when a card appears.")+sw("next","Show next review time","Show when each rating would bring a card back.")+'</div>';
-  h+='<div class="card stack"><h2 style="margin:0">Demo controls</h2><p class="small muted">Reviews are scheduled in days, so use this to see them come back. The clock is shifted by '+Math.round(S.offset/DAY)+' day'+(Math.round(S.offset/DAY)===1?"":"s")+'.</p><div class="row"><button class="btn small" data-act="skip">Skip ahead 1 day</button><button class="btn small ghost" data-act="skipback">Reset clock</button></div></div>';
-  h+='<div class="card stack"><h2 style="margin:0">Your data</h2><p class="small muted">Progress is saved in this browser only. Clearing site data or switching device starts you at the beginning. The real app will sync to your account.</p><div class="row"><button class="btn small ghost" data-act="export">Show progress as text</button>'+(S._confirm?'<button class="btn small" data-act="resetyes">Yes, erase everything</button><button class="btn small ghost" data-act="resetno">Cancel</button>':'<button class="btn small ghost" data-act="reset">Reset all progress</button>')+'</div>'+(S._export?'<textarea id="exp" readonly aria-label="Progress data">'+esc(S._export)+'</textarea>':"")+'</div></div>';
+  h+='<div class="card"><div class="sw"><div class="grow"><b>Cards a day</b><div class="small muted">Reviews and new cards together.</div></div>'+seg("goal",[5,15,30],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+voiceRow()+
+    sw("hide","Hide the text","Hide the sentence until you reveal it.")+sw("auto","Play audio automatically","The sentence plays when a card appears.")+sw("next","Show next review time","Show when each rating would bring a card back.")+'</div>';
+  if(TEACHER)h+='<div class="card stack"><h2 style="margin:0">Demo controls</h2><p class="small muted">Reviews are scheduled in days, so use this to see them come back. The clock is shifted by '+Math.round(S.offset/DAY)+' day'+(Math.round(S.offset/DAY)===1?"":"s")+'.</p><div class="row"><button class="btn small" data-act="skip">Skip ahead 1 day</button><button class="btn small ghost" data-act="skipback">Reset clock</button></div></div>';
+  h+='<div class="card stack"><h2 style="margin:0">Your data</h2><p class="small muted">Saved in this browser only.</p><div class="row"><button class="btn small ghost" data-act="export">Show progress as text</button>'+(S._confirm?'<button class="btn small" data-act="resetyes">Yes, erase everything</button><button class="btn small ghost" data-act="resetno">Cancel</button>':'<button class="btn small ghost" data-act="reset">Reset all progress</button>')+'</div>'+(S._export?'<textarea id="exp" readonly aria-label="Progress data">'+esc(S._export)+'</textarea>':"")+'</div></div>';
   return h;
 }
 
