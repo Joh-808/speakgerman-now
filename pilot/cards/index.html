@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Speak German - now. Pilot cards</title>
+<style>
+/* Layout: one phone-width column, centred on larger screens. Bottom tab bar. Cards sit on cream, page on sand. */
+:root{
+  --navy:#0E172D;
+  --coral:#F66F54;
+  --mint:#BCDDBF;
+  --mint-ink:#3F7A4C;
+  --sand:#F3EBDF;
+  --cream:#EEE5DA;
+  --linen:#ECE0D1;
+  --line:#D9CBB8;
+  --muted:#4A5266;
+  --coral-soft:#F9C9BE;
+  --coral-ink:#B8412A;
+  --sys:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--sand);color:var(--navy);font-family:var(--sys);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.app{max-width:560px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;padding-inline:16px;padding-block:14px 96px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:4px 14px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:900;letter-spacing:-.02em;font-size:1.15rem}
+.brand .now{color:var(--coral)}
+.brand svg{width:22px;height:22px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--linen);border-radius:999px;padding:4px 12px;font-size:.85rem;font-weight:700;color:var(--navy)}
+h1{font-size:1.9rem;line-height:1.1;font-weight:900;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h2{font-size:1.15rem;font-weight:900;margin:0 0 8px;letter-spacing:-.01em;text-wrap:balance}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.9rem}
+.rc .rcde{font-size:1.25rem;font-weight:800;color:var(--navy)}
+.cnote,#cexp{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--sand);color:var(--navy);font:inherit;resize:vertical}
+.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.card{background:var(--cream);border:1px solid var(--linen);border-radius:20px;padding:18px;box-shadow:0 8px 24px rgba(14,23,45,.06)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+.btn{border:0;border-radius:16px;padding:15px 18px;font-weight:800;background:var(--coral);color:var(--navy);box-shadow:0 6px 0 var(--navy);transform:translateY(0);transition:transform .08s,box-shadow .08s;min-height:52px}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--navy)}
+.btn.again{background:var(--cream);border:1px solid var(--line)}
+.btn.good{background:var(--mint)}
+.btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--navy);padding:11px 16px;min-height:44px}
+.btn.ghost:active{transform:none}
+.btn.small{padding:9px 14px;min-height:40px;box-shadow:0 4px 0 var(--navy);font-size:.9rem}
+.btn[disabled]{opacity:.5}
+.link{background:none;border:0;padding:0;color:var(--coral-ink);font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.link:hover{color:var(--navy)}
+/* tab bar */
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--sand);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));z-index:5}
+.tabs-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.tab{background:none;border:0;border-radius:12px;padding:8px 2px;font-size:.78rem;font-weight:800;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{color:var(--navy);background:var(--cream)}
+
+/* portal */
+.portal{position:relative;width:min(300px,80vw);margin:6px auto 0;aspect-ratio:240/300}
+.portal svg.arch{width:100%;height:100%;display:block;overflow:visible}
+.portal .leaf{transform-box:fill-box;transition:transform .8s cubic-bezier(.65,0,.25,1)}
+.portal .leafL{transform-origin:left center}.portal .leafR{transform-origin:right center}
+.portal.open .leaf{transform:scaleX(.06)}
+.portal .glow{opacity:.55;transition:opacity .8s}.portal.open .glow{opacity:1}
+.keybtn{position:absolute;left:50%;bottom:-8%;width:74%;aspect-ratio:1;transform:translateX(-50%) rotate(-8deg);background:none;border:0;padding:0;cursor:pointer;transition:transform .7s cubic-bezier(.5,0,.2,1),opacity .5s .3s;animation:bob 3s ease-in-out infinite}
+.keybtn svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 7px 0 var(--navy));stroke:var(--coral);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.keybtn:hover{transform:translateX(-50%) rotate(-4deg) scale(1.03)}
+.keybtn:focus-visible{outline:3px solid var(--navy);outline-offset:6px;border-radius:24px}
+.portal.open .keybtn{animation:none;transform:translateX(-50%) rotate(34deg) translateY(8%);opacity:0}
+.portalmsg{position:absolute;inset:34% 18% 20%;display:grid;place-items:center;text-align:center;font-weight:900;font-size:1.15rem;color:var(--sand)}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@media (prefers-reduced-motion:reduce){.keybtn{animation:none}.portal .leaf,.keybtn{transition:none!important}}
+/* ring */
+.ringwrap{position:relative;width:min(300px,78vw);aspect-ratio:1;margin:6px auto}
+.ringwrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ringwrap .begin{position:absolute;inset:18%;border-radius:50%;font-size:1.5rem;font-weight:900;display:grid;place-items:center;text-align:center;line-height:1.15;padding:10px}
+/* session */
+.sess-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.counts{display:flex;gap:14px;font-weight:800;font-size:.9rem}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.bar{height:6px;background:var(--linen);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--coral);border-radius:99px;transition:width .3s}
+.pic{aspect-ratio:4/3;max-width:100%;border-radius:16px;background:var(--linen);border:2px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px;text-align:center;color:var(--muted)}
+.pic svg{width:34px;height:34px;stroke:var(--muted);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.7}
+.pic .scene{font-size:.8rem;line-height:1.35;max-width:30ch}
+.pic .slot{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.sentence{font-size:clamp(1.7rem,6.5vw,2.3rem);font-weight:900;letter-spacing:-.02em;line-height:1.2;text-align:center;text-wrap:balance}
+.sentence u{text-decoration:underline;text-decoration-color:var(--coral);text-decoration-thickness:4px;text-underline-offset:6px}
+.sentence.hidden{filter:blur(10px);user-select:none}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.tag{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:3px 9px;background:var(--linen);border:1px solid var(--line);color:var(--muted)}
+.tag.new{background:var(--coral-soft);border-color:var(--coral);color:var(--coral-ink)}
+.tag.rev{background:var(--mint);border-color:var(--mint-ink);color:var(--navy)}
+.play{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:99px;background:var(--navy);color:var(--sand);font-weight:800;padding:10px 18px}
+.play svg{width:18px;height:18px;fill:currentColor}
+.reveal{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px;text-align:left}
+.reveal .mean{font-size:1.3rem;font-weight:800}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grade .btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding-block:12px}
+.grade .btn small{font-weight:700;color:var(--muted);font-size:.78rem}
+.shelve{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%;margin-top:10px;padding:8px 12px;background:transparent;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-weight:700;font-size:.85rem;cursor:pointer;font-family:inherit}
+.shelve small{font-weight:600;font-size:.72rem}
+.shelve:hover{color:var(--navy);border-color:var(--muted)}
+.nd{font-size:.58em;color:var(--coral);font-weight:800;margin-left:1px;vertical-align:super}
+.gp{color:var(--navy)}
+.pat{background:var(--mint);color:var(--navy);padding:8px 10px;border-radius:10px;display:block}
+.key{position:absolute;top:6px;right:10px;font-size:.7rem;color:var(--muted);font-weight:700}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stat b{display:block;font-size:1.6rem;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted);font-weight:700}
+.big{font-size:3rem;font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(26px,1fr));gap:5px}
+.cell{aspect-ratio:1;border-radius:7px;background:var(--linen);border:1px solid var(--line)}
+.cell.l{background:var(--coral-soft);border-color:var(--coral)}
+.cell.r{background:var(--mint);border-color:var(--mint-ink)}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid var(--linen);vertical-align:top}
+td.num{font-variant-numeric:tabular-nums;color:var(--muted)}
+.ok{color:var(--mint-ink);font-weight:800;white-space:nowrap}
+.no{color:var(--coral-ink);font-weight:800}
+.seg{display:inline-flex;border:2px solid var(--navy);border-radius:12px;overflow:hidden}
+.seg button{background:transparent;border:0;padding:8px 14px;font-weight:800;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--navy);color:var(--sand)}
+.sw{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:8px;border-bottom:1px solid var(--linen)}
+.statebtn{border:1px solid var(--line);background:var(--sand);border-radius:99px;padding:3px 10px;font-weight:800;font-size:.75rem}
+.statebtn.approved{background:var(--mint);border-color:var(--mint-ink)}
+.statebtn.fix{background:var(--coral-soft);border-color:var(--coral)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;font-weight:700}
+.legend i{display:inline-block;width:18px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid var(--line);background:var(--sand);color:var(--navy);padding:10px;font:inherit;font-size:.8rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<meta name="description" content="Short daily vocabulary sessions that make real German words stick. A free tool from Speak German - now.">
+<meta property="og:site_name" content="Speak German - now.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cards · Speak German - now.">
+<meta property="og:description" content="Short daily vocabulary sessions that make real German words stick. A free tool from Speak German - now.">
+<meta property="og:url" content="https://speakgerman-now.com/cards/">
+<meta property="og:image" content="https://speakgerman-now.com/og/cards.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cards · Speak German - now.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cards · Speak German - now.">
+<meta name="twitter:description" content="Short daily vocabulary sessions that make real German words stick. A free tool from Speak German - now.">
+<meta name="twitter:image" content="https://speakgerman-now.com/og/cards.png">
+</head>
+<body>
+
+
+<div class="app" id="app"></div>
+<nav class="tabs" aria-label="Main"><div class="tabs-in" id="tabs"></div></nav>
+
+<script>
+// Pilot deck: parallel to /cards, new priority order. See PILOT decision log. rank = row number in german_2400_v2 core2400 (composite order); 0 = free word (name or cognate).
+const UNITS = {
+  "anna": {"lemma": "(any name)", "rank": 0, "free": true},
+  "tom": {"lemma": "(any name)", "rank": 0, "free": true},
+  "kaffee": {"lemma": "Kaffee", "rank": 379, "free": true, "cog": true},
+  "kanada": {"lemma": "Kanada", "rank": 0, "free": true, "cog": true},
+  "problem": {"lemma": "Problem", "rank": 0, "free": true, "cog": true},
+  "hallo": {"lemma": "hallo", "rank": 130},
+  "ja": {"lemma": "ja", "rank": 20},
+  "nein": {"lemma": "nein", "rank": 41},
+  "danke": {"lemma": "danke", "rank": 88},
+  "bitte": {"lemma": "bitte", "rank": 77},
+  "ich": {"lemma": "ich", "rank": 2},
+  "bin": {"lemma": "sein", "rank": 3},
+  "du": {"lemma": "du", "rank": 4},
+  "bist": {"lemma": "sein", "rank": 3},
+  "tschüss": {"lemma": "tschüss", "rank": 494},
+  "hier": {"lemma": "hier", "rank": 29},
+  "nicht": {"lemma": "nicht", "rank": 8},
+  "müde": {"lemma": "müde", "rank": 491},
+  "er": {"lemma": "er", "rank": 12},
+  "ist": {"lemma": "sein", "rank": 3},
+  "wir": {"lemma": "wir", "rank": 11},
+  "sind": {"lemma": "sein", "rank": 3},
+  "das": {"lemma": "das (article row 1)", "rank": 1},
+  "gut": {"lemma": "gut", "rank": 27},
+  "sehr": {"lemma": "sehr", "rank": 89},
+  "wo": {"lemma": "wo", "rank": 71},
+  "was": {"lemma": "was", "rank": 13},
+  "habe": {"lemma": "haben", "rank": 6},
+  "zeit": {"lemma": "Zeit", "rank": 105},
+  "hast": {"lemma": "haben", "rank": 6},
+  "keine": {"lemma": "kein", "rank": 38},
+  "geld": {"lemma": "Geld", "rank": 149},
+  "kein": {"lemma": "kein", "rank": 38},
+  "möchte": {"lemma": "mögen (möchte)", "rank": 94},
+  "wasser": {"lemma": "Wasser", "rank": 312},
+  "kann": {"lemma": "können", "rank": 19},
+  "kannst": {"lemma": "können", "rank": 19},
+  "wie": {"lemma": "wie", "rank": 22},
+  "weiß": {"lemma": "wissen", "rank": 39},
+  "ahnung": {"lemma": "Ahnung", "rank": 283},
+  "verstehe": {"lemma": "verstehen", "rank": 108},
+  "geht's": {"lemma": "gehen (Wie geht's?)", "rank": 32},
+  "dir": {"lemma": "du (dir)", "rank": 4},
+  "entschuldigung": {"lemma": "Entschuldigung", "rank": 332},
+  "heute": {"lemma": "heute", "rank": 114},
+  "und": {"lemma": "und", "rank": 10},
+  "aber": {"lemma": "aber", "rank": 25},
+  "gehe": {"lemma": "gehen", "rank": 32},
+  "komme": {"lemma": "kommen", "rank": 35},
+  "aus": {"lemma": "aus", "rank": 58},
+  "gehen": {"lemma": "gehen", "rank": 32},
+  "heiße": {"lemma": "heißen", "rank": 215},
+  "wohne": {"lemma": "wohnen", "rank": 327},
+  "arbeite": {"lemma": "arbeiten", "rank": 166},
+  "muss": {"lemma": "müssen", "rank": 40},
+  "arbeiten": {"lemma": "arbeiten", "rank": 166},
+  "weil": {"lemma": "weil", "rank": 110},
+};
+const CARDS = [
+  {"n": "hallo", "de": "Hallo!", "en": "Hello!", "lit": "Hello!", "gloss": "hallo: hello.", "note": "Works almost anywhere, with colleagues, neighbours and shop staff. Greetings like Guten Tag come later.", "scene": "A woman steps into an office and waves.", "f": "Greeting", "t": []},
+  {"n": "ja", "de": "Ja.", "en": "Yes.", "lit": "Yes.", "gloss": "ja: yes.", "note": "Ja also works as a small softener later. For now it is just the answer yes.", "scene": "Two people at a cafe table. One of them nods.", "f": "Response token", "t": []},
+  {"n": "nein", "de": "Nein.", "en": "No.", "lit": "No.", "gloss": "nein: no.", "note": "Nein is a complete answer on its own.", "scene": "A shop counter. A customer shakes their head politely.", "f": "Response token", "t": []},
+  {"n": "danke", "de": "Danke.", "en": "Thanks.", "lit": "Thanks.", "gloss": "danke: thank you, thanks.", "note": "Short, friendly and fine everywhere. Danke schön is the warmer version, later.", "scene": "A man takes a coffee from a barista and smiles.", "f": "Politeness token", "t": []},
+  {"n": "bitte", "de": "Bitte.", "en": "Please. / You are welcome.", "lit": "Please. / You are welcome.", "gloss": "bitte: please; also you are welcome.", "note": "One word, two jobs: please when you ask, you are welcome when you hand something over. Bitte? with a rising voice also means pardon?", "scene": "A colleague holds a door open and gestures: after you.", "f": "Politeness token", "t": []},
+  {"n": "ich-bin", "de": "Ich bin Anna.", "en": "I am Anna.", "lit": "I am Anna.", "gloss": "ich: I. bin: am (sein, used with ich).", "note": "Two new words in one block on purpose: ich and bin always travel together. Swap Anna for your own name.", "scene": "Two people at a networking event. One of them points at their name tag.", "f": "Subject + sein + name", "t": [], "u": ["ich", "bin"]},
+  {"n": "du-bist", "de": "Du bist Tom.", "en": "You are Tom.", "lit": "You are Tom.", "gloss": "du: you (informal, to one person). bist: are (sein, used with du).", "note": "Du is normal among peers and in many modern workplaces. More traditional workplaces and customer situations prefer Sie, which comes later.", "scene": "The same two people. The first one points at the second person's name tag.", "f": "Subject + sein + name", "t": [], "u": ["du", "bist"]},
+  {"n": "tschüss", "de": "Tschüss!", "en": "Bye!", "lit": "Bye!", "gloss": "tschüss: bye, informal.", "note": "Friendly and informal. Also written tschüs.", "scene": "A man leaves a shared apartment and waves from the door.", "f": "Greeting", "t": []},
+  {"n": "hier", "de": "Ich bin hier.", "en": "I am here.", "lit": "I am here.", "gloss": "hier: here, close to the speaker.", "note": "Also what you say when you hand something over or answer a roll call.", "scene": "A man waves from a station platform.", "f": "Subject + sein + place", "t": []},
+  {"n": "nicht", "de": "Ich bin nicht hier.", "en": "I am not here.", "lit": "I am not here.", "gloss": "nicht: not.", "note": "Nicht sits after the verb: bin nicht.", "scene": "An empty office chair, a coat missing from the hook.", "f": "Negation with sein", "t": []},
+  {"n": "müde", "de": "Ich bin müde.", "en": "I am tired.", "lit": "I am tired.", "gloss": "müde: tired.", "note": "Close to the English feeling and one of the most useful words for you right now. Note the umlaut: müde.", "scene": "A woman rubs her eyes at her desk in the evening.", "f": "Subject + sein + feeling", "t": []},
+  {"n": "er-ist", "de": "Er ist hier.", "en": "He is here.", "lit": "He is here.", "gloss": "er: he. ist: is (sein, used with er, sie, es).", "note": "Two new words in one block: er and ist are as inseparable as ich bin. Sie for she comes later, because it looks like formal Sie.", "scene": "A man walks into a meeting room and sits down.", "f": "Subject + sein + place", "t": [], "u": ["er", "ist"]},
+  {"n": "wir-sind", "de": "Wir sind hier.", "en": "We are here.", "lit": "We are here.", "gloss": "wir: we. sind: are (sein, used with wir).", "note": "Same block logic: wir and sind belong together.", "scene": "Two colleagues arrive at a restaurant door together.", "f": "Subject + sein + place", "t": [], "u": ["wir", "sind"]},
+  {"n": "gut", "de": "Das ist gut.", "en": "That is good.", "lit": "That is good.", "gloss": "das: that, this. gut: good.", "note": "Das is the word for that or this. It points at something, like in Das ist gut.", "scene": "A woman tastes a dish and nods.", "f": "das + sein + adjective", "t": [], "u": ["das", "gut"]},
+  {"n": "sehr", "de": "Das ist sehr gut.", "en": "That is very good.", "lit": "That is very good.", "gloss": "sehr: very.", "note": "Sehr goes in front of the word it strengthens.", "scene": "The same woman gives a thumbs up.", "f": "Intensifier", "t": []},
+  {"n": "p-das-nicht-gut", "de": "Das ist nicht gut.", "en": "That is not good.", "lit": "That is not good.", "gloss": "Nothing new: words you already know in a new combination.", "note": "Nicht after the verb again. Same pattern as Ich bin nicht hier.", "scene": "A man looks at a spilled cup of coffee.", "f": "Recombination", "t": [], "p": true},
+  {"n": "wo", "de": "Wo ist er?", "en": "Where is he?", "lit": "Where is he?", "gloss": "wo: where.", "note": "Question words come first. The verb follows straight away: Wo ist er?", "scene": "A woman looks around a busy office.", "f": "Question word + sein", "t": []},
+  {"n": "p-wo-bist-du", "de": "Wo bist du?", "en": "Where are you?", "lit": "Where are you?", "gloss": "Nothing new: words you already know in a new combination.", "note": "The verb ist changes to bist, and the subject goes behind it in questions.", "scene": "A phone call: a man looks at his screen and asks.", "f": "Recombination", "t": [], "p": true},
+  {"n": "was", "de": "Was ist das?", "en": "What is that?", "lit": "What is that?", "gloss": "was: what.", "note": "One of the most useful questions you will ever ask. Point and ask.", "scene": "A man points at an unfamiliar object on a kitchen counter.", "f": "Question word + sein", "t": []},
+  {"n": "habe", "de": "Ich habe Kaffee.", "en": "I have coffee.", "lit": "I have coffee.", "gloss": "habe: have (haben, used with ich).", "note": "Kaffee is nearly the English word, so it does not need teaching. Nouns in German always start with a capital letter.", "scene": "A man sets a cup of coffee on his desk.", "f": "Subject + haben + noun", "t": []},
+  {"n": "zeit", "de": "Ich habe Zeit.", "en": "I have time.", "lit": "I have time.", "gloss": "Zeit: time.", "note": "No article needed here: Ich habe Zeit is a complete, natural sentence.", "scene": "A woman checks her watch and smiles: free for an hour.", "f": "Subject + haben + noun", "t": []},
+  {"n": "hast", "de": "Hast du Zeit?", "en": "Do you have time?", "lit": "Do you have time?", "gloss": "hast: have (haben, used with du).", "note": "A question made by flipping the order: Du hast becomes Hast du. No word for do is needed.", "scene": "A colleague leans into a doorway and asks.", "f": "Question with haben", "t": []},
+  {"n": "p-was-hast-du", "de": "Was hast du?", "en": "What do you have?", "lit": "What do you have?", "gloss": "Nothing new: words you already know in a new combination.", "note": "Question word first, then hast du. Same flip as before.", "scene": "A man looks at a friend's bag and asks.", "f": "Recombination", "t": [], "p": true},
+  {"n": "keine", "de": "Ich habe keine Zeit.", "en": "I do not have time.", "lit": "I do not have time.", "gloss": "keine: no, not any (with Zeit).", "note": "Keine means not any or no. It replaces nicht when a noun is involved. Ich habe keine Zeit is how you say you are busy.", "scene": "A woman holds up a full calendar and shakes her head.", "f": "Negation with haben", "t": []},
+  {"n": "geld", "de": "Ich habe Geld.", "en": "I have money.", "lit": "I have money.", "gloss": "Geld: money.", "note": "No article, like Zeit.", "scene": "A man opens his wallet.", "f": "Subject + haben + noun", "t": []},
+  {"n": "kein", "de": "Ich habe kein Geld.", "en": "I do not have money.", "lit": "I do not have money.", "gloss": "kein: no, not any (with Geld).", "note": "Kein and keine are the same word in two forms. You do not need the rule yet: just learn Zeit goes with keine and Geld goes with kein.", "scene": "A man looks into an empty wallet.", "f": "Negation with haben", "t": []},
+  {"n": "möchte", "de": "Ich möchte Kaffee.", "en": "I would like coffee.", "lit": "I would like coffee.", "gloss": "möchte: would like.", "note": "Möchte is polite and normal in shops and restaurants. It is gentler than the English I want.", "scene": "A customer at a cafe counter points at the menu.", "f": "Subject + möchte + noun", "t": []},
+  {"n": "wasser", "de": "Ich möchte Wasser.", "en": "I would like water.", "lit": "I would like water.", "gloss": "Wasser: water.", "note": "Wasser is one of the first words you will hear in a restaurant.", "scene": "A person at a restaurant table looks at a waiter.", "f": "Subject + möchte + noun", "t": []},
+  {"n": "p-moechte-bitte", "de": "Ich möchte Wasser, bitte.", "en": "I would like water, please.", "lit": "I would like water, please.", "gloss": "Nothing new: words you already know in a new combination.", "note": "Bitte at the end makes it polite. This is a whole restaurant sentence.", "scene": "A waiter nods and writes it down.", "f": "Recombination", "t": [], "p": true},
+  {"n": "kann", "de": "Ich kann das.", "en": "I can do that.", "lit": "I can do that.", "gloss": "kann: can, am able to (können, used with ich).", "note": "Kann is one of the most useful verbs. It will later carry whole sentences.", "scene": "A woman picks up a tool and shows she can do it.", "f": "Subject + können", "t": []},
+  {"n": "kannst", "de": "Kannst du das?", "en": "Can you do that?", "lit": "Can you do that?", "gloss": "kannst: can (können, used with du).", "note": "The same flip as Hast du: verb first for a question.", "scene": "A colleague hands a task to another colleague.", "f": "Question with können", "t": []},
+  {"n": "p-kann-nicht", "de": "Ich kann das nicht.", "en": "I cannot do that.", "lit": "I cannot do that.", "gloss": "Nothing new: words you already know in a new combination.", "note": "Nicht goes at the end here, after the thing you cannot do.", "scene": "A man looks at a complicated form and shrugs.", "f": "Recombination", "t": [], "p": true},
+  {"n": "wie", "de": "Wie bitte?", "en": "Pardon?", "lit": "Pardon?", "gloss": "wie: how; Wie bitte? is the polite way to ask someone to repeat.", "note": "This is the phrase to use when you did not catch something. Say it with a friendly face and you will get a second chance.", "scene": "A woman leans closer in a noisy room.", "f": "Survival chunk", "t": []},
+  {"n": "weiß", "de": "Ich weiß nicht.", "en": "I do not know.", "lit": "I do not know.", "gloss": "weiß: know a fact (wissen, used with ich).", "note": "Ich weiß nicht is a complete answer. Watch the ß: it sounds like a sharp s.", "scene": "A man shrugs when asked a question.", "f": "Subject + wissen + nicht", "t": []},
+  {"n": "ahnung", "de": "Keine Ahnung.", "en": "No idea.", "lit": "No idea.", "gloss": "Ahnung: idea, clue.", "note": "Informal, very common. You will hear it every day. It means roughly no clue.", "scene": "A friend raises both hands: no idea.", "f": "Survival chunk", "t": []},
+  {"n": "verstehe", "de": "Ich verstehe das nicht.", "en": "I do not understand that.", "lit": "I do not understand that.", "gloss": "verstehe: understand (verstehen, used with ich).", "note": "The most honest sentence you can say in a new language, and one of the most useful.", "scene": "A man listening to an announcement frowns.", "f": "Subject + verstehen + nicht", "t": []},
+  {"n": "p-kein-problem", "de": "Kein Problem.", "en": "No problem.", "lit": "No problem.", "gloss": "Nothing new: words you already know in a new combination.", "note": "Problem is nearly the English word. This works like Ich habe kein Geld: kein with a noun.", "scene": "A colleague waves a hand: it is fine.", "f": "Recombination", "t": [], "p": true},
+  {"n": "und", "de": "Ich habe Zeit und Geld.", "en": "I have time and money.", "lit": "I have time and money.", "gloss": "und: and.", "note": "Und works like English and.", "scene": "A man holds a watch in one hand and a wallet in the other.", "f": "Connector", "t": []},
+  {"n": "geht's", "de": "Wie geht's?", "en": "How are you?", "lit": "How are you?", "gloss": "geht's: goes, from gehen (short for geht es).", "note": "Literally how goes it. Short for Wie geht es dir? You will hear this every day.", "scene": "Two neighbours meet in a hallway.", "f": "Social chunk", "t": []},
+  {"n": "dir", "de": "Und dir?", "en": "And you?", "lit": "And you?", "gloss": "dir: to you, the form of du after a question like Wie geht's.", "note": "You do not need the case rules here. Wie geht's? is answered with Gut, danke. Und dir?", "scene": "One neighbour asks back with a smile.", "f": "Social chunk", "t": []},
+  {"n": "entschuldigung", "de": "Entschuldigung.", "en": "Excuse me. / Sorry.", "lit": "Excuse me. / Sorry.", "gloss": "Entschuldigung: excuse me, sorry.", "note": "Long, but you will say it all the time. Use it to get past people and to get attention.", "scene": "A man squeezes past someone on a train.", "f": "Politeness token", "t": []},
+  {"n": "p-gut-danke", "de": "Gut, danke.", "en": "Good, thanks.", "lit": "Good, thanks.", "gloss": "Nothing new: words you already know in a new combination.", "note": "The standard reply to Wie geht's. Add Und dir? to return the question.", "scene": "One neighbour answers while carrying shopping.", "f": "Recombination", "t": [], "p": true},
+  {"n": "heute", "de": "Ich habe heute Zeit.", "en": "I have time today.", "lit": "I have time today.", "gloss": "heute: today.", "note": "Heute fits into the middle of a sentence just after the verb and subject.", "scene": "A woman looks at a wall calendar. Today is free.", "f": "Time word", "t": []},
+  {"n": "aber", "de": "Ich habe Zeit, aber kein Geld.", "en": "I have time, but no money.", "lit": "I have time, but no money.", "gloss": "aber: but.", "note": "Put a comma before aber. After the comma the sentence just keeps going.", "scene": "A man with an empty wallet looks at a shop window.", "f": "Connector", "t": []},
+  {"n": "p-heute-nicht", "de": "Ich habe heute keine Zeit.", "en": "I do not have time today.", "lit": "I do not have time today.", "gloss": "Nothing new: words you already know in a new combination.", "note": "Heute and keine now live in the same sentence. This is a true everyday sentence.", "scene": "A man types a message and shakes his head.", "f": "Recombination", "t": [], "p": true},
+  {"n": "gehe", "de": "Ich gehe heute.", "en": "I am going today.", "lit": "I am going today.", "gloss": "gehe: go (gehen, used with ich).", "note": "German uses the same form for I go and I am going.", "scene": "A woman puts on her coat at the door.", "f": "Subject + gehen", "t": []},
+  {"n": "komme", "de": "Ich komme heute.", "en": "I am coming today.", "lit": "I am coming today.", "gloss": "komme: come (kommen, used with ich).", "note": "Kommen is also how you say where you are from.", "scene": "A man steps off a train.", "f": "Subject + kommen", "t": []},
+  {"n": "aus", "de": "Ich komme aus Kanada.", "en": "I come from Canada.", "lit": "I come from Canada.", "gloss": "aus: out of, from.", "note": "Aus after kommen tells where you are from. Kanada is spelled with a K.", "scene": "A woman at a networking event points at a map.", "f": "Subject + kommen + aus", "t": []},
+  {"n": "gehen", "de": "Wir gehen heute.", "en": "We are going today.", "lit": "We are going today.", "gloss": "gehen: go (used with wir).", "note": "Wir always goes with the -en form: wir gehen, wir kommen.", "scene": "Two colleagues stand up and pick up their bags.", "f": "Subject + gehen", "t": []},
+  {"n": "heiße", "de": "Ich heiße Anna.", "en": "My name is Anna.", "lit": "I am called Anna.", "gloss": "heiße: am called (heißen, used with ich).", "note": "Literally I am called Anna. Both Ich heiße and Ich bin work for names.", "scene": "A woman shakes hands and introduces herself.", "f": "Subject + heißen + name", "t": []},
+  {"n": "wohne", "de": "Ich wohne hier.", "en": "I live here.", "lit": "I live here.", "gloss": "wohne: live, reside (wohnen, used with ich).", "note": "Wohnen is where you live, not the word for being alive.", "scene": "A man points at a building behind him.", "f": "Subject + wohnen", "t": []},
+  {"n": "arbeite", "de": "Ich arbeite hier.", "en": "I work here.", "lit": "I work here.", "gloss": "arbeite: work (arbeiten, used with ich).", "note": "Arbeiten gets an extra e after the stem. Say it slowly: ar-bei-te.", "scene": "A woman in an office badge smiles at the camera.", "f": "Subject + arbeiten", "t": []},
+  {"n": "muss", "de": "Ich muss heute gehen.", "en": "I have to go today.", "lit": "I have to go today.", "gloss": "muss: must, have to (müssen, used with ich).", "note": "Muss is stronger than kann. Ich muss gehen is a polite way to leave a meeting or a party.", "scene": "A man checks his watch and picks up his coat.", "f": "Modal + infinitive", "t": []},
+  {"n": "arbeiten", "de": "Ich muss heute arbeiten.", "en": "I have to work today.", "lit": "I have to work today.", "gloss": "arbeiten: to work (the infinitive form).", "note": "The second verb goes to the end of the sentence and stays in the base form.", "scene": "A man looks at his laptop on a weekend morning.", "f": "Modal + infinitive", "t": []},
+  {"n": "weil", "de": "Ich habe keine Zeit, weil ich arbeite.", "en": "I have no time because I am working.", "lit": "I have no time because I am working.", "gloss": "weil: because.", "note": "Weil sends the verb to the end of its part of the sentence. For now just learn this one as a block.", "scene": "A woman answers a call with her laptop open behind her.", "f": "Reason with weil", "t": []},
+  {"n": "p-muede-aber", "de": "Ich bin müde, aber ich arbeite.", "en": "I am tired, but I am working.", "lit": "I am tired, but I am working.", "gloss": "Nothing new: words you already know in a new combination.", "note": "Two sentences in one, joined by aber. This is what the next chains build on.", "scene": "A tired man types on his laptop late in the day.", "f": "Recombination", "t": [], "p": true},
+];
+const TARGETS = ["Ich bin hier.", "Ich bin nicht hier.", "Er ist hier.", "Wir sind hier.", "Das ist gut.", "Das ist nicht gut.", "Wo ist er?", "Was ist das?", "Ich habe Zeit.", "Hast du Zeit?", "Ich habe keine Zeit.", "Ich habe kein Geld.", "Ich möchte Wasser, bitte.", "Ich kann das.", "Ich kann das nicht.", "Ich weiß nicht.", "Ich verstehe das nicht.", "Keine Ahnung.", "Wie bitte?", "Wie geht's?", "Ich habe heute keine Zeit.", "Ich komme aus Kanada.", "Ich heiße Anna.", "Ich wohne hier.", "Ich arbeite hier.", "Ich muss heute arbeiten.", "Ich bin müde, aber ich arbeite.", "Ich habe keine Zeit, weil ich arbeite.", "Ich habe Zeit, aber kein Geld.", "Ich habe Zeit und Geld.", "Entschuldigung.", "Gut, danke."];
+
+const TOPICS = [["hallo", "Hello and thanks"], ["ich-bin", "Who is who"], ["hier", "Here and not here"], ["wir-sind", "We, that, very"], ["wo", "Asking where and what"], ["habe", "Having coffee and time"], ["hast", "Having and not having"], ["möchte", "Ordering"], ["kann", "Can and cannot"], ["weiß", "Not knowing, not understanding"], ["geht's", "Small talk"], ["heute", "Today, and, but"], ["gehe", "Going and coming"], ["heiße", "About you"], ["muss", "Have to, because"]];
+
+const DATAVER = 1;
+const RESET = [];
+const NOTECLEAR = [];
+const NUMS = {"eins":1,"zwei":2,"drei":3,"vier":4,"fünf":5,"sechs":6,"sieben":7,"acht":8,"neun":9,"zehn":10,"elf":11,"zwölf":12,"dreizehn":13,"vierzehn":14,"fünfzehn":15,"sechzehn":16,"siebzehn":17,"achtzehn":18,"neunzehn":19,"zwanzig":20,"dreißig":30,"hundert":100,"einundzwanzig":21,"einunddreißig":31,"zweiundzwanzig":22,"zweiunddreißig":32,"dreiundzwanzig":23,"dreiunddreißig":33,"vierundzwanzig":24,"vierunddreißig":34,"fünfundzwanzig":25,"fünfunddreißig":35,"sechsundzwanzig":26,"sechsunddreißig":36,"siebenundzwanzig":27,"siebenunddreißig":37,"achtundzwanzig":28,"achtunddreißig":38,"neunundzwanzig":29,"neununddreißig":39,"einundvierzig":41,"zweiundfünfzig":52,"dreiundsechzig":63,"sechsundsiebzig":76,"siebenundachtzig":87,"fünfundneunzig":95,"neunundneunzig":99};
+const COGNATES = ["kaffee","kanada","problem"];
+
+(function(){
+"use strict";
+var DAY=86400000, MIN=60000;
+var KEYSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>';
+var ICONS={
+ today:'<svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>',
+ progress:'<svg viewBox="0 0 24 24"><path d="M5 20V10"/><path d="M12 20V4"/><path d="M19 20v-7"/></svg>',
+ path:'<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="8" cy="19" r="2"/><path d="M8 7l8 4M16.5 13.5L9 17.5"/></svg>',
+ cards:'<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 10h8M8 14h5"/></svg>',
+ settings:'<svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>'
+};
+var PLAY='<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';
+
+/* ---------- state ---------- */
+var STORE_KEY="lingokey-pilot-cards-v1";
+var mem=null, S=null;
+function fresh(){return {v:1,cards:{},log:[],dayNew:{},set:{goal:4,speed:0.85,hide:false,next:true,auto:true},rev:{},notes:{},offset:0,studyMs:0,overdue:{}};}
+function load(){try{var r=localStorage.getItem(STORE_KEY);if(r){var o=JSON.parse(r);if(o&&o.v===1){if(o.dv!==DATAVER){o.rev=o.rev||{};RESET.forEach(function(k){delete o.rev[k];});o.notes=o.notes||{};if(typeof NOTECLEAR!=="undefined")NOTECLEAR.forEach(function(k){delete o.notes[k];});o.dv=DATAVER;}return o;}}}catch(e){}return fresh();}
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(S));}catch(e){mem=JSON.stringify(S);}}
+S=load();
+function now(){return Date.now()+S.offset;}
+function dkey(t){var d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+/* ---------- deck helpers ---------- */
+var IDX={}; CARDS.forEach(function(c,i){IDX[c.n]=i;});
+function tok(s){return s.toLowerCase().replace(/[.,?!]/g,"").split(/\s+/).filter(Boolean);}
+function stateOf(id){return S.cards[id]||{st:"new"};}
+function learnedSet(){var s={};CARDS.forEach(function(c){if(stateOf(c.n).st==="review"||stateOf(c.n).st==="shelved")ucards(c).forEach(function(u){s[u]=1;});});return s;}
+function coverage(set){var n=0;TARGETS.forEach(function(t){if(tok(t).every(function(w){return set[w]||(UNITS[w]&&UNITS[w].free);}))n++;});return n;}
+function indexPct(){return Math.round(100*coverage(learnedSet())/TARGETS.length);}
+function ucards(c){return c.p?[]:(c.u||[c.n]);}
+function lab(c){return c.p?"practice":(c.u?c.u.join(" + "):c.n);}
+function rk(c){var u=ucards(c)[0];return u&&UNITS[u]?UNITS[u].rank:0;}
+function validate(i){
+  var c=CARDS[i],ts=tok(c.de),known={};
+  for(var j=0;j<i;j++)ucards(CARDS[j]).forEach(function(u){known[u]=1;});
+  var unk=[],fresh=[];
+  ts.forEach(function(w){if(!UNITS[w])unk.push(w);else if(!known[w]&&!UNITS[w].free&&fresh.indexOf(w)<0)fresh.push(w);});
+  var want=ucards(c),ok=unk.length===0&&fresh.length===want.length&&want.every(function(u){return fresh.indexOf(u)>=0;});
+  return {ok:ok,unk:unk,fresh:fresh};
+}
+function newToday(){return S.dayNew[dkey(now())]||0;}
+function nextNewIdx(){for(var i=0;i<CARDS.length;i++){if(!S.cards[CARDS[i].n])return i;}return -1;}
+function dueList(){var t=now();return CARDS.filter(function(c){var s=S.cards[c.n];return s&&s.due<=t;}).sort(function(a,b){return S.cards[a.n].due-S.cards[b.n].due;});}
+
+/* ---------- scheduler ---------- */
+function plan(s,good){
+  // returns next state without mutating. Learning steps: 3 min, 10 min. First graduation: 2 days.
+  var t=now(),n={st:s.st,step:s.step||0,ivl:s.ivl||0,due:s.due||t,lapses:s.lapses||0,reps:(s.reps||0)+1,relearn:s.relearn||0};
+  if(s.st==="new"||!s.st){
+    n.st="learn"; if(good){n.step=1;n.due=t+10*MIN;}else{n.step=0;n.due=t+3*MIN;}
+  }else if(s.st==="learn"){
+    if(good){ if(s.step===0){n.step=1;n.due=t+10*MIN;} else {n.st="review";n.ivl=s.relearn||2;n.due=t+n.ivl*DAY;} }
+    else{n.step=0;n.due=t+3*MIN;}
+  }else{
+    if(good){n.ivl=Math.max(s.ivl+1,Math.round(s.ivl*2.2));n.due=t+n.ivl*DAY;}
+    else{n.lapses++;n.st="learn";n.step=0;n.due=t+3*MIN;n.relearn=Math.max(2,Math.round(s.ivl*0.4));}
+  }
+  return n;
+}
+function fmt(ms){var m=Math.round(ms/MIN);if(m<60)return m+" min";var h=Math.round(ms/3600000);if(h<24)return h+" h";var d=Math.round(ms/DAY);return d+" d";}
+function previewLabel(s,good){var n=plan(s,good);return fmt(n.due-now());}
+
+/* ---------- audio ---------- */
+var voices=[];
+function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
+function deVoices(){return voices.filter(function(x){return /^de([-_]|$)/i.test(x.lang);});}
+function vScore(v){
+  var n=(v.name||"")+" "+(v.voiceURI||""),sc=0;
+  if(/natural|neural/i.test(n))sc+=60;
+  if(/online/i.test(n))sc+=20;
+  if(/premium|enhanced|erweitert|verbessert/i.test(n))sc+=45;
+  if(/siri/i.test(n))sc+=45;
+  if(/google/i.test(n))sc+=30;
+  if(/\b(katja|conrad|amala|seraphina|florian|killian|louisa|maja|anna|petra|markus|viktor|yannick)\b/i.test(n))sc+=8;
+  if(/compact|espeak|desktop|novelty|eloquence|zarvox|whisper|bad news|bells|boing|bubbles|cellos|deranged|good news|hysterical|pipe organ|trinoids|wobble/i.test(n))sc-=60;
+  if(v.localService===false)sc+=10;
+  if(/^de[-_]DE$/i.test(v.lang))sc+=5;
+  if(/^de[-_]CH$/i.test(v.lang))sc-=4;
+  return sc;
+}
+function rankedVoices(){return deVoices().slice().sort(function(a,b){return vScore(b)-vScore(a);});}
+function pickVoice(){
+  var r=rankedVoices();if(!r.length)return null;
+  if(S&&S.set&&S.set.voice){for(var i=0;i<r.length;i++){if(r[i].name===S.set.voice)return r[i];}}
+  return r[0];
+}
+if("speechSynthesis" in window){loadVoices();try{window.speechSynthesis.onvoiceschanged=function(){loadVoices();if(route==="settings"&&!sess)render();};}catch(e){}}
+function speak(text){
+  if(!("speechSynthesis" in window))return false;
+  try{
+    window.speechSynthesis.cancel();
+    if(!voices.length)loadVoices();
+    var u=new SpeechSynthesisUtterance(text);u.lang="de-DE";u.rate=S.set.speed;
+    var v=pickVoice();if(v){u.voice=v;u.lang=v.lang;}
+    window.speechSynthesis.speak(u);return true;
+  }catch(e){return false;}
+}
+
+/* ---------- route / session ---------- */
+var route="today";
+var sess=null;     // active session
+var shadow=null;   // shadow round
+var summary=null;
+var timer=null;
+
+function startSession(){
+  sess={t0:Date.now(),cur:null,shown:false,newDone:0,rev:0,again:0,good:0,shelved:0,shelfRun:0,offer:null,passed:[],touched:{},before:indexPct(),total:0,learnedBefore:Object.keys(learnedSet()).length};
+  route="session";
+  pickNext();
+  timer=setInterval(tickTimer,1000);
+  render();
+}
+function tickTimer(){var el=document.getElementById("clock");if(el&&sess)el.textContent=clock(Date.now()-sess.t0);}
+function clock(ms){var s=Math.floor(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function pickNext(){
+  var t=now(),due=dueList();
+  if(due.length){sess.cur={c:due[0],kind:"rev"};}
+  else if(newToday()<S.set.goal&&nextNewIdx()>=0){sess.cur={c:CARDS[nextNewIdx()],kind:"new"};}
+  else{
+    var pend=CARDS.filter(function(c){var s=S.cards[c.n];return s&&s.st==="learn"&&sess.touched[c.n]&&s.due<=t+30*MIN;}).sort(function(a,b){return S.cards[a.n].due-S.cards[b.n].due;});
+    sess.cur=pend.length?{c:pend[0],kind:"rev"}:null;
+  }
+  sess.shown=false;
+  if(sess.cur&&S.set.auto)setTimeout(function(){if(sess&&sess.cur)speak(sess.cur.c.de);},250);
+}
+function nextTopic(idx){for(var i=0;i<TOPICS.length;i++){var j=IDX[TOPICS[i][0]];if(j>idx)return {name:TOPICS[i][1],idx:j};}return null;}
+function shelve(){
+  if(!sess||!sess.cur||sess.offer)return;
+  var c=sess.cur.c;
+  S.cards[c.n]={st:"shelved",shelvedAt:now(),reps:0};
+  sess.shelved++;sess.shelfRun++;sess.touched[c.n]=1;
+  save();pickNext();
+  if(!sess.cur){finish();return;}
+  if(sess.shelfRun>=3&&sess.cur.kind==="new"){var tp=nextTopic(IDX[sess.cur.c.n]);if(tp)sess.offer=tp;}
+  render();
+}
+function jumpTopic(){
+  var o=sess.offer;if(!o)return;
+  for(var i=0;i<o.idx;i++){if(!S.cards[CARDS[i].n])S.cards[CARDS[i].n]={st:"shelved",shelvedAt:now(),reps:0,sk:1};}
+  sess.shelfRun=0;sess.offer=null;save();pickNext();
+  if(!sess.cur){finish();return;}
+  render();
+}
+function renderOffer(){
+  var o=sess.offer;
+  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
+  h+='<div class="card stack" style="text-align:center"><div class="eyebrow">Already know this?</div><h2 style="margin:0">You shelved '+sess.shelfRun+' cards in a row</h2><p class="muted" style="margin:0">Skip ahead to the next topic: <b>'+esc(o.name)+'</b>. The cards in between are shelved and count as learned, so later sentences can use them.</p><button class="btn good" data-act="jump">Skip to '+esc(o.name)+'</button><button class="link" data-act="stay">No, keep going here</button></div></div>';
+  app.innerHTML=h;tabbar();
+}
+function answer(good){
+  if(!sess||!sess.cur||!sess.shown||sess.offer)return;
+  sess.shelfRun=0;
+  var c=sess.cur.c,s=stateOf(c.n),isNew=!S.cards[c.n];
+  var wasDue=!isNew&&s.due<=now();
+  var n=plan(s,good);
+  if(good&&s.st==="learn"&&n.st==="review"){n.learnedAt=now();}
+  if(s.learnedAt&&!n.learnedAt)n.learnedAt=s.learnedAt;
+  S.cards[c.n]=n;
+  if(isNew){S.dayNew[dkey(now())]=newToday()+1;sess.newDone++;}else sess.rev++;
+  if(good){sess.good++;if(sess.passed.indexOf(c.n)<0)sess.passed.push(c.n);}else sess.again++;
+  sess.touched[c.n]=1;
+  if(wasDue&&sess.cur.kind==="rev"){var k=dkey(now());var o=S.overdue[k]||{done:0};o.done++;S.overdue[k]=o;}
+  save();
+  pickNext();
+  if(!sess.cur){finish();return;}
+  render();
+}
+function finish(){
+  if(timer){clearInterval(timer);timer=null;}
+  var ms=Date.now()-sess.t0;
+  S.studyMs+=ms;
+  var rec={t:now(),day:dkey(now()),ms:ms,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again};
+  S.log.push(rec);save();
+  var tot=sess.good+sess.again;
+  summary={ms:ms,newN:sess.newDone,rev:sess.rev,recall:tot?Math.round(100*sess.good/tot):100,idxBefore:sess.before,idxAfter:indexPct(),passed:sess.passed.slice(),learned:Object.keys(learnedSet()).length,left:CARDS.length-Object.keys(S.cards).length};
+  sess=null;route="summary";render();
+}
+function quit(){if(timer){clearInterval(timer);timer=null;}if(sess){S.studyMs+=Date.now()-sess.t0;S.log.push({t:now(),day:dkey(now()),ms:Date.now()-sess.t0,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again});save();}sess=null;route="today";render();}
+
+/* ---------- derived stats ---------- */
+function streak(){
+  var days={};S.log.forEach(function(r){days[r.day]=1;});
+  var n=0,t=now();
+  if(!days[dkey(t)])t-=DAY;
+  while(days[dkey(t)]){n++;t-=DAY;}
+  return n;
+}
+function weekMinutes(){
+  var out=[],t=now();
+  for(var i=6;i>=0;i--){var k=dkey(t-i*DAY),ms=0;S.log.forEach(function(r){if(r.day===k)ms+=r.ms;});
+    var d=new Date(t-i*DAY);out.push({k:k,m:Math.round(ms/MIN),l:["S","M","T","W","T","F","S"][d.getDay()],today:i===0});}
+  return out;
+}
+function completion30(){
+  var done=0,t=now();for(var i=0;i<30;i++){var o=S.overdue[dkey(t-i*DAY)];if(o)done+=o.done;}
+  var open=dueList().length;
+  if(done+open===0)return null;
+  return Math.round(100*done/(done+open));
+}
+function todayRevDone(){var o=S.overdue[dkey(now())];return o?o.done:0;}
+function todayMs(){var k=dkey(now()),ms=0;S.log.forEach(function(r){if(r.day===k)ms+=r.ms;});return ms;}
+
+/* ---------- render ---------- */
+var app=document.getElementById("app"),tabs=document.getElementById("tabs");
+function top(){return '<div class="top"><div class="brand">'+KEYSVG+'<span>Speak German<span class="now"> - now.</span></span></div><a class="chip" href="/pilot/" style="color:inherit;text-decoration:none">Back to path</a></div>';}
+function tabbar(){
+  var items=[["today","Today"],["progress","Progress"],["path","Path"],["cards","Cards"],["settings","Settings"]];
+  var cur=route==="summary"||route==="session"||route==="shadow"?"today":route;
+  tabs.innerHTML=items.map(function(it){return '<button class="tab" data-act="tab" data-to="'+it[0]+'"'+(cur===it[0]?' aria-current="page"':"")+'>'+ICONS[it[0]]+it[1]+'</button>';}).join("");
+  document.querySelector(".tabs").hidden=(route==="session"||route==="shadow");
+}
+function pic(c,small){
+  return '<div class="pic" role="img" aria-label="Picture slot. Scene: '+esc(c.scene)+'"'+(small?' style="aspect-ratio:16/7"':"")+'>'+KEYSVG+'<span class="slot">Picture slot</span><span class="scene">'+esc(c.scene)+'</span></div>';
+}
+function nd(w){var lc=w.replace(/[.,?!]/g,"").toLowerCase();return (typeof NUMS!=="undefined"&&NUMS[lc]!==undefined)?'<sup class="nd">'+NUMS[lc]+'</sup>':"";}
+function numw(w){var m=w.match(/^(.*?)([.,?!]*)$/);return esc(m[1])+nd(m[1])+esc(m[2]);}
+function dehtml(t){return t.split(" ").map(numw).join(" ");}
+function underlined(c){
+  var used={},us=ucards(c);
+  var words=c.de.split(" ");
+  return words.map(function(w){
+    var core=w.replace(/[.,?!]/g,""),lc=core.toLowerCase();
+    if(us.indexOf(lc)>=0&&!used[lc]){used[lc]=1;return "<u>"+esc(core)+"</u>"+nd(core)+esc(w.slice(core.length));}
+    return numw(w);
+  }).join(" ");
+}
+function render(){
+  if(route==="session")return renderSession();
+  if(route==="shadow")return renderShadow();
+  var html=top();
+  if(route==="today")html+=viewToday();
+  else if(route==="summary")html+=viewSummary();
+  else if(route==="progress")html+=viewProgress();
+  else if(route==="path")html+=viewPath();
+  else if(route==="cards")html+=viewCards();
+  else if(route==="settings")html+=viewSettings();
+  app.innerHTML=html;tabbar();window.scrollTo(0,0);
+}
+
+function viewToday(){
+  var goal=S.set.goal,nt=Math.min(newToday(),goal),pct=nt/goal,C=2*Math.PI*96;
+  var due=dueList().length,left=nextNewIdx()>=0;
+  var can=due>0||(left&&newToday()<goal);
+  var d=new Date(now());
+  var date=d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  var h='<div class="stack"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">'+esc(date)+'</div><h1>Hallo</h1></div><span class="chip" title="Days in a row with a session">'+streak()+' day streak</span></div>';
+  var ARCH="M36 284V132a84 84 0 0 1 168 0V284";
+  var por='<div class="portal" id="portal"><svg class="arch" viewBox="0 0 240 300" aria-hidden="true"><defs><clipPath id="pc"><path d="'+ARCH+'Z"/></clipPath><radialGradient id="pg" cx="50%" cy="60%" r="65%"><stop offset="0" stop-color="#F3EBDF"/><stop offset=".6" stop-color="#BCDDBF"/><stop offset="1" stop-color="#F66F54"/></radialGradient></defs>'+
+   '<path d="'+ARCH+'Z" fill="url(#pg)" class="glow"/><g clip-path="url(#pc)"><rect class="leaf leafL" x="36" y="40" width="85" height="250" fill="#0E172D"/><rect class="leaf leafR" x="119" y="40" width="85" height="250" fill="#0E172D"/><path d="M120 40V290" stroke="#4A5266" stroke-width="2"/></g>'+
+   '<path d="'+ARCH+'" fill="none" stroke="var(--linen)" stroke-width="12" stroke-linejoin="round" pathLength="100"/><path d="'+ARCH+'" fill="none" stroke="var(--coral)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="100" stroke-dasharray="'+(pct*100)+' 100"'+(pct>0?'':' opacity="0"')+'/><path d="M26 284H214" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/></svg>';
+  if(can)por+='<button class="keybtn" data-act="begin" aria-label="Unlock today\'s session"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg></button>';
+  else por+='<div class="portalmsg">'+(left?'Goal met':'Path complete')+'</div>';
+  por+='</div>';
+  h+='<div class="card" style="text-align:center;padding-bottom:36px"><div class="eyebrow">Today\'s session</div>'+por+(can?'<p class="small" style="margin:44px 0 0;font-weight:800">Tap the key to open the door.</p>':'');
+  h+='<p class="small muted" style="margin-top:10px">'+(left?(nt>=goal?'Goal met. Due reviews still count.':'Goal: '+goal+' new cards a day. '+(due?due+' due for review.':'Nothing due yet.')):'You finished the prototype path. Reviews will keep coming back.')+'</p></div>';
+  h+='<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Today so far</h2><span class="small muted">'+nt+' of '+goal+' new</span></div><div class="stats" style="margin-top:10px"><div class="stat"><b>'+newToday()+'</b><span>New</span></div><div class="stat"><b>'+todayRevDone()+'</b><span>Reviews</span></div><div class="stat"><b>'+Math.round(todayMs()/MIN)+'m</b><span>Studied</span></div></div></div>';
+  var shn=Object.keys(S.cards).filter(function(k){return S.cards[k].st==="shelved";}).length;
+  if(shn)h+='<p class="small muted">'+shn+' shelved card'+(shn===1?'':'s')+' count as learned and are not scheduled. <button class="link" data-act="unshelve">Bring them back</button></p>';
+  h+='<p class="small muted">This is a working prototype of the student app. Audio uses your browser\'s German voice. Pictures are slots. Progress is saved in this browser only.</p></div>';
+  return h;
+}
+
+function renderSession(){
+  if(sess.offer){renderOffer();return;}
+  var cur=sess.cur,c=cur.c,s=stateOf(c.n),shown=sess.shown;
+  var newLeft=Math.max(0,Math.min(S.set.goal-newToday(),CARDS.length-Object.keys(S.cards).length));
+  var learning=CARDS.filter(function(x){var z=S.cards[x.n];return z&&z.st==="learn";}).length;
+  var dueN=dueList().length;
+  var total=sess.newDone+sess.rev+newLeft+dueN;
+  var prog=total?Math.round(100*(sess.newDone+sess.rev)/Math.max(total,1)):0;
+  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
+  h+='<div class="counts" style="justify-content:center"><span><i class="dot" style="background:var(--coral)"></i>'+newLeft+' new</span><span><i class="dot" style="background:var(--mint-ink)"></i>'+(learning+dueN)+' learning</span></div><div class="bar" aria-hidden="true"><i style="width:'+prog+'%"></i></div>';
+  h+='<div class="card stack" style="position:relative;align-items:stretch"><div class="row" style="justify-content:space-between"><span class="tag '+(cur.kind==="new"?"new":"rev")+'">'+(cur.kind==="new"?"New":"Review")+'</span><span class="tag">'+esc(c.f)+'</span></div>';
+  h+=pic(c);
+  h+='<div class="row" style="justify-content:center"><button class="play" data-act="speak">'+PLAY+'Play</button></div>';
+  h+='<div class="sentence'+(S.set.hide&&!shown?" hidden":"")+'" lang="de">'+underlined(c)+'</div>';
+  if(!shown)h+='<p class="eyebrow" style="text-align:center">Recall first, then reveal</p>';
+  else{
+    h+='<div class="reveal"><span class="eyebrow">Meaning</span><span class="mean">'+esc(c.en)+'</span><span class="muted small">literally: '+esc(c.lit)+'</span><span class="small"><b>'+esc(c.gloss)+'</b></span>'+(c.gp?'<span class="small gp"><b>Noun:</b> '+esc(c.gp)+'</span>':"")+(c.opp?'<span class="small"><b>Opposite:</b> <span lang="de">'+esc(c.opp[0])+'</span> ('+esc(c.opp[1])+')</span>':"")+(c.pat?'<span class="small pat"><b>Pattern:</b> '+esc(c.pat)+'</span>':"")+(c.fam?'<span class="small"><b>Word family:</b> <span lang="de">'+esc(c.fam)+'</span></span>':"")+(c.alt&&c.alt.length?'<span class="small"><b>Just as good:</b> <span lang="de">'+c.alt.map(esc).join(" / ")+'</span></span>':"")+(c.note?'<span class="small muted"><b>Good to know.</b> '+esc(c.note)+'</span>':"")+'</div>';
+    var ts=c.t.concat(rk(c)?["list rank "+rk(c)]:[]);
+    h+='<div class="tagrow">'+ts.map(function(x){return '<span class="tag">'+esc(x)+'</span>';}).join("")+'</div>';
+  }
+  h+='</div>';
+  if(!shown)h+='<button class="btn" data-act="show">Show answer <span class="small" style="font-weight:600">(Space)</span></button><p class="small muted" style="text-align:center">then rate yourself: Again or Good</p><button class="shelve" data-act="shelve"><span>Too easy</span><small>Shelve this card (3)</small></button>';
+  else{
+    var sa=S.set.next;
+    h+='<p class="small muted" style="text-align:center">Guessed it, even slowly? Good. New, or it slipped? Again.</p><div class="grade"><button class="btn again" data-act="again"><span>Again (1)</span>'+(sa?'<small>'+previewLabel(s,false)+'</small>':"")+'</button><button class="btn good" data-act="good"><span>Good (2)</span>'+(sa?'<small>'+previewLabel(s,true)+'</small>':"")+'</button></div><button class="shelve" data-act="shelve"><span>Too easy</span><small>Shelve this card (3)</small></button>';
+  }
+  h+='</div>';
+  app.innerHTML=h;tabbar();
+}
+
+function viewSummary(){
+  var m=summary;
+  var h='<div class="stack"><div class="card" style="text-align:center"><div class="eyebrow">Session done</div><h1 style="margin-top:6px">That was real German</h1><p class="muted" style="margin-top:6px">'+clock(m.ms)+' for '+(m.newN+m.rev)+' cards.</p></div>';
+  h+='<div class="card"><div class="stats"><div class="stat"><b>+'+m.newN+'</b><span>New cards</span></div><div class="stat"><b>'+m.recall+'%</b><span>Recall</span></div><div class="stat"><b>'+clock(m.ms)+'</b><span>Time</span></div></div></div>';
+  h+='<div class="card" style="text-align:center"><div class="eyebrow">You can now understand</div><div class="big" style="margin:8px 0">'+m.idxAfter+'%</div><p class="small muted">of the demo set of '+TARGETS.length+' everyday lines'+(m.idxAfter>m.idxBefore?' (up from '+m.idxBefore+'%)':'')+'. A line counts once you have learned every word in it.</p></div>';
+  h+='<div class="card"><h2>Items learned</h2><p class="muted small">'+m.learned+' of '+CARDS.length+' prototype items.'+(m.left>0?' '+m.left+' not started.':' All started.')+'</p></div>';
+  if(m.passed.length)h+='<div class="card stack"><h2 style="margin:0">Shadow what you just learned</h2><p class="small muted">Replay the audio of the '+m.passed.length+' card'+(m.passed.length>1?'s':'')+' you got right today. You already know what every line means, so you can repeat it along with the voice.</p><button class="btn" data-act="shadow">Shadow today\'s cards</button></div>';
+  h+='<button class="btn ghost" data-act="tab" data-to="today">Back to Today</button></div>';
+  return h;
+}
+
+function renderShadow(){
+  var q=shadow.q,i=shadow.i,c=CARDS[IDX[q[i]]];
+  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="shadowquit">Done</button><b>'+(i+1)+' / '+q.length+'</b><span style="width:48px"></span></div><div class="bar" aria-hidden="true"><i style="width:'+Math.round(100*i/q.length)+'%"></i></div>';
+  h+='<div class="card stack" style="text-align:center"><div class="eyebrow">Shadowing. Round '+(shadow.r+1)+' of 3</div>'+pic(c,true)+'<div class="row" style="justify-content:center"><button class="play" data-act="shadowplay">'+PLAY+'Play</button></div>';
+  h+='<div class="sentence'+(shadow.show?"":" hidden")+'" lang="de">'+dehtml(c.de)+'</div>';
+  h+='<p class="small muted">'+esc(c.en)+'</p><p class="small">Say it together with the voice, not after it. Keep your eyes off the text.</p>';
+  h+='<button class="link" data-act="shadowtext">'+(shadow.show?"Hide text":"Show text")+'</button></div>';
+  h+='<button class="btn" data-act="shadownext">'+(shadow.r<2?"Again, round "+(shadow.r+2):(i<q.length-1?"Next sentence":"Finish"))+'</button></div>';
+  app.innerHTML=h;tabbar();
+}
+
+function lineChart(){
+  var W=520,H=220,L=36,R=14,T=14,B=30,UC=CARDS.filter(function(c){return !c.p;}),N=UC.length;
+  function curve(order){var s={},arr=[0];order.forEach(function(c){ucards(c).forEach(function(u){s[u]=1;});arr.push(coverage(s));});return arr;}
+  var path=curve(UC);
+  var fo=UC.slice().sort(function(a,b){return rk(a)-rk(b);});
+  var freq=curve(fo),M=TARGETS.length;
+  function X(i){return L+(W-L-R)*i/N;}function Y(v){return T+(H-T-B)*(1-v/M);}
+  function pts(a){return a.map(function(v,i){return X(i).toFixed(1)+","+Y(v).toFixed(1);}).join(" ");}
+  var g="";
+  [0,25,50,75,100].forEach(function(p){var y=Y(M*p/100);g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-width="1"/><text x="'+(L-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="var(--muted)">'+p+'%</text>';});
+  [0,50,100,150,N].forEach(function(i){g+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="var(--muted)">'+i+'</text>';});
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Share of demo lines understood after each card, path order versus pure frequency order">'+g+
+   '<polyline points="'+pts(freq)+'" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-dasharray="6 4"/>'+
+   '<polyline points="'+pts(path)+'" fill="none" stroke="var(--coral)" stroke-width="3.5"/>'+
+   '<circle cx="'+X(N)+'" cy="'+Y(path[N])+'" r="4.5" fill="var(--coral)"/></svg>';
+  return {svg:svg,a:path[20],b:freq[20]};
+}
+
+function viewProgress(){
+  var learned=Object.keys(learnedSet()).length,total=CARDS.length,started=Object.keys(S.cards).length;
+  var pct=Math.round(100*learned/total),C=2*Math.PI*84;
+  var left=total-started,days=left>0?Math.ceil(left/S.set.goal):0;
+  var wk=weekMinutes(),mx=Math.max.apply(null,wk.map(function(x){return x.m;}).concat([5]));
+  var comp=completion30();
+  var h='<div class="stack"><div><div class="eyebrow">A0 to prototype path</div><h1>Progress</h1></div>';
+  h+='<div class="card" style="text-align:center"><div class="eyebrow">Path ring</div><div class="ringwrap" style="width:min(220px,60vw)"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="84" fill="none" stroke="var(--linen)" stroke-width="14"/><circle cx="100" cy="100" r="84" fill="none" stroke="var(--coral)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+(C*pct/100)+' '+C+'"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center"><div class="big">'+pct+'%</div></div></div>';
+  h+='<p><b>'+learned+'</b> learned of '+total+'</p><p class="small muted">'+started+' cards seen, '+Math.round(S.studyMs/MIN)+' min studied.</p><p class="small muted" style="margin-top:6px">'+(left>0?'At '+S.set.goal+' new cards a day, '+days+' more day'+(days===1?'':'s')+' to start every card in this prototype. The real path will hold 1,000 words.':'Every card in this prototype has been started.')+'</p></div>';
+  h+='<div class="card"><div class="eyebrow">Understanding Index</div><div class="big" style="margin:6px 0">'+indexPct()+'%</div><p class="small">You understand '+indexPct()+'% of the demo set of '+TARGETS.length+' everyday lines.</p><p class="small muted" style="margin-top:6px">A line counts once you have learned every word in it. In the real app the lines come from a weighted spoken-German sample, so the number tracks everyday speech.</p></div>';
+  h+='<div class="card"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Current streak</div><b style="font-size:1.4rem">'+streak()+' day'+(streak()===1?"":"s")+'</b></div></div><div class="eyebrow" style="margin-top:14px">Minutes this week</div><svg viewBox="0 0 280 110" width="100%" role="img" aria-label="Minutes studied in the last seven days">';
+  wk.forEach(function(d,i){var x=14+i*38,hgt=d.m?Math.max(6,Math.round(64*d.m/mx)):2;h+='<rect x="'+x+'" y="'+(78-hgt)+'" width="24" height="'+hgt+'" rx="6" fill="'+(d.m?"var(--coral)":"var(--line)")+'"/><text x="'+(x+12)+'" y="'+(70-hgt)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--navy)">'+(d.m?d.m:"")+'</text><text x="'+(x+12)+'" y="98" text-anchor="middle" font-size="11" fill="'+(d.today?"var(--navy)":"var(--muted)")+'" font-weight="'+(d.today?800:500)+'">'+d.l+'</text>';});
+  h+='</svg><div class="row" style="justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;margin-top:6px"><span class="small muted">Share of due reviews you completed, 30 days</span><b>'+(comp===null?"No data yet":comp+"%")+'</b></div></div>';
+  h+='<div class="card"><h2>Path map</h2><div class="grid" role="list">';
+  CARDS.forEach(function(c){var s=stateOf(c.n).st;h+='<div role="listitem" class="cell '+(s==="review"?"r":s==="learn"?"l":"")+'" title="'+esc(c.de)+'"></div>';});
+  h+='</div><div class="legend" style="margin-top:10px"><span><i style="background:var(--linen);border:1px solid var(--line);height:10px;width:10px;border-radius:3px"></i>Not started</span><span><i style="background:var(--coral-soft);border:1px solid var(--coral);height:10px;width:10px;border-radius:3px"></i>Learning</span><span><i style="background:var(--mint);border:1px solid var(--mint-ink);height:10px;width:10px;border-radius:3px"></i>Learned</span></div></div>';
+  var rec=CARDS.filter(function(c){return stateOf(c.n).learnedAt;}).sort(function(a,b){return stateOf(b.n).learnedAt-stateOf(a.n).learnedAt;}).slice(0,6);
+  h+='<div class="card"><h2>Recently learned</h2>'+(rec.length?rec.map(function(c){return '<div class="sw"><b>'+esc(lab(c))+'</b><span class="muted small" style="text-align:right">'+esc(c.en)+'</span></div>';}).join(""):'<p class="small muted">Cards appear here after you rate them Good a second time.</p>')+'</div></div>';
+  return h;
+}
+
+function viewPath(){
+  var ch=lineChart();
+  var okN=0;CARDS.forEach(function(c,i){if(validate(i).ok)okN++;});
+  var h='<div class="stack"><div><div class="eyebrow">Teacher view</div><h1>Path</h1></div>';
+  h+='<div class="card stack"><h2 style="margin:0">Does the order make sentences?</h2><p class="small">Share of the '+TARGETS.length+' demo lines a learner could understand after each card. The line rises when a new word pairs with words already known.</p>'+ch.svg+'<div class="legend"><span><i style="background:var(--coral)"></i>Path order</span><span><i style="background:var(--muted)"></i>Pure frequency order</span></div><p class="small muted">After 20 cards: '+ch.a+' lines on this path, '+ch.b+' in pure frequency order. The demo lines were written for this deck, so this illustrates the metric and does not prove it. The real test needs a sample of real everyday sentences.</p></div>';
+  h+='<div class="card stack"><h2 style="margin:0">Card check</h2><p class="small"><b>'+okN+' of '+CARDS.length+'</b> cards pass the rule: every word is already known except exactly one new item. The check runs live in this page.</p><p class="small muted">Review status is yours to set. Tap a status to cycle it: draft, approved, needs fix. A card should only reach students once a native speaker has approved it.</p></div>';
+  h+='<div class="card scroll"><table><thead><tr><th>#</th><th>New item</th><th>Sentence</th><th>Frame</th><th>List</th><th>Rule</th><th>Status</th></tr></thead><tbody>';
+  CARDS.forEach(function(c,i){
+    var v=validate(i),st=S.rev[c.n]||"draft";
+    h+='<tr><td class="num">'+(i+1)+'</td><td><b>'+esc(lab(c))+'</b></td><td lang="de">'+esc(c.de)+'<div class="small muted">'+esc(c.en)+'</div></td><td class="small">'+esc(c.f)+'</td><td class="num">'+(c.p?'<span class="muted small">none</span>':'#'+rk(c)+'<div class="small">'+esc(UNITS[ucards(c)[0]].lemma)+'</div>')+'</td><td>'+(v.ok?'<span class="ok">1 new</span>':'<span class="no">'+(v.unk.length?'unknown: '+esc(v.unk.join(", ")):'new: '+esc(v.fresh.join(", ")))+'</span>')+'</td><td><button class="statebtn '+(st==="approved"?"approved":st==="fix"?"fix":"")+'" data-act="rev" data-id="'+esc(c.n)+'">'+(st==="fix"?"needs fix":st)+'</button></td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
+}
+
+var cfilter="all";
+function revOf(id){return S.rev[id]||"draft";}
+function viewCards(){
+  S.notes=S.notes||{};
+  var cnt={draft:0,approved:0,fix:0};CARDS.forEach(function(c){cnt[revOf(c.n)]++;});
+  var list=CARDS.filter(function(c){return cfilter==="all"||revOf(c.n)===cfilter;});
+  function f(k,l,n){return '<button data-act="cfilter" data-v="'+k+'" aria-pressed="'+(cfilter===k)+'">'+l+' '+n+'</button>';}
+  var h='<div class="stack"><div><div class="eyebrow">Teacher view</div><h1>All cards</h1></div>';
+  h+='<div class="card stack"><p class="small">Read every card, then set a status and leave a note where something is off. Changes save at once in this browser. A card should only reach students once it is approved.</p>';
+  h+='<div class="seg" role="group" aria-label="Filter">'+f("all","All",CARDS.length)+f("draft","Draft",cnt.draft)+f("approved","Approved",cnt.approved)+f("fix","Needs fix",cnt.fix)+'</div>';
+  h+='<div class="row"><button class="btn small ghost" data-act="bulk" data-v="approved">Approve all shown ('+list.length+')</button><button class="btn small ghost" data-act="bulk" data-v="draft">Reset shown to draft</button><button class="btn small ghost" data-act="cexport">Show review as text</button></div>';
+  if(S._cexp)h+='<textarea id="cexp" readonly aria-label="Review as text">'+esc(S._cexp)+'</textarea>';
+  h+='</div>';
+  if(!list.length)h+='<div class="card"><p class="small muted">No cards with this status.</p></div>';
+  list.forEach(function(c){
+    var i=IDX[c.n],st=revOf(c.n),v=validate(i);
+    h+='<div class="card stack rc"><div class="row" style="justify-content:space-between"><span class="chip">#'+(i+1)+(c.p?' practice, no new word':' new: '+esc(lab(c)))+'</span><button class="btn small ghost" data-act="cplay" data-id="'+esc(c.n)+'" aria-label="Play audio">Play</button></div>';
+    h+='<div lang="de" class="rcde">'+dehtml(c.de)+'</div><div>'+esc(c.en)+'</div>';
+    h+='<div class="small muted">Literal: '+esc(c.lit)+'</div><div class="small">'+esc(c.gloss)+'</div>';
+    if(c.note)h+='<div class="small muted">Note: '+esc(c.note)+'</div>';
+    h+='<div class="small muted">Scene: '+esc(c.scene)+'</div>';
+    h+='<div class="small muted">Frame: '+esc(c.f)+' &middot; '+(v.ok?'rule ok':'rule: '+(v.unk.length?'unknown '+esc(v.unk.join(", ")):'new '+esc(v.fresh.join(", "))))+'</div>';
+    h+='<div class="seg" role="group" aria-label="Status of '+esc(c.n)+'">'+[["approved","Approved"],["fix","Needs fix"],["draft","Draft"]].map(function(o){return '<button data-act="setrev" data-id="'+esc(c.n)+'" data-v="'+o[0]+'" aria-pressed="'+(st===o[0])+'">'+o[1]+'</button>';}).join("")+'</div>';
+    h+='<textarea class="cnote" data-id="'+esc(c.n)+'" rows="2" placeholder="Note or better wording (optional)" aria-label="Note for '+esc(c.n)+'">'+esc(S.notes[c.n]||"")+'</textarea></div>';
+  });
+  return h+'</div>';
+}
+
+function voiceRow(){
+  var r=rankedVoices(),cur=pickVoice();
+  if(!("speechSynthesis" in window))return '<div class="sw"><div class="grow"><b>German voice</b><div class="small muted">This browser has no speech voices. Try Chrome, Edge or Safari.</div></div></div>';
+  if(!r.length)return '<div class="sw"><div class="grow"><b>German voice</b><div class="small muted">No German voice found on this device yet. On iPhone: Settings, Accessibility, Spoken Content, Voices, German, and download an Enhanced or Premium voice. On Android: Settings, System, Languages, Text-to-speech, install German voice data. On a computer, Microsoft Edge has the most natural German voices built in.</div></div></div>';
+  var opts=r.map(function(v,i){return '<option value="'+esc(v.name)+'"'+(cur&&cur.name===v.name?" selected":"")+'>'+esc(v.name)+' ('+esc(v.lang)+')'+(i===0&&!S.set.voice?" - recommended":"")+'</option>';}).join("");
+  var weak=vScore(r[0])<20;
+  return '<div class="sw" style="align-items:flex-start"><div class="grow"><b>German voice</b><div class="small muted">Pick the voice that sounds best to you, then test it.'+(weak?' The voices on this device are basic. For a much more natural sound, try Microsoft Edge, or download an Enhanced voice in your system settings.':'')+'</div></div><div class="stack" style="gap:8px;min-width:0;max-width:55%"><select id="voicesel" aria-label="German voice" style="width:100%;min-height:40px;font:inherit">'+opts+'</select><button class="btn small ghost" data-act="vtest">Test voice</button></div></div>';
+}
+function viewSettings(){
+  var s=S.set;
+  function seg(name,vals,cur,lab){return '<div class="seg" role="group" aria-label="'+name+'">'+vals.map(function(v){return '<button data-act="set" data-k="'+name+'" data-v="'+v+'" aria-pressed="'+(String(cur)===String(v))+'">'+(lab?lab(v):v)+'</button>';}).join("")+'</div>';}
+  function sw(k,label,desc){return '<div class="sw"><div class="grow"><b>'+label+'</b><div class="small muted">'+desc+'</div></div><button class="statebtn '+(s[k]?"approved":"")+'" data-act="toggle" data-k="'+k+'" aria-pressed="'+(!!s[k])+'" style="min-width:56px;min-height:36px">'+(s[k]?"On":"Off")+'</button></div>';}
+  var h='<div class="stack"><div><div class="eyebrow">Account</div><h1>Settings</h1></div>';
+  h+='<div class="card"><div class="sw"><div class="grow"><b>New cards a day</b><div class="small muted">Reviews come first, then new cards up to this number.</div></div>'+seg("goal",[3,4,6],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+voiceRow()+
+    sw("hide","Hide the text","Cover the sentence until you reveal. The audio plays either way.")+sw("auto","Play audio automatically","The sentence plays when a card appears.")+sw("next","Show next review time","Show when each rating would bring a card back.")+'</div>';
+  h+='<div class="card stack"><h2 style="margin:0">Demo controls</h2><p class="small muted">Reviews are scheduled in days, so use this to see them come back. The clock is shifted by '+Math.round(S.offset/DAY)+' day'+(Math.round(S.offset/DAY)===1?"":"s")+'.</p><div class="row"><button class="btn small" data-act="skip">Skip ahead 1 day</button><button class="btn small ghost" data-act="skipback">Reset clock</button></div></div>';
+  h+='<div class="card stack"><h2 style="margin:0">Your data</h2><p class="small muted">Progress is saved in this browser only. Clearing site data or switching device starts you at the beginning. The real app will sync to your account.</p><div class="row"><button class="btn small ghost" data-act="export">Show progress as text</button>'+(S._confirm?'<button class="btn small" data-act="resetyes">Yes, erase everything</button><button class="btn small ghost" data-act="resetno">Cancel</button>':'<button class="btn small ghost" data-act="reset">Reset all progress</button>')+'</div>'+(S._export?'<textarea id="exp" readonly aria-label="Progress data">'+esc(S._export)+'</textarea>':"")+'</div></div>';
+  return h;
+}
+
+/* ---------- events ---------- */
+document.addEventListener("change",function(e){var t=e.target;if(t&&t.id==="voicesel"){S.set.voice=t.value;save();speak("Guten Tag! Schön, dich zu sehen. Wie geht es dir heute?");}});
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-act]");if(!b)return;
+  var a=b.getAttribute("data-act");
+  if(a==="tab"){if(sess)return;route=b.getAttribute("data-to");summary=route==="summary"?summary:summary;delete S._export;delete S._cexp;S._confirm=false;render();}
+  else if(a==="begin"){var pw=document.getElementById("portal");if(pw&&pw.classList){pw.classList.add("open");b.disabled=true;}var rm=false;try{rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}setTimeout(startSession,rm?0:850);}
+  else if(a==="show"){if(sess){sess.shown=true;renderSession();}}
+  else if(a==="again")answer(false);
+  else if(a==="shelve")shelve();
+  else if(a==="jump")jumpTopic();
+  else if(a==="stay"){sess.offer=null;sess.shelfRun=0;render();}
+  else if(a==="unshelve"){Object.keys(S.cards).forEach(function(k){if(S.cards[k].st==="shelved")delete S.cards[k];});save();render();}
+  else if(a==="good")answer(true);
+  else if(a==="speak"){if(sess&&sess.cur&&!speak(sess.cur.c.de)){b.textContent="No voice on this device";}}
+  else if(a==="quit")quit();
+  else if(a==="shadow"){shadow={q:summary.passed.slice(),i:0,r:0,show:false};route="shadow";render();setTimeout(function(){speak(CARDS[IDX[shadow.q[0]]].de);},250);}
+  else if(a==="shadowplay"){speak(CARDS[IDX[shadow.q[shadow.i]]].de);}
+  else if(a==="shadowtext"){shadow.show=!shadow.show;renderShadow();}
+  else if(a==="shadownext"){
+    if(shadow.r<2){shadow.r++;}
+    else if(shadow.i<shadow.q.length-1){shadow.i++;shadow.r=0;shadow.show=false;}
+    else{route="today";shadow=null;render();return;}
+    renderShadow();setTimeout(function(){speak(CARDS[IDX[shadow.q[shadow.i]]].de);},200);
+  }
+  else if(a==="shadowquit"){route="today";shadow=null;render();}
+  else if(a==="rev"){var id=b.getAttribute("data-id"),cur=S.rev[id]||"draft";S.rev[id]=cur==="draft"?"approved":cur==="approved"?"fix":"draft";save();var y=window.scrollY;render();window.scrollTo(0,y);}
+  else if(a==="cfilter"){cfilter=b.getAttribute("data-v");render();}
+  else if(a==="setrev"){S.rev[b.getAttribute("data-id")]=b.getAttribute("data-v");save();var y2=window.scrollY;render();window.scrollTo(0,y2);}
+  else if(a==="bulk"){var vv=b.getAttribute("data-v");CARDS.forEach(function(c){if(cfilter==="all"||revOf(c.n)===cfilter)S.rev[c.n]=vv;});save();render();}
+  else if(a==="cplay"){var cc=CARDS[IDX[b.getAttribute("data-id")]];if(!speak(cc.de))b.textContent="No voice on this device";}
+  else if(a==="cexport"){S.notes=S.notes||{};S._cexp=CARDS.map(function(c,i){return (i+1)+". ["+(revOf(c.n)==="fix"?"needs fix":revOf(c.n))+"] "+c.de+" / "+c.en+(S.notes[c.n]?"\n   Note: "+S.notes[c.n]:"");}).join("\n");render();}
+  else if(a==="vtest"){speak("Guten Tag! Schön, dich zu sehen. Wie geht es dir heute?");}
+  else if(a==="set"){var k=b.getAttribute("data-k"),v=parseFloat(b.getAttribute("data-v"));S.set[k]=v;save();render();}
+  else if(a==="toggle"){var k2=b.getAttribute("data-k");S.set[k2]=!S.set[k2];save();render();}
+  else if(a==="skip"){S.offset+=DAY;save();render();}
+  else if(a==="skipback"){S.offset=0;save();render();}
+  else if(a==="export"){S._export=JSON.stringify({cards:S.cards,log:S.log,set:S.set,rev:S.rev},null,1);render();}
+  else if(a==="reset"){S._confirm=true;render();}
+  else if(a==="resetno"){S._confirm=false;render();}
+  else if(a==="resetyes"){S=fresh();save();route="today";render();}
+});
+document.addEventListener("input",function(e){
+  var t=e.target;if(t&&t.classList&&t.classList.contains("cnote")){S.notes=S.notes||{};var id=t.getAttribute("data-id");if(t.value)S.notes[id]=t.value;else delete S.notes[id];save();}
+});
+document.addEventListener("keydown",function(e){
+  if(route!=="session"||!sess||e.metaKey||e.ctrlKey)return;
+  if(e.code==="Space"){e.preventDefault();if(!sess.shown){sess.shown=true;renderSession();}}
+  else if(e.key==="1")answer(false);
+  else if(e.key==="2")answer(true);
+  else if(e.key==="3")shelve();
+});
+window.addEventListener("pagehide",function(){if(sess)save();});
+render();
+})();
+</script>
+
+</body>
+</html>

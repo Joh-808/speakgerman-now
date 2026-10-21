@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Your German path | Speak German - now.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E172D;--coral:#F66F54;--coral-ink:#B8412A;--mint:#BCDDBF;--mint-ink:#3F7A4C;--sand:#F3EBDF;--cream:#EEE5DA;--linen:#ECE0D1;--line:#D9CBB8;--muted:#4A5266;--f:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sand);color:var(--navy);font-family:var(--f);font-size:17px;line-height:1.6;text-align:left;-webkit-font-smoothing:antialiased}
+.wrap{max-width:600px;margin:0 auto;padding:14px 16px 80px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.15rem;padding:4px 0 14px}
+.brand svg{width:22px;height:22px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand .now{color:var(--coral)}
+h1{font-size:1.8rem;line-height:1.15;margin:0 0 6px}
+h2{font-size:1.2rem;margin:0 0 8px}
+h3{font-size:1rem;margin:14px 0 6px}
+p{margin:0 0 10px}
+.muted{color:var(--muted)}.small{font-size:.92rem}
+.card{background:var(--cream);border:1px solid var(--linen);border-radius:16px;padding:16px;margin:0 0 14px}
+.eyebrow{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+a{color:var(--navy)}
+.btn{display:inline-block;background:var(--coral);color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;min-height:44px}
+.btn.second{background:transparent}
+.btn[disabled]{opacity:.5;cursor:default}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.task input[type=checkbox]{width:26px;height:26px;margin-top:2px;accent-color:var(--navy);flex:none}
+.task .t{flex:1}
+.task .t b{display:block}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.daylist{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.dbtn{border:2px solid var(--line);background:var(--sand);border-radius:10px;padding:8px 0;font:inherit;font-weight:700;cursor:pointer;min-height:44px;color:var(--navy)}
+.dbtn[aria-current=true]{border-color:var(--navy);background:var(--mint)}
+.dbtn.done{background:var(--mint)}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1;min-width:100px;border:2px solid var(--navy);background:transparent;border-radius:12px;padding:10px;font:inherit;font-weight:700;cursor:pointer;min-height:44px;color:var(--navy)}
+.seg button[aria-pressed=true]{background:var(--navy);color:var(--sand)}
+label{display:block;font-weight:700;margin:12px 0 4px}
+input[type=number],textarea,input[type=date]{width:100%;font:inherit;padding:10px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--navy)}
+textarea{min-height:90px}
+.checks label{display:flex;gap:10px;align-items:center;font-weight:400;margin:6px 0}
+.checks input{width:22px;height:22px;accent-color:var(--navy)}
+.line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--line)}
+.line:first-child{border-top:0}
+.ok{color:var(--mint-ink);font-weight:700}
+.err{color:var(--coral-ink);font-weight:700}
+details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.de{font-weight:700}
+</style>
+</head>
+<body>
+<main class="wrap" id="top">
+<div class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg><span>Speak German<span class="now"> - now.</span></span></div>
+<noscript><div class="card"><p>This page needs JavaScript. Please turn it on in your browser.</p></div></noscript>
+<div id="app"></div>
+</main>
+<script>
+(function(){
+"use strict";
+var CARDS=[{"n": "hallo", "de": "Hallo!", "en": "Hello!", "p": false}, {"n": "ja", "de": "Ja.", "en": "Yes.", "p": false}, {"n": "nein", "de": "Nein.", "en": "No.", "p": false}, {"n": "danke", "de": "Danke.", "en": "Thanks.", "p": false}, {"n": "bitte", "de": "Bitte.", "en": "Please. / You are welcome.", "p": false}, {"n": "ich-bin", "de": "Ich bin Anna.", "en": "I am Anna.", "p": false}, {"n": "du-bist", "de": "Du bist Tom.", "en": "You are Tom.", "p": false}, {"n": "tschüss", "de": "Tschüss!", "en": "Bye!", "p": false}, {"n": "hier", "de": "Ich bin hier.", "en": "I am here.", "p": false}, {"n": "nicht", "de": "Ich bin nicht hier.", "en": "I am not here.", "p": false}, {"n": "müde", "de": "Ich bin müde.", "en": "I am tired.", "p": false}, {"n": "er-ist", "de": "Er ist hier.", "en": "He is here.", "p": false}, {"n": "wir-sind", "de": "Wir sind hier.", "en": "We are here.", "p": false}, {"n": "gut", "de": "Das ist gut.", "en": "That is good.", "p": false}, {"n": "sehr", "de": "Das ist sehr gut.", "en": "That is very good.", "p": false}, {"n": "p-das-nicht-gut", "de": "Das ist nicht gut.", "en": "That is not good.", "p": true}, {"n": "wo", "de": "Wo ist er?", "en": "Where is he?", "p": false}, {"n": "p-wo-bist-du", "de": "Wo bist du?", "en": "Where are you?", "p": true}, {"n": "was", "de": "Was ist das?", "en": "What is that?", "p": false}, {"n": "habe", "de": "Ich habe Kaffee.", "en": "I have coffee.", "p": false}, {"n": "zeit", "de": "Ich habe Zeit.", "en": "I have time.", "p": false}, {"n": "hast", "de": "Hast du Zeit?", "en": "Do you have time?", "p": false}, {"n": "p-was-hast-du", "de": "Was hast du?", "en": "What do you have?", "p": true}, {"n": "keine", "de": "Ich habe keine Zeit.", "en": "I do not have time.", "p": false}, {"n": "geld", "de": "Ich habe Geld.", "en": "I have money.", "p": false}, {"n": "kein", "de": "Ich habe kein Geld.", "en": "I do not have money.", "p": false}, {"n": "möchte", "de": "Ich möchte Kaffee.", "en": "I would like coffee.", "p": false}, {"n": "wasser", "de": "Ich möchte Wasser.", "en": "I would like water.", "p": false}, {"n": "p-moechte-bitte", "de": "Ich möchte Wasser, bitte.", "en": "I would like water, please.", "p": true}, {"n": "kann", "de": "Ich kann das.", "en": "I can do that.", "p": false}, {"n": "kannst", "de": "Kannst du das?", "en": "Can you do that?", "p": false}, {"n": "p-kann-nicht", "de": "Ich kann das nicht.", "en": "I cannot do that.", "p": true}, {"n": "wie", "de": "Wie bitte?", "en": "Pardon?", "p": false}, {"n": "weiß", "de": "Ich weiß nicht.", "en": "I do not know.", "p": false}, {"n": "ahnung", "de": "Keine Ahnung.", "en": "No idea.", "p": false}, {"n": "verstehe", "de": "Ich verstehe das nicht.", "en": "I do not understand that.", "p": false}, {"n": "p-kein-problem", "de": "Kein Problem.", "en": "No problem.", "p": true}, {"n": "und", "de": "Ich habe Zeit und Geld.", "en": "I have time and money.", "p": false}, {"n": "geht's", "de": "Wie geht's?", "en": "How are you?", "p": false}, {"n": "dir", "de": "Und dir?", "en": "And you?", "p": false}, {"n": "entschuldigung", "de": "Entschuldigung.", "en": "Excuse me. / Sorry.", "p": false}, {"n": "p-gut-danke", "de": "Gut, danke.", "en": "Good, thanks.", "p": true}, {"n": "heute", "de": "Ich habe heute Zeit.", "en": "I have time today.", "p": false}, {"n": "aber", "de": "Ich habe Zeit, aber kein Geld.", "en": "I have time, but no money.", "p": false}, {"n": "p-heute-nicht", "de": "Ich habe heute keine Zeit.", "en": "I do not have time today.", "p": true}, {"n": "gehe", "de": "Ich gehe heute.", "en": "I am going today.", "p": false}, {"n": "komme", "de": "Ich komme heute.", "en": "I am coming today.", "p": false}, {"n": "aus", "de": "Ich komme aus Kanada.", "en": "I come from Canada.", "p": false}, {"n": "gehen", "de": "Wir gehen heute.", "en": "We are going today.", "p": false}, {"n": "heiße", "de": "Ich heiße Anna.", "en": "My name is Anna.", "p": false}, {"n": "wohne", "de": "Ich wohne hier.", "en": "I live here.", "p": false}, {"n": "arbeite", "de": "Ich arbeite hier.", "en": "I work here.", "p": false}, {"n": "muss", "de": "Ich muss heute gehen.", "en": "I have to go today.", "p": false}, {"n": "arbeiten", "de": "Ich muss heute arbeiten.", "en": "I have to work today.", "p": false}, {"n": "weil", "de": "Ich habe keine Zeit, weil ich arbeite.", "en": "I have no time because I am working.", "p": false}, {"n": "p-muede-aber", "de": "Ich bin müde, aber ich arbeite.", "en": "I am tired, but I am working.", "p": true}];
+var DAYS=[{"d": 1, "from": 0, "to": 4, "chain": "", "rep": "", "chal": "Say Hallo and Danke out loud once today, even if it is only to yourself."}, {"d": 2, "from": 4, "to": 8, "chain": "", "rep": "", "chal": "Say Bitte when you hand someone something."}, {"d": 3, "from": 8, "to": 12, "chain": "", "rep": "", "chal": "Say Ich bin and your name out loud once."}, {"d": 4, "from": 12, "to": 16, "chain": "A", "rep": "", "chal": "Next time you feel tired, say Ich bin müde. Out loud."}, {"d": 5, "from": 16, "to": 20, "chain": "", "rep": "A", "chal": "Pick an object at home and ask Was ist das? or Wo ist ...? in German."}, {"d": 6, "from": 20, "to": 24, "chain": "", "rep": "A", "chal": "Next time you are busy, say Ich habe keine Zeit, in your head or out loud."}, {"d": 7, "from": 24, "to": 28, "chain": "B", "rep": "", "chal": "Say Ich möchte Wasser, bitte, to a real person or to your kitchen."}, {"d": 8, "from": 28, "to": 32, "chain": "C", "rep": "", "chal": "Next time you miss something someone says, think Wie bitte? first."}, {"d": 9, "from": 32, "to": 36, "chain": "D", "rep": "", "chal": "Say Ich weiß nicht or Keine Ahnung once, instead of the English."}, {"d": 10, "from": 36, "to": 40, "chain": "", "rep": "B", "chal": "Ask one person Wie geht's? It can be a message."}, {"d": 11, "from": 40, "to": 44, "chain": "", "rep": "C", "chal": "Say Entschuldigung to someone today, when you pass them or need their attention."}, {"d": 12, "from": 44, "to": 48, "chain": "", "rep": "D", "chal": "Tell one person Ich komme aus ... and your country, or Ich heiße ..."}, {"d": 13, "from": 48, "to": 52, "chain": "", "rep": "D", "chal": "Say Ich arbeite hier or Ich wohne hier in a real situation, or as a rehearsal."}, {"d": 14, "from": 52, "to": 56, "chain": "E", "rep": "", "chal": "Say one weil sentence about your day out loud: Ich bin müde, weil ..."}];
+var WEBHOOK="https://script.google.com/macros/s/AKfycbzulcwGt5sjFf-t7fcV9R7OeVhmfvM5D6Rb3HydAb-9cpdMZ4zwP6NTREiIIWkr34qx7g/exec";
+var WA="https://wa.me/5548999373120";
+var KEY="lingokey-pilot-path-v1";
+var qs=new URLSearchParams(location.search);
+var TEST=qs.has("test");
+var DAY=86400000;
+var S;
+function fresh(){return {start:null,day:null,done:{},log:[],draft:{}};}
+function load(){try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&o.done)return o;}}catch(e){}return fresh();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function dstr(t){var d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+S=load();
+if(!S.start){S.start=dstr(Date.now());save();}
+function todayNum(){
+  var a=new Date(S.start+"T00:00:00").getTime(),b=new Date(dstr(Date.now())+"T00:00:00").getTime();
+  var n=Math.round((b-a)/DAY)+1;return Math.max(1,Math.min(14,n));
+}
+function cur(){return S.day||todayNum();}
+function taskKey(d,t){return d+":"+t;}
+function isDone(d,t){return !!S.done[taskKey(d,t)];}
+function dayDone(d){return isDone(d,"cards");}
+var voices=[];
+function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
+function pickVoice(){var de=voices.filter(function(v){return /^de([-_]|$)/i.test(v.lang);});
+  var pref=de.filter(function(v){return /natural|neural|online|premium|enhanced|google/i.test(v.name);});
+  return (pref[0]||de.filter(function(v){return /^de[-_]DE/i.test(v.lang);})[0]||de[0]||null);}
+if("speechSynthesis" in window){loadVoices();try{window.speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
+var playing=0;
+function stopAudio(){playing++;try{window.speechSynthesis.cancel();}catch(e){}}
+function sayOne(text,done){
+  try{var u=new SpeechSynthesisUtterance(text);var v=pickVoice();if(v){u.voice=v;u.lang=v.lang;}else u.lang="de-DE";u.rate=0.85;u.onend=done;u.onerror=done;window.speechSynthesis.speak(u);}catch(e){done();}
+}
+function playList(items,btn){
+  if(!("speechSynthesis" in window)){btn.textContent="No voice on this device";return;}
+  stopAudio();var tok=playing;var i=0,rep=0;
+  btn.textContent="Stop";btn.setAttribute("data-playing","1");
+  function next(){
+    if(tok!==playing){return;}
+    if(i>=items.length){btn.textContent="Listen again";btn.removeAttribute("data-playing");return;}
+    sayOne(items[i],function(){if(tok!==playing)return;rep++;setTimeout(function(){if(rep>=2){rep=0;i++;}next();},rep===0?1400:700);});
+  }
+  next();
+}
+function dayCards(d){var x=DAYS[d-1];return CARDS.slice(x.from,x.to);}
+function allSoFar(d){var x=DAYS[d-1];return CARDS.slice(0,x.to);}
+
+function render(){
+  var d=cur(),x=DAYS[d-1],cs=dayCards(d);
+  var h='';
+  h+='<div class="card"><div class="eyebrow">Day '+d+' of 14</div><h1>Your 5 minutes for today</h1>';
+  h+='<p class="muted small">Do what you can. A tired day with one card still counts.</p>';
+  h+='<div class="task"><input type="checkbox" id="t-cards" data-t="cards" '+(isDone(d,"cards")?"checked":"")+' aria-labelledby="l-cards"><div class="t" id="l-cards"><b>Cards: '+cs.length+' new ones, plus reviews</b><span class="small muted">About 3 minutes. Today: <span class="de">'+cs.map(function(c){return esc(c.de);}).join("</span> · <span class=\"de\">")+'</span></span><div style="margin-top:8px"><a class="btn" href="/pilot/cards/">Open cards</a></div></div></div>';
+  if(x.chain){h+='<div class="task"><input type="checkbox" id="t-chain" data-t="chain" '+(isDone(d,"chain")?"checked":"")+' aria-labelledby="l-chain"><div class="t" id="l-chain"><b>New chain: Stage '+x.chain+'</b><span class="small muted">About 2 minutes, out loud if you can.</span><div style="margin-top:8px"><a class="btn" href="/pilot/chains/">Open chains</a></div></div></div>';}
+  else if(x.rep){h+='<div class="task"><input type="checkbox" id="t-chain" data-t="chain" '+(isDone(d,"chain")?"checked":"")+' aria-labelledby="l-chain"><div class="t" id="l-chain"><b>Repeat a chain (your choice)</b><span class="small muted">Pick any stage you have already done. Today a good one is Stage '+x.rep+'.</span><div style="margin-top:8px"><a class="btn second" href="/pilot/chains/">Open chains</a></div></div></div>';}
+  h+='<div class="task"><input type="checkbox" id="t-listen" data-t="listen" '+(isDone(d,"listen")?"checked":"")+' aria-labelledby="l-listen"><div class="t" id="l-listen"><b>Listen: 10 minutes, no effort needed</b><span class="small muted">Commute, dishes, walking. You do not need to do anything. It is fine to zone out.</span><div style="margin-top:8px"><button class="btn second" id="playbtn" type="button">Play '+(allSoFar(d).length)+' lines so far</button></div></div></div>';
+  h+='<div class="task"><input type="checkbox" id="t-chal" data-t="chal" '+(isDone(d,"chal")?"checked":"")+' aria-labelledby="l-chal"><div class="t" id="l-chal"><b>Tiny real-life challenge (optional)</b><span class="small muted">'+esc(x.chal)+'</span></div></div>';
+  h+='</div>';
+  h+='<div class="card"><h2>Your 14 days</h2><div class="daylist" role="group" aria-label="Choose a day">';
+  for(var i=1;i<=14;i++){h+='<button class="dbtn'+(dayDone(i)?" done":"")+'" type="button" data-day="'+i+'" '+(i===d?'aria-current="true"':'')+'>'+i+'</button>';}
+  h+='</div><p class="small muted" style="margin-top:10px">Tap a day to look at it. Green means the cards for that day are done. The path does not punish you for skipping a day: tap where you are.</p></div>';
+  h+='<div class="card"><h2>Once a week, if you have 20 to 30 quiet minutes</h2><p class="small">Do the cards, then run through one or two chains out loud from start to finish. This is optional homework, and it is where the big jumps happen.</p><label class="small" style="display:flex;gap:10px;align-items:center;font-weight:400"><input type="checkbox" id="t-long" data-t="long" '+(isDone(d,"long")?"checked":"")+' style="width:22px;height:22px;accent-color:#0E172D"> I did a longer session today</label></div>';
+  h+=feedbackHtml(d);
+  h+='<div class="card"><h2>Stuck or lost?</h2><p class="small">Message Johanna on <a href="'+WA+'">WhatsApp</a>. Cards or chains not working? Say which device and browser you use.</p><details><summary>My progress and settings</summary>'+logHtml()+'<p class="small muted">Your progress is saved in this browser only. If you switch device, tell Johanna which day you are on.</p><div class="row"><button class="btn second" type="button" id="resetstart">Start again from day 1 today</button></div></details></div>';
+  document.getElementById("app").innerHTML=h;
+  var pb=document.getElementById("playbtn");
+  if(pb)pb.addEventListener("click",function(){if(pb.getAttribute("data-playing")){stopAudio();pb.textContent="Play again";pb.removeAttribute("data-playing");return;}playList(allSoFar(d).map(function(c){return c.de;}),pb);});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-t]"),function(el){el.addEventListener("change",function(){S.done[taskKey(d,el.getAttribute("data-t"))]=el.checked?1:0;if(!el.checked)delete S.done[taskKey(d,el.getAttribute("data-t"))];save();renderKeep();});});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-day]"),function(el){el.addEventListener("click",function(){S.day=parseInt(el.getAttribute("data-day"),10);save();stopAudio();render();window.scrollTo(0,0);});});
+  var rs=document.getElementById("resetstart");
+  if(rs)rs.addEventListener("click",function(){if(!confirm("Start again from day 1 today? Your ticks will be cleared.")){return;}S=fresh();S.start=dstr(Date.now());save();render();});
+  wireFeedback(d);
+}
+function renderKeep(){var y=window.scrollY;render();window.scrollTo(0,y);}
+function logHtml(){
+  if(!S.log.length)return '<p class="small muted">No check-ins sent yet.</p>';
+  return S.log.slice(-8).reverse().map(function(r){return '<div class="line"><span>Day '+r.day+' · '+esc(r.feel||"")+'</span><span class="muted small">'+esc(r.date)+(r.sent?" sent":"")+'</span></div>';}).join("");
+}
+function feedbackHtml(d){
+  var f=S.draft||{};
+  var h='<div class="card" id="feedback"><h2>How was today?</h2><p class="small muted">Takes 20 seconds. It tells Johanna what to change for you.</p>';
+  h+='<div class="seg" role="group" aria-label="How hard was it">';
+  ["too hard","fine","too easy"].forEach(function(v){h+='<button type="button" data-feel="'+v+'" aria-pressed="'+(f.feel===v)+'">'+v+'</button>';});
+  h+='</div>';
+  h+='<label for="fb-min">Minutes you spent today</label><input id="fb-min" type="number" min="0" max="240" inputmode="numeric" value="'+esc(f.min||"")+'">';
+  h+='<div class="checks"><label style="margin-bottom:0">What did you do?</label>';
+  [["cards","Cards"],["chain","Chains"],["listen","Listening"],["long","Longer session"],["chal","Real-life challenge"],["class","1:1 class with Johanna"]].forEach(function(p){h+='<label><input type="checkbox" data-did="'+p[0]+'" '+((f.did||{})[p[0]]?"checked":"")+'> '+p[1]+'</label>';});
+  h+='</div>';
+  h+='<label for="fb-int">German conversations or situations this week (rough number)</label><input id="fb-int" type="number" min="0" max="99" inputmode="numeric" value="'+esc(f.inter||"")+'">';
+  h+='<label for="fb-com">Anything to tell Johanna? (optional)</label><textarea id="fb-com">'+esc(f.com||"")+'</textarea>';
+  h+='<div class="row" style="margin-top:12px"><button class="btn" type="button" id="fb-send">Send</button><button class="btn second" type="button" id="fb-copy">Copy as text</button><a class="btn second" id="fb-wa" href="'+WA+'">WhatsApp instead</a></div><p class="small" id="fb-msg" role="status"></p></div>';
+  return h;
+}
+function gather(d){
+  var f=S.draft||{};var did=Object.keys(f.did||{}).filter(function(k){return f.did[k];});
+  return {day:d,feel:f.feel||"",min:f.min||"",did:did,inter:f.inter||"",com:f.com||""};
+}
+function toText(r){
+  return "PILOT day "+r.day+" | feel: "+(r.feel||"-")+" | minutes: "+(r.min||"-")+" | did: "+(r.did.join(", ")||"-")+" | German situations this week: "+(r.inter||"-")+(r.com?" | note: "+r.com:"");
+}
+function wireFeedback(d){
+  var f=S.draft=S.draft||{};f.did=f.did||{};
+  Array.prototype.forEach.call(document.querySelectorAll("[data-feel]"),function(b){b.addEventListener("click",function(){f.feel=b.getAttribute("data-feel");save();Array.prototype.forEach.call(document.querySelectorAll("[data-feel]"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-did]"),function(c){c.addEventListener("change",function(){f.did[c.getAttribute("data-did")]=c.checked;save();});});
+  [["fb-min","min"],["fb-int","inter"],["fb-com","com"]].forEach(function(p){var el=document.getElementById(p[0]);el.addEventListener("input",function(){f[p[1]]=el.value;save();});});
+  var wa=document.getElementById("fb-wa");
+  wa.addEventListener("click",function(){wa.href=WA+"?text="+encodeURIComponent(toText(gather(d)));});
+  var msg=document.getElementById("fb-msg");
+  document.getElementById("fb-copy").addEventListener("click",function(){
+    var t=toText(gather(d));
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){msg.textContent="Copied. Paste it into WhatsApp or an email to Johanna.";msg.className="small ok";},function(){msg.textContent=t;});}
+    else{msg.textContent=t;}
+  });
+  document.getElementById("fb-send").addEventListener("click",function(){
+    var r=gather(d);
+    if(!r.feel){msg.textContent="Please tap too hard, fine or too easy first.";msg.className="small err";return;}
+    var rec={day:d,feel:r.feel,date:dstr(Date.now()),sent:!TEST};
+    if(!TEST){
+      try{var fd=new FormData();fd.append("level","PILOT");fd.append("lesson","day "+d);fd.append("message",toText(r));fd.append("page","/pilot");fetch(WEBHOOK,{method:"POST",mode:"no-cors",body:fd});}catch(e){}
+    }
+    S.log.push(rec);S.draft={};save();
+    render();
+    var m2=document.getElementById("fb-msg");m2.textContent=TEST?"Test mode: nothing was sent.":"Sent. Thank you!";m2.className="small ok";
+    document.getElementById("feedback").scrollIntoView();
+  });
+}
+window.addEventListener("pagehide",stopAudio);
+render();
+if(location.hash==="#feedback"){var fb=document.getElementById("feedback");if(fb)fb.scrollIntoView();}
+})();
+</script>
+</body>
+</html>
