@@ -141,6 +141,7 @@ textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid var(--l
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 .more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
 .more{display:block}
+.lines{margin:6px 0 0;padding-left:22px}.lines li{margin:4px 0}
 </style>
 <meta name="description" content="Short daily vocabulary sessions that make real German words stick. A free tool from Speak German - now.">
 <meta property="og:site_name" content="Speak German - now.">
@@ -164,7 +165,7 @@ textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid var(--l
 <div class="app" id="app"></div>
 <nav class="tabs" aria-label="Main"><div class="tabs-in" id="tabs"></div></nav>
 
-<script src="/pilot/shared.js?v=4"></script>
+<script src="/pilot/shared.js?v=5"></script>
 <script>
 // Pilot deck: parallel to /cards, new priority order. See PILOT decision log. rank = row number in german_2400_v2 core2400 (composite order); 0 = free word (name or cognate).
 const UNITS = {
@@ -324,6 +325,9 @@ function tok(s){return s.toLowerCase().replace(/[.,?!]/g,"").split(/\s+/).filter
 function stateOf(id){return S.cards[id]||{st:"new"};}
 function learnedSet(){var s={};CARDS.forEach(function(c){if(stateOf(c.n).st==="review"||stateOf(c.n).st==="shelved")ucards(c).forEach(function(u){s[u]=1;});});return s;}
 function coverage(set){var n=0;TARGETS.forEach(function(t){if(tok(t).every(function(w){return set[w]||(UNITS[w]&&UNITS[w].free);}))n++;});return n;}
+function linesUnlocked(){var set=learnedSet();return TARGETS.filter(function(t){return tok(t).every(function(w){return set[w]||(UNITS[w]&&UNITS[w].free);});});}
+function topRankClaim(){var set=learnedSet(),m=0,n=0;Object.keys(set).forEach(function(w){var r=UNITS[w]&&UNITS[w].rank;if(r>0){n++;if(r>m)m=r;}});return n?{n:n,top:Math.ceil(m/100)*100}:null;}
+function linesList(a){return '<ul class="lines" lang="de">'+a.map(function(t){return '<li>'+esc(t)+'</li>';}).join("")+'</ul>';}
 function indexPct(){return Math.round(100*coverage(learnedSet())/TARGETS.length);}
 function ucards(c){return c.p?[]:(c.u||[c.n]);}
 function lab(c){return c.p?"practice":(c.u?c.u.join(" + "):c.n);}
@@ -414,7 +418,7 @@ var summary=null;
 var timer=null;
 
 function startSession(){
-  sess={t0:Date.now(),cur:null,shown:false,newDone:0,rev:0,again:0,good:0,shelved:0,shelfRun:0,offer:null,passed:[],touched:{},before:indexPct(),total:0,learnedBefore:Object.keys(learnedSet()).length};
+  sess={t0:Date.now(),cur:null,shown:false,newDone:0,rev:0,again:0,good:0,shelved:0,shelfRun:0,offer:null,passed:[],touched:{},before:indexPct(),beforeL:linesUnlocked(),total:0,learnedBefore:Object.keys(learnedSet()).length};
   route="session";
   pickNext();
   timer=setInterval(tickTimer,1000);
@@ -479,7 +483,7 @@ function finish(){
   var rec={t:now(),day:dkey(now()),ms:ms,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again};
   S.log.push(rec);save();
   var tot=sess.good+sess.again;
-  summary={ms:ms,newN:sess.newDone,rev:sess.rev,recall:tot?Math.round(100*sess.good/tot):100,idxBefore:sess.before,idxAfter:indexPct(),passed:sess.passed.slice(),learned:Object.keys(learnedSet()).length,left:CARDS.length-Object.keys(S.cards).length};
+  summary={ms:ms,newN:sess.newDone,rev:sess.rev,recall:tot?Math.round(100*sess.good/tot):100,idxBefore:sess.before,idxAfter:indexPct(),cntAfter:linesUnlocked().length,newLines:linesUnlocked().filter(function(t){return sess.beforeL.indexOf(t)<0;}),passed:sess.passed.slice(),learned:Object.keys(learnedSet()).length,left:CARDS.length-Object.keys(S.cards).length};
   sess=null;route="summary";render();
 }
 function quit(){if(timer){clearInterval(timer);timer=null;}if(sess){S.studyMs+=Date.now()-sess.t0;S.log.push({t:now(),day:dkey(now()),ms:Date.now()-sess.t0,newN:sess.newDone,rev:sess.rev,good:sess.good,again:sess.again});save();}sess=null;route="today";render();}
@@ -600,7 +604,7 @@ function viewSummary(){
   var m=summary;
   var h='<div class="stack"><div class="card" style="text-align:center"><div class="eyebrow">Session done</div><h1 style="margin-top:6px">Well done</h1><p class="muted" style="margin-top:6px">'+clock(m.ms)+' for '+(m.newN+m.rev)+' cards.</p></div>';
   h+='<div class="card"><div class="stats"><div class="stat"><b>+'+m.newN+'</b><span>New cards</span></div><div class="stat"><b>'+m.recall+'%</b><span>Recall</span></div><div class="stat"><b>'+clock(m.ms)+'</b><span>Time</span></div></div></div>';
-  h+='<div class="card" style="text-align:center"><div class="eyebrow">You can now understand</div><div class="big" style="margin:8px 0">'+m.idxAfter+'%</div><p class="small muted">of everyday lines'+(m.idxAfter>m.idxBefore?' (up from '+m.idxBefore+'%)':'')+'</p></div>';
+  if(m.cntAfter>0)h+='<div class="card"><div class="eyebrow">Sample sentences you understand</div><div class="big" style="margin:8px 0">'+m.cntAfter+' <span class="muted" style="font-size:.5em">of '+TARGETS.length+'</span></div>'+(m.newLines.length?'<div class="eyebrow">New today</div>'+linesList(m.newLines):'')+'</div>';
   if(m.passed.length)h+='<div class="card stack"><h2 style="margin:0">Say it along</h2><button class="btn" data-act="shadow">Play today\'s cards</button></div>';
   h+='<button class="btn ghost" data-act="tab" data-to="today">Back to Today</button></div>';
   return h;
@@ -644,7 +648,7 @@ function viewProgress(){
   var h='<div class="stack"><div><div class="eyebrow">A0 to prototype path</div><h1>Progress</h1></div>';
   h+='<div class="card" style="text-align:center"><div class="eyebrow">Path ring</div><div class="ringwrap" style="width:min(220px,60vw)"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="84" fill="none" stroke="var(--linen)" stroke-width="14"/><circle cx="100" cy="100" r="84" fill="none" stroke="var(--coral)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+(C*pct/100)+' '+C+'"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center"><div class="big">'+pct+'%</div></div></div>';
   h+='<p><b>'+learned+'</b> learned of '+total+'</p><p class="small muted">'+started+' cards seen, '+Math.round(S.studyMs/MIN)+' min studied.</p><p class="small muted" style="margin-top:6px">'+(left>0?left+' cards not started yet. The app decides each day how many are new.':'Every card in this prototype has been started.')+'</p></div>';
-  h+='<div class="card"><div class="eyebrow">Understanding Index</div><div class="big" style="margin:6px 0">'+indexPct()+'%</div><p class="small">You understand '+indexPct()+'% of the demo set of '+TARGETS.length+' everyday lines.</p></div>';
+  var ul=linesUnlocked(),trc=topRankClaim();h+='<div class="card"><div class="eyebrow">Sample sentences you understand</div><div class="big" style="margin:6px 0">'+ul.length+' <span class="muted" style="font-size:.5em">of '+TARGETS.length+'</span></div>'+(ul.length?'<details class="more"><summary>See them</summary>'+linesList(ul)+'</details>':'')+(trc?'<p class="small muted" style="margin-top:8px">Your '+trc.n+' words are all among the '+trc.top+' most useful German words (of a core list of 2,400).</p>':'')+'</div>';
   h+='<div class="card"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Current streak</div><b style="font-size:1.4rem">'+streak()+' day'+(streak()===1?"":"s")+'</b></div></div><div class="eyebrow" style="margin-top:14px">Minutes this week</div><svg viewBox="0 0 280 110" width="100%" role="img" aria-label="Minutes studied in the last seven days">';
   wk.forEach(function(d,i){var x=14+i*38,hgt=d.m?Math.max(6,Math.round(64*d.m/mx)):2;h+='<rect x="'+x+'" y="'+(78-hgt)+'" width="24" height="'+hgt+'" rx="6" fill="'+(d.m?"var(--coral)":"var(--line)")+'"/><text x="'+(x+12)+'" y="'+(70-hgt)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--navy)">'+(d.m?d.m:"")+'</text><text x="'+(x+12)+'" y="98" text-anchor="middle" font-size="11" fill="'+(d.today?"var(--navy)":"var(--muted)")+'" font-weight="'+(d.today?800:500)+'">'+d.l+'</text>';});
   h+='</svg><div class="row" style="justify-content:space-between;border-top:1px solid var(--line);padding-top:10px;margin-top:6px"><span class="small muted">Share of due reviews you completed, 30 days</span><b>'+(comp===null?"No data yet":comp+"%")+'</b></div></div>';
