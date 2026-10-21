@@ -680,7 +680,8 @@ function giveHint(){
   var row = stage().rows[state.ri];
   var toks = tokenize(plain(row.de));
   var n = toks.length;
-  showFeedback("Hint: it starts with <strong lang=\"de\">"+esc(toks[0])+"</strong> and has "+n+" words.", "");
+  var sents = plain(row.de).split(/[.!?]+/).filter(function(x){ return x.trim().length>0; }).length;
+  showFeedback("<strong>Hint:</strong> use the previous phrase as a model. Only swap or add the few words the prompt gives you. Keep the first word (<strong lang=\"de\">"+esc(toks[0])+"</strong>), the number of sentences ("+sents+") and the total number of words ("+n+").", "");
   $("answer").focus();
 }
 function revealAnswer(){
