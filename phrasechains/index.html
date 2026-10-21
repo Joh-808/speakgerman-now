@@ -281,28 +281,31 @@ var STAGES = [
   { id:"D", title:"etwas / nichts + comparative",
     note:"After etwas and nichts the comparative becomes a noun: capital letter and the ending -es (etwas Größeres, nichts Besseres).",
     rows:[
-      r("Die Wohnung ist klein. Ich suche **etwas Größeres**.", "The apartment is small. I am looking for something bigger.", "switch: das Handy, teuer, Billigeres"),
-      r("Das Handy ist teuer. Ich suche **etwas Billigeres**.", "The phone is expensive. I am looking for something cheaper.", "switch: die Jacke, nicht warm, Wärmeres"),
-      r("Die Jacke ist nicht warm. Ich suche **etwas Wärmeres**.", "The jacket is not warm. I am looking for something warmer.", "new: die Wohnung, klein, ich, finden, nichts, Größeres"),
-      r("Die Wohnung ist klein. Ich finde **nichts Größeres**.", "The apartment is small. I can't find anything bigger.", "switch: das Handy, teuer, Billigeres"),
-      r("Das Handy ist teuer. Ich finde **nichts Billigeres**.", "The phone is expensive. I can't find anything cheaper.", "switch: das Restaurant, laut, Ruhigeres"),
+      r("Die Wohnung ist klein. Ich suche **etwas Größeres**.", "The apartment is small. I am looking for something bigger.", "switch: das Handy, teuer, Günstigeres"),
+      r("Das Handy ist teuer. Ich suche **etwas Günstigeres**.", "The phone is expensive. I am looking for something cheaper.", "switch: die Jacke, nicht warm genug, Wärmeres"),
+      r("Die Jacke ist nicht warm genug. Ich suche **etwas Wärmeres**.", "The jacket is not warm enough. I am looking for something warmer.", "new: die Wohnung, klein, ich, finden, nichts, Größeres"),
+      r("Die Wohnung ist klein. Ich finde **nichts Größeres**.", "The apartment is small. I can't find anything bigger.", "switch: das Handy, teuer, Günstigeres"),
+      r("Das Handy ist teuer. Ich finde **nichts Günstigeres**.", "The phone is expensive. I can't find anything cheaper.", "switch: das Restaurant, laut, Ruhigeres"),
       r("Das Restaurant ist laut. Ich finde **nichts Ruhigeres**.", "The restaurant is loud. I can't find anything quieter.", "new: die Wohnung, klein, Haben Sie, etwas, Größeres"),
-      r("Die Wohnung ist klein. Haben Sie **etwas Größeres**?", "The apartment is small. Do you have something bigger?", "switch: das Handy, teuer, Billigeres"),
-      r("Das Handy ist teuer. Haben Sie **etwas Billigeres**?", "The phone is expensive. Do you have something cheaper?", "switch: das Restaurant, laut, Ruhigeres"),
+      r("Die Wohnung ist klein. Haben Sie **etwas Größeres**?", "The apartment is small. Do you have something bigger?", "switch: das Handy, teuer, Günstigeres"),
+      r("Das Handy ist teuer. Haben Sie **etwas Günstigeres**?", "The phone is expensive. Do you have something cheaper?", "switch: das Restaurant, laut, Ruhigeres"),
       r("Das Restaurant ist laut. Haben Sie **etwas Ruhigeres**?", "The restaurant is loud. Do you have something quieter?", "new: das Essen, nicht gut, Gibt es, etwas Besseres"),
       r("Das Essen ist nicht gut. Gibt es **etwas Besseres**?", "The food is not good. Is there something better?", "switch: gut, Es gibt, nichts"),
       r("Das Essen ist gut. Es gibt **nichts Besseres**.", "The food is good. There is nothing better.", "switch: das Handy"),
-      r("Das Handy ist gut. Es gibt **nichts Besseres**.", "The phone is good. There is nothing better.", "new: die Wohnung, teuer, ich, suchen, trotzdem, etwas Größeres")
+      r("Das Handy ist gut. Es gibt **nichts Besseres**.", "The phone is good. There is nothing better.", "new: ich, wenig Geld, suchen, trotzdem, etwas Größeres")
     ]},
   { id:"E", title:"everything together",
-    note:"Now combine both ideas: trotzdem or obwohl with etwas + comparative.",
+    note:"Now combine both ideas: trotzdem or obwohl with etwas + comparative. In the last rows the clause with obwohl holds a comparative of its own: auch teurer.",
     rows:[
-      r("Die Wohnung ist teuer. Ich suche **trotzdem** **etwas Größeres**.", "The apartment is expensive. I am looking for something bigger anyway.", "switch: das Handy, kaufen, Besseres"),
-      r("Das Handy ist teuer. Ich kaufe **trotzdem** **etwas Besseres**.", "The phone is expensive. I buy something better anyway.", "switch: die Jacke, Wärmeres"),
-      r("Die Jacke ist teuer. Ich kaufe **trotzdem** **etwas Wärmeres**.", "The jacket is expensive. I buy something warmer anyway.", "new: ich, suchen, etwas Größeres, obwohl, es, teuer"),
-      r("Ich suche **etwas Größeres**, **obwohl** es teuer **ist**.", "I am looking for something bigger, although it is expensive.", "switch: kaufen, Besseres"),
-      r("Ich kaufe **etwas Besseres**, **obwohl** es teuer **ist**.", "I buy something better, although it is expensive.", "switch: Wärmeres"),
-      r("Ich kaufe **etwas Wärmeres**, **obwohl** es teuer **ist**.", "I buy something warmer, although it is expensive.", "")
+      r("Ich habe wenig Geld. Ich suche **trotzdem** **etwas Größeres**.", "I have little money. I am looking for something bigger anyway.", "switch: wenig Zeit, Besseres"),
+      r("Ich habe wenig Zeit. Ich suche **trotzdem** **etwas Besseres**.", "I have little time. I am looking for something better anyway.", "switch: wenig Geld, kaufen, Wärmeres"),
+      r("Ich habe wenig Geld. Ich kaufe **trotzdem** **etwas Wärmeres**.", "I have little money. I am buying something warmer anyway.", "new: ich, suchen, etwas Größeres, obwohl, wenig Geld"),
+      r("Ich suche **etwas Größeres**, **obwohl** ich wenig Geld **habe**.", "I am looking for something bigger, although I have little money.", "switch: Besseres, wenig Zeit"),
+      r("Ich suche **etwas Besseres**, **obwohl** ich wenig Zeit **habe**.", "I am looking for something better, although I have little time.", "switch: kaufen, Wärmeres, wenig Geld"),
+      r("Ich kaufe **etwas Wärmeres**, **obwohl** ich wenig Geld **habe**.", "I am buying something warmer, although I have little money.", "new: suchen, Größeres, es, auch, teurer"),
+      r("Ich suche **etwas Größeres**, **obwohl** es auch **teurer ist**.", "I am looking for something bigger, although it is also more expensive.", "switch: Besseres"),
+      r("Ich suche **etwas Besseres**, **obwohl** es auch **teurer ist**.", "I am looking for something better, although it is also more expensive.", "switch: kaufen, Wärmeres"),
+      r("Ich kaufe **etwas Wärmeres**, **obwohl** es auch **teurer ist**.", "I am buying something warmer, although it is also more expensive.", "")
     ]}
 ];
 
@@ -681,7 +684,7 @@ function giveHint(){
   var toks = tokenize(plain(row.de));
   var n = toks.length;
   var sents = plain(row.de).split(/[.!?]+/).filter(function(x){ return x.trim().length>0; }).length;
-  showFeedback("<strong>Hint:</strong> use the previous phrase as a model. Only swap or add the few words the prompt gives you. Keep the first word (<strong lang=\"de\">"+esc(toks[0])+"</strong>), the number of sentences ("+sents+") and the total number of words ("+n+").", "");
+  showFeedback("<strong>Hint:</strong> Use the previous phrase as a model. Only swap or add the few words the prompt gives you. First word: <strong lang=\"de\">"+esc(toks[0])+"</strong>; number of sentences: "+sents+"; total number of words: "+n+".", "");
   $("answer").focus();
 }
 function revealAnswer(){
