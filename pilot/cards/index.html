@@ -162,6 +162,7 @@ textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid var(--l
 <div class="app" id="app"></div>
 <nav class="tabs" aria-label="Main"><div class="tabs-in" id="tabs"></div></nav>
 
+<script src="/pilot/shared.js"></script>
 <script>
 // Pilot deck: parallel to /cards, new priority order. See PILOT decision log. rank = row number in german_2400_v2 core2400 (composite order); 0 = free word (name or cognate).
 const UNITS = {
@@ -307,8 +308,8 @@ var PLAY='<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';
 /* ---------- state ---------- */
 var STORE_KEY="lingokey-pilot-cards-v1";
 var mem=null, S=null;
-function fresh(){return {v:1,cards:{},log:[],dayNew:{},set:{goal:4,speed:0.85,hide:false,next:true,auto:true},rev:{},notes:{},offset:0,studyMs:0,overdue:{}};}
-function load(){try{var r=localStorage.getItem(STORE_KEY);if(r){var o=JSON.parse(r);if(o&&o.v===1){if(o.dv!==DATAVER){o.rev=o.rev||{};RESET.forEach(function(k){delete o.rev[k];});o.notes=o.notes||{};if(typeof NOTECLEAR!=="undefined")NOTECLEAR.forEach(function(k){delete o.notes[k];});o.dv=DATAVER;}return o;}}}catch(e){}return fresh();}
+function fresh(){return {v:1,cards:{},log:[],dayNew:{},set:{goal:15,speed:0.85,hide:false,next:true,auto:true},rev:{},notes:{},offset:0,studyMs:0,overdue:{},dayDone:{}};}
+function load(){try{var r=localStorage.getItem(STORE_KEY);if(r){var o=JSON.parse(r);if(o&&o.v===1){o.dayDone=o.dayDone||{};o.set=o.set||{};if([5,15,30].indexOf(o.set.goal)<0)o.set.goal=15;if(o.dv!==DATAVER){o.rev=o.rev||{};RESET.forEach(function(k){delete o.rev[k];});o.notes=o.notes||{};if(typeof NOTECLEAR!=="undefined")NOTECLEAR.forEach(function(k){delete o.notes[k];});o.dv=DATAVER;}return o;}}}catch(e){}return fresh();}
 function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(S));}catch(e){mem=JSON.stringify(S);}}
 S=load();
 function now(){return Date.now()+S.offset;}
@@ -334,6 +335,29 @@ function validate(i){
   return {ok:ok,unk:unk,fresh:fresh};
 }
 function newToday(){return S.dayNew[dkey(now())]||0;}
+function doneToday(){return Object.keys(S.dayDone[dkey(now())]||{}).length;}
+function isCounted(id){return !!(S.dayDone[dkey(now())]||{})[id];}
+function markCounted(id){var k=dkey(now());S.dayDone[k]=S.dayDone[k]||{};S.dayDone[k][id]=1;}
+function pickCard(){
+  // The scheduler decides the mix. N = cards per day the student chose (5, 15, 30), reviews and new together.
+  // Cards still in their learning steps today cost nothing extra. Reviews come first, but at least 20% of the day is reserved for new cards.
+  var N=S.set.goal,t=now(),due=dueList();
+  var free=due.filter(function(c){return isCounted(c.n);});
+  if(free.length)return {c:free[0],kind:"rev"};
+  var freshDue=due.filter(function(c){return !isCounted(c.n);});
+  var counted=doneToday(),nIdx=nextNewIdx();
+  if(counted<N){
+    var newN=newToday(),revN=counted-newN,reserve=Math.max(1,Math.ceil(N*0.2)),canNew=nIdx>=0;
+    if(freshDue.length&&(revN<N-reserve||!canNew||newN>=reserve))return {c:freshDue[0],kind:"rev"};
+    if(canNew)return {c:CARDS[nIdx],kind:"new"};
+    if(freshDue.length)return {c:freshDue[0],kind:"rev"};
+  }
+  if(typeof sess!=="undefined"&&sess&&sess.touched){
+    var pend=CARDS.filter(function(c){var s=S.cards[c.n];return s&&s.st==="learn"&&sess.touched[c.n]&&s.due<=t+30*MIN;}).sort(function(a,b){return S.cards[a.n].due-S.cards[b.n].due;});
+    if(pend.length)return {c:pend[0],kind:"rev"};
+  }
+  return null;
+}
 function nextNewIdx(){for(var i=0;i<CARDS.length;i++){if(!S.cards[CARDS[i].n])return i;}return -1;}
 function dueList(){var t=now();return CARDS.filter(function(c){var s=S.cards[c.n];return s&&s.due<=t;}).sort(function(a,b){return S.cards[a.n].due-S.cards[b.n].due;});}
 
@@ -405,16 +429,10 @@ function startSession(){
   timer=setInterval(tickTimer,1000);
   render();
 }
-function tickTimer(){var el=document.getElementById("clock");if(el&&sess)el.textContent=clock(Date.now()-sess.t0);}
+function tickTimer(){var el=document.getElementById("clock");if(el&&sess)el.textContent=clock(window.LK?LK.sessionMs():Date.now()-sess.t0);}
 function clock(ms){var s=Math.floor(ms/1000);return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
 function pickNext(){
-  var t=now(),due=dueList();
-  if(due.length){sess.cur={c:due[0],kind:"rev"};}
-  else if(newToday()<S.set.goal&&nextNewIdx()>=0){sess.cur={c:CARDS[nextNewIdx()],kind:"new"};}
-  else{
-    var pend=CARDS.filter(function(c){var s=S.cards[c.n];return s&&s.st==="learn"&&sess.touched[c.n]&&s.due<=t+30*MIN;}).sort(function(a,b){return S.cards[a.n].due-S.cards[b.n].due;});
-    sess.cur=pend.length?{c:pend[0],kind:"rev"}:null;
-  }
+  sess.cur=pickCard();
   sess.shown=false;
   if(sess.cur&&S.set.auto)setTimeout(function(){if(sess&&sess.cur)speak(sess.cur.c.de);},250);
 }
@@ -423,7 +441,7 @@ function shelve(){
   if(!sess||!sess.cur||sess.offer)return;
   var c=sess.cur.c;
   S.cards[c.n]={st:"shelved",shelvedAt:now(),reps:0};
-  sess.shelved++;sess.shelfRun++;sess.touched[c.n]=1;
+  sess.shelved++;sess.shelfRun++;if(window.LK)LK.cardStat('sh');sess.touched[c.n]=1;
   save();pickNext();
   if(!sess.cur){finish();return;}
   if(sess.shelfRun>=3&&sess.cur.kind==="new"){var tp=nextTopic(IDX[sess.cur.c.n]);if(tp)sess.offer=tp;}
@@ -438,7 +456,7 @@ function jumpTopic(){
 }
 function renderOffer(){
   var o=sess.offer;
-  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
+  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(window.LK?LK.sessionMs():Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
   h+='<div class="card stack" style="text-align:center"><div class="eyebrow">Already know this?</div><h2 style="margin:0">You shelved '+sess.shelfRun+' cards in a row</h2><p class="muted" style="margin:0">Skip ahead to the next topic: <b>'+esc(o.name)+'</b>. The cards in between are shelved and count as learned, so later sentences can use them.</p><button class="btn good" data-act="jump">Skip to '+esc(o.name)+'</button><button class="link" data-act="stay">No, keep going here</button></div></div>';
   app.innerHTML=h;tabbar();
 }
@@ -451,7 +469,9 @@ function answer(good){
   if(good&&s.st==="learn"&&n.st==="review"){n.learnedAt=now();}
   if(s.learnedAt&&!n.learnedAt)n.learnedAt=s.learnedAt;
   S.cards[c.n]=n;
-  if(isNew){S.dayNew[dkey(now())]=newToday()+1;sess.newDone++;}else sess.rev++;
+  var firstToday=!isCounted(c.n);markCounted(c.n);
+  if(isNew){S.dayNew[dkey(now())]=newToday()+1;sess.newDone++;if(window.LK)LK.cardStat('n');}else{sess.rev++;if(firstToday&&window.LK)LK.cardStat('r');}
+  if(window.LK)LK.cardStat(good?'gd':'ag');
   if(good){sess.good++;if(sess.passed.indexOf(c.n)<0)sess.passed.push(c.n);}else sess.again++;
   sess.touched[c.n]=1;
   if(wasDue&&sess.cur.kind==="rev"){var k=dkey(now());var o=S.overdue[k]||{done:0};o.done++;S.overdue[k]=o;}
@@ -520,6 +540,7 @@ function underlined(c){
   }).join(" ");
 }
 function render(){
+  if(window.LK){if(route==="session"||route==="summary"||route==="shadow")LK.start("cards",{badge:false});else LK.stop();}
   if(route==="session")return renderSession();
   if(route==="shadow")return renderShadow();
   var html=top();
@@ -533,9 +554,9 @@ function render(){
 }
 
 function viewToday(){
-  var goal=S.set.goal,nt=Math.min(newToday(),goal),pct=nt/goal,C=2*Math.PI*96;
+  var goal=S.set.goal,nt=Math.min(doneToday(),goal),pct=nt/goal,C=2*Math.PI*96;
   var due=dueList().length,left=nextNewIdx()>=0;
-  var can=due>0||(left&&newToday()<goal);
+  var can=pickCard()!==null;
   var d=new Date(now());
   var date=d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
   var h='<div class="stack"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">'+esc(date)+'</div><h1>Hallo</h1></div><span class="chip" title="Days in a row with a session">'+streak()+' day streak</span></div>';
@@ -544,11 +565,11 @@ function viewToday(){
    '<path d="'+ARCH+'Z" fill="url(#pg)" class="glow"/><g clip-path="url(#pc)"><rect class="leaf leafL" x="36" y="40" width="85" height="250" fill="#0E172D"/><rect class="leaf leafR" x="119" y="40" width="85" height="250" fill="#0E172D"/><path d="M120 40V290" stroke="#4A5266" stroke-width="2"/></g>'+
    '<path d="'+ARCH+'" fill="none" stroke="var(--linen)" stroke-width="12" stroke-linejoin="round" pathLength="100"/><path d="'+ARCH+'" fill="none" stroke="var(--coral)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="100" stroke-dasharray="'+(pct*100)+' 100"'+(pct>0?'':' opacity="0"')+'/><path d="M26 284H214" stroke="var(--navy)" stroke-width="6" stroke-linecap="round"/></svg>';
   if(can)por+='<button class="keybtn" data-act="begin" aria-label="Unlock today\'s session"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg></button>';
-  else por+='<div class="portalmsg">'+(left?'Goal met':'Path complete')+'</div>';
+  else por+='<div class="portalmsg">'+(nt>=goal?'Done for today':'Nothing due')+'</div>';
   por+='</div>';
   h+='<div class="card" style="text-align:center;padding-bottom:36px"><div class="eyebrow">Today\'s session</div>'+por+(can?'<p class="small" style="margin:44px 0 0;font-weight:800">Tap the key to open the door.</p>':'');
-  h+='<p class="small muted" style="margin-top:10px">'+(left?(nt>=goal?'Goal met. Due reviews still count.':'Goal: '+goal+' new cards a day. '+(due?due+' due for review.':'Nothing due yet.')):'You finished the prototype path. Reviews will keep coming back.')+'</p></div>';
-  h+='<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Today so far</h2><span class="small muted">'+nt+' of '+goal+' new</span></div><div class="stats" style="margin-top:10px"><div class="stat"><b>'+newToday()+'</b><span>New</span></div><div class="stat"><b>'+todayRevDone()+'</b><span>Reviews</span></div><div class="stat"><b>'+Math.round(todayMs()/MIN)+'m</b><span>Studied</span></div></div></div>';
+  h+='<p class="small muted" style="margin-top:10px">'+(nt>=goal?'Done for today: '+goal+' cards. The app mixes reviews and new cards for you.':'Today: up to '+goal+' cards. The app decides how many are new and how many are reviews. '+(due?due+' due for review.':'Nothing due yet.'))+'</p></div>';
+  h+='<div class="card"><div class="row" style="justify-content:space-between"><h2 style="margin:0">Today so far</h2><span class="small muted">'+nt+' of '+goal+' cards</span></div><div class="stats" style="margin-top:10px"><div class="stat"><b>'+newToday()+'</b><span>New</span></div><div class="stat"><b>'+todayRevDone()+'</b><span>Reviews</span></div><div class="stat"><b>'+Math.round(todayMs()/MIN)+'m</b><span>Studied</span></div></div></div>';
   var shn=Object.keys(S.cards).filter(function(k){return S.cards[k].st==="shelved";}).length;
   if(shn)h+='<p class="small muted">'+shn+' shelved card'+(shn===1?'':'s')+' count as learned and are not scheduled. <button class="link" data-act="unshelve">Bring them back</button></p>';
   h+='<p class="small muted">This is a working prototype of the student app. Audio uses your browser\'s German voice. Pictures are slots. Progress is saved in this browser only.</p></div>';
@@ -558,13 +579,13 @@ function viewToday(){
 function renderSession(){
   if(sess.offer){renderOffer();return;}
   var cur=sess.cur,c=cur.c,s=stateOf(c.n),shown=sess.shown;
-  var newLeft=Math.max(0,Math.min(S.set.goal-newToday(),CARDS.length-Object.keys(S.cards).length));
+  var newLeft=Math.max(0,S.set.goal-doneToday());
   var learning=CARDS.filter(function(x){var z=S.cards[x.n];return z&&z.st==="learn";}).length;
   var dueN=dueList().length;
   var total=sess.newDone+sess.rev+newLeft+dueN;
-  var prog=total?Math.round(100*(sess.newDone+sess.rev)/Math.max(total,1)):0;
-  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
-  h+='<div class="counts" style="justify-content:center"><span><i class="dot" style="background:var(--coral)"></i>'+newLeft+' new</span><span><i class="dot" style="background:var(--mint-ink)"></i>'+(learning+dueN)+' learning</span></div><div class="bar" aria-hidden="true"><i style="width:'+prog+'%"></i></div>';
+  var prog=Math.min(100,Math.round(100*doneToday()/S.set.goal));
+  var h='<div class="stack" style="padding-top:4px"><div class="sess-top"><button class="link" data-act="quit">Finish</button><b id="clock" style="font-size:1.3rem;font-variant-numeric:tabular-nums">'+clock(window.LK?LK.sessionMs():Date.now()-sess.t0)+'</b><span style="width:48px"></span></div>';
+  h+='<div class="counts" style="justify-content:center"><span><i class="dot" style="background:var(--coral)"></i>'+newLeft+' left today</span><span><i class="dot" style="background:var(--mint-ink)"></i>'+(learning+dueN)+' learning</span></div><div class="bar" aria-hidden="true"><i style="width:'+prog+'%"></i></div>';
   h+='<div class="card stack" style="position:relative;align-items:stretch"><div class="row" style="justify-content:space-between"><span class="tag '+(cur.kind==="new"?"new":"rev")+'">'+(cur.kind==="new"?"New":"Review")+'</span><span class="tag">'+esc(c.f)+'</span></div>';
   h+=pic(c);
   h+='<div class="row" style="justify-content:center"><button class="play" data-act="speak">'+PLAY+'Play</button></div>';
@@ -633,7 +654,7 @@ function viewProgress(){
   var comp=completion30();
   var h='<div class="stack"><div><div class="eyebrow">A0 to prototype path</div><h1>Progress</h1></div>';
   h+='<div class="card" style="text-align:center"><div class="eyebrow">Path ring</div><div class="ringwrap" style="width:min(220px,60vw)"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="84" fill="none" stroke="var(--linen)" stroke-width="14"/><circle cx="100" cy="100" r="84" fill="none" stroke="var(--coral)" stroke-width="14" stroke-linecap="round" stroke-dasharray="'+(C*pct/100)+' '+C+'"/></svg><div style="position:absolute;inset:0;display:grid;place-items:center"><div class="big">'+pct+'%</div></div></div>';
-  h+='<p><b>'+learned+'</b> learned of '+total+'</p><p class="small muted">'+started+' cards seen, '+Math.round(S.studyMs/MIN)+' min studied.</p><p class="small muted" style="margin-top:6px">'+(left>0?'At '+S.set.goal+' new cards a day, '+days+' more day'+(days===1?'':'s')+' to start every card in this prototype. The real path will hold 1,000 words.':'Every card in this prototype has been started.')+'</p></div>';
+  h+='<p><b>'+learned+'</b> learned of '+total+'</p><p class="small muted">'+started+' cards seen, '+Math.round(S.studyMs/MIN)+' min studied.</p><p class="small muted" style="margin-top:6px">'+(left>0?left+' cards not started yet. The app decides each day how many are new.':'Every card in this prototype has been started.')+'</p></div>';
   h+='<div class="card"><div class="eyebrow">Understanding Index</div><div class="big" style="margin:6px 0">'+indexPct()+'%</div><p class="small">You understand '+indexPct()+'% of the demo set of '+TARGETS.length+' everyday lines.</p><p class="small muted" style="margin-top:6px">A line counts once you have learned every word in it. In the real app the lines come from a weighted spoken-German sample, so the number tracks everyday speech.</p></div>';
   h+='<div class="card"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Current streak</div><b style="font-size:1.4rem">'+streak()+' day'+(streak()===1?"":"s")+'</b></div></div><div class="eyebrow" style="margin-top:14px">Minutes this week</div><svg viewBox="0 0 280 110" width="100%" role="img" aria-label="Minutes studied in the last seven days">';
   wk.forEach(function(d,i){var x=14+i*38,hgt=d.m?Math.max(6,Math.round(64*d.m/mx)):2;h+='<rect x="'+x+'" y="'+(78-hgt)+'" width="24" height="'+hgt+'" rx="6" fill="'+(d.m?"var(--coral)":"var(--line)")+'"/><text x="'+(x+12)+'" y="'+(70-hgt)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--navy)">'+(d.m?d.m:"")+'</text><text x="'+(x+12)+'" y="98" text-anchor="middle" font-size="11" fill="'+(d.today?"var(--navy)":"var(--muted)")+'" font-weight="'+(d.today?800:500)+'">'+d.l+'</text>';});
@@ -702,7 +723,7 @@ function viewSettings(){
   function seg(name,vals,cur,lab){return '<div class="seg" role="group" aria-label="'+name+'">'+vals.map(function(v){return '<button data-act="set" data-k="'+name+'" data-v="'+v+'" aria-pressed="'+(String(cur)===String(v))+'">'+(lab?lab(v):v)+'</button>';}).join("")+'</div>';}
   function sw(k,label,desc){return '<div class="sw"><div class="grow"><b>'+label+'</b><div class="small muted">'+desc+'</div></div><button class="statebtn '+(s[k]?"approved":"")+'" data-act="toggle" data-k="'+k+'" aria-pressed="'+(!!s[k])+'" style="min-width:56px;min-height:36px">'+(s[k]?"On":"Off")+'</button></div>';}
   var h='<div class="stack"><div><div class="eyebrow">Account</div><h1>Settings</h1></div>';
-  h+='<div class="card"><div class="sw"><div class="grow"><b>New cards a day</b><div class="small muted">Reviews come first, then new cards up to this number.</div></div>'+seg("goal",[3,4,6],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+voiceRow()+
+  h+='<div class="card"><div class="sw"><div class="grow"><b>Cards a day</b><div class="small muted">Reviews and new cards together. The app decides the mix: reviews come first, with some new cards always mixed in. 5 is a light day, 30 is fast.</div></div>'+seg("goal",[5,15,30],s.goal)+'</div><div class="sw"><div class="grow"><b>Audio speed</b><div class="small muted">Playback rate of the German voice.</div></div>'+seg("speed",[0.7,0.85,1],s.speed,function(v){return v+"x";})+'</div>'+voiceRow()+
     sw("hide","Hide the text","Cover the sentence until you reveal. The audio plays either way.")+sw("auto","Play audio automatically","The sentence plays when a card appears.")+sw("next","Show next review time","Show when each rating would bring a card back.")+'</div>';
   h+='<div class="card stack"><h2 style="margin:0">Demo controls</h2><p class="small muted">Reviews are scheduled in days, so use this to see them come back. The clock is shifted by '+Math.round(S.offset/DAY)+' day'+(Math.round(S.offset/DAY)===1?"":"s")+'.</p><div class="row"><button class="btn small" data-act="skip">Skip ahead 1 day</button><button class="btn small ghost" data-act="skipback">Reset clock</button></div></div>';
   h+='<div class="card stack"><h2 style="margin:0">Your data</h2><p class="small muted">Progress is saved in this browser only. Clearing site data or switching device starts you at the beginning. The real app will sync to your account.</p><div class="row"><button class="btn small ghost" data-act="export">Show progress as text</button>'+(S._confirm?'<button class="btn small" data-act="resetyes">Yes, erase everything</button><button class="btn small ghost" data-act="resetno">Cancel</button>':'<button class="btn small ghost" data-act="reset">Reset all progress</button>')+'</div>'+(S._export?'<textarea id="exp" readonly aria-label="Progress data">'+esc(S._export)+'</textarea>':"")+'</div></div>';

@@ -8,16 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0E172D;--coral:#F66F54;--coral-ink:#B8412A;--mint:#BCDDBF;--mint-ink:#3F7A4C;--sand:#F3EBDF;--cream:#EEE5DA;--linen:#ECE0D1;--line:#D9CBB8;--muted:#4A5266;--f:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color-scheme:light}
+:root{--navy:#0E172D;--coral:#F66F54;--coral-ink:#B8412A;--mint:#BCDDBF;--mint-ink:#3F7A4C;--green:#2E8B4F;--sand:#F3EBDF;--cream:#EEE5DA;--linen:#ECE0D1;--line:#D9CBB8;--muted:#4A5266;--f:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--sand);color:var(--navy);font-family:var(--f);font-size:17px;line-height:1.6;text-align:left;-webkit-font-smoothing:antialiased}
-.wrap{max-width:600px;margin:0 auto;padding:14px 16px 80px}
-.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.15rem;padding:4px 0 14px}
+.wrap{max-width:600px;margin:0 auto;padding:14px 16px 90px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.15rem;padding:4px 0 10px}
 .brand svg{width:22px;height:22px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .brand .now{color:var(--coral)}
 h1{font-size:1.8rem;line-height:1.15;margin:0 0 6px}
 h2{font-size:1.2rem;margin:0 0 8px}
-h3{font-size:1rem;margin:14px 0 6px}
 p{margin:0 0 10px}
 .muted{color:var(--muted)}.small{font-size:.92rem}
 .card{background:var(--cream);border:1px solid var(--linen);border-radius:16px;padding:16px;margin:0 0 14px}
@@ -25,32 +24,44 @@ p{margin:0 0 10px}
 a{color:var(--navy)}
 .btn{display:inline-block;background:var(--coral);color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;min-height:44px}
 .btn.second{background:transparent}
-.btn[disabled]{opacity:.5;cursor:default}
+.btn.sm{padding:6px 14px;min-height:40px}
 :focus-visible{outline:3px solid var(--navy);outline-offset:2px}
-.task{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
-.task:first-of-type{border-top:0}
-.task input[type=checkbox]{width:26px;height:26px;margin-top:2px;accent-color:var(--navy);flex:none}
-.task .t{flex:1}
-.task .t b{display:block}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+/* door */
+.doorcard{text-align:center;padding-bottom:12px}
+.portal{position:relative;width:min(190px,52vw);margin:6px auto 0;aspect-ratio:240/300}
+.portal svg.arch{width:100%;height:100%;display:block;overflow:visible}
+.portal .leaf{transform-box:fill-box;transition:transform .9s cubic-bezier(.65,0,.25,1)}
+.portal .leafL{transform-origin:left center}.portal .leafR{transform-origin:right center}
+.portal.open .leaf{transform:scaleX(.06)}
+.portal .glow{opacity:.55;transition:opacity .9s}.portal.open .glow{opacity:1}
+.portalmsg{position:absolute;inset:36% 14% 18%;display:grid;place-items:center;text-align:center;font-weight:700;font-size:.95rem;line-height:1.25;color:var(--sand)}
+@media (prefers-reduced-motion:reduce){.portal .leaf,.portal .glow{transition:none!important}}
+/* tasks as toggle cards */
+.task{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:16px;margin:0 0 12px;border:2px dashed var(--line);background:#E8E0D3;color:var(--muted);transition:transform .15s,box-shadow .15s,background .15s}
+.task .t{flex:1;min-width:0}.task .t b{display:block;font-size:1.05rem}
+.task[data-on="1"]{background:var(--mint);border:2px solid var(--navy);color:var(--navy);box-shadow:0 6px 0 var(--navy);transform:translateY(-3px)}
+.tog{flex:none;width:48px;height:48px;border-radius:50%;border:3px solid #A79B88;background:transparent;cursor:pointer;display:grid;place-items:center;padding:0}
+.tog svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.task[data-on="1"] .tog{background:var(--green);border-color:var(--green)}
+.task[data-on="1"] .tog svg{opacity:1}
+.time{display:inline-block;background:rgba(14,23,45,.08);border-radius:999px;padding:1px 10px;font-size:.85rem;font-weight:700;margin-left:6px;font-variant-numeric:tabular-nums}
 .daylist{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .dbtn{border:2px solid var(--line);background:var(--sand);border-radius:10px;padding:8px 0;font:inherit;font-weight:700;cursor:pointer;min-height:44px;color:var(--navy)}
 .dbtn[aria-current=true]{border-color:var(--navy);background:var(--mint)}
 .dbtn.done{background:var(--mint)}
-.seg{display:flex;gap:8px;flex-wrap:wrap}
-.seg button{flex:1;min-width:100px;border:2px solid var(--navy);background:transparent;border-radius:12px;padding:10px;font:inherit;font-weight:700;cursor:pointer;min-height:44px;color:var(--navy)}
-.seg button[aria-pressed=true]{background:var(--navy);color:var(--sand)}
 label{display:block;font-weight:700;margin:12px 0 4px}
-input[type=number],textarea,input[type=date]{width:100%;font:inherit;padding:10px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--navy)}
-textarea{min-height:90px}
-.checks label{display:flex;gap:10px;align-items:center;font-weight:400;margin:6px 0}
-.checks input{width:22px;height:22px;accent-color:var(--navy)}
-.line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--line)}
+input[type=number],textarea,select,input[type=text]{width:100%;font:inherit;padding:10px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--navy)}
+textarea{min-height:80px}
+.line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
 .line:first-child{border-top:0}
-.ok{color:var(--mint-ink);font-weight:700}
-.err{color:var(--coral-ink);font-weight:700}
+.line.total{font-weight:700;font-size:1.1rem}
+.ok{color:var(--mint-ink);font-weight:700}.err{color:var(--coral-ink);font-weight:700}
+.checkin{display:block;width:100%;min-height:84px;font:inherit;font-size:1.5rem;font-weight:700;background:var(--coral);color:var(--navy);border:3px solid var(--navy);border-radius:20px;box-shadow:0 8px 0 var(--navy);cursor:pointer;margin:10px 0 18px}
+.checkin:active{transform:translateY(5px);box-shadow:0 3px 0 var(--navy)}
+.banner{background:#fff;border:2px solid var(--coral);border-radius:12px;padding:8px 12px;margin:0 0 12px}
 details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
-.de{font-weight:700}
+.ex{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:80}
 </style>
 </head>
 <body>
@@ -59,140 +70,159 @@ details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;alig
 <noscript><div class="card"><p>This page needs JavaScript. Please turn it on in your browser.</p></div></noscript>
 <div id="app"></div>
 </main>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<script src="/pilot/shared.js"></script>
 <script>
 (function(){
 "use strict";
-var CARDS=[{"n": "hallo", "de": "Hallo!", "en": "Hello!", "p": false}, {"n": "ja", "de": "Ja.", "en": "Yes.", "p": false}, {"n": "nein", "de": "Nein.", "en": "No.", "p": false}, {"n": "danke", "de": "Danke.", "en": "Thanks.", "p": false}, {"n": "bitte", "de": "Bitte.", "en": "Please. / You are welcome.", "p": false}, {"n": "ich-bin", "de": "Ich bin Anna.", "en": "I am Anna.", "p": false}, {"n": "du-bist", "de": "Du bist Tom.", "en": "You are Tom.", "p": false}, {"n": "tschüss", "de": "Tschüss!", "en": "Bye!", "p": false}, {"n": "hier", "de": "Ich bin hier.", "en": "I am here.", "p": false}, {"n": "nicht", "de": "Ich bin nicht hier.", "en": "I am not here.", "p": false}, {"n": "müde", "de": "Ich bin müde.", "en": "I am tired.", "p": false}, {"n": "er-ist", "de": "Er ist hier.", "en": "He is here.", "p": false}, {"n": "wir-sind", "de": "Wir sind hier.", "en": "We are here.", "p": false}, {"n": "gut", "de": "Das ist gut.", "en": "That is good.", "p": false}, {"n": "sehr", "de": "Das ist sehr gut.", "en": "That is very good.", "p": false}, {"n": "p-das-nicht-gut", "de": "Das ist nicht gut.", "en": "That is not good.", "p": true}, {"n": "wo", "de": "Wo ist er?", "en": "Where is he?", "p": false}, {"n": "p-wo-bist-du", "de": "Wo bist du?", "en": "Where are you?", "p": true}, {"n": "was", "de": "Was ist das?", "en": "What is that?", "p": false}, {"n": "habe", "de": "Ich habe Kaffee.", "en": "I have coffee.", "p": false}, {"n": "zeit", "de": "Ich habe Zeit.", "en": "I have time.", "p": false}, {"n": "hast", "de": "Hast du Zeit?", "en": "Do you have time?", "p": false}, {"n": "p-was-hast-du", "de": "Was hast du?", "en": "What do you have?", "p": true}, {"n": "keine", "de": "Ich habe keine Zeit.", "en": "I do not have time.", "p": false}, {"n": "geld", "de": "Ich habe Geld.", "en": "I have money.", "p": false}, {"n": "kein", "de": "Ich habe kein Geld.", "en": "I do not have money.", "p": false}, {"n": "möchte", "de": "Ich möchte Kaffee.", "en": "I would like coffee.", "p": false}, {"n": "wasser", "de": "Ich möchte Wasser.", "en": "I would like water.", "p": false}, {"n": "p-moechte-bitte", "de": "Ich möchte Wasser, bitte.", "en": "I would like water, please.", "p": true}, {"n": "kann", "de": "Ich kann das.", "en": "I can do that.", "p": false}, {"n": "kannst", "de": "Kannst du das?", "en": "Can you do that?", "p": false}, {"n": "p-kann-nicht", "de": "Ich kann das nicht.", "en": "I cannot do that.", "p": true}, {"n": "wie", "de": "Wie bitte?", "en": "Pardon?", "p": false}, {"n": "weiß", "de": "Ich weiß nicht.", "en": "I do not know.", "p": false}, {"n": "ahnung", "de": "Keine Ahnung.", "en": "No idea.", "p": false}, {"n": "verstehe", "de": "Ich verstehe das nicht.", "en": "I do not understand that.", "p": false}, {"n": "p-kein-problem", "de": "Kein Problem.", "en": "No problem.", "p": true}, {"n": "und", "de": "Ich habe Zeit und Geld.", "en": "I have time and money.", "p": false}, {"n": "geht's", "de": "Wie geht's?", "en": "How are you?", "p": false}, {"n": "dir", "de": "Und dir?", "en": "And you?", "p": false}, {"n": "entschuldigung", "de": "Entschuldigung.", "en": "Excuse me. / Sorry.", "p": false}, {"n": "p-gut-danke", "de": "Gut, danke.", "en": "Good, thanks.", "p": true}, {"n": "heute", "de": "Ich habe heute Zeit.", "en": "I have time today.", "p": false}, {"n": "aber", "de": "Ich habe Zeit, aber kein Geld.", "en": "I have time, but no money.", "p": false}, {"n": "p-heute-nicht", "de": "Ich habe heute keine Zeit.", "en": "I do not have time today.", "p": true}, {"n": "gehe", "de": "Ich gehe heute.", "en": "I am going today.", "p": false}, {"n": "komme", "de": "Ich komme heute.", "en": "I am coming today.", "p": false}, {"n": "aus", "de": "Ich komme aus Kanada.", "en": "I come from Canada.", "p": false}, {"n": "gehen", "de": "Wir gehen heute.", "en": "We are going today.", "p": false}, {"n": "heiße", "de": "Ich heiße Anna.", "en": "My name is Anna.", "p": false}, {"n": "wohne", "de": "Ich wohne hier.", "en": "I live here.", "p": false}, {"n": "arbeite", "de": "Ich arbeite hier.", "en": "I work here.", "p": false}, {"n": "muss", "de": "Ich muss heute gehen.", "en": "I have to go today.", "p": false}, {"n": "arbeiten", "de": "Ich muss heute arbeiten.", "en": "I have to work today.", "p": false}, {"n": "weil", "de": "Ich habe keine Zeit, weil ich arbeite.", "en": "I have no time because I am working.", "p": false}, {"n": "p-muede-aber", "de": "Ich bin müde, aber ich arbeite.", "en": "I am tired, but I am working.", "p": true}];
 var DAYS=[{"d": 1, "from": 0, "to": 4, "chain": "", "rep": "", "chal": "Say Hallo and Danke out loud once today, even if it is only to yourself."}, {"d": 2, "from": 4, "to": 8, "chain": "", "rep": "", "chal": "Say Bitte when you hand someone something."}, {"d": 3, "from": 8, "to": 12, "chain": "", "rep": "", "chal": "Say Ich bin and your name out loud once."}, {"d": 4, "from": 12, "to": 16, "chain": "A", "rep": "", "chal": "Next time you feel tired, say Ich bin müde. Out loud."}, {"d": 5, "from": 16, "to": 20, "chain": "", "rep": "A", "chal": "Pick an object at home and ask Was ist das? or Wo ist ...? in German."}, {"d": 6, "from": 20, "to": 24, "chain": "", "rep": "A", "chal": "Next time you are busy, say Ich habe keine Zeit, in your head or out loud."}, {"d": 7, "from": 24, "to": 28, "chain": "B", "rep": "", "chal": "Say Ich möchte Wasser, bitte, to a real person or to your kitchen."}, {"d": 8, "from": 28, "to": 32, "chain": "C", "rep": "", "chal": "Next time you miss something someone says, think Wie bitte? first."}, {"d": 9, "from": 32, "to": 36, "chain": "D", "rep": "", "chal": "Say Ich weiß nicht or Keine Ahnung once, instead of the English."}, {"d": 10, "from": 36, "to": 40, "chain": "", "rep": "B", "chal": "Ask one person Wie geht's? It can be a message."}, {"d": 11, "from": 40, "to": 44, "chain": "", "rep": "C", "chal": "Say Entschuldigung to someone today, when you pass them or need their attention."}, {"d": 12, "from": 44, "to": 48, "chain": "", "rep": "D", "chal": "Tell one person Ich komme aus ... and your country, or Ich heiße ..."}, {"d": 13, "from": 48, "to": 52, "chain": "", "rep": "D", "chal": "Say Ich arbeite hier or Ich wohne hier in a real situation, or as a rehearsal."}, {"d": 14, "from": 52, "to": 56, "chain": "E", "rep": "", "chal": "Say one weil sentence about your day out loud: Ich bin müde, weil ..."}];
-var WEBHOOK="https://script.google.com/macros/s/AKfycbzulcwGt5sjFf-t7fcV9R7OeVhmfvM5D6Rb3HydAb-9cpdMZ4zwP6NTREiIIWkr34qx7g/exec";
 var WA="https://wa.me/5548999373120";
 var KEY="lingokey-pilot-path-v1";
-var qs=new URLSearchParams(location.search);
-var TEST=qs.has("test");
-var DAY=86400000;
+var DAYMS=86400000;
 var S;
-function fresh(){return {start:null,day:null,done:{},log:[],draft:{}};}
+function fresh(){return {start:null,day:null,done:{},log:[],lastOpen:null};}
 function load(){try{var r=localStorage.getItem(KEY);if(r){var o=JSON.parse(r);if(o&&o.done)return o;}}catch(e){}return fresh();}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-function dstr(t){var d=new Date(t);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function dstr(t){return LK.dkey(t);}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 S=load();
 if(!S.start){S.start=dstr(Date.now());save();}
-function todayNum(){
-  var a=new Date(S.start+"T00:00:00").getTime(),b=new Date(dstr(Date.now())+"T00:00:00").getTime();
-  var n=Math.round((b-a)/DAY)+1;return Math.max(1,Math.min(14,n));
-}
+function todayNum(){var a=new Date(S.start+"T00:00:00").getTime(),b=new Date(dstr(Date.now())+"T00:00:00").getTime();return Math.max(1,Math.min(14,Math.round((b-a)/DAYMS)+1));}
 function cur(){return S.day||todayNum();}
-function taskKey(d,t){return d+":"+t;}
-function isDone(d,t){return !!S.done[taskKey(d,t)];}
-function dayDone(d){return isDone(d,"cards");}
-var voices=[];
-function loadVoices(){try{voices=window.speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
-function pickVoice(){var de=voices.filter(function(v){return /^de([-_]|$)/i.test(v.lang);});
-  var pref=de.filter(function(v){return /natural|neural|online|premium|enhanced|google/i.test(v.name);});
-  return (pref[0]||de.filter(function(v){return /^de[-_]DE/i.test(v.lang);})[0]||de[0]||null);}
-if("speechSynthesis" in window){loadVoices();try{window.speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
-var playing=0;
-function stopAudio(){playing++;try{window.speechSynthesis.cancel();}catch(e){}}
-function sayOne(text,done){
-  try{var u=new SpeechSynthesisUtterance(text);var v=pickVoice();if(v){u.voice=v;u.lang=v.lang;}else u.lang="de-DE";u.rate=0.85;u.onend=done;u.onerror=done;window.speechSynthesis.speak(u);}catch(e){done();}
+function tkey(d,t){return d+":"+t;}
+function isDone(d,t){return !!S.done[tkey(d,t)];}
+var CHECK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+var ARCH="M36 284V132a84 84 0 0 1 168 0V284";
+function door(closed,msg){
+  return '<div class="portal'+(closed?'':' open')+'" id="portal"><svg class="arch" viewBox="0 0 240 300" aria-hidden="true"><defs><clipPath id="pc"><path d="'+ARCH+'Z"/></clipPath><radialGradient id="pg" cx="50%" cy="60%" r="65%"><stop offset="0" stop-color="#F3EBDF"/><stop offset=".6" stop-color="#BCDDBF"/><stop offset="1" stop-color="#F66F54"/></radialGradient></defs>'+
+  '<path d="'+ARCH+'Z" fill="url(#pg)" class="glow"/><g clip-path="url(#pc)"><rect class="leaf leafL" x="36" y="40" width="85" height="250" fill="#0E172D"/><rect class="leaf leafR" x="119" y="40" width="85" height="250" fill="#0E172D"/><path d="M120 40V290" stroke="#4A5266" stroke-width="2"/></g>'+
+  '<path d="'+ARCH+'" fill="none" stroke="#ECE0D1" stroke-width="12" stroke-linejoin="round"/><path d="M26 284H214" stroke="#0E172D" stroke-width="6" stroke-linecap="round"/></svg>'+(msg?'<div class="portalmsg">'+msg+'</div>':'')+'</div>';
 }
-function playList(items,btn){
-  if(!("speechSynthesis" in window)){btn.textContent="No voice on this device";return;}
-  stopAudio();var tok=playing;var i=0,rep=0;
-  btn.textContent="Stop";btn.setAttribute("data-playing","1");
-  function next(){
-    if(tok!==playing){return;}
-    if(i>=items.length){btn.textContent="Listen again";btn.removeAttribute("data-playing");return;}
-    sayOne(items[i],function(){if(tok!==playing)return;rep++;setTimeout(function(){if(rep>=2){rep=0;i++;}next();},rep===0?1400:700);});
-  }
-  next();
-}
-function dayCards(d){var x=DAYS[d-1];return CARDS.slice(x.from,x.to);}
-function allSoFar(d){var x=DAYS[d-1];return CARDS.slice(0,x.to);}
-
+function dayNo(){return todayNum();}
+function checkedIn(){return !!LK.day().checkin;}
 function render(){
-  var d=cur(),x=DAYS[d-1],cs=dayCards(d);
+  LK.refresh();
+  var vd=cur(),x=DAYS[vd-1],today=todayNum(),ci=LK.day().checkin;
+  var firstToday=S.lastOpen!==dstr(Date.now());
   var h='';
-  h+='<div class="card"><div class="eyebrow">Day '+d+' of 14</div><h1>Your 5 minutes for today</h1>';
-  h+='<p class="muted small">Do what you can. A tired day with one card still counts.</p>';
-  h+='<div class="task"><input type="checkbox" id="t-cards" data-t="cards" '+(isDone(d,"cards")?"checked":"")+' aria-labelledby="l-cards"><div class="t" id="l-cards"><b>Cards: '+cs.length+' new ones, plus reviews</b><span class="small muted">About 3 minutes. Today: <span class="de">'+cs.map(function(c){return esc(c.de);}).join("</span> · <span class=\"de\">")+'</span></span><div style="margin-top:8px"><a class="btn" href="/pilot/cards/">Open cards</a></div></div></div>';
-  if(x.chain){h+='<div class="task"><input type="checkbox" id="t-chain" data-t="chain" '+(isDone(d,"chain")?"checked":"")+' aria-labelledby="l-chain"><div class="t" id="l-chain"><b>New chain: Stage '+x.chain+'</b><span class="small muted">About 2 minutes, out loud if you can.</span><div style="margin-top:8px"><a class="btn" href="/pilot/chains/">Open chains</a></div></div></div>';}
-  else if(x.rep){h+='<div class="task"><input type="checkbox" id="t-chain" data-t="chain" '+(isDone(d,"chain")?"checked":"")+' aria-labelledby="l-chain"><div class="t" id="l-chain"><b>Repeat a chain (your choice)</b><span class="small muted">Pick any stage you have already done. Today a good one is Stage '+x.rep+'.</span><div style="margin-top:8px"><a class="btn second" href="/pilot/chains/">Open chains</a></div></div></div>';}
-  h+='<div class="task"><input type="checkbox" id="t-listen" data-t="listen" '+(isDone(d,"listen")?"checked":"")+' aria-labelledby="l-listen"><div class="t" id="l-listen"><b>Listen: 10 minutes, no effort needed</b><span class="small muted">Commute, dishes, walking. You do not need to do anything. It is fine to zone out.</span><div style="margin-top:8px"><button class="btn second" id="playbtn" type="button">Play '+(allSoFar(d).length)+' lines so far</button></div></div></div>';
-  h+='<div class="task"><input type="checkbox" id="t-chal" data-t="chal" '+(isDone(d,"chal")?"checked":"")+' aria-labelledby="l-chal"><div class="t" id="l-chal"><b>Tiny real-life challenge (optional)</b><span class="small muted">'+esc(x.chal)+'</span></div></div>';
+  if(LK.isTest())h+='<div class="banner small"><b>Test mode.</b> Nothing is sent to Johanna. <a href="?test=0">Turn off</a></div>';
+  h+='<div class="card doorcard">';
+  if(ci){h+=door(true,"All done for the day, go have fun and rest!");h+='<p style="margin:12px 0 0"><b>Day '+ci.day+' checked in.</b></p>';}
+  else{h+=door(firstToday,"");h+='<div class="eyebrow" style="margin-top:8px">Day '+vd+' of 14</div>';}
   h+='</div>';
+  if(!ci){
+    if(vd!==today)h+='<div class="banner small">You are looking at day '+vd+'. Today is day '+today+'. <button class="btn second sm" type="button" id="gotoday">Back to today</button></div>';
+    h+='<h1>Your 5 minutes for today</h1><p class="muted small">Tick each one as you do it. A tired day with one tick still counts.</p>';
+    h+=taskHtml(vd,"cards","Cards","The app picks today\'s cards for you, new ones and reviews. Choose 5, 15 or 30 cards a day in its Settings.",'<a class="btn" href="/pilot/cards/">Open cards</a>',"cards");
+    if(x.chain)h+=taskHtml(vd,"chain","New chain: Stage "+x.chain,"Suggested today. Say each phrase out loud. A word or two may be new, that is fine.",'<a class="btn" href="/pilot/chains/">Open chains</a>',"chains");
+    else if(x.rep)h+=taskHtml(vd,"chain","Repeat a chain (your choice)","Pick any stage you have already done. Today a good one is Stage "+x.rep+".",'<a class="btn second" href="/pilot/chains/">Open chains</a>',"chains");
+    h+=taskHtml(vd,"listen","Listen: 10 min hands-off","Commute, dishes, walking. You do not need to do anything. It is fine to zone out. Best is to shadow: speak along as you hear it.",'<a class="btn second" href="/pilot/listen/">Open listening</a>'+listenLevel(),"listen");
+    h+=taskHtml(vd,"chal","Tiny real-life challenge (optional)",esc(x.chal),"","");
+  }
+  h+=timeHtml();
+  h+=extraHtml();
   h+='<div class="card"><h2>Your 14 days</h2><div class="daylist" role="group" aria-label="Choose a day">';
-  for(var i=1;i<=14;i++){h+='<button class="dbtn'+(dayDone(i)?" done":"")+'" type="button" data-day="'+i+'" '+(i===d?'aria-current="true"':'')+'>'+i+'</button>';}
-  h+='</div><p class="small muted" style="margin-top:10px">Tap a day to look at it. Green means the cards for that day are done. The path does not punish you for skipping a day: tap where you are.</p></div>';
-  h+='<div class="card"><h2>Once a week, if you have 20 to 30 quiet minutes</h2><p class="small">Do the cards, then run through one or two chains out loud from start to finish. This is optional homework, and it is where the big jumps happen.</p><label class="small" style="display:flex;gap:10px;align-items:center;font-weight:400"><input type="checkbox" id="t-long" data-t="long" '+(isDone(d,"long")?"checked":"")+' style="width:22px;height:22px;accent-color:#0E172D"> I did a longer session today</label></div>';
-  h+=feedbackHtml(d);
-  h+='<div class="card"><h2>Stuck or lost?</h2><p class="small">Message Johanna on <a href="'+WA+'">WhatsApp</a>. Cards or chains not working? Say which device and browser you use.</p><details><summary>My progress and settings</summary>'+logHtml()+'<p class="small muted">Your progress is saved in this browser only. If you switch device, tell Johanna which day you are on.</p><div class="row"><button class="btn second" type="button" id="resetstart">Start again from day 1 today</button></div></details></div>';
+  for(var i=1;i<=14;i++){h+='<button class="dbtn'+(isDone(i,"cards")?" done":"")+'" type="button" data-day="'+i+'" '+(i===vd?'aria-current="true"':'')+'>'+i+'</button>';}
+  h+='</div><p class="small muted" style="margin:10px 0 0">Tap a day to look at its suggestions. Nothing is locked: tap where you are.</p></div>';
+  h+='<div class="card"><h2>Once a week, with 20 to 30 quiet minutes</h2><p class="small" style="margin:0">Do your cards, then run one or two chains out loud from start to finish. Optional homework, and where the big jumps happen. The timers track it for you.</p></div>';
+  h+=checkinHtml(ci);
+  h+='<div class="card"><h2>Stuck or lost?</h2><p class="small">Message Johanna on <a href="'+WA+'">WhatsApp</a>. Cards, chains or audio not working? Say which device and browser you use.</p><details><summary>My progress</summary>'+logHtml()+'<p class="small muted">Everything is saved in this browser only. If you switch device, tell Johanna which day you are on.</p><button class="btn second sm" type="button" id="resetstart">Start again from day 1 today</button></details></div>';
   document.getElementById("app").innerHTML=h;
-  var pb=document.getElementById("playbtn");
-  if(pb)pb.addEventListener("click",function(){if(pb.getAttribute("data-playing")){stopAudio();pb.textContent="Play again";pb.removeAttribute("data-playing");return;}playList(allSoFar(d).map(function(c){return c.de;}),pb);});
-  Array.prototype.forEach.call(document.querySelectorAll("[data-t]"),function(el){el.addEventListener("change",function(){S.done[taskKey(d,el.getAttribute("data-t"))]=el.checked?1:0;if(!el.checked)delete S.done[taskKey(d,el.getAttribute("data-t"))];save();renderKeep();});});
-  Array.prototype.forEach.call(document.querySelectorAll("[data-day]"),function(el){el.addEventListener("click",function(){S.day=parseInt(el.getAttribute("data-day"),10);save();stopAudio();render();window.scrollTo(0,0);});});
-  var rs=document.getElementById("resetstart");
-  if(rs)rs.addEventListener("click",function(){if(!confirm("Start again from day 1 today? Your ticks will be cleared.")){return;}S=fresh();S.start=dstr(Date.now());save();render();});
-  wireFeedback(d);
+  wire();
+  if(!ci&&firstToday){var p=document.getElementById("portal");S.lastOpen=dstr(Date.now());save();if(p)setTimeout(function(){p.classList.add("open");},450);}
+  if(!ci&&!firstToday){S.lastOpen=dstr(Date.now());save();}
 }
-function renderKeep(){var y=window.scrollY;render();window.scrollTo(0,y);}
-function logHtml(){
-  if(!S.log.length)return '<p class="small muted">No check-ins sent yet.</p>';
-  return S.log.slice(-8).reverse().map(function(r){return '<div class="line"><span>Day '+r.day+' · '+esc(r.feel||"")+'</span><span class="muted small">'+esc(r.date)+(r.sent?" sent":"")+'</span></div>';}).join("");
+function listenLevel(){
+  var l=LK.get().listen&&LK.get().listen.levels||{},n=0;for(var k in l){if(l[k].status==="done")n++;}
+  return '<span class="small" style="margin-left:8px">Levels done: '+n+'</span>';
 }
-function feedbackHtml(d){
-  var f=S.draft||{};
-  var h='<div class="card" id="feedback"><h2>How was today?</h2><p class="small muted">Takes 20 seconds. It tells Johanna what to change for you.</p>';
-  h+='<div class="seg" role="group" aria-label="How hard was it">';
-  ["too hard","fine","too easy"].forEach(function(v){h+='<button type="button" data-feel="'+v+'" aria-pressed="'+(f.feel===v)+'">'+v+'</button>';});
-  h+='</div>';
-  h+='<label for="fb-min">Minutes you spent today</label><input id="fb-min" type="number" min="0" max="240" inputmode="numeric" value="'+esc(f.min||"")+'">';
-  h+='<div class="checks"><label style="margin-bottom:0">What did you do?</label>';
-  [["cards","Cards"],["chain","Chains"],["listen","Listening"],["long","Longer session"],["chal","Real-life challenge"],["class","1:1 class with Johanna"]].forEach(function(p){h+='<label><input type="checkbox" data-did="'+p[0]+'" '+((f.did||{})[p[0]]?"checked":"")+'> '+p[1]+'</label>';});
-  h+='</div>';
-  h+='<label for="fb-int">German conversations or situations this week (rough number)</label><input id="fb-int" type="number" min="0" max="99" inputmode="numeric" value="'+esc(f.inter||"")+'">';
-  h+='<label for="fb-com">Anything to tell Johanna? (optional)</label><textarea id="fb-com">'+esc(f.com||"")+'</textarea>';
-  h+='<div class="row" style="margin-top:12px"><button class="btn" type="button" id="fb-send">Send</button><button class="btn second" type="button" id="fb-copy">Copy as text</button><a class="btn second" id="fb-wa" href="'+WA+'">WhatsApp instead</a></div><p class="small" id="fb-msg" role="status"></p></div>';
+function taskHtml(d,key,title,desc,btn,ttype){
+  var on=isDone(d,key);
+  var tm=ttype?'<span class="time" data-tm="'+ttype+'">'+LK.fmt(LK.day().ms[ttype==="chains"?"chains":ttype])+'</span>':'';
+  return '<div class="task" data-on="'+(on?1:0)+'"><button class="tog" type="button" data-t="'+key+'" aria-pressed="'+on+'" aria-label="Mark done: '+esc(title)+'">'+CHECK+'</button><div class="t"><b>'+esc(title)+tm+'</b><span class="small">'+desc+'</span>'+(btn?'<div style="margin-top:10px">'+btn+'</div>':'')+'</div></div>';
+}
+function timeHtml(){
+  var d=LK.day(),ex=LK.extraMin()*60000;
+  var h='<div class="card" id="timecard"><h2>Minutes you spent today</h2>';
+  LK.TYPES.forEach(function(t){h+='<div class="line"><span>'+LK.LABEL[t]+'</span><span data-tm2="'+t+'">'+LK.fmt(d.ms[t])+'</span></div>';});
+  h+='<div class="line"><span>Additional German minutes</span><span data-tmx>'+LK.fmt(LK.extraMin()*60000)+'</span></div>';
+  h+='<div class="line total"><span>Total today</span><span data-tmt>'+LK.fmtMin(LK.totalMs())+'</span></div>';
+  h+='<div class="line"><span class="muted">All days so far</span><span class="muted" data-tma>'+LK.fmtMin(LK.overallMs())+'</span></div></div>';
   return h;
 }
-function gather(d){
-  var f=S.draft||{};var did=Object.keys(f.did||{}).filter(function(k){return f.did[k];});
-  return {day:d,feel:f.feel||"",min:f.min||"",did:did,inter:f.inter||"",com:f.com||""};
+function extraHtml(){
+  var d=LK.day();
+  var h='<div class="card"><h2>Additional German minutes today</h2><p class="small muted">Anything outside the app: your class, a conversation, a real-life situation, a podcast. The app already counts its own time.</p>';
+  h+='<label for="ex-type">What did you do?</label><select id="ex-type">'+LK.EXTRA.map(function(t){return '<option>'+esc(t)+'</option>';}).join("")+'</select>';
+  h+='<label for="ex-min">How many minutes?</label><input id="ex-min" type="number" min="1" max="600" inputmode="numeric">';
+  h+='<label for="ex-note">A few words (optional)</label><input id="ex-note" type="text" maxlength="120">';
+  h+='<p style="margin-top:12px"><button class="btn" type="button" id="ex-add">Add to my time</button> <span id="ex-msg" class="small err" role="status"></span></p>';
+  if(d.extra.length){h+='<div>'+d.extra.map(function(e,i){return '<div class="ex"><span>'+esc(e.type)+': <b>'+e.min+' min</b>'+(e.note?' <span class="muted small">'+esc(e.note)+'</span>':'')+'</span><button class="btn second sm" type="button" data-rm="'+i+'" aria-label="Remove">Remove</button></div>';}).join("")+'</div>';}
+  h+='</div>';
+  return h;
 }
-function toText(r){
-  return "PILOT day "+r.day+" | feel: "+(r.feel||"-")+" | minutes: "+(r.min||"-")+" | did: "+(r.did.join(", ")||"-")+" | German situations this week: "+(r.inter||"-")+(r.com?" | note: "+r.com:"");
+function checkinHtml(ci){
+  if(ci){
+    var t=new Date(ci.t);
+    return '<div class="card"><p style="margin:0"><b>Checked in at '+String(t.getHours()).padStart(2,"0")+':'+String(t.getMinutes()).padStart(2,"0")+'.</b> '+(LK.isTest()?'(Test mode: not sent.)':'Johanna can see your day.')+'</p><p style="margin:8px 0 0"><button class="btn second sm" type="button" id="uncheck">Change today\'s check-in</button></p></div>';
+  }
+  return '<div class="card"><label for="note" style="margin-top:0">Anything to tell Johanna? (optional)</label><textarea id="note"></textarea></div><button class="checkin" type="button" id="checkin">My check-in for the day</button>';
 }
-function wireFeedback(d){
-  var f=S.draft=S.draft||{};f.did=f.did||{};
-  Array.prototype.forEach.call(document.querySelectorAll("[data-feel]"),function(b){b.addEventListener("click",function(){f.feel=b.getAttribute("data-feel");save();Array.prototype.forEach.call(document.querySelectorAll("[data-feel]"),function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});});});
-  Array.prototype.forEach.call(document.querySelectorAll("[data-did]"),function(c){c.addEventListener("change",function(){f.did[c.getAttribute("data-did")]=c.checked;save();});});
-  [["fb-min","min"],["fb-int","inter"],["fb-com","com"]].forEach(function(p){var el=document.getElementById(p[0]);el.addEventListener("input",function(){f[p[1]]=el.value;save();});});
-  var wa=document.getElementById("fb-wa");
-  wa.addEventListener("click",function(){wa.href=WA+"?text="+encodeURIComponent(toText(gather(d)));});
-  var msg=document.getElementById("fb-msg");
-  document.getElementById("fb-copy").addEventListener("click",function(){
-    var t=toText(gather(d));
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){msg.textContent="Copied. Paste it into WhatsApp or an email to Johanna.";msg.className="small ok";},function(){msg.textContent=t;});}
-    else{msg.textContent=t;}
+function logHtml(){
+  var days=LK.get().days,ks=Object.keys(days).filter(function(k){return days[k].checkin;}).sort().reverse().slice(0,8);
+  if(!ks.length)return '<p class="small muted">No check-ins yet.</p>';
+  return ks.map(function(k){return '<div class="line"><span>Day '+days[k].checkin.day+' · '+k+'</span><span class="muted small">'+LK.fmtMin(LK.totalMs(k))+'</span></div>';}).join("");
+}
+function wire(){
+  var vd=cur();
+  Array.prototype.forEach.call(document.querySelectorAll("[data-t]"),function(b){b.addEventListener("click",function(){var k=tkey(vd,b.getAttribute("data-t"));if(S.done[k])delete S.done[k];else S.done[k]=1;save();var y=window.scrollY;render();window.scrollTo(0,y);});});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-day]"),function(b){b.addEventListener("click",function(){S.day=parseInt(b.getAttribute("data-day"),10);save();render();window.scrollTo(0,0);});});
+  var g=document.getElementById("gotoday");if(g)g.addEventListener("click",function(){S.day=null;save();render();});
+  var rs=document.getElementById("resetstart");if(rs)rs.addEventListener("click",function(){if(!confirm("Start again from day 1 today? Your ticks will be cleared. Time already logged stays."))return;S.start=dstr(Date.now());S.day=null;S.done={};S.lastOpen=null;save();render();});
+  var add=document.getElementById("ex-add");
+  if(add)add.addEventListener("click",function(){
+    var m=parseInt(document.getElementById("ex-min").value,10),msg=document.getElementById("ex-msg");
+    if(!(m>0)){msg.textContent="Please enter the minutes.";return;}
+    LK.addExtra(document.getElementById("ex-type").value,m,document.getElementById("ex-note").value.trim());
+    var y=window.scrollY;render();window.scrollTo(0,y);
   });
-  document.getElementById("fb-send").addEventListener("click",function(){
-    var r=gather(d);
-    if(!r.feel){msg.textContent="Please tap too hard, fine or too easy first.";msg.className="small err";return;}
-    var rec={day:d,feel:r.feel,date:dstr(Date.now()),sent:!TEST};
-    if(!TEST){
-      try{var fd=new FormData();fd.append("level","PILOT");fd.append("lesson","day "+d);fd.append("message",toText(r));fd.append("page","/pilot");fetch(WEBHOOK,{method:"POST",mode:"no-cors",body:fd});}catch(e){}
-    }
-    S.log.push(rec);S.draft={};save();
-    render();
-    var m2=document.getElementById("fb-msg");m2.textContent=TEST?"Test mode: nothing was sent.":"Sent. Thank you!";m2.className="small ok";
-    document.getElementById("feedback").scrollIntoView();
+  Array.prototype.forEach.call(document.querySelectorAll("[data-rm]"),function(b){b.addEventListener("click",function(){LK.removeExtra(parseInt(b.getAttribute("data-rm"),10));var y=window.scrollY;render();window.scrollTo(0,y);});});
+  var ck=document.getElementById("checkin");
+  if(ck)ck.addEventListener("click",function(){
+    var note=(document.getElementById("note").value||"").trim();
+    var ticks=["cards","chain","listen","chal"].filter(function(t){return isDone(todayNum(),t)||isDone(vd,t);});
+    var full=(ticks.length?"ticked: "+ticks.join(", ")+(note?" | ":""):"")+note;
+    confetti();
+    LK.checkin(LK.dkey(),todayNum(),full);
+    setTimeout(function(){render();window.scrollTo(0,0);},900);
   });
+  var uc=document.getElementById("uncheck");if(uc)uc.addEventListener("click",function(){LK.uncheckin(LK.dkey());S.lastOpen=dstr(Date.now());save();render();});
 }
-window.addEventListener("pagehide",stopAudio);
+function refreshTimes(){
+  LK.refresh();var d=LK.day();
+  LK.TYPES.forEach(function(t){var e=document.querySelector('[data-tm2="'+t+'"]');if(e)e.textContent=LK.fmt(d.ms[t]);var tt=document.querySelector('[data-tm="'+t+'"]');if(tt)tt.textContent=LK.fmt(d.ms[t]);});
+  var x=document.querySelector("[data-tmx]");if(x)x.textContent=LK.fmt(LK.extraMin()*60000);
+  var a=document.querySelector("[data-tmt]");if(a)a.textContent=LK.fmtMin(LK.totalMs());
+  var b=document.querySelector("[data-tma]");if(b)b.textContent=LK.fmtMin(LK.overallMs());
+}
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible"){render();}});
+window.addEventListener("pageshow",function(e){if(e.persisted)render();});
+/* confetti */
+function confetti(){
+  var cv=document.getElementById("confetti"),ctx=cv.getContext("2d");
+  var reduce=false;try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){}
+  cv.width=innerWidth;cv.height=innerHeight;
+  var cols=["#F66F54","#BCDDBF","#0E172D","#F3EBDF","#2E8B4F","#F9C9BE"],ps=[],n=reduce?30:160;
+  for(var i=0;i<n;i++)ps.push({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight*0.62,vx:(Math.random()-.5)*14,vy:-Math.random()*16-6,w:6+Math.random()*7,h:4+Math.random()*6,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,c:cols[i%cols.length]});
+  var t0=Date.now();
+  (function frame(){
+    var el=Date.now()-t0;ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(function(p){p.vy+=0.45;p.vx*=0.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.globalAlpha=Math.max(0,1-el/2800);ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});
+    if(el<2800)requestAnimationFrame(frame);else ctx.clearRect(0,0,cv.width,cv.height);
+  })();
+}
+setInterval(function(){if(document.visibilityState==="visible")refreshTimes();},5000);
 render();
-if(location.hash==="#feedback"){var fb=document.getElementById("feedback");if(fb)fb.scrollIntoView();}
 })();
 </script>
 </body>

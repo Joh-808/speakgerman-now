@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Listen: 10 min hands-off | Speak German - now.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E172D;--coral:#F66F54;--coral-ink:#B8412A;--mint:#BCDDBF;--mint-ink:#3F7A4C;--sand:#F3EBDF;--cream:#EEE5DA;--linen:#ECE0D1;--line:#D9CBB8;--muted:#4A5266;--f:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sand);color:var(--navy);font-family:var(--f);font-size:17px;line-height:1.6;text-align:left}
+.wrap{max-width:600px;margin:0 auto;padding:14px 16px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-right:90px}
+h1{font-size:1.7rem;line-height:1.15;margin:0 0 6px}
+h2{font-size:1.15rem;margin:0 0 8px}
+p{margin:0 0 10px}.muted{color:var(--muted)}.small{font-size:.92rem}
+a{color:var(--navy)}
+.card{background:var(--cream);border:1px solid var(--linen);border-radius:16px;padding:16px;margin:0 0 14px}
+.btn{display:inline-block;background:var(--coral);color:var(--navy);border:2px solid var(--navy);border-radius:14px;padding:12px 20px;font:inherit;font-weight:700;cursor:pointer;min-height:52px;box-shadow:0 5px 0 var(--navy)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--navy)}
+.btn.second{background:transparent;box-shadow:none}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lv{border:2px solid var(--line);background:var(--sand);border-radius:12px;padding:8px;font:inherit;cursor:pointer;min-height:56px;text-align:left;color:var(--navy)}
+.lv b{display:block}.lv span{font-size:.82rem;color:var(--muted)}
+.lv[aria-current=true]{border-color:var(--navy);box-shadow:0 3px 0 var(--navy)}
+.lv.done{background:var(--mint)}.lv.good{background:#E4EFD9}.lv.again{background:#F9C9BE}
+.rate{display:grid;gap:10px}
+.rate button{border:2px solid var(--navy);background:transparent;border-radius:14px;padding:12px;font:inherit;font-weight:700;cursor:pointer;min-height:56px;text-align:left;color:var(--navy)}
+.rate button small{display:block;font-weight:400;color:var(--muted)}
+.rate button[aria-pressed=true]{background:var(--navy);color:var(--sand)}.rate button[aria-pressed=true] small{color:var(--sand)}
+.now{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;min-height:110px}
+.now .de{font-size:1.5rem;font-weight:700}.now .en{color:var(--muted)}
+.tag{display:inline-block;background:var(--linen);border-radius:999px;padding:2px 10px;font-size:.85rem;font-weight:700}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+details summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+ol.lines{padding-left:22px;margin:0}ol.lines li{margin:6px 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+<div class="top"><a href="/pilot/">Back to your pilot path</a></div>
+<h1>Listen: 10 min hands-off</h1>
+<div class="card">
+<p><b>Commute, dishes, walking. You do not need to do anything.</b> It is fine to zone out. The voice plays each phrase in German twice, then in English, then once more in German.</p>
+<p>Best is to <b>shadow</b>: listen and speak along as you hear it, not afterwards. Say it with the voice, quietly is fine.</p>
+<p class="small muted">Play starts with the first ten phrases, even if you have not seen them all in the cards yet. Keep this page open and the screen on while it plays.</p>
+</div>
+<h2>Levels</h2>
+<div class="levels" id="levels" role="group" aria-label="Levels"></div>
+<div class="card" style="margin-top:14px">
+<div class="row"><span class="tag" id="lvTag"></span></div>
+<div class="now" id="now" aria-live="off" style="margin:10px 0"><div class="de" id="nowDe">Press play</div><div class="en" id="nowEn"></div></div>
+<p class="small muted" id="stat"></p>
+<button class="btn" id="play" type="button">Play</button>
+<details style="margin-top:10px"><summary>Show the phrases of this level</summary><ol class="lines" id="lines"></ol></details>
+</div>
+<div class="card" id="ratebox">
+<h2>How was this level?</h2>
+<div class="rate" role="group" aria-label="Rate this level">
+<button type="button" data-r="again">Again<small>It is hard. Play this level again.</small></button>
+<button type="button" data-r="good">Good<small>Play it once more on a different day.</small></button>
+<button type="button" data-r="done">Done<small>Too easy. Move to the next level.</small></button>
+</div>
+<p class="small muted" id="rmsg" role="status" style="margin:8px 0 0"></p>
+</div>
+</main>
+<script src="/pilot/shared.js"></script>
+<script>
+(function(){
+"use strict";
+var CARDS=[{"de": "Hallo!", "en": "Hello!"}, {"de": "Ja.", "en": "Yes."}, {"de": "Nein.", "en": "No."}, {"de": "Danke.", "en": "Thanks."}, {"de": "Bitte.", "en": "Please. / You are welcome."}, {"de": "Ich bin Anna.", "en": "I am Anna."}, {"de": "Du bist Tom.", "en": "You are Tom."}, {"de": "Tschüss!", "en": "Bye!"}, {"de": "Ich bin hier.", "en": "I am here."}, {"de": "Ich bin nicht hier.", "en": "I am not here."}, {"de": "Ich bin müde.", "en": "I am tired."}, {"de": "Er ist hier.", "en": "He is here."}, {"de": "Wir sind hier.", "en": "We are here."}, {"de": "Das ist gut.", "en": "That is good."}, {"de": "Das ist sehr gut.", "en": "That is very good."}, {"de": "Das ist nicht gut.", "en": "That is not good."}, {"de": "Wo ist er?", "en": "Where is he?"}, {"de": "Wo bist du?", "en": "Where are you?"}, {"de": "Was ist das?", "en": "What is that?"}, {"de": "Ich habe Kaffee.", "en": "I have coffee."}, {"de": "Ich habe Zeit.", "en": "I have time."}, {"de": "Hast du Zeit?", "en": "Do you have time?"}, {"de": "Was hast du?", "en": "What do you have?"}, {"de": "Ich habe keine Zeit.", "en": "I do not have time."}, {"de": "Ich habe Geld.", "en": "I have money."}, {"de": "Ich habe kein Geld.", "en": "I do not have money."}, {"de": "Ich möchte Kaffee.", "en": "I would like coffee."}, {"de": "Ich möchte Wasser.", "en": "I would like water."}, {"de": "Ich möchte Wasser, bitte.", "en": "I would like water, please."}, {"de": "Ich kann das.", "en": "I can do that."}, {"de": "Kannst du das?", "en": "Can you do that?"}, {"de": "Ich kann das nicht.", "en": "I cannot do that."}, {"de": "Wie bitte?", "en": "Pardon?"}, {"de": "Ich weiß nicht.", "en": "I do not know."}, {"de": "Keine Ahnung.", "en": "No idea."}, {"de": "Ich verstehe das nicht.", "en": "I do not understand that."}, {"de": "Kein Problem.", "en": "No problem."}, {"de": "Ich habe Zeit und Geld.", "en": "I have time and money."}, {"de": "Wie geht's?", "en": "How are you?"}, {"de": "Und dir?", "en": "And you?"}, {"de": "Entschuldigung.", "en": "Excuse me. / Sorry."}, {"de": "Gut, danke.", "en": "Good, thanks."}, {"de": "Ich habe heute Zeit.", "en": "I have time today."}, {"de": "Ich habe Zeit, aber kein Geld.", "en": "I have time, but no money."}, {"de": "Ich habe heute keine Zeit.", "en": "I do not have time today."}, {"de": "Ich gehe heute.", "en": "I am going today."}, {"de": "Ich komme heute.", "en": "I am coming today."}, {"de": "Ich komme aus Kanada.", "en": "I come from Canada."}, {"de": "Wir gehen heute.", "en": "We are going today."}, {"de": "Ich heiße Anna.", "en": "My name is Anna."}, {"de": "Ich wohne hier.", "en": "I live here."}, {"de": "Ich arbeite hier.", "en": "I work here."}, {"de": "Ich muss heute gehen.", "en": "I have to go today."}, {"de": "Ich muss heute arbeiten.", "en": "I have to work today."}, {"de": "Ich habe keine Zeit, weil ich arbeite.", "en": "I have no time because I am working."}, {"de": "Ich bin müde, aber ich arbeite.", "en": "I am tired, but I am working."}];
+var LV=[];for(var i=0;i<CARDS.length;i+=10){LV.push(CARDS.slice(i,i+10));}
+if(LV.length>1&&LV[LV.length-1].length<5){var last=LV.pop();LV[LV.length-1]=LV[LV.length-1].concat(last);}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function st(){LK.refresh();var s=LK.get();s.listen=s.listen||{levels:{}};s.listen.levels=s.listen.levels||{};return s.listen;}
+function status(n){var l=st().levels[n];return l?l.status:"";}
+var sel=0;
+(function pickStart(){for(var i=0;i<LV.length;i++){if(status(i+1)!=="done"){sel=i;return;}}sel=LV.length-1;})();
+var playing=false,tok=0,line=0,round=1,wake=null;
+var voices=[];function loadVoices(){try{voices=speechSynthesis.getVoices()||[];}catch(e){voices=[];}}
+if("speechSynthesis" in window){loadVoices();try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
+function pick(re,prefer){var l=voices.filter(function(v){return re.test(v.lang);});var p=l.filter(function(v){return /natural|neural|online|premium|enhanced|google/i.test(v.name);});return p[0]||(prefer?l.filter(function(v){return prefer.test(v.lang);})[0]:null)||l[0]||null;}
+function say(text,lang,done){
+  try{var u=new SpeechSynthesisUtterance(text);var v=lang==="de"?pick(/^de([-_]|$)/i,/^de[-_]DE/i):pick(/^en([-_]|$)/i,/^en[-_]US/i);if(v){u.voice=v;u.lang=v.lang;}else u.lang=lang==="de"?"de-DE":"en-US";u.rate=lang==="de"?0.85:0.95;u.onend=done;u.onerror=done;speechSynthesis.speak(u);}catch(e){done();}
+}
+function render(){
+  var h="";
+  LV.forEach(function(L,i){var s=status(i+1);h+='<button class="lv '+s+'" type="button" data-lv="'+i+'" '+(i===sel?'aria-current="true"':'')+'><b>Level '+(i+1)+(s==="done"?" ✓":"")+'</b><span>'+(s==="done"?"done":s==="good"?"good, once more":s==="again"?"again":L.length+" phrases")+'</span></button>';});
+  $("levels").innerHTML=h;
+  var L=LV[sel];
+  $("lvTag").textContent="Level "+(sel+1)+" of "+LV.length+" · "+L.length+" phrases";
+  $("lines").innerHTML=L.map(function(c){return '<li><b>'+esc(c.de)+'</b> <span class="muted">'+esc(c.en)+'</span></li>';}).join("");
+  var s=status(sel+1),l=st().levels[sel+1];
+  $("stat").textContent=s==="good"&&l?"You rated this one good on "+l.date+". Play it once more on a different day, then tap Done.":(s==="again"?"You marked this one as hard. Play it again.":"");
+  $("play").textContent=playing?"Stop":"Play level "+(sel+1);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-r]"),function(b){b.setAttribute("aria-pressed",s===b.getAttribute("data-r")?"true":"false");});
+}
+function stopPlay(){playing=false;tok++;try{speechSynthesis.cancel();}catch(e){}LK.setPlaying(false);if(wake){try{wake.release();}catch(e){}wake=null;}render();}
+function startPlay(){
+  if(!("speechSynthesis" in window)){$("nowDe").textContent="No voice on this device";return;}
+  playing=true;tok++;var my=tok;line=0;round=1;LK.setPlaying(true);render();
+  try{if(navigator.wakeLock)navigator.wakeLock.request("screen").then(function(w){wake=w;},function(){});}catch(e){}
+  step(my);
+}
+function step(my){
+  if(my!==tok||!playing)return;
+  var L=LV[sel];if(line>=L.length){line=0;round++;}
+  var c=L[line];
+  $("nowDe").textContent=c.de;$("nowEn").textContent="";
+  $("stat").textContent="Round "+round+" · phrase "+(line+1)+" of "+L.length;
+  var seq=[["de",c.de,1100],["de",c.de,1100],["en",c.en,900],["de",c.de,1400]];
+  var k=0;
+  (function next(){
+    if(my!==tok||!playing)return;
+    if(k>=seq.length){line++;setTimeout(function(){step(my);},300);return;}
+    var it=seq[k++];
+    if(it[0]==="en")$("nowEn").textContent=c.en;
+    say(it[1],it[0],function(){if(my!==tok)return;setTimeout(next,it[2]);});
+  })();
+}
+$("play").addEventListener("click",function(){if(playing)stopPlay();else startPlay();});
+$("levels").addEventListener("click",function(e){var b=e.target.closest("[data-lv]");if(!b)return;if(playing)stopPlay();sel=parseInt(b.getAttribute("data-lv"),10);$("nowDe").textContent="Press play";$("nowEn").textContent="";render();});
+Array.prototype.forEach.call(document.querySelectorAll("[data-r]"),function(b){b.addEventListener("click",function(){
+  var r=b.getAttribute("data-r"),L=LV[sel];
+  var phrase=playing?L[Math.min(line,L.length-1)].de:L[0].de;
+  var s=st();s.levels[sel+1]={status:r,date:LK.dkey()};LK.save();
+  LK.rate("listen","L"+(sel+1),phrase,r);
+  if(playing)stopPlay();
+  var msg=r==="done"?"Level "+(sel+1)+" done. Next level is ready.":r==="good"?"Saved. Play this level once more on a different day.":"Saved. We will keep this level for you.";
+  if(r==="done"&&sel<LV.length-1){sel++;$("nowDe").textContent="Press play";$("nowEn").textContent="";}
+  render();$("rmsg").textContent=msg;
+});});
+LK.start("listen",{audio:true});
+window.addEventListener("pagehide",stopPlay);
+render();
+})();
+</script>
+</body>
+</html>
