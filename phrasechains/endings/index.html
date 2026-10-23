@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Verb endings | Speak German - now.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F66F54' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='7' r='4'/%3E%3Cpath d='M10 10l9 9'/%3E%3Cpath d='M15.5 15.5l-2.5 2.5'/%3E%3Cpath d='M17.5 17.5l-2.5 2.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0E172D;
+  --coral:#F66F54;
+  --mint:#BCDDBF;
+  --mint-icon:#5E9A6A;
+  --sand:#F3EBDF;
+  --cream:#EEE5DA;
+  --linen:#ECE0D1;
+  --muted:#4A5266;
+  --key-gold:#D9A441;
+  --off:#F9C9BE;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--sand);
+  color:var(--navy);
+  font-family:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:1.1rem;
+  line-height:1.65;
+  letter-spacing:.012em;
+  text-align:left;
+  font-style:normal;
+}
+em,i,cite,address{font-style:normal}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 64px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.top a{color:var(--coral);font-weight:700;text-decoration:underline;text-underline-offset:4px;min-height:44px;display:inline-flex;align-items:center}
+.top a:hover{color:var(--navy)}
+h1{font-size:clamp(2.2rem,8vw,3.2rem);line-height:1.1;margin:8px 0 8px;font-weight:700;letter-spacing:-.01em}
+h1 .accent{color:var(--coral)}
+h2{font-size:1.4rem;line-height:1.25;margin:0 0 8px;font-weight:700}
+h3{font-size:1.1rem;margin:0 0 6px;font-weight:700}
+p{margin:0 0 12px}
+.lead{font-size:1.2rem}
+.muted{color:var(--muted);font-size:.95rem}
+.card{
+  background:var(--cream);
+  border:1px solid var(--linen);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(14,23,45,.07);
+  margin-bottom:16px;
+}
+.card.focus{border:2px solid var(--navy)}
+.how{margin:0 0 16px;padding-left:0;list-style:none;display:grid;gap:10px}
+.how li{display:flex;gap:12px;align-items:flex-start}
+.num{
+  flex:0 0 32px;height:32px;border-radius:50%;
+  background:var(--navy);color:var(--sand);
+  display:inline-flex;align-items:center;justify-content:center;font-weight:700;
+}
+.pill{
+  background:var(--mint);border-radius:16px;padding:14px 18px;margin-bottom:16px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.pill svg{flex:0 0 22px;width:22px;height:22px;margin-top:3px;stroke:var(--mint-icon);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pill p{margin:0}
+.btn{
+  font:inherit;font-weight:700;letter-spacing:inherit;
+  min-height:52px;padding:14px 22px;border-radius:16px;border:0;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  color:var(--navy);
+}
+.btn.primary{background:var(--coral);box-shadow:0 6px 0 var(--navy);margin-bottom:8px;transition:transform .08s,box-shadow .08s}
+.btn.primary:active{transform:translateY(4px);box-shadow:0 2px 0 var(--navy)}
+.btn.second{background:var(--cream);border:2px solid var(--linen);min-height:48px;padding:10px 16px;border-radius:14px}
+.btn.second:hover{border-color:var(--navy)}
+.btn:focus-visible,input:focus-visible,a:focus-visible,.chip:focus-visible{outline:3px solid var(--navy);outline-offset:3px}
+.btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.stages{display:grid;gap:10px;margin:8px 0 16px}
+.stagebtn{
+  font:inherit;letter-spacing:inherit;text-align:left;cursor:pointer;
+  background:var(--sand);border:2px solid var(--linen);border-radius:14px;
+  padding:12px 16px;min-height:56px;color:var(--navy);
+  display:flex;gap:12px;align-items:center;
+}
+.stagebtn:hover{border-color:var(--navy)}
+.stagebtn .letter{
+  flex:0 0 36px;height:36px;border-radius:50%;background:var(--navy);color:var(--sand);
+  display:inline-flex;align-items:center;justify-content:center;font-weight:700;
+}
+.stagebtn .tick{margin-left:auto;color:var(--mint-icon);font-weight:700}
+.sound{
+  font:inherit;letter-spacing:inherit;background:var(--cream);border:2px solid var(--linen);
+  border-radius:14px;min-height:44px;padding:6px 14px;cursor:pointer;color:var(--navy);
+  display:inline-flex;align-items:center;gap:8px;font-weight:700;
+}
+.sound svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sound[aria-pressed="false"]{opacity:.7}
+.barwrap{display:flex;align-items:center;gap:10px;margin:6px 0 4px}
+.barin{position:relative;flex:1;height:34px}
+.track{position:absolute;top:12px;left:0;right:0;height:10px;border-radius:6px;background:var(--linen)}
+.fill{position:absolute;top:12px;left:0;height:10px;border-radius:6px;background:var(--mint);
+  width:calc(14px + (100% - 28px) * var(--p,0));transition:width .45s ease}
+.keyicon{
+  position:absolute;top:3px;width:28px;height:28px;color:var(--key-gold);
+  left:calc(14px + (100% - 28px) * var(--p,0));transform:translateX(-50%);
+  filter:drop-shadow(0 0 3px rgba(224,164,76,.65));transition:left .45s ease;
+}
+.keyicon svg,.lock svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.lock{width:26px;height:26px;color:var(--navy)}
+.stagehead{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.headgrid{display:flex;gap:16px;align-items:center}
+.headmain{flex:1;min-width:0}
+.dial{flex:0 0 108px;display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.25}
+.dialsvg{width:88px;height:88px;display:block}
+.dial-track{fill:none;stroke:var(--linen);stroke-width:7}
+.dial-arc{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .45s ease,stroke .45s ease}
+.dial-hand{color:var(--key-gold);filter:drop-shadow(0 0 2px rgba(224,164,76,.6))}
+.dial-hand line,.dial-hand circle{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round}
+.dial-hub{fill:var(--navy)}
+.dialpct{font-size:1.3rem;font-weight:700;margin-top:2px}
+.dialsub{font-size:.8rem;color:var(--muted)}
+.nextrow{margin-top:10px}
+.chain{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:10px}
+.item{
+  background:var(--cream);border:1px solid var(--linen);border-left:6px solid var(--linen);
+  border-radius:16px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;
+}
+.item.newest{border-left-color:var(--mint-icon);background:#F6EFE5}
+.item .txt{flex:1}
+.item .de{font-size:1.25rem;font-weight:700;line-height:1.45}
+.item .en{color:var(--muted);font-size:.95rem}
+.item .tag{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+mark{background:var(--mint);color:var(--navy);padding:0 4px;border-radius:6px;font-weight:700}
+.icon-btn{
+  flex:0 0 44px;width:44px;height:44px;border-radius:12px;border:2px solid var(--linen);background:var(--sand);
+  color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;
+}
+.icon-btn:hover{border-color:var(--navy)}
+.icon-btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.entext{font-size:1.4rem;font-weight:700;line-height:1.4}
+.clue{margin:14px 0}
+.clue .label{
+  display:inline-block;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--navy);color:var(--sand);border-radius:8px;padding:2px 10px;margin-right:8px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{
+  background:var(--mint);border-radius:12px;padding:6px 14px;font-weight:700;font-size:1.1rem;
+}
+label.field{display:block;font-weight:700;margin:12px 0 6px}
+input[type=text]{
+  width:100%;font:inherit;font-size:1.2rem;letter-spacing:.012em;
+  min-height:56px;padding:12px 14px;border-radius:14px;border:2px solid var(--navy);
+  background:var(--sand);color:var(--navy);
+}
+.umlauts{display:flex;gap:8px;margin:10px 0}
+.umlauts button{
+  font:inherit;font-weight:700;font-size:1.2rem;min-width:52px;min-height:48px;border-radius:12px;
+  border:2px solid var(--linen);background:var(--sand);color:var(--navy);cursor:pointer;
+}
+.umlauts button:hover{border-color:var(--navy)}
+.feedback{min-height:1.5em;margin:8px 0}
+.feedback.good{background:var(--mint);border-radius:14px;padding:10px 14px}
+.typed span{display:inline-block;margin:2px 3px 2px 0;padding:0 6px;border-radius:8px;background:var(--sand);border:1px solid var(--linen)}
+.typed span.off{background:var(--off);border-color:var(--off)}
+.answer-show{font-weight:700;background:var(--sand);border:2px dashed var(--muted);border-radius:12px;padding:10px 14px;margin:8px 0}
+.done-key{width:56px;height:56px;color:var(--key-gold);filter:drop-shadow(0 0 3px rgba(224,164,76,.65));margin-bottom:6px}
+.done-key svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.foot{margin-top:24px}
+@media (prefers-reduced-motion: reduce){
+  .fill,.keyicon,.dial-arc,.dial-hand{transition:none}
+  .btn.primary{transition:none}
+}
+@media (max-width:480px){
+  .wrap{padding:12px 16px 56px}
+  .card{padding:16px}
+  .dial{flex-basis:88px}
+  .dialsvg{width:72px;height:72px}
+}
+</style>
+</head>
+<body>
+<main class="wrap" id="app">
+
+  <div class="top">
+    <a href="/student">Student dashboard</a>
+    <button class="sound" id="soundBtn" type="button" aria-pressed="true" aria-label="Sound on">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+      <span id="soundLabel">Sound on</span>
+    </button>
+  </div>
+
+  <noscript><div class="card"><p>This game needs JavaScript. Please turn it on in your browser.</p></div></noscript>
+
+  <section id="intro">
+    <h1>Verb <span class="accent">endings</span></h1>
+    <p class="lead">Present tense phrase chains. Build each phrase from a clue, one step at a time: you hear it, you type it, you say it.</p>
+    <div class="card">
+      <h2>How it works</h2>
+      <ol class="how">
+        <li><span class="num">1</span><span><strong>Listen.</strong> You see and hear the start phrase, in English and in German.</span></li>
+        <li><span class="num">2</span><span><strong>Build.</strong> You see and hear the next phrase in English, plus the words to use. Type it in German.</span></li>
+        <li><span class="num">3</span><span><strong>Say it.</strong> Your German phrase joins the chain and is read out. Say it out loud, then the next clue appears.</span></li>
+      </ol>
+      <p class="muted">Steps 2 and 3 repeat until the chain is finished. Tip: wear headphones and speak out loud.</p>
+      <button class="btn primary" id="startBtn" type="button">Start with Stage A</button>
+    </div>
+    <h2>Or jump to a stage</h2>
+    <div class="stages" id="stageList"></div>
+    <p class="muted" id="voiceNote" hidden></p>
+  </section>
+
+  <section id="game" hidden>
+    <div class="card">
+      <div class="headgrid">
+      <div class="headmain">
+      <div class="stagehead">
+        <h2 id="stageTitle"></h2>
+        <span class="muted" id="stepCount"></span>
+      </div>
+      <div class="barwrap">
+        <div class="barin" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" aria-label="Stage progress">
+          <div class="track"></div>
+          <div class="fill" id="fill"></div>
+          <span class="keyicon" id="keyIcon"></span>
+        </div>
+        <span class="lock" id="lockIcon"></span>
+      </div>
+      </div>
+      <div class="dial" id="dial" role="img" aria-label="Progress">
+        <svg class="dialsvg" viewBox="-40 -40 80 80" aria-hidden="true">
+          <circle class="dial-track" r="30"/>
+          <circle class="dial-arc" id="dialArc" r="30" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90)"/>
+          <g class="dial-hand" id="dialHand"><line x1="0" y1="0" x2="0" y2="-17"/><line x1="0" y1="-7" x2="5" y2="-7"/><line x1="0" y1="-11" x2="5" y2="-11"/><circle cx="0" cy="-21" r="4"/></g>
+          <circle class="dial-hub" r="3"/>
+        </svg>
+        <div class="dialpct" id="dialPct">0%</div>
+        <div class="dialsub" id="dialSub"></div>
+      </div>
+      </div>
+      <div class="nextrow" id="nextRow" hidden></div>
+    </div>
+    <div class="pill" id="note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+      <p id="noteText"></p>
+    </div>
+    <ol class="chain" id="chain" aria-label="Your chain so far"></ol>
+    <div id="current"></div>
+    <div class="foot row">
+      <button class="btn second" id="toStages" type="button">All stages</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- DATA ---------- */
+function r(de, en, next){ return {de:de, en:en, next:next||""}; }
+
+var STAGES = [
+  { id:"A", title:"sein and haben: ich, Tom, Anna, das",
+    note:"sein and haben are irregular, so learn the forms as they come. Tom, Anna and das all take the same form: ist, hat. Jobs have no article: Ich bin Ingenieur.",
+    rows:[
+      r("Ich **bin** müde.", "I am tired.", "switch: hungrig"),
+      r("Ich **bin** hungrig.", "I am hungry.", "switch: Ingenieur"),
+      r("Ich **bin** Ingenieur.", "I am an engineer.", "new: ich, haben, Zeit"),
+      r("Ich **habe** Zeit.", "I have time.", "switch: ein Auto"),
+      r("Ich **habe** ein Auto.", "I have a car.", "switch: einen Hund"),
+      r("Ich **habe** einen Hund.", "I have a dog.", "new: Tom, sein, müde"),
+      r("Tom **ist** müde.", "Tom is tired.", "switch: das, neu"),
+      r("Das **ist** neu.", "That is new.", "switch: Anna, Lehrerin"),
+      r("Anna **ist** Lehrerin.", "Anna is a teacher.", "new: Tom, haben, Zeit"),
+      r("Tom **hat** Zeit.", "Tom has time.", "switch: Anna, ein Auto"),
+      r("Anna **hat** ein Auto.", "Anna has a car.", "switch: das, keinen Sinn"),
+      r("Das **hat** keinen Sinn.", "That makes no sense.", "new: ich, sein, nett"),
+      r("Ich **bin** nett.", "I am nice.", "switch: Anna"),
+      r("Anna **ist** nett.", "Anna is nice.", "switch: ich, haben, keine Zeit"),
+      r("Ich **habe** keine Zeit.", "I have no time.", "switch: Tom"),
+      r("Tom **hat** keine Zeit.", "Tom has no time.", "new: ich, können, gut kochen")
+    ]},
+  { id:"B", title:"können, müssen, wollen: ich, Tom, Anna, das",
+    note:"Modal verbs have no ending for ich, Tom, Anna and das: kann, muss, will. The second verb stays in the infinitive at the end.",
+    rows:[
+      r("Ich **kann** gut kochen.", "I can cook well.", "switch: Klavier spielen"),
+      r("Ich **kann** gut Klavier spielen.", "I can play the piano well.", "new: ich, müssen, heute arbeiten"),
+      r("Ich **muss** heute arbeiten.", "I have to work today.", "switch: früh aufstehen"),
+      r("Ich **muss** früh aufstehen.", "I have to get up early.", "new: ich, wollen, Deutsch lernen"),
+      r("Ich **will** Deutsch lernen.", "I want to learn German.", "switch: nach Berlin reisen"),
+      r("Ich **will** nach Berlin reisen.", "I want to travel to Berlin.", "new: Tom, können, gut Klavier spielen"),
+      r("Tom **kann** gut Klavier spielen.", "Tom can play the piano well.", "switch: das, teuer sein"),
+      r("Das **kann** teuer sein.", "That can be expensive.", "new: Anna, müssen, früh aufstehen"),
+      r("Anna **muss** früh aufstehen.", "Anna has to get up early.", "switch: das, bald fertig sein"),
+      r("Das **muss** bald fertig sein.", "That has to be ready soon.", "new: Tom, wollen, Spanisch lernen"),
+      r("Tom **will** Spanisch lernen.", "Tom wants to learn Spanish.", "switch: das Kind, nicht schlafen"),
+      r("Das Kind **will** nicht schlafen.", "The child does not want to sleep.", "new: ich, können, gut schwimmen"),
+      r("Ich **kann** gut schwimmen.", "I can swim well.", "switch: Anna"),
+      r("Anna **kann** gut schwimmen.", "Anna can swim well.", "switch: ich, müssen, morgen arbeiten"),
+      r("Ich **muss** morgen arbeiten.", "I have to work tomorrow.", "switch: Tom"),
+      r("Tom **muss** morgen arbeiten.", "Tom has to work tomorrow.", "switch: ich, wollen, Pizza essen"),
+      r("Ich **will** Pizza essen.", "I want to eat pizza.", "switch: Tom"),
+      r("Tom **will** Pizza essen.", "Tom wants to eat pizza.", "new: ich, wohnen, in Berlin")
+    ]},
+  { id:"C", title:"regular verbs: ich, Tom, Anna, das",
+    note:"Regular verbs: ich + -e (ich wohne), Tom, Anna and das + -t (Tom wohnt). If the stem ends in -t, it is -et: Tom arbeitet. Typical frames: wohnen in, kommen aus, arbeiten bei.",
+    rows:[
+      r("Ich **wohne** in Berlin.", "I live in Berlin.", "switch: in München"),
+      r("Ich **wohne** in München.", "I live in Munich.", "new: ich, kommen, aus Brasilien"),
+      r("Ich **komme** aus Brasilien.", "I come from Brazil.", "switch: aus Spanien"),
+      r("Ich **komme** aus Spanien.", "I come from Spain.", "new: ich, arbeiten, bei Siemens"),
+      r("Ich **arbeite** bei Siemens.", "I work at Siemens.", "switch: bei Google"),
+      r("Ich **arbeite** bei Google.", "I work at Google.", "new: Tom, wohnen, in Köln"),
+      r("Tom **wohnt** in Köln.", "Tom lives in Cologne.", "new: Anna, kommen, aus Italien"),
+      r("Anna **kommt** aus Italien.", "Anna comes from Italy.", "switch: das, aus Spanien"),
+      r("Das **kommt** aus Spanien.", "That comes from Spain.", "new: Tom, arbeiten, bei Bosch"),
+      r("Tom **arbeitet** bei Bosch.", "Tom works at Bosch.", "new: das, Spaß, machen"),
+      r("Das **macht** Spaß.", "That is fun.", "switch: kosten, viel"),
+      r("Das **kostet** viel.", "That costs a lot.", "new: ich, wohnen, in Köln"),
+      r("Ich **wohne** in Köln.", "I live in Cologne.", "switch: Anna"),
+      r("Anna **wohnt** in Köln.", "Anna lives in Cologne.", "switch: ich, kommen, aus Italien"),
+      r("Ich **komme** aus Italien.", "I come from Italy.", "switch: Tom"),
+      r("Tom **kommt** aus Italien.", "Tom comes from Italy.", "switch: ich, arbeiten, bei Bosch"),
+      r("Ich **arbeite** bei Bosch.", "I work at Bosch.", "switch: Anna"),
+      r("Anna **arbeitet** bei Bosch.", "Anna works at Bosch.", "new: du, sein, müde")
+    ]},
+  { id:"D", title:"sein and haben: du and Sie",
+    note:"du: bist, hast. Sie (formal) uses sind and haben. Jobs have no article: Du bist Ingenieur.",
+    rows:[
+      r("Du **bist** müde.", "You are tired. (informal)", "switch: hungrig"),
+      r("Du **bist** hungrig.", "You are hungry. (informal)", "switch: Ingenieur"),
+      r("Du **bist** Ingenieur.", "You are an engineer. (informal)", "new: du, haben, Zeit"),
+      r("Du **hast** Zeit.", "You have time. (informal)", "switch: ein Auto"),
+      r("Du **hast** ein Auto.", "You have a car. (informal)", "new: Sie, sein, müde"),
+      r("Sie **sind** müde.", "You are tired. (formal)", "switch: hungrig"),
+      r("Sie **sind** hungrig.", "You are hungry. (formal)", "switch: Arzt"),
+      r("Sie **sind** Arzt.", "You are a doctor. (formal)", "new: Sie, haben, Zeit"),
+      r("Sie **haben** Zeit.", "You have time. (formal)", "switch: einen Hund"),
+      r("Sie **haben** einen Hund.", "You have a dog. (formal)", "new: du, sein, nett"),
+      r("Du **bist** nett.", "You are nice. (informal)", "switch: Sie"),
+      r("Sie **sind** nett.", "You are nice. (formal)", "switch: du, haben, keine Zeit"),
+      r("Du **hast** keine Zeit.", "You have no time. (informal)", "switch: Sie"),
+      r("Sie **haben** keine Zeit.", "You have no time. (formal)", "new: du, können, gut kochen")
+    ]},
+  { id:"E", title:"können, müssen, wollen: du and Sie",
+    note:"With du, modal verbs end in -st: kannst, musst, willst. With Sie they look like the infinitive: können, müssen, wollen.",
+    rows:[
+      r("Du **kannst** gut kochen.", "You can cook well. (informal)", "switch: Klavier spielen"),
+      r("Du **kannst** gut Klavier spielen.", "You can play the piano well. (informal)", "new: du, müssen, heute arbeiten"),
+      r("Du **musst** heute arbeiten.", "You have to work today. (informal)", "switch: früh aufstehen"),
+      r("Du **musst** früh aufstehen.", "You have to get up early. (informal)", "new: du, wollen, Deutsch lernen"),
+      r("Du **willst** Deutsch lernen.", "You want to learn German. (informal)", "switch: nach Berlin reisen"),
+      r("Du **willst** nach Berlin reisen.", "You want to travel to Berlin. (informal)", "new: Sie, können, gut Klavier spielen"),
+      r("Sie **können** gut Klavier spielen.", "You can play the piano well. (formal)", "switch: Deutsch sprechen"),
+      r("Sie **können** gut Deutsch sprechen.", "You can speak German well. (formal)", "new: Sie, müssen, morgen arbeiten"),
+      r("Sie **müssen** morgen arbeiten.", "You have to work tomorrow. (formal)", "switch: bald kommen"),
+      r("Sie **müssen** bald kommen.", "You have to come soon. (formal)", "new: Sie, wollen, Spanisch lernen"),
+      r("Sie **wollen** Spanisch lernen.", "You want to learn Spanish. (formal)", "switch: nach Hause gehen"),
+      r("Sie **wollen** nach Hause gehen.", "You want to go home. (formal)", "new: du, können, gut schwimmen"),
+      r("Du **kannst** gut schwimmen.", "You can swim well. (informal)", "switch: Sie"),
+      r("Sie **können** gut schwimmen.", "You can swim well. (formal)", "switch: du, müssen, jetzt gehen"),
+      r("Du **musst** jetzt gehen.", "You have to go now. (informal)", "switch: Sie"),
+      r("Sie **müssen** jetzt gehen.", "You have to go now. (formal)", "switch: du, wollen, Pizza essen"),
+      r("Du **willst** Pizza essen.", "You want to eat pizza. (informal)", "switch: Sie"),
+      r("Sie **wollen** Pizza essen.", "You want to eat pizza. (formal)", "new: du, wohnen, in Berlin")
+    ]},
+  { id:"F", title:"regular verbs: du and Sie",
+    note:"Regular verbs: du + -st (du wohnst), Sie + -en (Sie wohnen). If the stem ends in -t, it is -est: du arbeitest. Typical frames: wohnen in, kommen aus, arbeiten bei.",
+    rows:[
+      r("Du **wohnst** in Berlin.", "You live in Berlin. (informal)", "switch: in München"),
+      r("Du **wohnst** in München.", "You live in Munich. (informal)", "new: du, kommen, aus Brasilien"),
+      r("Du **kommst** aus Brasilien.", "You come from Brazil. (informal)", "switch: aus Spanien"),
+      r("Du **kommst** aus Spanien.", "You come from Spain. (informal)", "new: du, arbeiten, bei Siemens"),
+      r("Du **arbeitest** bei Siemens.", "You work at Siemens. (informal)", "switch: bei Google"),
+      r("Du **arbeitest** bei Google.", "You work at Google. (informal)", "new: Sie, wohnen, in Hamburg"),
+      r("Sie **wohnen** in Hamburg.", "You live in Hamburg. (formal)", "switch: in Wien"),
+      r("Sie **wohnen** in Wien.", "You live in Vienna. (formal)", "new: Sie, kommen, aus Polen"),
+      r("Sie **kommen** aus Polen.", "You come from Poland. (formal)", "switch: aus Frankreich"),
+      r("Sie **kommen** aus Frankreich.", "You come from France. (formal)", "new: Sie, arbeiten, bei Audi"),
+      r("Sie **arbeiten** bei Audi.", "You work at Audi. (formal)", "switch: bei BMW"),
+      r("Sie **arbeiten** bei BMW.", "You work at BMW. (formal)", "new: du, wohnen, in Köln"),
+      r("Du **wohnst** in Köln.", "You live in Cologne. (informal)", "switch: Sie"),
+      r("Sie **wohnen** in Köln.", "You live in Cologne. (formal)", "switch: du, kommen, aus Italien"),
+      r("Du **kommst** aus Italien.", "You come from Italy. (informal)", "switch: Sie"),
+      r("Sie **kommen** aus Italien.", "You come from Italy. (formal)", "switch: du, arbeiten, bei Bosch"),
+      r("Du **arbeitest** bei Bosch.", "You work at Bosch. (informal)", "switch: Sie"),
+      r("Sie **arbeiten** bei Bosch.", "You work at Bosch. (formal)", "")
+    ]}
+];
+
+/*PURE-START*/
+function plain(s){ return s.replace(/\*\*/g, ""); }
+function esc(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function renderDE(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g, "<mark>$1</mark>");
+}
+function normToken(t){
+  return t.toLowerCase()
+    .replace(/ß/g,"ss").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue")
+    .replace(/[.,!?;:"“”„'’()]/g,"");
+}
+function tokenize(s){
+  return s.split(/\s+/).filter(function(x){ return x.length>0; });
+}
+function normTokens(s){
+  return tokenize(s).map(normToken).filter(function(x){ return x.length>0; });
+}
+function sameAnswer(typed, expected){
+  var a = normTokens(typed), b = normTokens(plain(expected));
+  if(a.length !== b.length) return false;
+  for(var i=0;i<a.length;i++){ if(a[i]!==b[i]) return false; }
+  return true;
+}
+/* returns {typed:[{w,ok}], missing:n} using longest common subsequence */
+function diffAnswer(typed, expected){
+  var raw = tokenize(typed);
+  var a = raw.map(normToken);
+  var b = normTokens(plain(expected));
+  var n=a.length, m=b.length, i, j;
+  var dp=[];
+  for(i=0;i<=n;i++){ dp.push(new Array(m+1).fill(0)); }
+  for(i=n-1;i>=0;i--){
+    for(j=m-1;j>=0;j--){
+      dp[i][j] = (a[i]===b[j]) ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j], dp[i][j+1]);
+    }
+  }
+  var ok = new Array(n).fill(false);
+  i=0; j=0;
+  while(i<n && j<m){
+    if(a[i]===b[j]){ ok[i]=true; i++; j++; }
+    else if(dp[i+1][j] >= dp[i][j+1]){ i++; }
+    else { j++; }
+  }
+  var matched = ok.filter(Boolean).length;
+  return { typed: raw.map(function(w,k){ return {w:w, ok:ok[k]}; }), missing: m - matched };
+}
+/* capital-letter tip: nominalised comparative after etwas / nichts */
+function capitalTip(typed, expected){
+  var toks = tokenize(plain(expected));
+  for(var i=0;i<toks.length-1;i++){
+    var t = normToken(toks[i]);
+    if((t==="etwas"||t==="nichts") && /^[A-ZÄÖÜ]/.test(toks[i+1])){
+      var want = toks[i+1].replace(/[.,!?;:]/g,"");
+      var wantNorm = want.replace(/ß/g,"ss").replace(/Ä/g,"Ae").replace(/Ö/g,"Oe").replace(/Ü/g,"Ue").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue");
+      var have = tokenize(typed).map(function(x){
+        return x.replace(/[.,!?;:]/g,"").replace(/ß/g,"ss").replace(/Ä/g,"Ae").replace(/Ö/g,"Oe").replace(/Ü/g,"Ue").replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue");
+      });
+      if(have.indexOf(wantNorm) === -1) return true;
+    }
+  }
+  return false;
+}
+function parseNext(s){
+  var k = s.indexOf(":");
+  if(k<0) return {kind:"", items:[]};
+  return { kind: s.slice(0,k).trim().toLowerCase(), items: s.slice(k+1).split(",").map(function(x){ return x.trim(); }).filter(Boolean) };
+}
+/*PURE-END*/
+
+/* ---------- SOUND ---------- */
+var soundOn = true;
+var voices = [];
+var seqToken = 0;
+var hasSpeech = ("speechSynthesis" in window) && ("SpeechSynthesisUtterance" in window);
+
+function loadVoices(){
+  if(!hasSpeech) return;
+  voices = window.speechSynthesis.getVoices() || [];
+  var note = document.getElementById("voiceNote");
+  var hasDe = voices.some(function(v){ return /^de/i.test(v.lang); });
+  if(voices.length && !hasDe){
+    note.hidden = false;
+    note.textContent = "No German voice was found on this device. You will hear English only. To add a German voice, check the speech or language settings of your device.";
+  } else {
+    note.hidden = true;
+  }
+}
+if(hasSpeech){
+  loadVoices();
+  if(window.speechSynthesis.addEventListener){ window.speechSynthesis.addEventListener("voiceschanged", loadVoices); }
+  else { window.speechSynthesis.onvoiceschanged = loadVoices; }
+}
+function pickVoice(lang){
+  var pref = lang==="de" ? ["de-DE","de"] : ["en-US","en-GB","en"];
+  for(var p=0;p<pref.length;p++){
+    for(var i=0;i<voices.length;i++){
+      var vl = voices[i].lang.replace("_","-");
+      if(vl.toLowerCase()===pref[p].toLowerCase() || (pref[p].length===2 && vl.toLowerCase().indexOf(pref[p])===0)){
+        return voices[i];
+      }
+    }
+  }
+  return null;
+}
+function speakOne(text, lang, done){
+  if(!hasSpeech || !soundOn){ if(done) done(); return; }
+  var u = new SpeechSynthesisUtterance(plain(text));
+  u.lang = lang==="de" ? "de-DE" : "en-US";
+  var v = pickVoice(lang); if(v) u.voice = v;
+  u.rate = lang==="de" ? 0.9 : 0.95;
+  var finished = false;
+  function fin(){ if(finished) return; finished = true; if(done) done(); }
+  u.onend = fin; u.onerror = fin;
+  window.speechSynthesis.speak(u);
+}
+function stopSpeech(){
+  seqToken++;
+  if(hasSpeech){ window.speechSynthesis.cancel(); }
+}
+function speakSeq(items, gapMs){
+  stopSpeech();
+  var token = seqToken;
+  var idx = 0;
+  function next(){
+    if(token !== seqToken || idx >= items.length) return;
+    var it = items[idx++];
+    speakOne(it.t, it.l, function(){
+      if(token !== seqToken) return;
+      setTimeout(next, gapMs || 300);
+    });
+  }
+  next();
+}
+
+/* ---------- ICONS ---------- */
+var KEY_CLOSED = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l-2.5 2.5"/><path d="M17.5 17.5l-2.5 2.5"/></svg>';
+var KEY_OPEN   = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="4"/><path d="M10 10l9 9"/><path d="M15.5 15.5l2.5-2.5"/><path d="M17.5 17.5l2.5-2.5"/></svg>';
+var LOCK_CLOSED = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+var LOCK_OPEN   = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>';
+var SPEAKER = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M18.5 6.5a8 8 0 0 1 0 11"/></svg>';
+
+/* ---------- STATE ---------- */
+var state = { si:0, ri:0, mode:"idle", built:[], prevNext:"", wrong:0, revealed:false };
+var doneStages = {};
+try{ doneStages = JSON.parse(localStorage.getItem("phrasechains-endings-done")||"{}") || {}; }catch(e){ doneStages = {}; }
+function saveDone(){ try{ localStorage.setItem("phrasechains-endings-done", JSON.stringify(doneStages)); }catch(e){} }
+
+function $(id){ return document.getElementById(id); }
+function stage(){ return STAGES[state.si]; }
+
+/* ---------- RENDER ---------- */
+function renderIntro(){
+  var h = "";
+  STAGES.forEach(function(s, i){
+    h += '<button class="stagebtn" type="button" data-stage="'+i+'">'
+      + '<span class="letter">'+s.id+'</span>'
+      + '<span>Stage '+s.id+': '+esc(s.title)+'</span>'
+      + (doneStages[s.id] ? '<span class="tick" aria-label="completed">Done</span>' : '')
+      + '</button>';
+  });
+  $("stageList").innerHTML = h;
+}
+
+function renderProgress(){
+  var s = stage();
+  var total = s.rows.length;
+  var done = state.mode==="stageDone" ? total : Math.min(state.built.length, total);
+  var p = total ? done/total : 0;
+  $("stageTitle").textContent = "Stage " + s.id + ": " + s.title;
+  $("stepCount").textContent = done + " of " + total + " phrases";
+  var bar = $("bar");
+  bar.setAttribute("aria-valuemax", String(total));
+  bar.setAttribute("aria-valuenow", String(done));
+  bar.style.setProperty("--p", String(p));
+  $("fill").style.setProperty("--p", String(p));
+  $("keyIcon").style.setProperty("--p", String(p));
+  var complete = (done === total);
+  $("keyIcon").innerHTML = complete ? KEY_OPEN : KEY_CLOSED;
+  $("lockIcon").innerHTML = complete ? LOCK_OPEN : LOCK_CLOSED;
+  $("noteText").textContent = s.note;
+  updateDial(p);
+}
+
+function colorAt(p){
+  var a=[246,111,84], b=[217,164,65], c=[94,154,106], from, to, f;
+  if(p<0.5){ from=a; to=b; f=p/0.5; } else { from=b; to=c; f=(p-0.5)/0.5; }
+  return "rgb("+[0,1,2].map(function(i){ return Math.round(from[i]+(to[i]-from[i])*f); }).join(",")+")";
+}
+var handAngle = 0, handRaf = 0;
+function turnHand(target){
+  var hand = $("dialHand");
+  cancelAnimationFrame(handRaf);
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var from = (target < handAngle) ? 0 : handAngle;
+  if(reduce){ handAngle = target; hand.setAttribute("transform", "rotate(" + target + ")"); return; }
+  var t0 = null, dur = 450;
+  function step(ts){
+    if(t0 === null) t0 = ts;
+    var k = Math.min(1, (ts - t0) / dur);
+    var e = 1 - Math.pow(1 - k, 3);
+    handAngle = from + (target - from) * e;
+    hand.setAttribute("transform", "rotate(" + handAngle.toFixed(2) + ")");
+    if(k < 1) handRaf = requestAnimationFrame(step);
+  }
+  handRaf = requestAnimationFrame(step);
+}
+function updateDial(stageP){
+  var total = STAGES.length;
+  var doneCount = STAGES.filter(function(x){ return doneStages[x.id]; }).length;
+  var overall = (state.mode === "stageDone");
+  var p = overall ? doneCount/total : stageP;
+  var pct = Math.round(p*100);
+  var arc = $("dialArc");
+  arc.style.stroke = colorAt(p);
+  arc.style.strokeDashoffset = String(100 - p*100);
+  arc.style.opacity = p>0 ? "1" : "0";
+  turnHand(p*360);
+  $("dialPct").textContent = pct + "%";
+  $("dialSub").textContent = overall ? ("overall: " + doneCount + " of " + total + " stages") : "of this stage";
+  $("dial").setAttribute("aria-label", overall
+    ? (pct + " percent overall, " + doneCount + " of " + total + " stages done")
+    : (pct + " percent of this stage, stage " + (state.si+1) + " of " + total));
+  var nr = $("nextRow");
+  var next = STAGES[state.si+1];
+  if(overall && next){
+    nr.hidden = false;
+    nr.innerHTML = '<button class="btn second" type="button" data-act="nextStage">Next stage: ' + next.id + ' (stage ' + (state.si+2) + ' of ' + total + ')</button>';
+  } else if(!overall){
+    nr.hidden = false;
+    nr.innerHTML = '<span class="muted">Stage ' + (state.si+1) + ' of ' + total + '. Stages done: ' + doneCount + '.</span>';
+  } else {
+    nr.hidden = true; nr.innerHTML = "";
+  }
+}
+
+function renderChain(){
+  var h = "";
+  state.built.forEach(function(row, i){
+    var newest = (i === state.built.length-1);
+    h += '<li class="item'+(newest?' newest':'')+'">'
+      + '<div class="txt">'
+      + (i===0 && state.startShown ? '<div class="tag">Start phrase</div>' : '')
+      + '<div class="de" lang="de">'+renderDE(row.de)+'</div>'
+      + '<div class="en" lang="en">'+esc(row.en)+'</div>'
+      + '</div>'
+      + '<button class="icon-btn" type="button" data-say="'+i+'" aria-label="Listen to this phrase in German">'+SPEAKER+'</button>'
+      + '</li>';
+  });
+  $("chain").innerHTML = h;
+}
+
+function renderCurrent(){
+  var s = stage();
+  var c = $("current");
+  var row = s.rows[state.ri];
+  var lastRow = (state.ri === s.rows.length-1);
+  var h = "";
+
+  if(state.mode === "start"){
+    h = '<div class="card focus">'
+      + '<h3>Step 1: listen</h3>'
+      + '<p>Read and listen to the start phrase, in English and in German. Say the German out loud.</p>'
+      + '<div class="row"><button class="btn primary" type="button" data-act="continue">Next clue</button>'
+      + '<button class="btn second" type="button" data-act="replayStart">'+SPEAKER+' Listen again</button></div>'
+      + '</div>';
+  }
+  else if(state.mode === "build"){
+    var cl = parseNext(state.prevNext);
+    var kindLabel = cl.kind === "new" ? "New" : "Switch";
+    var kindText = cl.kind === "new" ? "New structure. Build it with these words:" : "Same structure as before. Swap in these words:";
+    var chips = cl.items.map(function(x){ return '<span class="chip" lang="de">'+esc(x)+'</span>'; }).join("");
+    h = '<div class="card focus">'
+      + '<h3>Step 2: build</h3>'
+      + '<div class="row" style="align-items:flex-start;flex-wrap:nowrap">'
+      +   '<div class="entext" lang="en" style="flex:1">'+esc(row.en)+'</div>'
+      +   '<button class="icon-btn" type="button" data-act="sayEn" aria-label="Listen to the English phrase">'+SPEAKER+'</button>'
+      + '</div>'
+      + '<div class="clue"><span class="label">'+kindLabel+'</span><span>'+kindText+'</span><div class="chips">'+chips+'</div></div>'
+      + '<label class="field" for="answer">Type the German phrase</label>'
+      + '<input type="text" id="answer" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" lang="de" enterkeyhint="done">'
+      + '<div class="umlauts" aria-label="Special characters">'
+      +   '<button type="button" data-ins="ä">ä</button><button type="button" data-ins="ö">ö</button>'
+      +   '<button type="button" data-ins="ü">ü</button><button type="button" data-ins="ß">ß</button>'
+      + '</div>'
+      + '<div class="feedback" id="feedback" aria-live="polite"></div>'
+      + '<div class="row">'
+      +   '<button class="btn primary" type="button" data-act="check">Check</button>'
+      +   '<button class="btn second" type="button" data-act="hint">Hint</button>'
+      +   '<button class="btn second" type="button" data-act="reveal">Show answer</button>'
+      + '</div>'
+      + '</div>';
+  }
+  else if(state.mode === "correct"){
+    h = '<div class="card focus">'
+      + '<div class="feedback good" aria-live="polite"><strong>Correct.</strong> Step 3: say it out loud, then continue.'
+      + (state.tip ? '<br>'+esc(state.tip) : '')
+      + '</div>'
+      + '<div class="row"><button class="btn primary" type="button" data-act="continue">'+(lastRow ? 'Finish stage' : 'Next clue')+'</button>'
+      + '<button class="btn second" type="button" data-act="replayLast">'+SPEAKER+' Listen again</button></div>'
+      + '</div>';
+  }
+  else if(state.mode === "stageDone"){
+    var nextStage = STAGES[state.si+1];
+    h = '<div class="card focus">'
+      + '<div class="done-key">'+KEY_OPEN+'</div>'
+      + '<h2>Stage '+s.id+' complete</h2>'
+      + '<p>You built every phrase of this stage. Listen to the whole chain and shadow it: speak along with the audio.</p>'
+      + '<div class="row">'
+      + (nextStage ? '<button class="btn primary" type="button" data-act="nextStage">Continue to Stage '+nextStage.id+'</button>'
+                   : '<button class="btn primary" type="button" data-act="toStages">Back to all stages</button>')
+      + '<button class="btn second" type="button" data-act="shadow">'+SPEAKER+' Listen to the chain</button>'
+      + '<button class="btn second" type="button" data-act="replayStage">Play this stage again</button>'
+      + '</div>'
+      + '</div>';
+  }
+  c.innerHTML = h;
+}
+
+function render(){
+  var idle = (state.mode === "idle");
+  $("intro").hidden = !idle;
+  $("game").hidden = idle;
+  if(idle){ renderIntro(); return; }
+  renderProgress();
+  renderChain();
+  renderCurrent();
+  focusMain();
+}
+
+function focusMain(){
+  var el = $("answer") || document.querySelector("#current .btn.primary");
+  if(el){
+    try{ el.focus({preventScroll:true}); }catch(e){ el.focus(); }
+    var card = $("current");
+    if(card && card.scrollIntoView){ card.scrollIntoView({behavior:"smooth", block:"center"}); }
+  }
+}
+
+/* ---------- FLOW ---------- */
+function startStageFresh(si){
+  stopSpeech();
+  state.si = si;
+  state.ri = 0;
+  state.built = [STAGES[si].rows[0]];
+  state.startShown = true;
+  state.mode = "start";
+  state.prevNext = "";
+  state.tip = "";
+  render();
+  var row = STAGES[si].rows[0];
+  speakSeq([{t:row.en,l:"en"},{t:row.de,l:"de"}], 400);
+}
+function startStageContinuous(si, prevNext){
+  stopSpeech();
+  state.si = si;
+  state.ri = 0;
+  state.built = [];
+  state.startShown = false;
+  state.mode = "build";
+  state.prevNext = prevNext;
+  state.wrong = 0;
+  state.revealed = false;
+  state.tip = "";
+  render();
+  speakSeq([{t:STAGES[si].rows[0].en,l:"en"}], 200);
+}
+function goContinue(){
+  var s = stage();
+  if(state.mode === "start"){
+    state.prevNext = s.rows[0].next;
+    state.ri = 1;
+    state.mode = "build";
+    state.wrong = 0; state.revealed = false; state.tip = "";
+    render();
+    speakSeq([{t:s.rows[1].en,l:"en"}], 200);
+    return;
+  }
+  if(state.mode === "correct"){
+    if(state.ri === s.rows.length-1){
+      doneStages[s.id] = true; saveDone();
+      state.mode = "stageDone";
+      render();
+      return;
+    }
+    state.prevNext = s.rows[state.ri].next;
+    state.ri += 1;
+    state.mode = "build";
+    state.wrong = 0; state.revealed = false; state.tip = "";
+    render();
+    speakSeq([{t:s.rows[state.ri].en,l:"en"}], 200);
+  }
+}
+function showFeedback(html, cls){
+  var f = $("feedback");
+  f.className = "feedback" + (cls ? " "+cls : "");
+  f.innerHTML = html;
+}
+function checkAnswer(){
+  var s = stage();
+  var row = s.rows[state.ri];
+  var input = $("answer");
+  var typed = input.value.trim();
+  if(!typed){ showFeedback("Type the German phrase first.", ""); input.focus(); return; }
+  stopSpeech();
+  if(sameAnswer(typed, row.de)){
+    state.tip = capitalTip(typed, row.de) ? "Tip: after etwas / nichts the comparative is a noun, so it takes a capital letter." : "";
+    state.built.push(row);
+    state.mode = "correct";
+    render();
+    speakSeq([{t:row.de,l:"de"}], 200);
+  } else {
+    state.wrong += 1;
+    var d = diffAnswer(typed, row.de);
+    var spans = d.typed.map(function(t){ return '<span class="'+(t.ok?'':'off')+'">'+esc(t.w)+'</span>'; }).join(" ");
+    var msg = "Not quite. The marked words do not fit.";
+    if(d.typed.every(function(t){ return t.ok; }) && d.missing > 0){ msg = "Close. You are missing "+d.missing+" word"+(d.missing>1?"s":"")+"."; }
+    else if(d.missing > 0){ msg += " You are also missing "+d.missing+" word"+(d.missing>1?"s":"")+"."; }
+    showFeedback('<div><strong>'+msg+'</strong></div><div class="typed" lang="de">'+spans+'</div><div>Correct your sentence and click "Check" again.</div>', "");
+    input.focus();
+  }
+}
+function giveHint(){
+  var row = stage().rows[state.ri];
+  var toks = tokenize(plain(row.de));
+  var n = toks.length;
+  var sents = plain(row.de).split(/[.!?]+/).filter(function(x){ return x.trim().length>0; }).length;
+  showFeedback("<strong>Hint:</strong> Use the previous phrase as a model. Only swap or add the few words the prompt gives you. First word: <strong lang=\"de\">"+esc(toks[0])+"</strong>; number of sentences: "+sents+"; total number of words: "+n+".", "");
+  $("answer").focus();
+}
+function revealAnswer(){
+  var row = stage().rows[state.ri];
+  state.revealed = true;
+  showFeedback('<div>The answer is:</div><div class="answer-show" lang="de">'+esc(plain(row.de))+'</div><div>Type it to continue.</div>', "");
+  speakSeq([{t:row.de,l:"de"}], 200);
+  $("answer").focus();
+}
+
+/* ---------- EVENTS ---------- */
+document.addEventListener("click", function(ev){
+  var t = ev.target.closest("button");
+  if(!t) return;
+  if(t.id === "startBtn"){ startStageFresh(0); return; }
+  if(t.id === "soundBtn"){
+    soundOn = !soundOn;
+    t.setAttribute("aria-pressed", String(soundOn));
+    t.setAttribute("aria-label", soundOn ? "Sound on" : "Sound off");
+    $("soundLabel").textContent = soundOn ? "Sound on" : "Sound off";
+    if(!soundOn) stopSpeech();
+    return;
+  }
+  if(t.id === "toStages"){ stopSpeech(); state.mode = "idle"; render(); return; }
+  if(t.hasAttribute("data-stage")){ startStageFresh(parseInt(t.getAttribute("data-stage"),10)); return; }
+  if(t.hasAttribute("data-ins")){
+    var inp = $("answer"); if(!inp) return;
+    var ch = t.getAttribute("data-ins");
+    var a = inp.selectionStart, b = inp.selectionEnd;
+    if(typeof a !== "number"){ a = inp.value.length; b = a; }
+    inp.value = inp.value.slice(0,a) + ch + inp.value.slice(b);
+    inp.focus(); inp.setSelectionRange(a+1, a+1);
+    return;
+  }
+  if(t.hasAttribute("data-say")){
+    var row = state.built[parseInt(t.getAttribute("data-say"),10)];
+    if(row) speakSeq([{t:row.de,l:"de"}], 200);
+    return;
+  }
+  var act = t.getAttribute("data-act");
+  if(!act) return;
+  var s = stage();
+  if(act === "continue"){ goContinue(); }
+  else if(act === "check"){ checkAnswer(); }
+  else if(act === "hint"){ giveHint(); }
+  else if(act === "reveal"){ revealAnswer(); }
+  else if(act === "sayEn"){ speakSeq([{t:s.rows[state.ri].en,l:"en"}], 200); }
+  else if(act === "replayStart"){ speakSeq([{t:s.rows[0].en,l:"en"},{t:s.rows[0].de,l:"de"}], 400); }
+  else if(act === "replayLast"){ var last = state.built[state.built.length-1]; if(last) speakSeq([{t:last.de,l:"de"}], 200); }
+  else if(act === "nextStage"){ startStageContinuous(state.si+1, s.rows[s.rows.length-1].next); }
+  else if(act === "replayStage"){ startStageFresh(state.si); }
+  else if(act === "toStages"){ stopSpeech(); state.mode = "idle"; render(); }
+  else if(act === "shadow"){
+    var items = []; s.rows.forEach(function(rw){ items.push({t:rw.de,l:"de"}); });
+    speakSeq(items, 1800);
+  }
+});
+document.addEventListener("keydown", function(ev){
+  if(ev.key !== "Enter") return;
+  var tgt = ev.target;
+  if(tgt && tgt.id === "answer"){ ev.preventDefault(); checkAnswer(); }
+});
+window.addEventListener("pagehide", stopSpeech);
+
+render();
+})();
+</script>
+</body>
+</html>
