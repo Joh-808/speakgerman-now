@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#F3EBDF">
-<title>Numbers &amp; Time | Speak German - now.</title>
+<title>Numbers in context | Speak German - now.</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F66F54' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='7' cy='7' r='4'/%3E%3Cpath d='M10 10l9 9'/%3E%3Cpath d='M15.5 15.5l2.5-2.5'/%3E%3Cpath d='M17.5 17.5l2.5-2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1181,12 +1181,247 @@ GROUPS.push(['dt','Dates and ordinals'],['od','Floors, streets, times'],['pr','P
 ].forEach(function(s){ STAGES.push({id:s[1],grp:s[0],tag:s[2],title:s[3],ex:s[4],lvl:s[5]}); });
 
 
+/* ================= translations: word by word ================= */
+var GL={
+'ab':'from','abendessen':'dinner','abends':'in the evening','alle':'every','alt':'old','am':'on','an':'on','anfang':'beginning','angefangen':'started','anmeldung':'registration',
+'apotheke':'pharmacy','april':'April','arbeit':'work','arbeite':'work','arbeiten':'work','heute':'today','mitte':'middle','bitte':'please','arzt':'doctor','auf':'up','august':'August','aus':'from','ausstellung':'exhibition','auto':'car','baby':'baby',
+'bahnhof':'station','beginnt':'begins','beim':'at the','bekommen':'get','berlin':'Berlin','besetzt':'staffed','beträgt':'amounts to','bibliothek':'library','bin':'am','bis':'until',
+'boarding':'boarding','brauche':'need','brauchen':'need','braucht':'needs','brötchen':'bread roll','bus':'bus','butter':'butter','bürgeramt':'citizens\' office','büro':'office','café':'café',
+'cent':'cents','chips':'crisps','dachgeschoss':'top floor','das':'the','dauert':'lasts','dazu':'in addition','dem':'the','den':'the','der':'the','deutsch':'German','deutschkurs':'German course',
+'deutschland':'Germany','dezember':'December','dich':'you','die':'the','dienstag':'Tuesday','donnerstag':'Thursday','dose':'can','ein':'a','eine':'a','einen':'a','einkaufen':'shopping',
+'einmal':'once','ende':'end','endet':'ends','erdgeschoss':'ground floor','eröffnung':'opening','es':'it','essen':'eat','esslöffel':'tablespoons','euro':'euros','fahre':'drive','fahren':'drive',
+'fahrrad':'bicycle','fahrt':'journey','februar':'February','fertig':'finished','film':'film','findet':'finds','fitnessstudio':'gym','flasche':'bottle','fliege':'fly','flug':'flight',
+'flughafen':'airport','flugzeug':'plane','franken':'francs','frankfurt':'Frankfurt','freitag':'Friday','frühs':'early morning','frühstück':'breakfast','frühstücken':'have breakfast',
+'frühstücksbuffet':'breakfast buffet','fährt':'goes','führung':'guided tour','für':'for','garage':'garage','geboren':'born','geburtstag':'birthday','gebühr':'fee','gehe':'go',
+'geheiratet':'married','gehen':'go','gern':'gladly','geschlossen':'closed','gezogen':'moved','geöffnet':'open','gibt':'gives','gilt':'applies','glas':'glass','gleich':'almost',
+'gramm':'grams','groß':'tall','größe':'size','günstiger':'cheaper','habe':'have','haben':'have','hackfleisch':'minced meat','halb':'half','halbe':'half','halben':'half','halbes':'half',
+'hamburg':'Hamburg','hat':'has','hause':'home','hier':'here','hotel':'hotel','hotelrestaurant':'hotel restaurant','hätte':'would have','ice':'ICE (train)','ich':'I','im':'in the',
+'in':'in','ins':'into the','ist':'is','italien':'Italy','jacke':'jacket','jahr':'year','jahre':'years','jahren':'years','januar':'January','jede':'every','jeden':'every','jedes':'every',
+'juli':'July','juni':'June','kaffee':'coffee','kaltmiete':'base rent','kartoffeln':'potatoes','kaugummi':'chewing gum','keller':'basement','kilo':'kilos','kilometer':'kilometres',
+'komma':'point','komme':'come','kommen':'come','kommt':'comes','konferenz':'conference','konzert':'concert','kosten':'cost','kostet':'costs','kuchen':'cake','kurs':'course','kurz':'shortly',
+'käse':'cheese','köln':'Cologne','landet':'lands','laufe':'walk','lerne':'learn','links':'left','liter':'litres','läuft':'runs','macht':'makes','mai':'May','mal':'time','meeting':'meeting',
+'mein':'my','messe':'trade fair','meter':'metres','miete':'rent','milch':'milk','milligramm':'milligrams','milliliter':'millilitres','minuten':'minutes','mittag':'lunch','mittags':'at noon',
+'mittwoch':'Wednesday','monat':'month','monate':'months','monaten':'months','montag':'Monday','morgens':'in the morning','muss':'must','märz':'March','münchen':'Munich','nach':'to',
+'nachmittags':'in the afternoon','nachts':'at night','nehme':'take','nehmen':'take','november':'November','nudeln':'pasta','nur':'only','offen':'open','oktober':'October','orangen':'oranges',
+'packung':'pack','paket':'parcel','party':'party','person':'person','pfund':'pound (500 g)','praxis':'practice','pro':'per','prozent':'percent','präsentation':'presentation','prüfung':'exam',
+'quadratmeter':'square metres','rabatt':'discount','rappen':'rappen','rechts':'right','reis':'rice','reparatur':'repair','restaurant':'restaurant','rezeption':'reception','rufe':'call',
+'samstag':'Saturday','schalter':'counter','schinken':'ham','schließt':'closes','schnell':'quick','schuhgröße':'shoe size','sehen':'see','seit':'since','september':'September','sie':'you (formal)',
+'sind':'are','sitzung':'session','so':'so','sohn':'son','sonntag':'Sunday','sprechstunde':'consultation hours','startet':'starts','statt':'place','stehe':'stand','stimmt':'is correct',
+'stock':'floor','straße':'street','stunde':'hour','stunden':'hours','stück':'piece','supermarkt':'supermarket','tag':'day','tage':'days','tagen':'days','tasche':'bag','tasse':'cup',
+'tempo':'speed','termin':'appointment','ticket':'ticket','tomaten':'tomatoes','training':'training','treffen':'meet','trinke':'drink','trinken':'drink','tür':'door','tüte':'bag','uhr':'o\'clock',
+'umgezogen':'moved','umzug':'move','und':'and','ungefähr':'about','uns':'us','unterricht':'lessons','urlaub':'vacation','verheiratet':'married','videokonferenz':'video conference','vom':'from the',
+'von':'from','vor':'before','vormittags':'late morning','vortrag':'talk','war':'was','warten':'wait','waschraum':'laundry room','wasser':'water','wiegt':'weighs','wien':'Vienna','wir':'we',
+'woche':'week','wochen':'weeks','wochenende':'weekend','wohne':'live','wohnung':'flat','workshop':'workshop','zahle':'pay','zeit':'time','ziehen':'move','zu':'at','zucker':'sugar','zug':'train',
+'zum':'to the','zur':'to the','zurück':'back','äpfel':'apples','viertel':'quarter','einkaufen':'shopping','beim':'at the','kommt':'comes','frühstücken':'have breakfast','nächste':'next',
+'viertelstunde':'quarter hour','tage':'days','mal':'time','zweimal':'twice','dreimal':'three times','viermal':'four times','fünfmal':'five times','täglich':'daily','pro':'per','sechzig':'60'
+};
+var TOD_EN={'frühs':'early in the morning','morgens':'in the morning','vormittags':'in the late morning','mittags':'at noon','nachmittags':'in the afternoon','abends':'in the evening','nachts':'at night'};
+var MONTH_EN={Januar:'January',Februar:'February',März:'March',April:'April',Mai:'May',Juni:'June',Juli:'July',August:'August',September:'September',Oktober:'October',November:'November',Dezember:'December'};
+var DAY_EN={Montag:'Monday',Dienstag:'Tuesday',Mittwoch:'Wednesday',Donnerstag:'Thursday',Freitag:'Friday',Samstag:'Saturday',Sonntag:'Sunday'};
+var NUMREV=null, ORDREV=null;
+function buildRev(){
+  if(NUMREV) return;
+  NUMREV={}; ORDREV={};
+  var n, w;
+  for(n=0;n<=2500;n++){ w=bigWord(n,true); NUMREV[w]=n; if(/^hundert/.test(w)) NUMREV['ein'+w]=n; }
+  for(n=1900;n<=2035;n++) NUMREV[yearWord(n)]=n;
+  for(n=1;n<=31;n++){ ORDREV[ordNom(n)]=n; ORDREV[ordDat(n)]=n; }
+}
+function ordEn(n){ var t=n%100; var s=(t>=11&&t<=13)?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th'); return n+s; }
+function numTok(w){ buildRev(); w=w.toLowerCase(); return Object.prototype.hasOwnProperty.call(NUMREV,w)?NUMREV[w]:null; }
+function ordTok(w){ buildRev(); w=w.toLowerCase(); return Object.prototype.hasOwnProperty.call(ORDREV,w)?ORDREV[w]:null; }
+var CLOCKW={viertel:1,kurz:1,zehn:1,fünf:1,zwanzig:1};
+function glossTokN(tok,i,toks,stage){
+  var raw=tok.replace(/[.,!?]/g,''), w=raw.toLowerCase(), prev=i>0?toks[i-1].replace(/[.,!?]/g,'').toLowerCase():'', nxt=i<toks.length-1?toks[i+1].replace(/[.,!?]/g,'').toLowerCase():'';
+  var last=(i===toks.length-1), clockStage=/^[ABCD]$/.test(stage);
+  var o;
+  if(MONTH_EN[raw]) return MONTH_EN[raw];
+  if(DAY_EN[raw]) return DAY_EN[raw];
+  if(w==='ein'&&nxt==='uhr') return '1';
+  if((w==='vor'||w==='nach')&&clockStage&&(CLOCKW[prev]||numTok(prev)!==null)) return w==='vor'?'to':'past';
+  if(w==='vor') return i===0?'ago':'before';
+  if(w==='nach'&&numTok(prev)!==null&&clockStage) return 'past';
+  if(last&&w==='ab') return 'off';
+  if(last&&w==='an') return 'on';
+  if(last&&w==='auf') return 'up';
+  if(last&&w==='um') return 'around';
+  if(w==='um') return 'at';
+  if(w==='mal'&&prev==='das') return 'time';
+  if(w==='einmal') return 'once';
+  if(w==='zweimal') return 'twice';
+  if(w==='dreimal') return '3 times';
+  if(w==='viermal') return '4 times';
+  if(w==='fünfmal') return '5 times';
+  if(w==='tag'&&prev==='am') return 'day';
+  if(w==='mittag'&&prev==='zu') return 'lunch';
+  if(w==='komma') return 'point';
+  if(w==='eins'&&nxt==='komma') return '1';
+  if(w==='sie') return 'you (formal)';
+  if(w==='halb'&&clockStage) return 'half (to)';
+  if(w==='kurz'&&clockStage) return 'shortly';
+  if((o=ordTok(w))!==null&&!(w==='achte'&&0)) return ordEn(o);
+  if((o=numTok(w))!==null) return String(o);
+  if(GL.hasOwnProperty(w)) return GL[w];
+  return '';
+}
+
+/* ================= translations: natural English ================= */
+var UNIT_EN={Minuten:'minutes',Stunden:'hours',Tage:'days',Wochen:'weeks',Monate:'months',Jahre:'years',Tagen:'days',Monaten:'months',Jahren:'years',
+  Kilo:'kilos',Gramm:'grams',Liter:'litres',Meter:'metres',Kilometer:'kilometres',Milligramm:'milligrams',Milliliter:'millilitres',
+  Monat:'month',Woche:'week',Tag:'day',Jahr:'year',Stunde:'hour',Person:'person',Stück:'piece',Quadratmeter:'square metre',Esslöffel:'tablespoons'};
+var MAL_EN={einmal:'once',zweimal:'twice',dreimal:'3 times',viermal:'4 times',fünfmal:'5 times'};
+var PART_EN={Anfang:'at the beginning of',Mitte:'in the middle of',Ende:'at the end of'};
+var GROUND_EN={Erdgeschoss:'on the ground floor',Keller:'in the basement',Dachgeschoss:'on the top floor'};
+var PH={
+  O:['([A-Za-zÄÖÜäöüß]+)',function(g){ var o=ordTok(g[0]); return o===null?g[0]:ordEn(o); }],
+  Q:['([A-Za-zÄÖÜäöüß]+)',function(g){ var o=ordTok(g[0]); return o===null?g[0]:String(o); }],
+  N:['([A-Za-zÄÖÜäöüß]+)',function(g){ var w=g[0].toLowerCase(); if(w==='ein') return '1'; var n=numTok(w); return n===null?g[0]:String(n); }],
+  K:['([A-Za-zÄÖÜäöüß]+)',function(g){ var n=numTok(g[0]); return n===null?g[0]:String(n).replace(/\B(?=(\d{3})+(?!\d))/g,','); }],
+  C:['([A-Za-zÄÖÜäöüß]+)',function(g){ var n=numTok(g[0]); return n===null?g[0]:(n<10?'0':'')+n; }],
+  M:['([A-Za-zÄÖÜäöüß]+)',function(g){ return MONTH_EN[g[0]]||g[0]; }],
+  W:['([A-Za-zÄÖÜäöüß]+)',function(g){ return DAY_EN[g[0]]||g[0]; }],
+  D:['([A-Za-zÄÖÜäöüß]+) ([A-Za-zÄÖÜäöüß]+)',function(g){ var o=ordTok(g[0]); return (MONTH_EN[g[1]]||g[1])+' '+(o===null?g[0]:ordEn(o)); }],
+  Y:['([A-Za-zÄÖÜäöüß]+)',function(g){ var n=numTok(g[0]); return n===null?g[0]:String(n); }],
+  P:['([A-Za-zÄÖÜäöüß]+) Komma ([A-Za-zÄÖÜäöüß]+)',function(g){ return numTok(g[0])+'.'+numTok(g[1]); }],
+  V:['([A-Za-zÄÖÜäöüß]+)',function(g){ return ({Stunde:'hour',Kilo:'kilo',Person:'person',Monat:'month',Stück:'piece',Tag:'day'})[g[0]]||g[0]; }],
+  U:['([A-Za-zÄÖÜäöüß]+)',function(g){ return UNIT_EN[g[0]]||GL[g[0].toLowerCase()]||g[0]; }],
+  F:['([A-Za-zÄÖÜäöüß]+)',function(g){ return GL[g[0].toLowerCase()]||g[0]; }],
+  X:['([A-Za-zÄÖÜäöüß]+)',function(g){ return MAL_EN[g[0].toLowerCase()]||g[0]; }],
+  A:['([A-Za-zÄÖÜäöüß]+)',function(g){ return PART_EN[g[0]]||g[0]; }],
+  L:['(links|rechts)',function(g){ return g[0]==='links'?'left':'right'; }],
+  G:['([A-Za-zÄÖÜäöüß]+)',function(g){ return GROUND_EN[g[0]]||g[0]; }]
+};
+function compileRule(pat){
+  var convs=[], re='^', i=0, lit='';
+  function flush(){ re+=lit.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); lit=''; }
+  while(i<pat.length){
+    var ch=pat.charAt(i);
+    if(ch==='@'&&PH[pat.charAt(i+1)]){ flush(); var p=PH[pat.charAt(i+1)]; re+=p[0]; convs.push([p[1],(p[0].match(/\(/g)||[]).length]); i+=2; }
+    else if(ch==='‹'){ flush(); var j=pat.indexOf('›',i); re+='(?:'+pat.slice(i+1,j)+')'; i=j+1; }
+    else { lit+=ch; i++; }
+  }
+  flush(); return {re:new RegExp(re+'$'),convs:convs};
+}
+var RULES_RAW=[
+['der @O','the @1'],['Heute ist der @D.','Today is @1.'],
+['Ich habe am @D Geburtstag.','My birthday is on @1.'],['Der Termin ist am @D.','The appointment is on @1.'],['Wir fahren am @D nach Wien.','We are travelling to Vienna on @1.'],
+['Der Deutschkurs beginnt am @D.','The German course starts on @1.'],['Die Prüfung ist am @D.','The exam is on @1.'],['Das Meeting ist am @D.','The meeting is on @1.'],
+['Der Umzug ist am @D.','The move is on @1.'],['Ich fliege am @D nach Berlin.','I am flying to Berlin on @1.'],['Die Party ist am @D.','The party is on @1.'],
+['Der Kurs beginnt am @W, den @D.','The course starts on @1, @2.'],['Der Termin ist am @W, den @D.','The appointment is on @1, @2.'],['Die Prüfung ist am @W, den @D.','The exam is on @1, @2.'],
+['Wir treffen uns am @W, den @D.','We are meeting on @1, @2.'],['@W, der @D.','@1, @2.'],
+['Der Kurs ist ab dem @D geöffnet.','The course is open from @1.'],['Die Anmeldung läuft bis zum @D.','Registration runs until @1.'],
+['Das Büro ist vom @O bis zum @O @M geschlossen.','The office is closed from @3 @1 to @2.'],
+['Der Kurs beginnt @A @M.','The course starts @1 @2.'],['Der Urlaub ist @A @M.','The vacation is @1 @2.'],['Wir ziehen @A @M um.','We are moving @1 @2.'],
+['Ich bin am @D @Y geboren.','I was born on @1, @2.'],['Ich bin @Y nach Deutschland gezogen.','I moved to Germany in @1.'],['Ich habe @Y angefangen zu arbeiten.','I started working in @1.'],['Wir haben @Y geheiratet.','We got married in @1.'],
+['Ich wohne im @Q Stock.','I live @1 floors up.'],['Das Büro ist im @Q Stock.','The office is @1 floors up.'],['Der Arzt ist im @Q Stock.','The doctor is @1 floors up.'],
+['Die Rezeption ist im @Q Stock.','The reception is @1 floors up.'],['Das Restaurant ist im @Q Stock.','The restaurant is @1 floors up.'],['Die Wohnung ist im @Q Stock.','The flat is @1 floors up.'],
+['Ich wohne im @G.','I live @1.'],['Die Garage ist im @G.','The garage is @1.'],['Der Waschraum ist im @G.','The laundry room is @1.'],
+['Wir fahren in den @Q Stock.','We are going up @1 floors.'],['Gehen Sie bitte in den @Q Stock.','Please go up @1 floors.'],['Ich muss in den @Q Stock.','I have to go up @1 floors.'],
+['Nehmen Sie die @O Straße @L.','Take the @1 street on the @2.'],['Die @O Tür @L.','The @1 door on the @2.'],
+['Das ist das @O Mal.','This is the @1 time.'],['Ich bin zum @O Mal hier.','I am here for the @1 time.'],['Zum @O Mal in Deutschland.','For the @1 time in Germany.'],['Ich rufe zum @O Mal an.','I am calling for the @1 time.'],
+['Das kostet @K Euro.','That costs €@1.'],['Der Kaffee kostet @K Euro.','The coffee costs €@1.'],['Das Ticket kostet @K Euro.','The ticket costs €@1.'],['Das macht @K Euro.','That comes to €@1.'],['Die Tasche kostet @K Euro.','The bag costs €@1.'],
+['Das kostet @N Cent.','That costs @1 cents.'],['Ein Brötchen kostet @N Cent.','A bread roll costs @1 cents.'],['Das macht @N Cent.','That comes to @1 cents.'],
+['Das kostet @K Euro @C.','That costs €@1.@2.'],['Das macht @K Euro @C.','That comes to €@1.@2.'],['Das Ticket kostet @K Euro @C.','The ticket costs €@1.@2.'],
+['Die Miete ist @K Euro.','The rent is €@1.'],['Die Wohnung kostet @K Euro im Monat.','The flat costs €@1 a month.'],['Die Kaltmiete ist @K Euro.','The base rent (without utilities) is €@1.'],
+['Die Jacke kostet @K Euro.','The jacket costs €@1.'],['Das Fahrrad kostet @K Euro.','The bicycle costs €@1.'],['Die Reparatur kostet @K Euro.','The repair costs €@1.'],
+['Das macht @K Euro. Hier sind zwanzig Euro. Sie bekommen @K Euro zurück.','That comes to €@1. Here is €20. You get €@2 back.'],
+['Das macht @K Euro. Hier sind @K Euro. Stimmt so.','That comes to €@1. Here is €@2. Keep the change.'],
+['Das kostet @K Franken.','That costs @1 francs.'],['Das Ticket kostet @K Franken.','The ticket costs @1 francs.'],['Das kostet @K Franken @C.','That costs @1.@2 francs.'],['Das macht @K Franken @C.','That comes to @1.@2 francs.'],
+['Das kostet @N Rappen.','That costs @1 rappen (centimes).'],['Der Kaugummi kostet @N Rappen.','The chewing gum costs @1 rappen (centimes).'],
+['Es gibt @N Prozent Rabatt.','There is a @1% discount.'],['Das ist @N Prozent günstiger.','That is @1% cheaper.'],['Der Rabatt beträgt @N Prozent.','The discount is @1%.'],['Die Gebühr ist @P Prozent.','The fee is @1%.'],
+['Das sind @N @U.','That is @1 @2.'],['Es sind @N @U.','That is @1 @2.'],['Es sind @N Kilometer bis Köln.','It is @1 kilometres to Cologne.'],['Das sind ungefähr @N Meter.','That is about @1 metres.'],
+['Ich bin @N @N groß.','I am @1.@2 m tall.'],
+['Ich hätte gern ein Kilo @F.','I would like a kilo of @1.'],
+['Ich hätte gern ‹eine|ein› @F @F.','I would like a @1 of @2.'],
+['Ich hätte gern @N Kilo @F.','I would like @1 kilos of @2.'],['Ich nehme @N Gramm @F.','I will take @1 grams of @2.'],
+['Ein Pfund Hackfleisch, bitte.','Half a kilo (500 g) of minced meat, please.'],['Ich hätte gern ein Pfund Hackfleisch.','I would like half a kilo (500 g) of minced meat.'],
+['Ich nehme ein halbes Kilo @F.','I will take half a kilo of @1.'],['Ich hätte gern ein halbes Kilo @F.','I would like half a kilo of @1.'],['Wir brauchen ein halbes Pfund Butter.','We need 250 g of butter.'],
+['Ich trinke einen halben Liter Wasser.','I drink half a litre of water.'],['Wir brauchen einen halben Liter Milch.','We need half a litre of milk.'],
+['Ich brauche Größe @N.','I need size @1.'],['Haben Sie das in Größe @N?','Do you have this in size @1?'],['Ich habe Schuhgröße @N.','I wear shoe size @1.'],['Haben Sie die in Schuhgröße @N?','Do you have these in shoe size @1?'],
+['Das Paket wiegt @P Kilo.','The parcel weighs @1 kilos.'],['Das sind @P Liter.','That is @1 litres.'],['Nehmen Sie @N Milligramm.','Take @1 milligrams.'],['Nehmen Sie @N Milliliter.','Take @1 millilitres.'],['Dazu kommen @N Esslöffel Zucker.','Add @1 tablespoons of sugar.'],
+['Das dauert @N @U.','That takes @1 @2.'],['Die Fahrt dauert @N @U.','The journey takes @1 @2.'],['Der Kurs dauert @N @U.','The course lasts @1 @2.'],
+['Das Meeting dauert eine halbe Stunde.','The meeting lasts half an hour.'],['Die Fahrt dauert eine halbe Stunde.','The journey takes half an hour.'],
+['Wir warten eine Viertelstunde.','We wait a quarter of an hour (15 minutes).'],['Das dauert nur eine Viertelstunde.','That only takes a quarter of an hour (15 minutes).'],
+['Ich bin @N Jahre alt.','I am @1 years old.'],['Mein Sohn ist @N @U alt.','My son is @1 @2 old.'],['Das Baby ist @N @U alt.','The baby is @1 @2 old.'],
+['Ich wohne seit @N @U in Berlin.','I have lived in Berlin for @1 @2.'],['Ich lerne seit @N @U Deutsch.','I have been learning German for @1 @2.'],['Ich arbeite seit @N @U hier.','I have worked here for @1 @2.'],['Wir sind seit @N @U verheiratet.','We have been married for @1 @2.'],
+['Vor @N @U war ich in Köln.','I was in Cologne @1 @2 ago.'],['Vor @N @U bin ich umgezogen.','I moved @1 @2 ago.'],['Vor @N @U habe ich angefangen.','I started @1 @2 ago.'],
+['In @N @U habe ich Urlaub.','I have vacation in @1 @2.'],['In @N @U beginnt der Kurs.','The course starts in @1 @2.'],['In @N @U bin ich fertig.','I will be finished in @1 @2.'],
+['Der Kurs kostet @K Euro pro @V.','The course costs €@1 per @2.'],['Die Äpfel kosten @K Euro pro @V.','The apples cost €@1 per @2.'],['Das kostet @K Euro pro @V.','That costs €@1 per @2.'],
+['Ich lerne @X pro Woche Deutsch.','I learn German @1 a week.'],['Ich trinke @X pro Tag Kaffee.','I drink coffee @1 a day.'],['Ich fliege @X pro Monat nach Berlin.','I fly to Berlin @1 a month.'],
+['Ich lerne jeden Tag Deutsch.','I learn German every day.'],['Ich zahle jeden Monat die Miete.','I pay the rent every month.'],['Wir haben jede Woche Unterricht.','We have lessons every week.'],
+['Ich gehe jede Woche einkaufen.','I go shopping every week.'],['Wir fahren jedes Jahr nach Italien.','We go to Italy every year.'],['Ich laufe jeden Tag zur Arbeit.','I walk to work every day.'],
+['Ich gehe @X ‹im|in der|am› @U ins Fitnessstudio.','I go to the gym @1 a @2.'],
+['Hier gilt Tempo @K.','The speed limit here is @1 km/h.'],['Ich fahre @K Kilometer pro Stunde.','I drive @1 kilometres per hour.'],['Der Zug fährt @K Kilometer pro Stunde.','The train travels @1 kilometres per hour.'],
+['Die Wohnung hat @K Quadratmeter.','The flat has @1 square metres.'],['Das Büro hat @K Quadratmeter.','The office has @1 square metres.'],
+['Die Miete ist @K Euro pro Quadratmeter.','The rent is €@1 per square metre.'],['Das Auto braucht @N Liter pro hundert Kilometer.','The car uses @1 litres per 100 km.'],
+['Wir treffen uns alle @N @U.','We meet every @1 @2.'],['Ich gehe jeden @O @U zum Training.','I go to training every @1 @2.']
+];
+var RULES=null;
+function enByRules(text){
+  if(!RULES) RULES=RULES_RAW.map(function(r){ var c=compileRule(r[0]); c.tpl=r[1]; return c; });
+  for(var i=0;i<RULES.length;i++){
+    var m=RULES[i].re.exec(text); if(!m) continue;
+    var vals=[], gi=1;
+    RULES[i].convs.forEach(function(cv){ var g=[]; for(var k=0;k<cv[1];k++) g.push(m[gi++]); vals.push(cv[0](g)); });
+    var out=RULES[i].tpl.replace(/@(\d)/g,function(_,d){ return vals[+d-1]; });
+    return out.replace(/\b1 (kilos|floors|grams|metres|litres|kilometres|hours|minutes|days|weeks|months|years|milligrams|millilitres|tablespoons)\b/g,function(_,u){ return u==='floors'?'1 floor':'1 '+u.replace(/s$/,''); }).replace(/\b1 floor\b/,'1 floor');
+  }
+  return '';
+}
+
+function natEn(it){ return cap(enByRules(it.text)); }
+function transHtml(it){
+  var en=natEn(it); if(!en) return '';
+  var toks=it.text.split(/\s+/), h='<div class="tr"><div class="tr-words">';
+  toks.forEach(function(t,i){ h+='<span class="tr-w"><span class="de">'+esc(t)+'</span><span class="gl">'+esc(glossTokN(t,i,toks,it.stage)||'\u00A0')+'</span></span>'; });
+  return h+'</div><div class="tr-e">'+esc(en)+'</div></div>';
+}
 var GUIDE={
   A:['um','von ... bis','Uhr','halb'],
   B:['um','von ... bis','ab','Uhr'],
   C:['um','ab','von ... bis','Viertel','zehn','zwanzig','kurz','vor','nach','halb'],
   D:['am','um','ab','von ... bis','Uhr','halb','Viertel','kurz','gleich','morgens, abends ...']
 };
+
+GUIDE.dt0=['1. erste','3. dritte','7. siebte','8. achte','-te','-ste (ab 20.)'];
+GUIDE.dt1=['Heute ist der ...','erste','dritte','siebte'];
+GUIDE.dt2=['am ...-en','ersten','dritten','siebten'];
+GUIDE.dt3=['am ...','-ten (bis 19.)','-sten (ab 20.)'];
+GUIDE.dt4=['am Montag, den ...','Montag, der ...'];
+GUIDE.dt5=['vom ... bis zum ...','ab dem','bis zum','Anfang','Mitte','Ende'];
+GUIDE.dt6=['am ...','Jahr: ohne "in"','1990 = neunzehnhundertneunzig'];
+GUIDE.od1=['im ... Stock','Erdgeschoss','1. 3. 7.'];
+GUIDE.od2=['Erdgeschoss','Keller','Dachgeschoss','in den ... Stock'];
+GUIDE.od3=['die ... Straße','die ... Tür','links','rechts'];
+GUIDE.od4=['das ... Mal','zum ... Mal','erste','dritte','siebte'];
+GUIDE.od5=['im ... Stock','die ... Straße','zum ... Mal'];
+GUIDE.pr0=['Euro (\u20AC)','Cent (c)','Das kostet ...'];
+GUIDE.pr1=['Euro','Das kostet ...','Das macht ...'];
+GUIDE.pr2=['Euro','Cent','3,50 \u20AC = drei Euro fünfzig'];
+GUIDE.pr3=['Cent','5,05 = fünf Euro fünf'];
+GUIDE.pr4=['hundert','tausend','Miete'];
+GUIDE.pr5=['Das macht ...','Hier sind ...','zurück','Stimmt so'];
+GUIDE.pr6=['Franken','Rappen','Fr. 2.50'];
+GUIDE.pr7=['Prozent','Rabatt','Komma'];
+GUIDE.ms0=['kg = Kilo','g = Gramm','l = Liter','m = Meter','km = Kilometer'];
+GUIDE.ms1=['Flasche','Packung','Dose','Tüte','Glas','Stück','Tasse'];
+GUIDE.ms2=['Kilo','Gramm','Pfund = 500 g'];
+GUIDE.ms3=['halbes','halben','Kilo','Liter'];
+GUIDE.ms4=['Meter','Kilometer','1,75 m = eins fünfundsiebzig'];
+GUIDE.ms5=['Größe','Schuhgröße'];
+GUIDE.ms6=['Komma','Milligramm','Milliliter','Esslöffel'];
+GUIDE.du1=['Minuten','Stunden','Tage','Wochen','Monate','Jahre'];
+GUIDE.du2=['halbe Stunde','Viertelstunde'];
+GUIDE.du3=['Jahre alt','Monate alt','Wochen alt'];
+GUIDE.du4=['seit','Jahren','Monaten','Wochen','Tagen'];
+GUIDE.du5=['vor = ago','in = from now','seit'];
+GUIDE.fq1=['pro','Stunde','Kilo','Person','Monat'];
+GUIDE.fq2=['einmal','zweimal','dreimal','viermal','pro Woche'];
+GUIDE.fq3=['jeden Tag','jede Woche','jedes Jahr'];
+GUIDE.fq4=['im Monat','in der Woche','am Tag','im Jahr'];
+GUIDE.fq5=['Tempo','Kilometer pro Stunde','km/h'];
+GUIDE.fq6=['Quadratmeter','pro Quadratmeter','pro hundert Kilometer'];
+GUIDE.fq7=['alle ...','jeden zweiten Tag'];
 function genRound(id){
   if(id.charAt(0)==='0') return genNum(id);
   if(NEWGEN[id]) return NEWGEN[id]();
@@ -1326,7 +1561,7 @@ function stageBtn(st){
 function renderSetup(){
   S.phase='setup'; stopSpeech();
   var h='<div class="top">'+brandHtml()+'</div>';
-  h+='<h1>Numbers <span>&amp; Time</span></h1><p class="lead">Pick a stage, then how you answer and how you get the question.</p>';
+  h+='<h1>Numbers <span>in context</span></h1><p class="lead">All topics</p>';
   h+='<h2>1. Stage</h2>';
   GROUPS.forEach(function(g){
     h+='<div class="group-label">'+esc(g[1])+'</div><div class="stages">';
@@ -1661,7 +1896,7 @@ function feedbackHtml(){
       }
     });
     if(rows) h+='<div class="answers">'+rows+'</div>';
-    var trh=translationHtml(it);
+    var trh=translationHtml(it)||transHtml(it);
     h+= trh ? trh : '<p class="full">'+esc(it.text)+'</p>';
   } else if(S.failed){
     h+='<p class="fb bad">Not quite. Look again, or show the answer.</p>';
@@ -1896,7 +2131,7 @@ app.addEventListener('focusin',function(e){ if(e.target.classList&&e.target.clas
 renderSetup();
 
 /* test hook (harmless in production) */
-window.LKN={translateItem:translateItem,genRound:genRound,numWord:numWord,numParts:numParts,norm:norm,keyOf:keyOf,STAGES:STAGES,S:S};
+window.LKN={translateItem:translateItem,natEn:natEn,glossN:glossTokN,transHtml:transHtml,genRound:genRound,numWord:numWord,numParts:numParts,norm:norm,keyOf:keyOf,STAGES:STAGES,S:S};
 })();
 </script>
 </body>
