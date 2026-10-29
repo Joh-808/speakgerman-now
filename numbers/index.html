@@ -166,6 +166,15 @@ h2{font-size:1.15rem; margin:26px 0 10px; font-weight:700}
   .cue svg.clock{width:112px; height:112px}
 }
 
+.topic{margin:0 0 12px; background:var(--cream); border:1px solid var(--linen); border-radius:18px; padding:0 12px}
+.topic summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 4px; min-height:52px; font-weight:700; font-size:1.1rem}
+.topic summary::-webkit-details-marker{display:none}
+.topic summary::after{content:""; width:10px; height:10px; border-right:3px solid var(--coral); border-bottom:3px solid var(--coral); transform:rotate(45deg); margin:-4px 4px 0 10px; transition:transform .15s; flex:none}
+.topic[open] summary::after{transform:rotate(-135deg); margin-top:4px}
+.topic summary .tn{flex:1}
+.topic summary .tc{display:inline-flex; align-items:center; gap:4px; font-size:.82rem; color:var(--muted)}
+.topic summary .tc svg{width:16px; height:16px; color:var(--key-gold)}
+.topic .stages{padding:2px 0 14px}
 .dock{position:fixed; left:0; right:0; bottom:0; z-index:50; display:flex; gap:8px; align-items:center; justify-content:center; padding:8px 10px calc(8px + env(safe-area-inset-bottom)); background:rgba(243,235,223,.96); border-top:1px solid var(--linen); box-shadow:0 -6px 18px rgba(14,23,45,.08)}
 .tgl{display:inline-flex; border:2px solid var(--navy); border-radius:999px; overflow:hidden; background:var(--cream)}
 .tgl button{border:0; background:transparent; padding:2px 10px; font-size:.8rem; font-weight:700; min-height:34px; cursor:pointer; color:var(--navy)}
@@ -613,7 +622,7 @@ var STAGES=[
   {id:'C',grp:'time',tag:'C',title:'Viertel, zehn, zwanzig, kurz',ex:'Viertel nach drei, kurz vor halb vier'},
   {id:'D',grp:'time',tag:'D',title:'Days and times',ex:'am Montag um 9 Uhr, am Wochenende'}
 ];
-var GROUPS=[['num','Numbers'],['time','Time']];
+var GROUPS=[['num','Counting'],['time','Telling the time']];
 var NEWGEN={};
 /* ================= new topics: helpers ================= */
 var MONTHS=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
@@ -1144,7 +1153,7 @@ NEWGEN.fq7=function(){
   ]);
 };
 /* ================= register stages ================= */
-GROUPS.push(['dt','Dates and ordinals'],['od','Floors, streets, times'],['pr','Prices'],['ms','Amounts and sizes'],['du','How long, how old'],['fq','How often, per']);
+GROUPS.push(['dt','Dates and birthdays'],['od','Floors and directions'],['pr','Money and paying'],['ms','Quantities and sizes'],['du','How long, how old'],['fq','How often, how much per']);
 [
  ['dt','dt0','D.0','der erste, der dritte, der siebte','erste, dritte, siebte ...','A1'],
  ['dt','dt1','D.1','Heute ist der ...','Heute ist der dritte Mai','A1'],
@@ -1383,6 +1392,19 @@ function transHtml(it){
   toks.forEach(function(t,i){ h+='<span class="tr-w"><span class="de">'+esc(t)+'</span><span class="gl">'+esc(glossTokN(t,i,toks,it.stage)||'\u00A0')+'</span></span>'; });
   return h+'</div><div class="tr-e">'+esc(en)+'</div></div>';
 }
+
+var TILE_NAMES={
+ '0a':'0 to 12','0b':'13 to 19','0c':'21 to 29','0d':'Tens up to 100','0e':'Any number to 99','0f':'Parts of the day','0g':'Days of the week',
+ A:'On the hour and half past',B:'Timetables and opening hours',C:'Quarter past, ten to, nearly',D:'Appointments: day + time',
+ dt0:'1st to 12th',dt1:"Today's date",dt2:'Birthdays and appointments',dt3:'13th to 31st',dt4:'Weekday + date',dt5:'From, until, start of the month',dt6:'Date of birth and year',
+ od1:'Which floor?',od2:'Lift, basement, ground floor',od3:'Take the 3rd left',od4:'The first time, the second time',od5:'Mixed',
+ pr0:'Euro or cent?',pr1:'Whole euros',pr2:'Euros and cents',pr3:'Cents and tricky prices',pr4:'Bigger prices and rent',pr5:'At the till: change',pr6:'Swiss francs and rappen',pr7:'Discounts and percent',
+ ms0:'Units: kilo, litre, metre',ms1:'Bottles, packs, cans',ms2:'At the market: kilos and grams',ms3:'Half a kilo, half a litre',ms4:'Distance and height',ms5:'Clothes and shoe sizes',ms6:'Recipes and medicine',
+ du1:'How long does it take?',du2:'Half an hour, quarter of an hour',du3:'How old?',du4:'For how long (seit)',du5:'Ago and in (vor, in)',
+ fq1:'Per hour, per kilo, per person',fq2:'Times a week',fq3:'Every day, every week',fq4:'A month, a year',fq5:'Speed limits (km/h)',fq6:'Rent per m\u00B2 and fuel use',fq7:'Every other day, every two weeks'
+};
+STAGES.forEach(function(s){ if(TILE_NAMES[s.id]) s.title=TILE_NAMES[s.id]; });
+function groupOf(id){ for(var i=0;i<STAGES.length;i++) if(STAGES[i].id===id) return STAGES[i].grp; return 'num'; }
 var GUIDE={
   A:['um','von ... bis','Uhr','halb'],
   B:['um','von ... bis','ab','Uhr'],
@@ -1593,13 +1615,17 @@ function stageBtn(st){
     +'<span class="sid">'+st.tag+(st.lvl?'<i>'+st.lvl+'</i>':'')+'</span><span class="st">'+esc(st.title)+'</span><span class="ex">'+esc(st.ex)+'</span>'+bestHtml(st.id)+'</button>';
 }
 function renderSetup(){
-  S.phase='setup'; stopSpeech();
+  var prevPhase=S.phase; S.phase='setup'; stopSpeech();
   var h='<div class="top">'+brandHtml()+'</div>';
   h+='<h1>Numbers <span>in context</span></h1><p class="lead">All topics</p>';
+  if(!S.openT){ S.openT={}; S.openT[groupOf(saved.stage?S.stage:'0a')]=true; }
+  else if(prevPhase!=='setup') S.openT[groupOf(S.stage)]=true;
   GROUPS.forEach(function(g){
-    h+='<div class="group-label">'+esc(g[1])+'</div><div class="stages">';
-    STAGES.filter(function(s){ return s.grp===g[0]; }).forEach(function(s){ h+=stageBtn(s); });
-    h+='</div>';
+    var list=STAGES.filter(function(s){ return s.grp===g[0]; }), keys=0;
+    list.forEach(function(s){ var b=saved.best[s.id]; if(b&&b.score===b.total) keys++; });
+    h+='<details class="topic" data-t="'+g[0]+'"'+(S.openT[g[0]]?' open':'')+'><summary><span class="tn">'+esc(g[1])+'</span><span class="tc">'+(keys?KEY_O+keys+' / ':'')+list.length+'</span></summary><div class="stages">';
+    list.forEach(function(s){ h+=stageBtn(s); });
+    h+='</div></details>';
   });
   if(S.inp!=='visual'){
     if(!hasSpeech) h+='<div class="voice-note">This browser cannot play speech. Try Chrome, Edge or Safari.</div>';
@@ -2102,6 +2128,7 @@ function renderResult(){
 }
 
 /* ================= events ================= */
+app.addEventListener('toggle',function(e){ var d=e.target; if(d&&d.classList&&d.classList.contains('topic')){ S.openT=S.openT||{}; S.openT[d.getAttribute('data-t')]=d.open; } },true);
 app.addEventListener('pointerdown',onPointerDown);
 app.addEventListener('click',function(e){
   var t=e.target, el;
