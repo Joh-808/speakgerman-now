@@ -27,7 +27,7 @@ body{
   font-size:1.1rem; line-height:1.6; letter-spacing:.012em;
 }
 button{font:inherit; color:inherit}
-.wrap{max-width:760px; margin:0 auto; padding:18px 16px 72px}
+.wrap{max-width:760px; margin:0 auto; padding:18px 16px 96px}
 .brand{display:flex; align-items:center; gap:10px; font-weight:700; text-decoration:none; color:var(--navy)}
 .brand svg{width:26px; height:26px; color:var(--coral)}
 .brand em{font-style:normal; color:var(--coral)}
@@ -166,6 +166,12 @@ h2{font-size:1.15rem; margin:26px 0 10px; font-weight:700}
   .cue svg.clock{width:112px; height:112px}
 }
 
+.dock{position:fixed; left:0; right:0; bottom:0; z-index:50; display:flex; gap:8px; align-items:center; justify-content:center; padding:8px 10px calc(8px + env(safe-area-inset-bottom)); background:rgba(243,235,223,.96); border-top:1px solid var(--linen); box-shadow:0 -6px 18px rgba(14,23,45,.08)}
+.tgl{display:inline-flex; border:2px solid var(--navy); border-radius:999px; overflow:hidden; background:var(--cream)}
+.tgl button{border:0; background:transparent; padding:2px 10px; font-size:.8rem; font-weight:700; min-height:34px; cursor:pointer; color:var(--navy)}
+.tgl button[aria-pressed="true"]{background:var(--navy); color:var(--sand)}
+.btn.dock-go{padding:4px 16px; min-height:36px; font-size:.9rem; box-shadow:0 3px 0 var(--navy)}
+.btn.dock-go:active{transform:translateY(2px); box-shadow:0 1px 0 var(--navy)}
 .bigtxt{font-size:clamp(2.2rem,11vw,3.6rem); font-weight:700; line-height:1.1; color:var(--navy); text-align:center; font-variant-numeric:tabular-nums}
 .bigtxt small{display:block; font-size:1rem; font-weight:700; color:var(--coral); margin-top:4px; letter-spacing:.04em}
 .cue svg.floors{width:150px; height:auto}
@@ -880,12 +886,13 @@ NEWGEN.pr4=function(){
 };
 NEWGEN.pr5=function(){
   function till(){
-    var t=3+rnd(16), ch=20-t;
-    return mkItem('Das macht {0} Euro. Hier sind zwanzig Euro. Sie bekommen {1} Euro zurück.',[Z(numWord(t),big(eur(t),'Das macht'),{pool:numPool(t,2,19,false)}),Z(numWord(ch),big(eur(ch),'zurück'),{pool:numPool(ch,1,19,false)})],'pr5');
+    var t=3+rnd(16), ch=20-t, askTotal=Math.random()<.5;
+    if(askTotal) return mkItem('Das macht {0}. Hier sind zwanzig Euro. Sie bekommen '+numWord(ch)+' Euro zurück.',[Z([numWord(t),'Euro'],big(eur(t),'Das macht'),{pool:numPool(t,2,19,false).concat(['Cent']),nx:4})],'pr5');
+    return mkItem('Das macht '+numWord(t)+' Euro. Hier sind zwanzig Euro. Sie bekommen {0} zurück.',[Z([numWord(ch),'Euro'],big(eur(ch),'zurück'),{pool:numPool(ch,1,19,false).concat(['Cent']),nx:4})],'pr5');
   }
   function stimmt(){
     var t=2+rnd(8), pay=pick([10,20]);
-    return mkItem('Das macht {0} Euro. Hier sind {1} Euro. Stimmt so.',[Z(numWord(t),big(eur(t),'Das macht'),{pool:numPool(t,2,19,false)}),Z(numWord(pay),big(eur(pay),'Hier sind'),{pool:['zehn','zwanzig','fünfzig'].filter(function(x){return x!==numWord(pay);}),nx:2})],'pr5');
+    return mkItem('Das macht '+numWord(t)+' Euro. Hier sind {0}. Stimmt so.',[Z([numWord(pay),'Euro'],big(eur(pay),'Hier sind'),{pool:['zehn','zwanzig','fünfzig','Cent'].filter(function(x){return x!==numWord(pay);}),nx:3})],'pr5');
   }
   return phased([
     {label:'Das macht ... Sie bekommen ... zurück',n:5,make:till},
@@ -1422,9 +1429,36 @@ GUIDE.fq4=['im Monat','in der Woche','am Tag','im Jahr'];
 GUIDE.fq5=['Tempo','Kilometer pro Stunde','km/h'];
 GUIDE.fq6=['Quadratmeter','pro Quadratmeter','pro hundert Kilometer'];
 GUIDE.fq7=['alle ...','jeden zweiten Tag'];
+/* ================= one gap per phrase ================= */
+function mergeItem(it){
+  var zi=[], k;
+  it.segs.forEach(function(sg,i){ if(typeof sg==='number') zi.push(i); });
+  if(zi.length<2) return it;
+  var first=zi[0], last=zi[zi.length-1], toks=[], vars=[], cues=[], pool=[], nx=0;
+  for(k=first;k<=last;k++){
+    var sg=it.segs[k];
+    if(typeof sg==='number'){
+      var z=it.zones[sg]; toks.push({z:z}); if(z.cue) cues.push(z.cue); pool=pool.concat(z.pool||[]); nx+=(z.nx||3);
+    } else { sg.replace(/[.,!?;:]/g,'').split(/\s+/).forEach(function(t){ if(t) toks.push({t:t}); }); }
+  }
+  /* variants: cartesian product of each zone's answer and its alternatives */
+  var combos=[[]];
+  toks.forEach(function(x){
+    var opts=x.z?[x.z.ans].concat(x.z.alts||[]):[[x.t]], nxt=[];
+    combos.forEach(function(c){ opts.forEach(function(o){ nxt.push(c.concat(o)); }); });
+    combos=nxt;
+  });
+  var cue=null;
+  if(cues.length===1) cue=cues[0];
+  else if(cues.length>1) cue={type:'big',text:cues.map(function(c){ return c.text; }).join('  \u00B7  '),sub:cues.map(function(c){ return c.sub; }).filter(Boolean).join('  \u00B7  ')};
+  var nz={kind:'w',ans:combos[0],alts:combos.slice(1),cue:cue,pool:pool,nx:Math.min(6,Math.max(3,nx))};
+  it.segs=it.segs.slice(0,first).concat([0],it.segs.slice(last+1));
+  it.zones=[nz];
+  return it;
+}
 function genRound(id){
   if(id.charAt(0)==='0') return genNum(id);
-  if(NEWGEN[id]) return NEWGEN[id]();
+  if(NEWGEN[id]) return NEWGEN[id]().map(mergeItem);
   return {A:genA,B:genB,C:genC,D:genD}[id]();
 }
 function stageInfo(id){ for(var i=0;i<STAGES.length;i++) if(STAGES[i].id===id) return STAGES[i]; return STAGES[0]; }
@@ -1562,25 +1596,27 @@ function renderSetup(){
   S.phase='setup'; stopSpeech();
   var h='<div class="top">'+brandHtml()+'</div>';
   h+='<h1>Numbers <span>in context</span></h1><p class="lead">All topics</p>';
-  h+='<h2>1. Stage</h2>';
   GROUPS.forEach(function(g){
     h+='<div class="group-label">'+esc(g[1])+'</div><div class="stages">';
     STAGES.filter(function(s){ return s.grp===g[0]; }).forEach(function(s){ h+=stageBtn(s); });
     h+='</div>';
   });
-  h+='<h2>2. Answer</h2><div class="seg">'
-    +'<button type="button" data-out="prep" aria-pressed="'+(S.out==='prep')+'"><b>Prep</b><span>Drag or tap word tiles</span></button>'
-    +'<button type="button" data-out="write" aria-pressed="'+(S.out==='write')+'"><b>Write</b><span>Type the answer</span></button></div>';
-  h+='<h2>3. Question</h2><div class="seg">'
-    +'<button type="button" data-inp="both" aria-pressed="'+(S.inp==='both')+'"><b>See + hear</b><span>Picture and audio</span></button>'
-    +'<button type="button" data-inp="visual" aria-pressed="'+(S.inp==='visual')+'"><b>See only</b><span>Picture, no audio</span></button>'
-    +'<button type="button" data-inp="audio" aria-pressed="'+(S.inp==='audio')+'"><b>Hear only</b><span>Audio, no picture</span></button></div>';
   if(S.inp!=='visual'){
     if(!hasSpeech) h+='<div class="voice-note">This browser cannot play speech. Try Chrome, Edge or Safari.</div>';
     else if(voices.length && !hasDeVoice()) h+='<div class="voice-note">No German voice found on this device. Check your speech or language settings.</div>';
   }
-  h+='<div class="startbar"><button class="btn" type="button" id="startBtn">Start</button></div>';
+  h+='<div class="dock" role="group" aria-label="Settings">'
+    +'<div class="tgl" role="group" aria-label="Answer">'
+    +'<button type="button" data-out="prep" aria-pressed="'+(S.out==='prep')+'">Prep</button>'
+    +'<button type="button" data-out="write" aria-pressed="'+(S.out==='write')+'">Write</button></div>'
+    +'<div class="tgl" role="group" aria-label="Question">'
+    +'<button type="button" data-inp="visual" aria-pressed="'+(S.inp==='visual')+'">Read</button>'
+    +'<button type="button" data-inp="both" aria-pressed="'+(S.inp==='both')+'">Both</button>'
+    +'<button type="button" data-inp="audio" aria-pressed="'+(S.inp==='audio')+'">Listen</button></div>'
+    +'<button class="btn dock-go" type="button" id="startBtn">Start</button></div>';
+  var y0=window.pageYOffset;
   app.innerHTML=h;
+  try{ window.scrollTo(0,y0); }catch(e){}
 }
 
 /* ================= play screen ================= */
@@ -1638,9 +1674,9 @@ function renderPlay(focusFirst){
     +'<span class="pill static">'+esc(st.tag+'  '+st.title)+'</span>'
     +'<button class="pill" type="button" data-out="prep" aria-pressed="'+(S.out==='prep')+'">Prep</button>'
     +'<button class="pill" type="button" data-out="write" aria-pressed="'+(S.out==='write')+'">Write</button>'
-    +'<button class="pill" type="button" data-inp="both" aria-pressed="'+(S.inp==='both')+'">See + hear</button>'
-    +'<button class="pill" type="button" data-inp="visual" aria-pressed="'+(S.inp==='visual')+'">See</button>'
-    +'<button class="pill" type="button" data-inp="audio" aria-pressed="'+(S.inp==='audio')+'">Hear</button>'
+    +'<button class="pill" type="button" data-inp="both" aria-pressed="'+(S.inp==='both')+'">Both</button>'
+    +'<button class="pill" type="button" data-inp="visual" aria-pressed="'+(S.inp==='visual')+'">Read</button>'
+    +'<button class="pill" type="button" data-inp="audio" aria-pressed="'+(S.inp==='audio')+'">Listen</button>'
     +'</div></div>';
   h+=progressHtml();
   if(it.phase) h+='<div class="phase">Step '+it.phase.i+' / '+it.phase.total+': '+esc(it.phase.label)+'</div>';
