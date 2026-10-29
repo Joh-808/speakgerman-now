@@ -165,6 +165,10 @@ h2{font-size:1.15rem; margin:26px 0 10px; font-weight:700}
   .sentence{font-size:1.25rem; line-height:2.4; padding:14px}
   .cue svg.clock{width:112px; height:112px}
 }
+.bigtxt{font-size:clamp(2.2rem,11vw,3.6rem); font-weight:700; line-height:1.1; color:var(--navy); text-align:center; font-variant-numeric:tabular-nums}
+.bigtxt small{display:block; font-size:1rem; font-weight:700; color:var(--coral); margin-top:4px; letter-spacing:.04em}
+.cue svg.floors{width:150px; height:auto}
+.stage .sid i{font-style:normal; color:var(--muted); margin-left:6px}
 </style>
 </head>
 <body>
@@ -587,6 +591,580 @@ var STAGES=[
   {id:'C',grp:'time',tag:'C',title:'Viertel, zehn, zwanzig, kurz',ex:'Viertel nach drei, kurz vor halb vier'},
   {id:'D',grp:'time',tag:'D',title:'Days and times',ex:'am Montag um 9 Uhr, am Wochenende'}
 ];
+var GROUPS=[['num','Numbers'],['time','Time']];
+var NEWGEN={};
+/* ================= new topics: helpers ================= */
+var MONTHS=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+function ordStem(n){
+  if(n===1) return 'erst'; if(n===3) return 'dritt'; if(n===7) return 'siebt'; if(n===8) return 'acht';
+  return numWord(n)+(n<20?'t':'st');
+}
+function ordNom(n){ return ordStem(n)+'e'; }
+function ordDat(n){ return ordStem(n)+'en'; }
+function bigWord(n,top){
+  if(n<100) return numWord(n);
+  if(n<1000){ var h=Math.floor(n/100), r=n%100; return (h===1?(top?'':'ein'):ONES[h])+'hundert'+(r?numWord(r):''); }
+  var t=Math.floor(n/1000), r2=n%1000; return (t===1?'ein':numWord(t))+'tausend'+(r2?bigWord(r2,false):'');
+}
+function bigAlts(n){ var w=bigWord(n,true); return /^hundert/.test(w)?[['ein'+w]]:[]; }
+function yearWord(y){
+  if(y>=2000) return 'zweitausend'+(y%100?numWord(y%100):'');
+  return numWord(Math.floor(y/100))+'hundert'+(y%100?numWord(y%100):'');
+}
+function Z(ans,cue,o){ o=o||{}; return {kind:'w',ans:Array.isArray(ans)?ans:[ans],alts:o.alts||[],cue:cue,pool:o.pool||[],nx:o.nx||3}; }
+function big(text,sub){ return {type:'big',text:text,sub:sub||''}; }
+function bagOf(list,n){ var out=[],bag=[]; while(out.length<n){ if(!bag.length) bag=shuffle(list); out.push(bag.pop()); } return out; }
+function range(a,b){ var r=[]; for(var i=a;i<=b;i++) r.push(i); return r; }
+function ordPool(kind,ns){ return shuffle(ns).map(function(n){ return kind==='nom'?ordNom(n):ordDat(n); }); }
+var ORD_SMALL=range(1,12);
+function floorSvg(n){
+  var rows=Math.max(5,n+2), w=150, rh=22, hgt=rows*rh+6, s='<svg class="floors" viewBox="0 0 '+w+' '+hgt+'" role="img" aria-label="Building">';
+  for(var i=0;i<rows;i++){
+    var lvl=rows-1-i, y=3+i*rh, on=(lvl===n);
+    s+='<rect x="30" y="'+y+'" width="110" height="'+(rh-3)+'" rx="5" fill="'+(on?'#F66F54':'#ECE0D1')+'" stroke="#0E172D" stroke-width="1.6"/>';
+    s+='<text x="22" y="'+(y+15)+'" text-anchor="end" font-size="12" font-weight="700" fill="#0E172D" font-family="inherit">'+(lvl===0?'EG':lvl)+'</text>';
+    if(on) s+='<circle cx="85" cy="'+(y+9)+'" r="4" fill="#0E172D"/>';
+  }
+  return s+'</svg>';
+}
+
+/* ================= dates and ordinals ================= */
+var F_DATE=['Ich habe am {0} {M} Geburtstag.','Der Termin ist am {0} {M}.','Wir fahren am {0} {M} nach Wien.','Der Deutschkurs beginnt am {0} {M}.',
+  'Die Prüfung ist am {0} {M}.','Das Meeting ist am {0} {M}.','Der Umzug ist am {0} {M}.','Ich fliege am {0} {M} nach Berlin.','Die Party ist am {0} {M}.'];
+function monthFor(n){ var m=rnd(12); if(n===31){ m=pick([0,2,4,6,7,9,11]); } else if(n===30||n===29){ m=pick([0,2,3,4,5,6,7,8,9,10,11]); } return MONTHS[m]; }
+function dateItem(stage,kind,n,hint){
+  var M=monthFor(n), tpl=kind==='nom'?'Heute ist der {0} {M}.':pick(F_DATE);
+  var z=Z(kind==='nom'?ordNom(n):ordDat(n),big(n+'. '+M,hint?ordStem(n)+'-':''),{pool:ordPool(kind,n<=12?ORD_SMALL:range(13,31).filter(function(x){return x!==n;}))});
+  if(n<=12&&[1,3,7].indexOf(n)<0) z.pool=ordPool(kind,ORD_SMALL);
+  return mkItem(tpl.replace('{M}',M),[z],stage);
+}
+function datePhases(stage,kind,tail){
+  var a=bagOf([1,3,7],3), b=bagOf([2,4,5,6],4), c=bagOf([8,9,10,11,12],5);
+  var mix=[1,3,7,1,3,7,2,4,5,6,8,9,10,11,12];
+  var ph=[
+    {label:'1. 3. 7. (the three odd ones)',n:3,make:function(k){ return dateItem(stage,kind,a[k],true); }},
+    {label:'2. 4. 5. 6.',n:4,make:function(k){ return dateItem(stage,kind,b[k],true); }},
+    {label:'8. to 12.',n:5,make:function(k){ return dateItem(stage,kind,c[k],false); }},
+    {label:'Mixed',n:6,make:function(){ return dateItem(stage,kind,pick(mix),false); }}
+  ];
+  return phased(ph);
+}
+NEWGEN.dt0=function(){
+  function it(n,hint){ var z=Z(ordNom(n),big(n+'.',hint?ordStem(n)+'-':''),{pool:ordPool('nom',ORD_SMALL)}); return mkItem('der {0}',[z],'dt0'); }
+  var a=bagOf([1,3,7],6), b=bagOf([2,4,5,6],4), c=bagOf([8,9,10,11,12],5);
+  return phased([
+    {label:'1. 3. 7.',n:6,make:function(k){ return it(a[k],true); }},
+    {label:'2. 4. 5. 6.',n:4,make:function(k){ return it(b[k],true); }},
+    {label:'8. to 12.',n:5,make:function(k){ return it(c[k],false); }},
+    {label:'Mixed',n:6,make:function(){ return it(pick(ORD_SMALL.concat([1,3,7,1,3,7])),false); }}
+  ]);
+};
+NEWGEN.dt1=function(){ return datePhases('dt1','nom'); };
+NEWGEN.dt2=function(){ return datePhases('dt2','dat'); };
+NEWGEN.dt3=function(){
+  function it(n,hint){ return dateItem('dt3','dat',n,hint); }
+  var a=bagOf(range(13,19),4), b=bagOf([20,21,30,31],4), c=bagOf(range(22,29),4);
+  return phased([
+    {label:'13. to 19. (-ten)',n:4,make:function(k){ return it(a[k],false); }},
+    {label:'20. 21. 30. 31. (-sten)',n:4,make:function(k){ return it(b[k],false); }},
+    {label:'22. to 29.',n:4,make:function(k){ return it(c[k],false); }},
+    {label:'Mixed 1. to 31.',n:6,make:function(){ return it(1+rnd(31),false); }}
+  ]);
+};
+var F_WD=['Der Kurs beginnt am {W}, den {0} {M}.','Der Termin ist am {W}, den {0} {M}.','Die Prüfung ist am {W}, den {0} {M}.','Wir treffen uns am {W}, den {0} {M}.'];
+NEWGEN.dt4=function(){
+  function it(kind){
+    var n=1+rnd(28), M=monthFor(n), W=pick(DAYS), z;
+    if(kind==='acc'){ z=Z(ordDat(n),big(W+', '+n+'. '+M),{pool:ordPool('dat',range(1,31).filter(function(x){return x!==n;}))}); return mkItem(pick(F_WD).replace('{W}',W).replace('{M}',M),[z],'dt4'); }
+    z=Z(ordNom(n),big(W+', '+n+'. '+M),{pool:ordPool('nom',range(1,31).filter(function(x){return x!==n;}))});
+    return mkItem(W+', der {0} '+M+'.',[z],'dt4');
+  }
+  return phased([
+    {label:'am Montag, den ...',n:5,make:function(){ return it('acc'); }},
+    {label:'Montag, der ...',n:5,make:function(){ return it('nom'); }},
+    {label:'Mixed',n:4,make:function(){ return it(pick(['acc','nom'])); }}
+  ]);
+};
+var FIRST_PARTS=[['Anfang','1. to 10.'],['Mitte','11. to 20.'],['Ende','21. to 31.']];
+NEWGEN.dt5=function(){
+  function pool(ns,ex){ return ordPool('dat',range(1,31).filter(function(x){ return ns.indexOf(x)<0; })); }
+  function abbis(w){
+    var n=1+rnd(25), M=monthFor(n), z=Z(ordDat(n),big(n+'. '+M),{pool:pool([n])});
+    return mkItem(w==='ab'?'Der Kurs ist ab dem {0} '+M+' geöffnet.':'Die Anmeldung läuft bis zum {0} '+M+'.',[z],'dt5');
+  }
+  function vb(){
+    var a=1+rnd(20), b=a+2+rnd(8), M=monthFor(b);
+    return mkItem('Das Büro ist vom {0} bis zum {1} '+M+' geschlossen.',[Z(ordDat(a),big(a+'.','von'),{pool:pool([a,b])}),Z(ordDat(b),big(b+'.','bis'),{pool:pool([a,b])})],'dt5');
+  }
+  function part(){
+    var p=pick(FIRST_PARTS), M=pick(MONTHS);
+    return mkItem(pick(['Der Kurs beginnt {0} '+M+'.','Der Urlaub ist {0} '+M+'.','Wir ziehen {0} '+M+' um.']),[Z(p[0],big(p[0]==='Anfang'?'1.-10.':(p[0]==='Mitte'?'11.-20.':'21.-31.'),M),{pool:FIRST_PARTS.map(function(x){return x[0];}).filter(function(x){return x!==p[0];}),nx:2})],'dt5');
+  }
+  var mix=[function(){return abbis('ab');},function(){return abbis('bis');},vb,vb,part,part];
+  var order=shuffle(mix);
+  return phased([
+    {label:'ab dem / bis zum',n:4,make:function(k){ return abbis(k%2?'bis':'ab'); }},
+    {label:'vom ... bis zum ...',n:4,make:vb},
+    {label:'Anfang / Mitte / Ende',n:3,make:part},
+    {label:'Mixed',n:6,make:function(k){ return order[k](); }}
+  ]);
+};
+NEWGEN.dt6=function(){
+  function yr(){ return wpick([[1960+rnd(45),60],[2000+rnd(27),40]]); }
+  function pool(y){ var r=[],i; for(i=0;i<8;i++){ var v=yr(); if(v!==y) r.push(yearWord(v)); } return r; }
+  function birth(){
+    var n=1+rnd(28), M=pick(MONTHS), y=1960+rnd(45);
+    return mkItem('Ich bin am {0} '+M+' {1} geboren.',[Z(ordDat(n),big(n+'. '+M),{pool:ordPool('dat',range(1,31).filter(function(x){return x!==n;}))}),Z(yearWord(y),big(String(y)),{pool:pool(y)})],'dt6');
+  }
+  function year(){
+    var y=pick([2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025]);
+    return mkItem(pick(['Ich bin {0} nach Deutschland gezogen.','Ich habe {0} angefangen zu arbeiten.','Wir haben {0} geheiratet.']),[Z(yearWord(y),big(String(y)),{pool:pool(y)})],'dt6');
+  }
+  var order=shuffle([birth,year,birth,year,birth,year]);
+  return phased([
+    {label:'Years (no "in")',n:4,make:year},
+    {label:'Date of birth',n:4,make:birth},
+    {label:'Mixed',n:4,make:function(k){ return order[k](); }}
+  ]);
+};
+
+/* ================= ordinals in use ================= */
+var CONF={13:30,14:40,15:50,16:60,17:70,18:80,19:90,30:13,40:14,50:15,60:16,70:17,80:18,90:19};
+function numPool(n,lo,hi,withConf,fn){
+  var f=fn||numWord, out=[], c=CONF[n], tries=0, ans=f(n);
+  if(withConf&&c) out.push(f(c));
+  while(out.length<4&&tries<80){ tries++; var v=lo+rnd(hi-lo+1); if(v===n) continue; if(!withConf&&CONF[n]===v) continue; var w=f(v); if(w===ans||out.indexOf(w)>=0) continue; out.push(w); }
+  return out;
+}
+var F_FLOOR=['Ich wohne im {0} Stock.','Das Büro ist im {0} Stock.','Der Arzt ist im {0} Stock.','Die Rezeption ist im {0} Stock.','Das Restaurant ist im {0} Stock.','Die Wohnung ist im {0} Stock.'];
+function floorItem(stage,n,tpl){
+  var z=Z(ordDat(n),{type:'floor',n:n},{pool:ordPool('dat',range(1,8).filter(function(x){return x!==n;}))});
+  return mkItem((tpl||pick(F_FLOOR)).replace('{0}','{0}'),[z],stage);
+}
+NEWGEN.od1=function(){
+  var a=bagOf([1,3,7],3), b=bagOf([2,4,5,6],4);
+  return phased([
+    {label:'1. 3. 7. Stock',n:3,make:function(k){ return floorItem('od1',a[k]); }},
+    {label:'2. 4. 5. 6. Stock',n:4,make:function(k){ return floorItem('od1',b[k]); }},
+    {label:'Mixed',n:5,make:function(){ return floorItem('od1',pick([1,2,3,4,5,6,7,1,3,7])); }}
+  ]);
+};
+var FLOOR_WORDS=['Erdgeschoss','Keller','Dachgeschoss'];
+function ground(stage,w){
+  var cue=w==='Erdgeschoss'?{type:'floor',n:0}:big(w==='Keller'?'-1':'oben',w==='Keller'?'unten':'Dach');
+  return mkItem(pick(['Ich wohne im {0}.','Die Garage ist im {0}.','Der Waschraum ist im {0}.']),[Z(w,cue,{pool:FLOOR_WORDS.filter(function(x){return x!==w;}),nx:2})],stage);
+}
+function liftItem(stage,n){
+  return mkItem(pick(['Wir fahren in den {0} Stock.','Gehen Sie bitte in den {0} Stock.','Ich muss in den {0} Stock.']),[Z(ordDat(n),{type:'floor',n:n},{pool:ordPool('dat',range(1,8).filter(function(x){return x!==n;}))})],stage);
+}
+NEWGEN.od2=function(){
+  var a=bagOf([1,2,3,4,5,6,7],4);
+  return phased([
+    {label:'Erdgeschoss, Keller, Dachgeschoss',n:3,make:function(k){ return ground('od2',FLOOR_WORDS[k%3]); }},
+    {label:'in den ... Stock',n:4,make:function(k){ return liftItem('od2',a[k]); }},
+    {label:'Mixed',n:5,make:function(k){ var r=rnd(3); return r===0?ground('od2',pick(FLOOR_WORDS)):(r===1?liftItem('od2',1+rnd(7)):floorItem('od2',1+rnd(7))); }}
+  ]);
+};
+function streetItem(stage,n){
+  var left=Math.random()<.5, noun=pick(['Straße','Straße','Tür']);
+  var tpl=noun==='Straße'?'Nehmen Sie die {0} Straße '+(left?'links':'rechts')+'.':'Die {0} Tür '+(left?'links':'rechts')+'.';
+  return mkItem(tpl,[Z(ordNom(n),big((left?'← ':'')+n+'.'+(left?'':' →'),noun),{pool:ordPool('nom',range(1,8).filter(function(x){return x!==n;}))})],stage);
+}
+NEWGEN.od3=function(){
+  var a=bagOf([1,3],3), b=bagOf([2,4,5],3);
+  return phased([
+    {label:'erste / dritte',n:3,make:function(k){ return streetItem('od3',a[k]); }},
+    {label:'zweite / vierte / fünfte',n:3,make:function(k){ return streetItem('od3',b[k]); }},
+    {label:'Mixed with siebte',n:4,make:function(){ return streetItem('od3',pick([1,2,3,4,5,7,7])); }}
+  ]);
+};
+function malItem(stage,n,kind){
+  var tpl=kind==='das'?'Das ist das {0} Mal.':pick(['Ich bin zum {0} Mal hier.','Zum {0} Mal in Deutschland.','Ich rufe zum {0} Mal an.']);
+  var z=Z(kind==='das'?ordNom(n):ordDat(n),big(n+'. Mal'),{pool:ordPool(kind==='das'?'nom':'dat',range(1,8).filter(function(x){return x!==n;}))});
+  return mkItem(tpl,[z],stage);
+}
+NEWGEN.od4=function(){
+  var a=bagOf([1,2,3,7],4);
+  return phased([
+    {label:'das erste / dritte Mal',n:4,make:function(k){ return malItem('od4',a[k],'das'); }},
+    {label:'zum ersten / dritten Mal',n:4,make:function(k){ return malItem('od4',a[(k+1)%4],'zum'); }},
+    {label:'Mixed',n:4,make:function(){ return malItem('od4',pick([1,2,3,4,5,7,1,3,7]),pick(['das','zum'])); }}
+  ]);
+};
+NEWGEN.od5=function(){
+  var mk=[function(){ return floorItem('od5',1+rnd(7)); },function(){ return liftItem('od5',1+rnd(7)); },function(){ return streetItem('od5',pick([1,2,3,4,5,7])); },
+    function(){ return malItem('od5',pick([1,2,3,4,7]),'das'); },function(){ return malItem('od5',pick([1,2,3,4,7]),'zum'); },function(){ return ground('od5',pick(FLOOR_WORDS)); }];
+  var order=shuffle(mk.concat(mk));
+  return phased([{label:'Floors, streets, times',n:12,make:function(k){ return order[k](); }}]);
+};
+/* ================= prices ================= */
+var F_PRICE=['Das kostet {0} Euro.','Der Kaffee kostet {0} Euro.','Das Ticket kostet {0} Euro.','Das macht {0} Euro.','Die Tasche kostet {0} Euro.'];
+function eur(e,c){ return String(e)+(c==null?'':','+(c<10?'0':'')+c)+' €'; }
+function euroItem(stage,e,tpl,withConf){
+  var o={pool:numPool(e,2,Math.max(20,e+8),withConf),alts:e>=100?bigAlts(e):[]};
+  return mkItem(tpl||pick(F_PRICE),[Z(bigWord(e,true),big(eur(e)),o)],stage);
+}
+function centItem(stage,c){
+  return mkItem(pick(['Das kostet {0} Cent.','Ein Brötchen kostet {0} Cent.','Das macht {0} Cent.']),[Z(numWord(c),big(c+' Cent'),{pool:numPool(c,5,99,false)})],stage);
+}
+function ecItem(stage,e,c,withConf){
+  var z1=Z(bigWord(e,true),big(eur(e,c),'Euro | Cent'),{pool:numPool(e,2,Math.max(20,e+8),withConf),alts:e>=100?bigAlts(e):[]});
+  var z2=Z(numWord(c),null,{pool:numPool(c,5,99,withConf)});
+  return mkItem(pick(['Das kostet {0} Euro {1}.','Das macht {0} Euro {1}.','Das Ticket kostet {0} Euro {1}.']),[z1,z2],stage);
+}
+NEWGEN.pr0=function(){
+  var ea=bagOf([2,3,4,5,6,8,10,12],4), ca=bagOf([5,10,20,50],4);
+  function unit(e,c){
+    var cent=c!=null;
+    var z1=Z(cent?numWord(c):numWord(e),big(cent?c+' Cent':eur(e)),{pool:numPool(cent?c:e,2,cent?60:20,false)});
+    var z2=Z(cent?'Cent':'Euro',big(cent?'c':'€','unit'),{pool:[cent?'Euro':'Cent'],nx:1});
+    return mkItem('Das kostet {0} {1}.',[z1,z2],'pr0');
+  }
+  return phased([
+    {label:'Euro (€)',n:4,make:function(k){ return unit(ea[k],null); }},
+    {label:'Cent (c)',n:4,make:function(k){ return unit(null,ca[k]); }},
+    {label:'Mixed',n:4,make:function(){ return Math.random()<.5?unit(2+rnd(15),null):unit(null,pick([5,10,20,50,30,40])); }}
+  ]);
+};
+NEWGEN.pr1=function(){
+  var a=bagOf(range(2,10),4), b=bagOf(range(11,20),4);
+  return phased([
+    {label:'2 to 10 Euro',n:4,make:function(k){ return euroItem('pr1',a[k]); }},
+    {label:'11 to 20 Euro',n:4,make:function(k){ return euroItem('pr1',b[k]); }},
+    {label:'Mixed',n:4,make:function(){ return euroItem('pr1',2+rnd(19)); }}
+  ]);
+};
+NEWGEN.pr2=function(){
+  var tens=bagOf([10,20,30,40,50,60,70,80,90],4);
+  return phased([
+    {label:'Euro + 50 / 20 / 10 Cent',n:4,make:function(){ return ecItem('pr2',2+rnd(14),pick([50,20,10,50,80])); }},
+    {label:'Euro + Cent',n:5,make:function(k){ return ecItem('pr2',2+rnd(18),pick(tens)); }},
+    {label:'Mixed',n:5,make:function(){ return ecItem('pr2',2+rnd(18),pick([10,20,30,40,50,60,70,80,90,25,75,45,95])); }}
+  ]);
+};
+NEWGEN.pr3=function(){
+  return phased([
+    {label:'Cent only',n:4,make:function(){ return centItem('pr3',pick([5,10,15,20,25,30,40,45,50,60,75,80,90,95,99])); }},
+    {label:'5,05 and 1,99 traps',n:4,make:function(){ var t=pick([[5,5],[2,5],[3,9],[7,5],[4,99]]); return t[0]===1?
+      mkItem('Das kostet {0} Euro {1}.',[Z('ein',big(eur(1,99),'Euro | Cent'),{pool:['eins','zwei'],nx:2}),Z('neunundneunzig',null,{pool:numPool(99,5,99,false)})],'pr3'):ecItem('pr3',t[0],t[1]); }},
+    {label:'Mixed',n:5,make:function(){ return Math.random()<.4?centItem('pr3',pick([5,10,20,50,95,99])):ecItem('pr3',2+rnd(15),pick([5,9,10,50,99,45])); }}
+  ]);
+};
+NEWGEN.pr4=function(){
+  function rent(){ var e=pick(range(10,48).map(function(x){return x*50;})); return mkItem(pick(['Die Miete ist {0} Euro.','Die Wohnung kostet {0} Euro im Monat.','Die Kaltmiete ist {0} Euro.']),[Z(bigWord(e,true),big(eur(e).replace(/(\d)(\d{3})/,'$1.$2')),{pool:[bigWord(e+100,true),bigWord(e-100,true),bigWord(e+500,true)]})],'pr4'); }
+  function hund(){ var e=pick([100,120,150,180,200,250,300,350,400,450,499,350]); return euroItem('pr4',e,pick(['Die Jacke kostet {0} Euro.','Das Fahrrad kostet {0} Euro.','Die Reparatur kostet {0} Euro.'])); }
+  function tw(){ return ecItem('pr4',21+rnd(78),pick([0,0,10,20,50,90,99,49]) || 50,true); }
+  var mix=shuffle([rent,hund,tw,tw]);
+  return phased([
+    {label:'21 to 99 Euro + Cent',n:4,make:tw},
+    {label:'100 to 499 Euro',n:3,make:hund},
+    {label:'Rent: 500 to 2400 Euro',n:3,make:rent},
+    {label:'Mixed',n:4,make:function(k){ return mix[k](); }}
+  ]);
+};
+NEWGEN.pr5=function(){
+  function till(){
+    var t=3+rnd(16), ch=20-t;
+    return mkItem('Das macht {0} Euro. Hier sind zwanzig Euro. Sie bekommen {1} Euro zurück.',[Z(numWord(t),big(eur(t),'Das macht'),{pool:numPool(t,2,19,false)}),Z(numWord(ch),big(eur(ch),'zurück'),{pool:numPool(ch,1,19,false)})],'pr5');
+  }
+  function stimmt(){
+    var t=2+rnd(8), pay=pick([10,20]);
+    return mkItem('Das macht {0} Euro. Hier sind {1} Euro. Stimmt so.',[Z(numWord(t),big(eur(t),'Das macht'),{pool:numPool(t,2,19,false)}),Z(numWord(pay),big(eur(pay),'Hier sind'),{pool:['zehn','zwanzig','fünfzig'].filter(function(x){return x!==numWord(pay);}),nx:2})],'pr5');
+  }
+  return phased([
+    {label:'Das macht ... Sie bekommen ... zurück',n:5,make:till},
+    {label:'Stimmt so',n:3,make:stimmt},
+    {label:'Mixed',n:4,make:function(){ return Math.random()<.6?till():stimmt(); }}
+  ]);
+};
+function chf(f,r){ return 'Fr. '+f+(r==null?'':'.'+(r<10?'0':'')+r); }
+function frItem(stage,f,r){
+  var tpl=r==null?pick(['Das kostet {0} Franken.','Das Ticket kostet {0} Franken.']):pick(['Das kostet {0} Franken {1}.','Das macht {0} Franken {1}.']);
+  var zs=[Z(bigWord(f,true),big(chf(f),'Franken'),{pool:numPool(f,2,Math.max(20,f+8),false)})];
+  if(r!=null){ zs[0].cue=big(chf(f,r),'Franken | Rappen'); zs.push(Z(numWord(r),null,{pool:numPool(r,5,95,false)})); }
+  return mkItem(tpl,zs,stage);
+}
+function rpItem(stage,r){ return mkItem(pick(['Das kostet {0} Rappen.','Der Kaugummi kostet {0} Rappen.']),[Z(numWord(r),big(r+' Rp.','Rappen'),{pool:numPool(r,5,95,false)})],stage); }
+NEWGEN.pr6=function(){
+  return phased([
+    {label:'Franken',n:3,make:function(){ return frItem('pr6',2+rnd(18),null); }},
+    {label:'Franken + Rappen',n:4,make:function(){ return frItem('pr6',2+rnd(18),pick([20,50,10,30,40,60,70,80,90,5])); }},
+    {label:'Rappen',n:2,make:function(){ return rpItem('pr6',pick([5,10,20,50,70])); }},
+    {label:'Mixed',n:4,make:function(){ var r=rnd(3); return r===0?frItem('pr6',2+rnd(18),null):(r===1?frItem('pr6',2+rnd(18),pick([20,50,80,30])):rpItem('pr6',pick([5,10,20,50]))); }}
+  ]);
+};
+function pctItem(stage,p){
+  var tpl=pick(['Es gibt {0} Prozent Rabatt.','Das ist {0} Prozent günstiger.','Der Rabatt beträgt {0} Prozent.']);
+  return mkItem(tpl,[Z(numWord(p),big(p+' %'),{pool:numPool(p,5,90,false)})],stage);
+}
+function decItem(stage){
+  var a=pick([1,2,3,4,5,6,7]), b=pick([5,5,5,2,3,8]);
+  return mkItem('Die Gebühr ist {0} Prozent.',[Z([numWord(a),'Komma',numWord(b)],big(a+','+b+' %'),{pool:['null','eins','zwei','drei','vier','fünf','Komma'].concat([numWord(a+1)]),nx:3})],stage);
+}
+NEWGEN.pr7=function(){
+  var t=bagOf([10,20,30,40,50],4), o=bagOf([5,15,25,35,60,75,90],3);
+  return phased([
+    {label:'10 to 50 Prozent',n:4,make:function(k){ return pctItem('pr7',t[k]); }},
+    {label:'5, 15, 25 ... Prozent',n:3,make:function(k){ return pctItem('pr7',o[k]); }},
+    {label:'Komma: 2,5 Prozent',n:3,make:function(){ return decItem('pr7'); }},
+    {label:'Mixed',n:4,make:function(){ return Math.random()<.3?decItem('pr7'):pctItem('pr7',pick([5,10,15,20,25,30,40,50,60,75])); }}
+  ]);
+};
+
+/* ================= amounts and sizes ================= */
+var UNIT_NOUNS=['Kilo','Gramm','Liter','Meter','Kilometer','Zentimeter'];
+NEWGEN.ms0=function(){
+  var W=[['kg','Kilo',['Kilogramm']],['g','Gramm',[]]], V=[['l','Liter',[]],['m','Meter',[]],['km','Kilometer',[]]];
+  function it(u){
+    var n=2+rnd(8);
+    return mkItem(pick(['Das sind {0} {1}.','Es sind {0} {1}.']),[Z(numWord(n),big(n+' '+u[0]),{pool:numPool(n,2,12,false)}),Z(u[1],null,{alts:u[2].map(function(a){return [numWord(n),a];}).length?[]:[],pool:UNIT_NOUNS.filter(function(x){return x!==u[1];}),nx:2})],'ms0');
+  }
+  return phased([
+    {label:'kg, g',n:4,make:function(k){ return it(W[k%2]); }},
+    {label:'l, m, km',n:4,make:function(k){ return it(V[k%3]); }},
+    {label:'Mixed',n:4,make:function(){ return it(pick(W.concat(V))); }}
+  ]);
+};
+var CONTS=[['eine','Flasche','Wasser','bottle','water'],['eine','Packung','Nudeln','pack','pasta'],['ein','Glas','Milch','glass','milk'],
+  ['eine','Dose','Tomaten','can','tomatoes'],['ein','Stück','Kuchen','piece','cake'],['eine','Tüte','Chips','bag','chips'],['eine','Tasse','Kaffee','cup','coffee']];
+NEWGEN.ms1=function(){
+  var all=CONTS.map(function(c){return c[1];});
+  function it(c){ return mkItem('Ich hätte gern '+c[0]+' {0} '+c[2]+'.',[Z(c[1],big(c[3],'of '+c[4]),{pool:all.filter(function(x){return x!==c[1];})})],'ms1'); }
+  var a=shuffle(CONTS);
+  return phased([
+    {label:'Flasche, Packung, Dose, Tüte',n:4,make:function(k){ return it(CONTS.filter(function(c){return ['Flasche','Packung','Dose','Tüte'].indexOf(c[1])>=0;})[k]); }},
+    {label:'Glas, Stück, Tasse',n:3,make:function(k){ return it(CONTS.filter(function(c){return ['Glas','Stück','Tasse'].indexOf(c[1])>=0;})[k]); }},
+    {label:'Mixed',n:5,make:function(k){ return it(a[k%a.length]); }}
+  ]);
+};
+NEWGEN.ms2=function(){
+  var FOODS=['Äpfel','Tomaten','Kartoffeln','Orangen'], CH=['Käse','Schinken','Butter','Reis'];
+  function kilo(){ var n=1+rnd(5); return mkItem('Ich hätte gern {0} Kilo '+pick(FOODS)+'.',[Z(n===1?'ein':numWord(n),big(n+' kg'),{pool:['ein','zwei','drei','vier','fünf','sechs'].filter(function(x){return x!==(n===1?'ein':numWord(n));})})],'ms2'); }
+  function gram(){ var n=pick([100,200,250,300,400,500]); return mkItem('Ich nehme {0} Gramm '+pick(CH)+'.',[Z(bigWord(n,true),big(n+' g'),{pool:[100,200,250,300,400,500].filter(function(x){return x!==n;}).map(function(x){return bigWord(x,true);}),alts:bigAlts(n)})],'ms2'); }
+  function pfund(){ return mkItem(pick(['Ein {0} Hackfleisch, bitte.','Ich hätte gern ein {0} Hackfleisch.']),[Z('Pfund',big('500 g','= 1 Pfund'),{pool:['Kilo','Gramm','Liter'],nx:2})],'ms2'); }
+  var mix=shuffle([kilo,gram,pfund,kilo,gram]);
+  return phased([
+    {label:'Kilo',n:3,make:kilo},{label:'Gramm',n:3,make:gram},{label:'Pfund',n:2,make:pfund},
+    {label:'Mixed',n:5,make:function(k){ return mix[k](); }}
+  ]);
+};
+NEWGEN.ms3=function(){
+  function hk(){ return mkItem(pick(['Ich nehme ein {0} Kilo Äpfel.','Ich hätte gern ein {0} Kilo Käse.','Wir brauchen ein {0} Pfund Butter.']),[Z('halbes',big('0,5','= ½'),{pool:['halber','halben','halbe'],nx:3})],'ms3'); }
+  function hl(){ return mkItem(pick(['Ich trinke einen {0} Liter Wasser.','Wir brauchen einen {0} Liter Milch.']),[Z('halben',big('0,5 l','= ½'),{pool:['halbes','halber','halbe'],nx:3})],'ms3'); }
+  function g250(){ return mkItem('Das sind {0} Gramm.',[Z('zweihundertfünfzig',big('250 g'),{pool:['zweihundert','hundertfünfzig','fünfhundert'],nx:3})],'ms3'); }
+  var mix=shuffle([hk,hl,g250,hk,hl]);
+  return phased([
+    {label:'ein halbes Kilo / Pfund',n:3,make:hk},{label:'einen halben Liter',n:3,make:hl},
+    {label:'Mixed',n:5,make:function(k){ return mix[k](); }}
+  ]);
+};
+NEWGEN.ms4=function(){
+  function km(){ var n=2+rnd(18); return mkItem(pick(['Das sind {0} Kilometer.','Es sind {0} Kilometer bis Köln.']),[Z(numWord(n),big(n+' km'),{pool:numPool(n,2,20,false)})],'ms4'); }
+  function m(){ var n=pick([100,200,300,400,500,600,800]); return mkItem(pick(['Es sind {0} Meter.','Das sind ungefähr {0} Meter.']),[Z(bigWord(n,true),big(n+' m'),{pool:[100,200,300,400,500,600,800].filter(function(x){return x!==n;}).map(function(x){return bigWord(x,true);}),alts:bigAlts(n)})],'ms4'); }
+  function h(){ var c=55+rnd(45), cm=1; return mkItem('Ich bin {0} {1} groß.',[Z('eins',big('1,'+c+' m','Meter | cm'),{pool:['ein','zwei'],nx:2}),Z(numWord(c),null,{pool:numPool(c,55,99,false)})],'ms4'); }
+  var mix=shuffle([km,m,h,h]);
+  return phased([
+    {label:'Kilometer',n:3,make:km},{label:'Meter',n:3,make:m},{label:'Height: 1,75 m',n:4,make:h},
+    {label:'Mixed',n:4,make:function(k){ return mix[k](); }}
+  ]);
+};
+NEWGEN.ms5=function(){
+  function gr(){ var n=34+2*rnd(8); return mkItem(pick(['Ich brauche Größe {0}.','Haben Sie das in Größe {0}?']),[Z(numWord(n),big('Größe '+n),{pool:numPool(n,34,48,false)})],'ms5'); }
+  function sh(){ var n=36+rnd(11); return mkItem(pick(['Ich habe Schuhgröße {0}.','Haben Sie die in Schuhgröße {0}?']),[Z(numWord(n),big('Schuhgröße '+n),{pool:numPool(n,36,46,false)})],'ms5'); }
+  return phased([
+    {label:'Größe (clothes)',n:4,make:gr},{label:'Schuhgröße (shoes)',n:4,make:sh},
+    {label:'Mixed',n:4,make:function(){ return Math.random()<.5?gr():sh(); }}
+  ]);
+};
+NEWGEN.ms6=function(){
+  function dec(){ var a=1+rnd(4), b=pick([5,5,2,3,8]), li=Math.random()<.4; return mkItem(li?'Das sind {0} Liter.':'Das Paket wiegt {0} Kilo.',[Z([numWord(a),'Komma',numWord(b)],big(a+','+b+(li?' l':' kg')),{pool:['null','eins','zwei','drei','vier','fünf','Komma'],nx:3})],'ms6'); }
+  function mg(){ var n=pick([100,200,250,500,750]); return mkItem('Nehmen Sie {0} Milligramm.',[Z(bigWord(n,true),big(n+' mg'),{pool:[100,200,250,500,750].filter(function(x){return x!==n;}).map(function(x){return bigWord(x,true);}),alts:bigAlts(n)})],'ms6'); }
+  function ml(){ var n=pick([5,10,15,20,30]); return mkItem('Nehmen Sie {0} Milliliter.',[Z(numWord(n),big(n+' ml'),{pool:numPool(n,5,30,false)})],'ms6'); }
+  function ess(){ var n=2+rnd(4); return mkItem('Dazu kommen {0} Esslöffel Zucker.',[Z(numWord(n),big(n+' EL'),{pool:numPool(n,2,8,false)})],'ms6'); }
+  var mix=shuffle([dec,mg,ml,ess,dec]);
+  return phased([
+    {label:'Komma',n:4,make:dec},{label:'mg, ml, Esslöffel',n:4,make:function(k){ return [mg,ml,ess,mg][k](); }},
+    {label:'Mixed',n:5,make:function(k){ return mix[k](); }}
+  ]);
+};
+/* ================= duration ================= */
+var DUR={Minuten:'minutes',Stunden:'hours',Tage:'days',Wochen:'weeks',Monate:'months',Jahre:'years'};
+var DUR_DAT={Minuten:'Minuten',Stunden:'Stunden',Tage:'Tagen',Wochen:'Wochen',Monate:'Monaten',Jahre:'Jahren'};
+var DUR_NOM_POOL=Object.keys(DUR);
+function durItem(stage,tpl,u,dat){
+  var n=2+rnd(9), ans=dat?DUR_DAT[u]:u;
+  var pool=(dat?DUR_NOM_POOL.map(function(k){return DUR_DAT[k];}).concat(DUR_NOM_POOL):DUR_NOM_POOL).filter(function(x,i,a){return x!==ans&&a.indexOf(x)===i;});
+  return mkItem(tpl,[Z(numWord(n),big(n+' '+DUR[u]),{pool:numPool(n,2,12,false)}),Z(ans,null,{pool:pool,nx:3})],stage);
+}
+NEWGEN.du1=function(){
+  var T=['Das dauert {0} {1}.','Die Fahrt dauert {0} {1}.','Der Kurs dauert {0} {1}.'];
+  function it(us){ return durItem('du1',pick(T),pick(us),false); }
+  var A=['Minuten','Stunden'], B=['Tage','Wochen'], C=['Monate','Jahre'];
+  return phased([
+    {label:'Minuten, Stunden',n:4,make:function(){ return it(A); }},{label:'Tage, Wochen',n:4,make:function(){ return it(B); }},
+    {label:'Monate, Jahre',n:3,make:function(){ return it(C); }},{label:'Mixed',n:4,make:function(){ return it(A.concat(B,C)); }}
+  ]);
+};
+NEWGEN.du2=function(){
+  function halb(){ return mkItem(pick(['Das Meeting dauert eine {0} Stunde.','Die Fahrt dauert eine {0} Stunde.']),[Z('halbe',big('30 min'),{pool:['halber','halbes','halben'],nx:2})],'du2'); }
+  function viertel(){ return mkItem(pick(['Wir warten eine {0}.','Das dauert nur eine {0}.']),[Z('Viertelstunde',big('15 min'),{pool:['Stunde','Minute','Halbstunde'],nx:2})],'du2'); }
+  var mix=shuffle([halb,viertel,halb,viertel]);
+  return phased([
+    {label:'eine halbe Stunde',n:3,make:halb},{label:'eine Viertelstunde',n:3,make:viertel},
+    {label:'Mixed',n:4,make:function(k){ return mix[k](); }}
+  ]);
+};
+NEWGEN.du3=function(){
+  function j(){ var n=18+rnd(45); return mkItem('Ich bin {0} Jahre alt.',[Z(numWord(n),big(n+' years'),{pool:numPool(n,18,62,false)})],'du3'); }
+  function mw(){ var u=pick(['Monate','Wochen']), n=u==='Monate'?2+rnd(22):2+rnd(11); return mkItem(pick(['Mein Sohn ist {0} '+u+' alt.','Das Baby ist {0} '+u+' alt.']),[Z(numWord(n),big(n+' '+DUR[u]),{pool:numPool(n,2,24,false)})],'du3'); }
+  return phased([
+    {label:'Ich bin ... Jahre alt',n:5,make:j},{label:'... Monate / Wochen alt',n:4,make:mw},
+    {label:'Mixed',n:4,make:function(){ return Math.random()<.5?j():mw(); }}
+  ]);
+};
+NEWGEN.du4=function(){
+  var T=['Ich wohne seit {0} {1} in Berlin.','Ich lerne seit {0} {1} Deutsch.','Ich arbeite seit {0} {1} hier.','Wir sind seit {0} {1} verheiratet.'];
+  var A=['Jahre','Monate'], B=['Wochen','Tage','Stunden'];
+  function it(us){ return durItem('du4',pick(T),pick(us),true); }
+  return phased([
+    {label:'seit ... Jahren / Monaten',n:4,make:function(){ return it(A); }},{label:'seit ... Wochen / Tagen / Stunden',n:4,make:function(){ return it(B); }},
+    {label:'Mixed',n:4,make:function(){ return it(A.concat(B)); }}
+  ]);
+};
+NEWGEN.du5=function(){
+  var TV=['Vor {0} {1} war ich in Köln.','Vor {0} {1} bin ich umgezogen.','Vor {0} {1} habe ich angefangen.'], TI=['In {0} {1} habe ich Urlaub.','In {0} {1} beginnt der Kurs.','In {0} {1} bin ich fertig.'];
+  var TS=['Ich wohne seit {0} {1} in Berlin.','Ich lerne seit {0} {1} Deutsch.'];
+  var U=['Wochen','Tage','Monate','Jahre','Stunden'];
+  return phased([
+    {label:'vor ... (ago)',n:4,make:function(){ return durItem('du5',pick(TV),pick(U),true); }},{label:'in ... (from now)',n:4,make:function(){ return durItem('du5',pick(TI),pick(U),true); }},
+    {label:'Mixed: vor / in / seit',n:5,make:function(){ return durItem('du5',pick(TV.concat(TI,TS)),pick(U),true); }}
+  ]);
+};
+
+/* ================= per and frequency ================= */
+var MALS=['einmal','zweimal','dreimal','viermal'];
+function malWord(n){ return MALS[n-1]; }
+function malPool(n){ return MALS.filter(function(x){return x!==malWord(n);}).concat(['fünfmal']); }
+var PER={Stunde:'hour',Kilo:'kilo',Person:'person',Monat:'month',Stück:'piece',Tag:'day'};
+NEWGEN.fq1=function(){
+  function it(u,tpl,e){
+    return mkItem(tpl.replace('{U}',u),[Z(numWord(e),big(e+' €','/ '+PER[u]),{pool:numPool(e,2,20,false)}),Z('pro',null,{pool:['für','in','bei','am'],nx:3})],'fq1');
+  }
+  var A=[['Stunde','Der Kurs kostet {0} Euro {1} {U}.'],['Kilo','Die Äpfel kosten {0} Euro {1} {U}.']], B=[['Person','Das kostet {0} Euro {1} {U}.'],['Monat','Das kostet {0} Euro {1} {U}.']], C=[['Stück','Das kostet {0} Euro {1} {U}.'],['Tag','Der Kurs kostet {0} Euro {1} {U}.']];
+  function one(list){ var p=pick(list); return it(p[0],p[1],2+rnd(14)); }
+  return phased([
+    {label:'pro Stunde / Kilo',n:4,make:function(){ return one(A); }},{label:'pro Person / Monat',n:4,make:function(){ return one(B); }},
+    {label:'pro Stück / Tag',n:3,make:function(){ return one(C); }},{label:'Mixed',n:4,make:function(){ return one(A.concat(B,C)); }}
+  ]);
+};
+function malItem2(stage,n,u){
+  var tpl={Woche:'Ich lerne {0} pro Woche Deutsch.',Tag:'Ich trinke {0} pro Tag Kaffee.',Monat:'Ich fliege {0} pro Monat nach Berlin.'}[u];
+  return mkItem(tpl,[Z(malWord(n),big(n+'x','/ '+{Woche:'week',Tag:'day',Monat:'month'}[u]),{pool:malPool(n),nx:3})],stage);
+}
+NEWGEN.fq2=function(){
+  return phased([
+    {label:'einmal / zweimal pro Woche',n:4,make:function(){ return malItem2('fq2',1+rnd(2),'Woche'); }},
+    {label:'dreimal / viermal pro Woche',n:4,make:function(){ return malItem2('fq2',3+rnd(2),'Woche'); }},
+    {label:'Mixed: pro Woche / Tag / Monat',n:4,make:function(){ return malItem2('fq2',1+rnd(4),pick(['Woche','Tag','Monat'])); }}
+  ]);
+};
+NEWGEN.fq3=function(){
+  var ITEMS=[['jeden','Tag','Ich lerne {0} Tag Deutsch.','daily'],['jeden','Monat','Ich zahle {0} Monat die Miete.','monthly'],['jede','Woche','Wir haben {0} Woche Unterricht.','weekly'],
+    ['jede','Woche','Ich gehe {0} Woche einkaufen.','weekly'],['jedes','Jahr','Wir fahren {0} Jahr nach Italien.','yearly'],['jeden','Tag','Ich laufe {0} Tag zur Arbeit.','daily']];
+  function it(x){ return mkItem(x[2],[Z(x[0],big(x[3]),{pool:['jeden','jede','jedes'].filter(function(y){return y!==x[0];}).concat(['jeder']),nx:3})],'fq3'); }
+  var d=ITEMS.filter(function(x){return x[0]==='jeden';}), w=ITEMS.filter(function(x){return x[0]==='jede';}), y=ITEMS.filter(function(x){return x[0]==='jedes';});
+  return phased([
+    {label:'jeden Tag / Monat',n:3,make:function(k){ return it(d[k%d.length]); }},{label:'jede Woche',n:2,make:function(k){ return it(w[k%w.length]); }},
+    {label:'jedes Jahr',n:2,make:function(){ return it(y[0]); }},{label:'Mixed',n:4,make:function(){ return it(pick(ITEMS)); }}
+  ]);
+};
+NEWGEN.fq4=function(){
+  var U=[['im','Monat','month'],['in der','Woche','week'],['am','Tag','day'],['im','Jahr','year']];
+  function it(u,n){
+    var ans=u[0].split(' ');
+    return mkItem('Ich gehe {0} {1} '+u[1]+' ins Fitnessstudio.',[Z(malWord(n),big(n+'x','/ '+u[2]),{pool:malPool(n),nx:2}),Z(ans,null,{pool:['pro','im','am','in','der','die'],nx:3})],'fq4');
+  }
+  return phased([
+    {label:'einmal im Monat / im Jahr',n:4,make:function(){ return it(pick([U[0],U[3]]),1+rnd(4)); }},
+    {label:'dreimal in der Woche / am Tag',n:4,make:function(){ return it(pick([U[1],U[2]]),1+rnd(4)); }},
+    {label:'Mixed',n:4,make:function(){ return it(pick(U),1+rnd(4)); }}
+  ]);
+};
+NEWGEN.fq5=function(){
+  var SP=[30,50,70,80,100,120,130];
+  function tempo(){ var n=pick([30,50,70,100]); return mkItem('Hier gilt Tempo {0}.',[Z(bigWord(n,true),big(String(n),'km/h'),{pool:SP.filter(function(x){return x!==n;}).map(function(x){return bigWord(x,true);}),alts:bigAlts(n)})],'fq5'); }
+  function kmh(){ var n=pick(SP); return mkItem(pick(['Ich fahre {0} Kilometer pro Stunde.','Der Zug fährt {0} Kilometer pro Stunde.']),[Z(bigWord(n,true),big(n+' km/h'),{pool:SP.filter(function(x){return x!==n;}).map(function(x){return bigWord(x,true);}),alts:bigAlts(n)})],'fq5'); }
+  var mix=shuffle([tempo,kmh,tempo,kmh]);
+  return phased([
+    {label:'Tempo ...',n:4,make:tempo},{label:'Kilometer pro Stunde',n:4,make:kmh},
+    {label:'Mixed',n:4,make:function(k){ return mix[k](); }}
+  ]);
+};
+NEWGEN.fq6=function(){
+  function qm(){ var n=pick([35,42,48,55,60,65,75,80,90,110]); return mkItem(pick(['Die Wohnung hat {0} Quadratmeter.','Das Büro hat {0} Quadratmeter.']),[Z(bigWord(n,true),big(n+' m²'),{pool:numPool(n,30,99,false),alts:bigAlts(n)})],'fq6'); }
+  function eq(){ var n=8+rnd(18); return mkItem('Die Miete ist {0} Euro pro Quadratmeter.',[Z(numWord(n),big(n+' €','/ m²'),{pool:numPool(n,8,25,false)})],'fq6'); }
+  function lt(){ var n=4+rnd(6); return mkItem('Das Auto braucht {0} Liter pro hundert Kilometer.',[Z(numWord(n),big(n+' l','/ 100 km'),{pool:numPool(n,3,12,false)})],'fq6'); }
+  var mix=shuffle([qm,eq,lt,qm,eq]);
+  return phased([
+    {label:'Quadratmeter',n:4,make:qm},{label:'Euro pro Quadratmeter',n:4,make:eq},{label:'Liter pro hundert Kilometer',n:3,make:lt},
+    {label:'Mixed',n:4,make:function(k){ return mix[k%mix.length](); }}
+  ]);
+};
+NEWGEN.fq7=function(){
+  var ORDS=[2,3,4];
+  function alle(){ var n=2+rnd(5), u=pick(['Wochen','Monate','Jahre','Tage']); return mkItem('Wir treffen uns alle {0} '+u+'.',[Z(numWord(n),big('every '+n+' '+DUR[u]),{pool:numPool(n,2,8,false)})],'fq7'); }
+  function jeden(){ var n=pick(ORDS), u=pick(['Tag','Monat']); return mkItem('Ich gehe jeden {0} '+u+' zum Training.',[Z(ordDat(n),big('every '+n+'.',u),{pool:ordPool('dat',range(2,6).filter(function(x){return x!==n;}))})],'fq7'); }
+  var mix=shuffle([alle,jeden,alle,jeden]);
+  return phased([
+    {label:'alle zwei Wochen',n:4,make:alle},{label:'jeden zweiten Tag',n:4,make:jeden},
+    {label:'Mixed',n:4,make:function(k){ return mix[k](); }}
+  ]);
+};
+/* ================= register stages ================= */
+GROUPS.push(['dt','Dates and ordinals'],['od','Floors, streets, times'],['pr','Prices'],['ms','Amounts and sizes'],['du','How long, how old'],['fq','How often, per']);
+[
+ ['dt','dt0','D.0','der erste, der dritte, der siebte','erste, dritte, siebte ...','A1'],
+ ['dt','dt1','D.1','Heute ist der ...','Heute ist der dritte Mai','A1'],
+ ['dt','dt2','D.2','am + date','am ersten, am siebten Mai','A1'],
+ ['dt','dt3','D.3','13. to 31.','am zwanzigsten, am einunddreißigsten','A1'],
+ ['dt','dt4','D.4','Weekday + date','am Montag, den dritten Mai','A1'],
+ ['dt','dt5','D.5','From, until, parts of a month','vom 1. bis zum 7., Anfang Mai','A2'],
+ ['dt','dt6','D.6','Birth date and years','am 7. Mai 1990, 2020','A2'],
+ ['od','od1','O.1','im ... Stock','im dritten Stock','A1'],
+ ['od','od2','O.2','Erdgeschoss, Keller, lift','im Erdgeschoss, in den siebten Stock','A1'],
+ ['od','od3','O.3','Directions','die dritte Straße links','A1'],
+ ['od','od4','O.4','The first time','zum ersten Mal','A2'],
+ ['od','od5','O.5','Mixed ordinals','Stock, Straße, Mal','A2'],
+ ['pr','pr0','P.0','Euro and Cent','fünf Euro, fünfzig Cent','A1'],
+ ['pr','pr1','P.1','Whole euros','Das kostet zwölf Euro','A1'],
+ ['pr','pr2','P.2','Euro + Cent','drei Euro fünfzig','A1'],
+ ['pr','pr3','P.3','Cent and traps','fünf Euro fünf, neunundneunzig Cent','A1'],
+ ['pr','pr4','P.4','Bigger prices and rent','vierundvierzig Euro neunzig, tausendzweihundert Euro','A1'],
+ ['pr','pr5','P.5','At the till','Das macht ... Sie bekommen ... zurück','A1'],
+ ['pr','pr6','P.6','Franken and Rappen','zwei Franken fünfzig','A2'],
+ ['pr','pr7','P.7','Percent and discounts','zwanzig Prozent Rabatt, zwei Komma fünf','A2'],
+ ['ms','ms0','M.0','Units: kg, g, l, m, km','zwei Kilo, drei Liter','A1'],
+ ['ms','ms1','M.1','Bottle, pack, glass','eine Flasche Wasser','A1'],
+ ['ms','ms2','M.2','In the shop','ein Kilo Äpfel, ein Pfund Hackfleisch','A1'],
+ ['ms','ms3','M.3','Half a kilo, half a litre','ein halbes Kilo, einen halben Liter','A1'],
+ ['ms','ms4','M.4','Distance and height','zwei Kilometer, eins fünfundsiebzig','A1'],
+ ['ms','ms5','M.5','Clothes and shoe size','Größe achtunddreißig','A1'],
+ ['ms','ms6','M.6','Decimals and medicine','eins Komma fünf, fünfhundert Milligramm','A2'],
+ ['du','du1','T.1','How long?','Das dauert zwei Stunden','A1'],
+ ['du','du2','T.2','Half and quarter hours','eine halbe Stunde, eine Viertelstunde','A1'],
+ ['du','du3','T.3','How old?','Ich bin 35 Jahre alt','A1'],
+ ['du','du4','T.4','seit','seit drei Jahren','A2'],
+ ['du','du5','T.5','vor, in, seit','vor zwei Wochen, in drei Tagen','A2'],
+ ['fq','fq1','F.1','pro','zehn Euro pro Stunde','A1'],
+ ['fq','fq2','F.2','X-mal pro Woche','zweimal pro Woche','A1'],
+ ['fq','fq3','F.3','jeden Tag, jede Woche','jeden Tag, jedes Jahr','A1'],
+ ['fq','fq4','F.4','dreimal in der Woche','im Monat, am Tag, im Jahr','A2'],
+ ['fq','fq5','F.5','Kilometer pro Stunde','Tempo dreißig, fünfzig km/h','A2'],
+ ['fq','fq6','F.6','Rent and fuel','Euro pro Quadratmeter, Liter pro 100 km','A2'],
+ ['fq','fq7','F.7','alle zwei Wochen','jeden zweiten Tag','A2']
+].forEach(function(s){ STAGES.push({id:s[1],grp:s[0],tag:s[2],title:s[3],ex:s[4],lvl:s[5]}); });
+
+
 var GUIDE={
   A:['um','von ... bis','Uhr','halb'],
   B:['um','von ... bis','ab','Uhr'],
@@ -595,6 +1173,7 @@ var GUIDE={
 };
 function genRound(id){
   if(id.charAt(0)==='0') return genNum(id);
+  if(NEWGEN[id]) return NEWGEN[id]();
   return {A:genA,B:genB,C:genC,D:genD}[id]();
 }
 function stageInfo(id){ for(var i=0;i<STAGES.length;i++) if(STAGES[i].id===id) return STAGES[i]; return STAGES[0]; }
@@ -609,7 +1188,10 @@ function makeBank(item){
   var extra=[], pool, k;
   var hasNum=item.zones.some(function(z){ return z.kind==='num'; });
   var hasWord=item.zones.some(function(z){ return z.kind==='word'; });
-  if(hasWord){
+  var poolZ=item.zones.filter(function(z){ return z.pool; });
+  if(poolZ.length){
+    poolZ.forEach(function(z){ shuffle(z.pool.filter(function(w){ return !used[w.toLowerCase()]; })).slice(0,z.nx||3).forEach(function(w){ used[w.toLowerCase()]=true; extra.push(w); }); });
+  } else if(hasWord){
     extra=shuffle(TODS.filter(function(w){ return !used[w]; })).slice(0,4);
   } else if(hasNum){
     var z0=item.zones[0];
@@ -704,6 +1286,8 @@ function cueHtml(z,idx,multi){
   if(multi) h+='<span class="zb">'+(idx+1)+'</span>';
   if(c.type==='clock'){ h+=oneClock(c,false); if(c.tod) h+=todBar(c.tod.word,c.tod.H,c.tod.m); }
   else if(c.type==='tod') h+=todBar(c.word,null,0);
+  else if(c.type==='big') h+='<div class="bigtxt">'+esc(c.text)+(c.sub?'<small>'+esc(c.sub)+'</small>':'')+'</div>';
+  else if(c.type==='floor') h+=floorSvg(c.n);
   else if(c.type==='range') h+='<div class="cue-row">'+oneClock(c.from,false)+'<span class="arrow" aria-hidden="true">&rarr;</span>'+oneClock(c.to,false)+'</div>';
   else if(c.type==='days'){
     h+='<div class="days" aria-label="Days">';
@@ -721,17 +1305,18 @@ function bestHtml(id){
 }
 function stageBtn(st){
   return '<button class="stage" type="button" data-stage="'+st.id+'" aria-pressed="'+(S.stage===st.id)+'">'
-    +'<span class="sid">'+st.tag+'</span><span class="st">'+esc(st.title)+'</span><span class="ex">'+esc(st.ex)+'</span>'+bestHtml(st.id)+'</button>';
+    +'<span class="sid">'+st.tag+(st.lvl?'<i>'+st.lvl+'</i>':'')+'</span><span class="st">'+esc(st.title)+'</span><span class="ex">'+esc(st.ex)+'</span>'+bestHtml(st.id)+'</button>';
 }
 function renderSetup(){
   S.phase='setup'; stopSpeech();
   var h='<div class="top">'+brandHtml()+'</div>';
   h+='<h1>Numbers <span>&amp; Time</span></h1><p class="lead">Pick a stage, then how you answer and how you get the question.</p>';
-  h+='<h2>1. Stage</h2><div class="group-label">Numbers</div><div class="stages">';
-  STAGES.filter(function(s){ return s.grp==='num'; }).forEach(function(s){ h+=stageBtn(s); });
-  h+='</div><div class="group-label">Time</div><div class="stages">';
-  STAGES.filter(function(s){ return s.grp==='time'; }).forEach(function(s){ h+=stageBtn(s); });
-  h+='</div>';
+  h+='<h2>1. Stage</h2>';
+  GROUPS.forEach(function(g){
+    h+='<div class="group-label">'+esc(g[1])+'</div><div class="stages">';
+    STAGES.filter(function(s){ return s.grp===g[0]; }).forEach(function(s){ h+=stageBtn(s); });
+    h+='</div>';
+  });
   h+='<h2>2. Answer</h2><div class="seg">'
     +'<button type="button" data-out="prep" aria-pressed="'+(S.out==='prep')+'"><b>Prep</b><span>Drag or tap word tiles</span></button>'
     +'<button type="button" data-out="write" aria-pressed="'+(S.out==='write')+'"><b>Write</b><span>Type the answer</span></button></div>';
@@ -816,7 +1401,7 @@ function renderPlay(focusFirst){
   h+='<section class="card">';
   if(showCue){
     h+='<div class="cues">';
-    it.zones.forEach(function(z,i){ h+=cueHtml(z,i,multi); });
+    var nc=it.zones.filter(function(z){ return z.cue; }).length; it.zones.forEach(function(z,i){ if(z.cue) h+=cueHtml(z,i,nc>1); });
     h+='</div>';
   } else {
     h+='<div class="hear-only"><p class="muted">Listen, then fill in the blanks.</p></div>';
