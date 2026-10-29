@@ -165,10 +165,18 @@ h2{font-size:1.15rem; margin:26px 0 10px; font-weight:700}
   .sentence{font-size:1.25rem; line-height:2.4; padding:14px}
   .cue svg.clock{width:112px; height:112px}
 }
+
 .bigtxt{font-size:clamp(2.2rem,11vw,3.6rem); font-weight:700; line-height:1.1; color:var(--navy); text-align:center; font-variant-numeric:tabular-nums}
 .bigtxt small{display:block; font-size:1rem; font-weight:700; color:var(--coral); margin-top:4px; letter-spacing:.04em}
 .cue svg.floors{width:150px; height:auto}
 .stage .sid i{font-style:normal; color:var(--muted); margin-left:6px}
+
+.tr{margin:0 0 14px}
+.tr-words{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:flex-start}
+.tr-w{display:inline-flex; flex-direction:column; align-items:flex-start}
+.tr-w .de{font-weight:700; font-size:1.15rem; line-height:1.35}
+.tr-w .gl{font-size:.8rem; line-height:1.3; color:var(--muted)}
+.tr-e{margin-top:8px; font-size:1rem; color:#3F6B49; font-weight:700}
 </style>
 </head>
 <body>
@@ -258,7 +266,7 @@ function rangeFrom(p1,p2,cue){
 }
 function zoneRange(H1,m1,H2,m2,fmt){
   return rangeFrom(pieceVariants(H1,m1,fmt,true),pieceVariants(H2,m2,fmt,false),
-    {type:'range', from:{H:fmt==='12'?h12of(H1):H1,m:m1,fmt:fmt}, to:{H:fmt==='12'?h12of(H2):H2,m:m2,fmt:fmt}});
+    {type:'range', from:{H:fmt==='12'?h12of(H1):H1,m:m1,fmt:fmt,h24:H1}, to:{H:fmt==='12'?h12of(H2):H2,m:m2,fmt:fmt,h24:H2}});
 }
 var CKINDS=[
   ['vn',12.5],['vv',12.5],['zn',5],['zv',5],['zwn',5],['zwv',5],['kn',5],['kv',5],
@@ -286,7 +294,7 @@ function zoneC(kind,h,pre){
     case 'zhn': m=40; ans=[pre,'zehn','nach','halb',M]; alt.push([pre,'zwanzig','vor',M]); break;
   }
   if(!approx) alt.push([pre,hw(h),'Uhr',numWord(m)]);
-  return {kind:'time', ans:ans, alts:alt, cue:{type:'clock',H:h,m:m,fmt:'12',approx:approx}};
+  return {kind:'time', ans:ans, alts:alt, cue:{type:'clock',H:h,m:m,fmt:'12',approx:approx,kind:kind}};
 }
 function zoneDay(d,capFirst){
   var z;
@@ -376,7 +384,7 @@ function mkItem(frame,zones,stage){
     var s=segs[i];
     text+= (typeof s==='number') ? zones[s].ans.join(zones[s].compact?'':' ') : s;
   }
-  return {stage:stage, segs:segs, zones:zones, text:text};
+  return {stage:stage, segs:segs, zones:zones, text:text, frame:frame};
 }
 
 /* ================= generators ================= */
@@ -391,9 +399,16 @@ function numList(id){
   return r;
 }
 function genNum(id){
+  if(id==='0g'){
+    var dl=DAYS.concat(['Wochenende']);
+    return dl.map(function(w,i){
+      var z={kind:'word', ans:[w], alts:[], pool:dl, cue:{type:'days',on:w==='Wochenende'?[5,6]:[i]}};
+      return {stage:id, segs:[0], zones:[z], text:w};
+    });
+  }
   if(id==='0f'){
     return TODS.map(function(w){
-      var z={kind:'word', ans:[w], alts:w==='frühs'?[['früh']]:[], cue:{type:'tod',word:w}};
+      var z={kind:'word', ans:[w], alts:w==='frühs'?[['früh']]:[], pool:TODS, cue:{type:'tod',word:w}};
       return {stage:id, segs:[0], zones:[z], text:w};
     });
   }
@@ -483,10 +498,10 @@ function prepBag(n){
 /* one end of a "von ... bis": kind 'fu' full hour, 'ha' halb, or any zoneC kind */
 function pieceOf(kind,H,first){
   var h=h12of(H);
-  if(kind==='fu') return {v:pieceVariants(H,0,'12',first),cue:{H:h,m:0,fmt:'12'}};
-  if(kind==='ha') return {v:pieceVariants(H,30,'12',first),cue:{H:h,m:30,fmt:'12'}};
+  if(kind==='fu') return {v:pieceVariants(H,0,'12',first),cue:{H:h,m:0,fmt:'12',h24:H}};
+  if(kind==='ha') return {v:pieceVariants(H,30,'12',first),cue:{H:h,m:30,fmt:'12',h24:H}};
   var z=zoneC(kind,h,'x');
-  return {v:[z.ans.slice(1)].concat(z.alts.map(function(a){ return a.slice(1); })),cue:{H:h,m:z.cue.m,fmt:'12',approx:z.cue.approx}};
+  return {v:[z.ans.slice(1)].concat(z.alts.map(function(a){ return a.slice(1); })),cue:{H:h,m:z.cue.m,fmt:'12',approx:z.cue.approx,kind:z.cue.kind,h24:H}};
 }
 function rangeOf(k1,k2,H1,H2){
   var a=pieceOf(k1,H1,true), b=pieceOf(k2,H2,false);
@@ -564,7 +579,7 @@ function dGleich(){
   var h=1+rnd(12), half=Math.random()<0.5, M=hw(half?h:nextH(h),true), z;
   /* "gleich" = just before: gleich drei (2:58), gleich halb vier (3:28) */
   var tok=half?['gleich','halb',hw(nextH(h),true)]:['gleich',hw(nextH(h),true)];
-  z={kind:'time',ans:tok,alts:half?[]:[['gleich',hw(nextH(h),true),'Uhr']],cue:{type:'clock',H:h,m:half?28:58,fmt:'12',approx:true}};
+  z={kind:'time',ans:tok,alts:half?[]:[['gleich',hw(nextH(h),true),'Uhr']],cue:{type:'clock',H:h,m:half?28:58,fmt:'12',approx:true,kind:half?'glh':'gl'}};
   return mkItem(pick(['Es ist {0}.','Schnell, es ist {0}.']),[z],'D');
 }
 function genD(){
@@ -586,6 +601,7 @@ var STAGES=[
   {id:'0d',grp:'num',tag:'0.4',title:'Tens to 100',ex:'zwanzig, dreißig ... hundert'},
   {id:'0e',grp:'num',tag:'0.5',title:'32, 43, 54 ... 98',ex:'zweiunddreißig ...'},
   {id:'0f',grp:'num',tag:'0.6',title:'Times of the day',ex:'morgens, mittags, abends ...'},
+  {id:'0g',grp:'num',tag:'0.7',title:'Weekdays and weekend',ex:'Montag, Dienstag ... Wochenende'},
   {id:'A',grp:'time',tag:'A',title:'Full and half hours',ex:'um halb fünf, von acht bis zwölf'},
   {id:'B',grp:'time',tag:'B',title:'24-hour clock',ex:'um 14 Uhr 30, ab 8 Uhr'},
   {id:'C',grp:'time',tag:'C',title:'Viertel, zehn, zwanzig, kurz',ex:'Viertel nach drei, kurz vor halb vier'},
@@ -1438,6 +1454,200 @@ function renderPlay(focusFirst){
     var f=app.querySelector('.zin'); if(f){ try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); } }
   }
 }
+/* ================= translations (word by word + natural English) ================= */
+var EN_FR={
+  'Der Kurs beginnt {0}.':'The course starts {0}.',
+  'Das Meeting endet {0}.':'The meeting ends {0}.',
+  'Wir trinken {0} Kaffee.':'We drink coffee {0}.',
+  'Wir treffen uns {0} am Bahnhof.':'We meet {0} at the train station.',
+  'Der Zug fährt {0} ab.':'The train leaves {0}.',
+  'Ich stehe {0} auf.':'I get up {0}.',
+  'Wir essen {0} zu Mittag.':'We eat lunch {0}.',
+  'Mein Termin ist {0}.':'My appointment is {0}.',
+  'Die Apotheke schließt {0}.':'The pharmacy closes {0}.',
+  'Ich rufe dich {0} an.':'I will call you {0}.',
+  'Die Videokonferenz beginnt {0}.':'The video conference starts {0}.',
+  'Das Konzert endet {0}.':'The concert ends {0}.',
+  'Ich komme {0} nach Hause.':'I get home {0}.',
+  'Der Bus kommt {0}.':'The bus comes {0}.',
+  'Wir sehen uns {0} im Büro.':'We will see each other {0} at the office.',
+  'Ich habe {0} einen Termin beim Arzt.':'I have an appointment with the doctor {0}.',
+  'Das Paket kommt {0}.':'The package arrives {0}.',
+  'Der Film beginnt {0}.':'The movie starts {0}.',
+  'Der Termin im Bürgeramt ist {0}.':"The appointment at the citizens' office is {0}.",
+  'Die Präsentation beginnt {0}.':'The presentation starts {0}.',
+  'Das Büro ist {0} geöffnet.':'The office is open {0}.',
+  'Ich arbeite {0}.':'I work {0}.',
+  'Der Kurs ist {0}.':'The course runs {0}.',
+  'Die Praxis hat {0} Sprechstunde.':'The practice has consultation hours {0}.',
+  'Das Café ist {0} offen.':'The café is open {0}.',
+  'Wir haben {0} Unterricht.':'We have class {0}.',
+  'Die Bibliothek ist {0} geöffnet.':'The library is open {0}.',
+  'Der Supermarkt ist {0} offen.':'The supermarket is open {0}.',
+  'Das Fitnessstudio ist {0} geöffnet.':'The gym is open {0}.',
+  'Ich bin {0} zu Hause.':'I am at home {0}.',
+  'Das Restaurant ist {0} offen.':'The restaurant is open {0}.',
+  'Wir haben {0} Zeit.':'We have time {0}.',
+  'Das Frühstück gibt es {0}.':'Breakfast is served {0}.',
+  'Ich habe {0} Zeit für dich.':'I have time for you {0}.',
+  'Die Rezeption ist {0} besetzt.':'The reception is staffed {0}.',
+  'Der ICE nach München fährt {0} ab.':'The ICE to Munich departs {0}.',
+  'Der Zug aus Hamburg kommt {0} an.':'The train from Hamburg arrives {0}.',
+  'Das Flugzeug nach Frankfurt startet {0}.':'The plane to Frankfurt takes off {0}.',
+  'Der Flug aus Wien landet {0}.':'The flight from Vienna lands {0}.',
+  'Das Boarding beginnt {0}.':'Boarding starts {0}.',
+  'Der Bus zum Flughafen fährt {0} ab.':'The bus to the airport leaves {0}.',
+  'Die Konferenz beginnt {0}.':'The conference starts {0}.',
+  'Der Vortrag beginnt {0}.':'The talk starts {0}.',
+  'Die Sitzung beginnt {0}.':'The session starts {0}.',
+  'Das Abendessen im Hotel beginnt {0}.':'Dinner at the hotel starts {0}.',
+  'Die Führung beginnt {0}.':'The tour starts {0}.',
+  'Die Eröffnung der Messe ist {0}.':'The opening of the trade fair is {0}.',
+  'Die Konferenz findet {0} statt.':'The conference takes place {0}.',
+  'Das Hotelrestaurant ist {0} geöffnet.':'The hotel restaurant is open {0}.',
+  'Die Sprechstunde ist {0}.':'Consultation hours are {0}.',
+  'Das Frühstücksbuffet gibt es {0}.':'The breakfast buffet is available {0}.',
+  'Der Workshop läuft {0}.':'The workshop runs {0}.',
+  'Der Schalter ist {0} besetzt.':'The counter is staffed {0}.',
+  'Die Ausstellung ist {0} geöffnet.':'The exhibition is open {0}.',
+  '{0} beginnt der Deutschkurs {1}.':'{0} the German course starts {1}.',
+  'Das Meeting ist {0} {1}.':'The meeting is {0} {1}.',
+  'Ich habe {0} {1} einen Termin beim Arzt.':'I have an appointment with the doctor {0} {1}.',
+  'Wir treffen uns {0} {1} am Bahnhof.':'We meet {0} {1} at the train station.',
+  '{0} fahre ich {1} zur Arbeit.':'{0} I drive to work {1}.',
+  'Der Zug nach Berlin fährt {0} {1} ab.':'The train to Berlin leaves {0} {1}.',
+  'Ich gehe {0} {1} ins Fitnessstudio.':'I go to the gym {0} {1}.',
+  'Mein Termin im Bürgeramt ist {0} {1}.':"My appointment at the citizens' office is {0} {1}.",
+  'Die Videokonferenz ist {0} {1}.':'The video conference is {0} {1}.',
+  'Das Paket kommt {0} {1}.':'The package arrives {0} {1}.',
+  'Das Büro ist {0} {1} geöffnet.':'The office is open {0} {1}.',
+  'Die Praxis hat {0} {1} Sprechstunde.':'The practice has consultation hours {0} {1}.',
+  'Der Supermarkt ist {0} {1} offen.':'The supermarket is open {0} {1}.',
+  'Ich arbeite {0} {1}.':'I work {0} {1}.',
+  'Der Deutschkurs ist {0} {1}.':'The German course runs {0} {1}.',
+  'Das Fitnessstudio ist {0} {1} geöffnet.':'The gym is open {0} {1}.',
+  '{0} habe ich {1} Zeit.':'{0} I have time {1}.',
+  'Ich bin {0} {1} zu Hause.':'I am at home {0} {1}.',
+  'Das Café ist {0} {1} offen.':'The café is open {0} {1}.',
+  'Ich stehe {0} {1} auf.':'I get up {0} {1}.',
+  'Der Kurs beginnt {0} {1} und endet {2}.':'The course starts {0} {1} and ends {2}.',
+  '{0} stehe ich {1} auf und fahre {2} zur Arbeit.':'{0} I get up {1} and drive to work {2}.',
+  '{0} frühstücken wir {1} und treffen uns {2} im Büro.':'{0} we have breakfast {1} and meet {2} at the office.',
+  'Ich habe {0} {1} einen Termin und {2} ein Meeting.':'I have an appointment {0} {1} and a meeting {2}.',
+  'Es ist {0}.':'It is {0}.',
+  'Schnell, es ist {0}.':'Hurry, it is {0}.'
+};
+var FG={
+  der:'the',die:'the',das:'the',den:'the',dem:'the',ein:'a',einen:'an',mein:'my',ich:'I',dich:'you',wir:'we',uns:'each other',es:'it',
+  ist:'is',bin:'am',haben:'have',habe:'have',hat:'has',gibt:'gives',und:'and',zu:'to',
+  kurs:'course',deutschkurs:'German course',beginnt:'begins',meeting:'meeting',endet:'ends',trinken:'drink',kaffee:'coffee',treffen:'meet',
+  am:'at the',bahnhof:'train station',zug:'train',fährt:'drives',ab:'off',stehe:'stand',auf:'up',essen:'eat',mittag:'noon',
+  termin:'appointment',apotheke:'pharmacy',schließt:'closes',rufe:'call',an:'on',videokonferenz:'video conference',konzert:'concert',
+  komme:'come',nach:'to',hause:'home',bus:'bus',kommt:'comes',sehen:'see',im:'in the',büro:'office',einen_:'',arzt:'doctor',beim:'at the',
+  paket:'package',film:'movie',bürgeramt:'citizens\' office',präsentation:'presentation',geöffnet:'open',ich_:'',arbeite:'work',
+  praxis:'practice',sprechstunde:'consultation hours',café:'café',offen:'open',unterricht:'class',bibliothek:'library',supermarkt:'supermarket',
+  fitnessstudio:'gym',zeit:'time',für:'for',restaurant:'restaurant',frühstück:'breakfast',rezeption:'reception',besetzt:'staffed',
+  ice:'ICE train',münchen:'Munich',hamburg:'Hamburg',aus:'from',frankfurt:'Frankfurt',flugzeug:'airplane',startet:'starts',flug:'flight',wien:'Vienna',landet:'lands',
+  boarding:'boarding',flughafen:'airport',zum:'to the',konferenz:'conference',vortrag:'talk',sitzung:'session',abendessen:'dinner',hotel:'hotel',
+  führung:'tour',eröffnung:'opening',messe:'trade fair',findet:'finds',statt:'place',hotelrestaurant:'hotel restaurant',frühstücksbuffet:'breakfast buffet',
+  workshop:'workshop',läuft:'runs',schalter:'counter',ausstellung:'exhibition',berlin:'Berlin',ins:'into the',zur:'to the',arbeit:'work',gehe:'go',
+  fahre:'drive',frühstücken:'have breakfast',ein_:'',schnell:'quick',
+  frühs:'early morning',morgens:'in the morning',vormittags:'late morning',mittags:'at noon',nachmittags:'in the afternoon',abends:'in the evening',nachts:'at night'
+};
+var ZG={
+  um:'at',von:'from',bis:'until',ab:'from',uhr:"o'clock",halb:'half',viertel:'quarter',vor:'before',nach:'after',kurz:'shortly',gleich:'almost',am:'on',
+  wochenende:'weekend',montag:'Monday',dienstag:'Tuesday',mittwoch:'Wednesday',donnerstag:'Thursday',freitag:'Friday',samstag:'Saturday',sonntag:'Sunday',
+  frühs:'early morning',früh:'early morning',morgens:'in the morning',vormittags:'late morning',mittags:'at noon',nachmittags:'in the afternoon',abends:'in the evening',nachts:'at night',
+  sech:'six',sieb:'seven',ein:'one',komma:'comma'
+};
+var EN_ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+var EN_TENS={20:'twenty',30:'thirty',40:'forty',50:'fifty',60:'sixty',70:'seventy',80:'eighty',90:'ninety'};
+function enNum(n){
+  if(n<20) return EN_ONES[n];
+  if(n===100) return 'one hundred';
+  var t=Math.floor(n/10)*10, o=n%10;
+  return o?EN_TENS[t]+'-'+EN_ONES[o]:EN_TENS[t];
+}
+var NUMTOK={};
+(function(){ for(var n=0;n<=100;n++){ NUMTOK[numWord(n)]=enNum(n); } NUMTOK['einhundert']='one hundred'; })();
+var TODEN={'frühs':'early in the morning','morgens':'in the morning','vormittags':'in the morning','mittags':'at midday','nachmittags':'in the afternoon','abends':'in the evening','nachts':'at night'};
+var DAYEN={Montag:'Monday',Dienstag:'Tuesday',Mittwoch:'Wednesday',Donnerstag:'Thursday',Freitag:'Friday',Samstag:'Saturday',Sonntag:'Sunday',Wochenende:'weekend'};
+function enClock(c,o){
+  o=o||{};
+  var h=c.H, m=c.m, s, ap='';
+  if(c.fmt==='24'){
+    s=h12of(h)+':'+pad(m);
+    return o.noAmPm ? s : s+' '+(h<12?'a.m.':'p.m.')+' ('+pad(h)+':'+pad(m)+')';
+  }
+  switch(c.kind){
+    case 'kn': s='just after '+h+':00'; break;
+    case 'kv': s='just before '+nextH(h)+':00'; break;
+    case 'khv': s='just before '+h+':30'; break;
+    case 'khn': s='just after '+h+':30'; break;
+    case 'gl': s='almost '+nextH(h)+':00'; break;
+    case 'glh': s='almost '+h+':30'; break;
+    default: s=h+':'+pad(m);
+  }
+  if(o.ampm && c.h24!=null) s+=(c.h24<12||c.h24===24?' a.m.':' p.m.');
+  return s;
+}
+function enZone(z){
+  var a=z.ans, c=z.cue, s, p=a[0].toLowerCase();
+  if(z.kind==='day'){
+    if(a[1]==='Wochenende') return 'on the weekend';
+    if(p==='von') return 'from '+DAYEN[a[1]]+' to '+DAYEN[a[3]];
+    return 'on '+DAYEN[a[1]];
+  }
+  if(c.type==='range') s='from '+enClock(c.from,{ampm:true})+' to '+enClock(c.to,{ampm:true});
+  else {
+    var t=enClock(c,{noAmPm:!!c.tod}), approx=/^(just|almost)/.test(t);
+    if(p==='ab') s='from '+t+' on';
+    else if(p==='um') s=approx?t:'at '+t;
+    else s=t;
+  }
+  if(c.tod) s+=' '+TODEN[c.tod.word];
+  return s;
+}
+function glossTok(tok,table){
+  var k=tok.replace(/[.,!?;:]/g,'').toLowerCase();
+  if(table==='zone'){ if(ZG[k]!=null) return ZG[k]; if(NUMTOK[k]!=null) return NUMTOK[k]; if(FG[k]!=null) return FG[k]; return ''; }
+  return FG[k]!=null?FG[k]:(NUMTOK[k]!=null?NUMTOK[k]:'');
+}
+var TOD_RE=/\{0\} (frühs|morgens|vormittags|mittags|nachmittags|abends|nachts)(?=[ .,!?]|$)/;
+function translateItem(it){
+  var z0=it.zones[0], words=[], en;
+  if(it.stage.charAt(0)==='0' && z0 && (z0.kind==='num'||z0.kind==='word')){
+    var de=z0.ans.join(z0.compact?'':' ');
+    if(z0.kind==='num'){
+      var parts=z0.ans.map(function(t){ return glossTok(t,'zone'); });
+      return {words:[{de:de,gl:parts.join(' + ')}],en:enNum(z0.n)};
+    }
+    var w=z0.ans[0];
+    return {words:[{de:de,gl:''}],en:(w==='vormittags'?'in the late morning (before noon)':(TODEN[w]||DAYEN[w]||''))};
+  }
+  var frame=it.frame||'', key=frame.replace(TOD_RE,'{0}'), tpl=EN_FR[key];
+  if(!tpl) return null;
+  var m=frame.match(TOD_RE), suf=m?m[1]:null;
+  en=tpl.replace(/\{(\d)\}/g,function(_,i){ var s=enZone(it.zones[+i]); if(+i===0&&suf) s+=' '+TODEN[suf]; return s; });
+  en=en.charAt(0).toUpperCase()+en.slice(1);
+  en=en.replace(/\.\.$/,'.');
+  it.segs.forEach(function(s){
+    if(typeof s==='number') it.zones[s].ans.forEach(function(t){ words.push({de:t,gl:glossTok(t,'zone')}); });
+    else s.split(/\s+/).forEach(function(t){
+      if(!t) return;
+      if(/^[.,!?;:]+$/.test(t) && words.length){ words[words.length-1].de+=t; return; }
+      words.push({de:t,gl:glossTok(t,'frame')});
+    });
+  });
+  return {words:words,en:en};
+}
+function translationHtml(it){
+  var t=translateItem(it); if(!t) return '';
+  var h='<div class="tr"><div class="tr-words">';
+  t.words.forEach(function(w){ h+='<span class="tr-w"><span class="de">'+esc(w.de)+'</span><span class="gl">'+esc(w.gl||' ')+'</span></span>'; });
+  return h+'</div><div class="tr-e">'+esc(t.en)+'</div></div>';
+}
+
 function feedbackHtml(){
   var it=cur(), h='';
   if(S.done){
@@ -1451,7 +1661,8 @@ function feedbackHtml(){
       }
     });
     if(rows) h+='<div class="answers">'+rows+'</div>';
-    h+='<p class="full">'+esc(it.text)+'</p>';
+    var trh=translationHtml(it);
+    h+= trh ? trh : '<p class="full">'+esc(it.text)+'</p>';
   } else if(S.failed){
     h+='<p class="fb bad">Not quite. Look again, or show the answer.</p>';
   }
@@ -1685,7 +1896,7 @@ app.addEventListener('focusin',function(e){ if(e.target.classList&&e.target.clas
 renderSetup();
 
 /* test hook (harmless in production) */
-window.LKN={genRound:genRound,numWord:numWord,numParts:numParts,norm:norm,keyOf:keyOf,STAGES:STAGES,S:S};
+window.LKN={translateItem:translateItem,genRound:genRound,numWord:numWord,numParts:numParts,norm:norm,keyOf:keyOf,STAGES:STAGES,S:S};
 })();
 </script>
 </body>
