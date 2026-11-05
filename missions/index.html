@@ -117,6 +117,33 @@ h1{color:var(--coral)}
 .olist .me{font-weight:400}.olist .me b{font-weight:800}
 .olist .me::after{content:" \2190 you"}
 
+.trl{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}.trl svg{width:84px;height:auto;color:var(--fg)}
+.coinslot{background:#2b3140;border:3px solid #111;border-radius:10px;padding:8px 12px;color:#fff;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:14px}
+.coinslot i{width:8px;height:22px;border-radius:4px;background:#111;border:2px solid #aaa}
+.scalew{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:2px solid var(--fg);border-radius:14px;padding:10px 12px}
+.tray-t{display:flex;gap:4px;background:#C9CFDB;border:2px solid #0E172D;border-radius:10px 10px 6px 6px;padding:8px}
+.tray-t i{width:20px;height:20px;border-radius:50%;background:#F66F54;border:2px solid #0E172D}
+.sc-d{background:var(--lcd);color:var(--lcd-fg);border:3px solid #111;border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;font-weight:800;font-size:14px;min-width:150px}
+.sc-d em{font-style:normal;font-size:22px;font-variant-numeric:tabular-nums}
+.tagrow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch;flex:1 1 220px}
+.tg-h{flex:1 1 100%;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--sub)}
+.ptag{flex:1 1 140px;min-width:0;background:var(--paper);color:var(--ink);border:2px solid #777;border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;font-size:13px}
+.ptag b{font-size:15px}
+.gangs{background:#fff;color:#1b1f2a;border:3px solid #1b1f2a;border-radius:10px;padding:8px 10px;flex:1 1 240px;display:flex;flex-direction:column;gap:6px}
+.g-h{font-weight:900;letter-spacing:.1em;font-size:16px}
+.g-c{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g-c div{display:flex;flex-direction:column;gap:2px;font-size:13px;background:#f4eddf;border-radius:6px;padding:6px 8px}
+.g-c b{color:#8a1f10}.g-c em{font-style:normal;color:#4A5266;font-size:12px}
+.pfa{min-width:220px}.pfb{gap:8px}.pfb span{background:#f2c300;color:#111;border-radius:6px;padding:4px 8px;font-size:13px}
+.liste{background:var(--paper);color:var(--ink);border:1px dashed #777;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.liste>b{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#555}
+.liste .li{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.liste .li i{width:14px;height:14px;border:2px solid #444;border-radius:3px;flex:none;align-self:center}
+.liste .li.on i{background:#5E9A6A;border-color:#1D4A29}
+.liste .li.on>span:first-of-type{text-decoration:line-through;opacity:.7}
+.liste .gl{color:#4A5266}
+.bank h4{margin:14px 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--sub)}
+
 /* dashboard */
 .tiles{display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:560px){.tiles{grid-template-columns:1fr 1fr}}
@@ -360,6 +387,9 @@ I.host=av('#C0521F','#BCDDBF','');
 I.guest=av('#4A3A2A','#12356E','');
 I.hair=av('#7A3F9D','#E8D4F0','<path d="M24 22c2-6 6-8 8-8s6 2 8 8" fill="none" stroke="#0E172D" stroke-width="2"/>');
 I.clerk=av('#4A3A2A','#F4C900','<rect x="24" y="48" width="16" height="9" rx="2" fill="#fff" stroke="#0E172D" stroke-width="2"/>');
+I.cartIll='<svg viewBox="0 0 80 80" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M6 14h10l8 34h38l6-24H20" /><path d="M24 48l-3 8h42" /><path d="M22 28h42M26 38h36" stroke-width="1.8"/><circle cx="28" cy="66" r="5" fill="#BCDDBF"/><circle cx="58" cy="66" r="5" fill="#BCDDBF"/><circle cx="44" cy="20" r="6" fill="#F66F54"/><rect x="50" y="14" width="10" height="9" rx="2" fill="#FFD34E"/></svg>';
+I.seller=av('#8A5A3A','#ffffff','<path d="M20 15c0-7 5-10 12-10s12 3 12 10z" fill="#fff" stroke="#0E172D" stroke-width="2.5"/>');
+I.trolley='<svg viewBox="0 0 80 56" fill="none" stroke="#0E172D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M4 8h10l7 28h38l6-20H17"/><path d="M21 36l-3 7h40"/><path d="M20 22h42M24 30h36" stroke-width="1.8"/><circle cx="26" cy="49" r="4" fill="#BCDDBF"/><circle cx="54" cy="49" r="4" fill="#BCDDBF"/></svg>';
 var AMT_BAD={
  20:'You would get 20 euros. Not wrong in real life, but your goal is 100.',
  50:'You would get 50 euros. Your goal is 100.',
@@ -936,7 +966,87 @@ var FRISEUR={
  ]
 };
 
-var MISSIONS=[ATM,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,PARTY,LETTER,RAIL,NEIGHBOUR,TERMIN,FAN,KANTINE,FRISEUR];
+/* ---------- mission: Wocheneinkauf ---------- */
+var SHOP={
+ id:'shop',title:'The weekly shop',tag:'Supermarket · Shop floor',scene:'talk',ill:'cartIll',
+ blurb:'Trolley, scales, deli counter, deposit bottles: learn the words on every shelf.',
+ goal:'Do a full shop (tomatoes, cheese, milk, still water, flour) and get your bottle deposit back.',
+ hint:'Tip: this one is longer than the others. Your shopping list shows what is already in your trolley.',
+ liste:[['Tomaten 500 g','tomatoes, 500 g'],['Käse 200 g','cheese, 200 g'],['Milch','milk'],['Wasser (still)','still water'],['Mehl','flour']],
+ init:function(){return {b:[]}},
+ vocab:[['der Einkaufswagen','shopping trolley'],['das Pfand','deposit'],['lose','loose, not packed'],['die Waage','scale'],['die Frischetheke','fresh counter'],['zweihundert Gramm','200 grams'],['in Scheiben','in slices'],['am Stück','in one piece'],['die Milch','milk'],['die Sahne','cream'],['still / medium / mit Kohlensäure','still / a little sparkling / sparkling'],['Wo finde ich Mehl?','Where do I find flour?'],['links / rechts','left / right'],['der Gang','aisle'],['der Pfandautomat','bottle return machine'],['der Pfandbon','deposit voucher']],
+ bank:[
+  ['Entrance and exit',[['der Einkaufswagen','shopping trolley'],['der Korb','basket'],['das Pfand','deposit'],['der Eingang','entrance'],['der Ausgang','exit'],['die Kasse','checkout'],['die Tüte','bag']]],
+  ['Fruit and vegetables',[['das Obst','fruit'],['das Gemüse','vegetables'],['der Apfel','apple'],['die Banane','banana'],['die Orange','orange'],['die Zitrone','lemon'],['die Tomate','tomato'],['die Gurke','cucumber'],['die Kartoffel','potato'],['die Zwiebel','onion'],['die Karotte','carrot'],['der Salat','lettuce, salad'],['die Paprika','bell pepper'],['lose','loose, not packed'],['das Stück','piece'],['das Kilo','kilo'],['wiegen','to weigh'],['die Waage','scale'],['bio','organic']]],
+  ['Meat, sausage and cheese',[['die Frischetheke','fresh counter'],['das Fleisch','meat'],['das Hackfleisch','minced meat'],['das Hähnchen','chicken'],['die Wurst','sausage, cold cuts'],['der Schinken','ham'],['der Käse','cheese'],['das Gramm','gram'],['das Pfund','500 grams (a German "pound")'],['die Scheibe','slice'],['am Stück','in one piece']]],
+  ['Bread',[['das Brot','bread'],['das Brötchen','bread roll'],['die Bäckerei','bakery'],['geschnitten','sliced']]],
+  ['Dairy',[['die Milch','milk'],['die H-Milch','long-life milk'],['laktosefrei','lactose-free'],['fettarm','low-fat'],['die Butter','butter'],['das Ei, die Eier','egg, eggs'],['der Joghurt','yoghurt'],['der Quark','quark (fresh cheese)'],['die Sahne','cream']]],
+  ['Drinks',[['das Wasser','water'],['still','still'],['medium','a little sparkling'],['mit Kohlensäure','sparkling'],['der Saft','juice'],['das Bier','beer'],['die Flasche','bottle'],['die Kiste','crate'],['Einweg / Mehrweg','one-way / reusable'],['der Pfandautomat','bottle return machine'],['der Pfandbon','deposit voucher']]],
+  ['Shelves',[['die Nudeln','pasta'],['der Reis','rice'],['das Mehl','flour'],['der Zucker','sugar'],['das Salz','salt'],['das Öl','oil'],['der Kaffee','coffee'],['der Tee','tea'],['die Marmelade','jam'],['die Schokolade','chocolate'],['die Dose','can'],['das Glas','jar'],['tiefgekühlt','frozen'],['das Eis','ice cream']]],
+  ['Household',[['das Toilettenpapier','toilet paper'],['das Spülmittel','dish soap'],['die Seife','soap'],['die Zahnpasta','toothpaste'],['die Mülltüte','bin bag']]],
+  ['Signs and labels',[['das Angebot','special offer'],['der Preis','price'],['der Grundpreis','price per kilo or litre'],['das Mindesthaltbarkeitsdatum','best-before date'],['die Selbstbedienung','self-service'],['der Gang','aisle']]],
+  ['Useful phrases',[['Wo finde ich …?','Where do I find …?'],['Haben Sie …?','Do you have …?'],['Ich hätte gern …','I would like …'],['Das wäre alles.','That is all.'],['Darf es sonst noch etwas sein?','Anything else?']]]
+ ],
+ costly:[
+  ['Pfand','The deposit on trolleys and bottles. You pay it now and get it back later, but only if you return the bottle or trolley. Throw the bottle away and the money is gone.'],
+  ['lose','Loose produce has no price on it. It must be weighed first. Without the sticker the cashier sends you back or waits while the queue grows.'],
+  ['Gramm ≠ Kilo','200 grams is a small slice. 200 kilos would cost you about 3,800 euros. At the counter you say "Gramm".'],
+  ['Sahne ≠ Milch','Sahne is cream, not milk. Buttermilch is sour and thin. Read the label before it goes in the trolley.'],
+  ['Classic / Kohlensäure','"Classic" on a water bottle sounds normal, but it means lots of bubbles. Kohlensäure is the fizz. Look for "still" if you want flat water.'],
+  ['Wo / Wie / Wann','Wo is where, wie is how, wann is when. Asking "Wie finde ich Mehl?" gets you a funny look, not a direction.']
+ ],
+ note:'Trolley coins are usually 1 euro or 50 cents, and some shops use a chip instead. Bottle deposit is usually 25 cents for one-way bottles and 8 to 15 cents for reusable ones, and it varies by shop. Some supermarkets weigh loose fruit at the checkout, so look for a scale first. After this mission, play "At the checkout" to hand over your Pfandbon at the Kasse.',
+ next:'kasse',
+ steps:[
+ {task:'Trolley',narr:'You walk into the shop. The Einkaufswagen (shopping trolleys) are chained together. In your pocket you have a one-euro coin.',
+  talk:{panel:'wagen'},
+  opts:[{de:'Eine Euro-Münze einstecken.',en:'Put in a one-euro coin.',k:'good',fb:{t:'Trolley free',b:'The coin unlocks the chain. You get it back when you push the trolley into the row again. That deposit is called Pfand: money you pay now and get back later.'}},
+        {de:'Den Wagen einfach wegziehen.',en:'Just pull the trolley away.',k:'bad',fb:{t:'Stuck',b:'The chain holds. A trolley comes loose only with a coin or a chip. Look for the little slot near the handle.'}},
+        {de:'Einen Korb nehmen.',en:'Take a basket.',k:'ok',fb:{t:'Possible, but heavy',b:'A Korb works for a few items. Water bottles and flour get heavy fast, so the trolley is easier. Try the coin next time.'}}]},
+ {task:'Fruit and vegetables',narr:'Obst und Gemüse (fruit and vegetables). Your list says tomatoes, 500 g. They are lose (loose, not packed), and next to them is a Waage (scale).',
+  talk:{panel:'waage'},
+  opts:[{de:'Wiegen und Etikett drucken.',en:'Weigh them and print the label.',k:'good',set:function(s){if(s.b.indexOf('Tomaten 500 g')<0)s.b.push('Tomaten 500 g')},fb:{t:'Tomatoes in the trolley',b:'Loose produce is priced per kilo. Put it on the Waage, press the picture of the tomatoes, take the sticker (Etikett) and stick it on the bag. Some shops weigh at the checkout, so look for a scale first.'}},
+        {de:'Lose in den Wagen legen.',en:'Put them loose in the trolley.',k:'bad',fb:{t:'No price',b:'The cashier cannot see a price. She says "Das muss gewogen werden" (that must be weighed) and sends you back, or the whole queue waits.'}},
+        {de:'Einpacken und weitergehen.',en:'Bag them and keep going.',k:'bad',fb:{t:'Bag without a label',b:'A bag is not a price. Without the sticker the scanner has nothing to read at the checkout.'}},
+        {de:'Eine Tomate probieren.',en:'Try one tomato.',k:'bad',fb:{t:'Eating before paying',b:'Eating something before you pay can count as theft. Pay first, eat later. Staff look at you in a way you will remember.'}}]},
+ {task:'Deli counter',narr:'At the Frischetheke (fresh counter) the seller is waiting. Your list says cheese, 200 g. The price tags show Gouda, Emmentaler and Bergkäse.',
+  talk:{av:'seller',line:['Guten Tag! Was darf es sein?','Hello! What can I get you?'],panel:'theke'},
+  opts:[{de:'Zweihundert Gramm Gouda, bitte.',en:'Two hundred grams of Gouda, please.',k:'good',set:function(s){if(s.b.indexOf('Käse 200 g')<0)s.b.push('Käse 200 g')},fb:{t:'Cheese in the trolley',b:'Gramm is the unit at the counter. She will also ask "In Scheiben oder am Stück?" (sliced or in one piece) and "Darf es sonst noch etwas sein?" (anything else?). Answer "In Scheiben" for sandwiches, "am Stück" if you will cut it yourself, and "Das wäre alles" when you are done.',talk:{av:'seller',line:['In Scheiben oder am Stück? Darf es sonst noch etwas sein?','Sliced or in one piece? Anything else?'],panel:'theke'}}},
+        {de:'Zweihundert Kilo Gouda, bitte.',en:'Two hundred kilos of Gouda, please.',k:'bad',fb:{t:'That is a lot of cheese',b:'Kilo is a thousand grams. At 1,89 euros per 100 grams, 200 kilos cost about 3,800 euros. She laughs, then waits to see if you are serious.',talk:{av:'seller',line:['Zweihundert Kilo? Sind Sie sicher?','Two hundred kilos? Are you sure?'],panel:'theke'}}},
+        {de:'Zweihundert Stück Gouda, bitte.',en:'Two hundred pieces of Gouda, please.',k:'bad',fb:{t:'Stück counts pieces',b:'Stück is for things you count: one piece of cake, three bread rolls. For cheese by weight you say Gramm. 200 pieces would empty her counter.',talk:{av:'seller',line:['Stück? Wie viel Gramm denn?','Pieces? How many grams, then?'],panel:'theke'}}}]},
+ {task:'Milk',narr:'Milchprodukte (dairy). Your list says Milch. Four things on the shelf look almost the same: Vollmilch, H-Milch, Schlagsahne and Buttermilch.',
+  talk:{panel:'regal'},
+  opts:[{de:'Ich nehme die Vollmilch.',en:'I take the whole milk.',k:'good',set:function(s){if(s.b.indexOf('Milch')<0)s.b.push('Milch')},fb:{t:'Milk in the trolley',b:'Vollmilch is normal whole milk from the fridge. It keeps a few days once you open it.'}},
+        {de:'Ich nehme die H-Milch.',en:'I take the long-life milk.',k:'good',set:function(s){if(s.b.indexOf('Milch')<0)s.b.push('Milch')},fb:{t:'Also milk',b:'H-Milch is long-life milk. It sits on a normal shelf and keeps for months until you open it. It tastes slightly different, but it is milk.'}},
+        {de:'Ich nehme die Schlagsahne.',en:'I take the whipping cream.',k:'bad',fb:{t:'Cream, not milk',b:'Sahne is cream. Drink it and you will remember it. Look for "Milch" on the label.'}},
+        {de:'Ich nehme die Buttermilch.',en:'I take the buttermilk.',k:'bad',fb:{t:'Sour and thin',b:'Buttermilch is the liquid left after making butter. It is sour and thin, and you will not enjoy it in your coffee.'}}]},
+ {task:'Water',narr:'Getränke (drinks). Your list says still water. The three bottles have a price tag with a second price: the Pfand.',
+  talk:{panel:'wasser'},
+  opts:[{de:'Ich nehme das Wasser still.',en:'I take the still water.',k:'good',set:function(s){if(s.b.indexOf('Wasser (still)')<0)s.b.push('Wasser (still)')},fb:{t:'Water in the trolley',b:'"Still" is flat water, almost the same word as in English. The price tag says 0,59 euros plus 0,25 euros Pfand. You pay 0,84 euros and get the 0,25 back when you return the empty bottle.'}},
+        {de:'Ich nehme das Wasser Classic.',en:'I take the Classic water.',k:'bad',fb:{t:'Bubbles',b:'Classic sounds like the normal one, but it means lots of bubbles. Kohlensäure is the fizz. If you want flat water, look for "still".'}},
+        {de:'Ich nehme das Wasser Medium.',en:'I take the Medium water.',k:'bad',fb:{t:'A few bubbles',b:'Medium has a little Kohlensäure. Not wrong, but you wanted still.'}},
+        {de:'Ich nehme die Kiste Bier.',en:'I take the crate of beer.',k:'bad',fb:{t:'Not on the list',b:'A crate of beer adds about 5 euros of Pfand and is not on your shopping list. Nobody judges, but it is 10 o\'clock in the morning.'}}]},
+ {task:'Where is the flour',narr:'You cannot find Mehl (flour). An employee is putting new packs on a shelf. She looks up.',
+  talk:{av:'clerk',line:['Kann ich Ihnen helfen?','Can I help you?']},
+  opts:[{de:'Wo finde ich Mehl, bitte?',en:'Where do I find flour, please?',k:'good',fb:{t:'The right question',b:'"Wo finde ich ...?" is the question to learn first. It works for every product in the shop.',talk:{av:'clerk',line:['Mehl? Gang vier, links, bei den Backzutaten.','Flour? Aisle four, on the left, at the baking ingredients.']}}},
+        {de:'Haben Sie Mehl, bitte?',en:'Do you have flour, please?',k:'ok',fb:{t:'Works, a little slower',b:'"Haben Sie ...?" is fine, but it asks if they have it, not where it is. You get a yes and then the direction.',talk:{av:'clerk',line:['Ja, das haben wir. Gang vier, links.','Yes, we have it. Aisle four, on the left.']}}},
+        {de:'Wie finde ich Mehl, bitte?',en:'How do I find flour, please?',k:'bad',fb:{t:'How, not where',b:'Wie means how. She hears "How do I find flour?" and tries to answer. Where is "wo".',talk:{av:'clerk',line:['Äh ... mit den Augen?','Uh ... with your eyes?']}}},
+        {de:'Wann finde ich Mehl, bitte?',en:'When do I find flour, please?',k:'bad',fb:{t:'When, not where',b:'Wann means when. She does not know when you will find flour. Where is "wo".',talk:{av:'clerk',line:['Wann? Das weiß ich nicht.','When? I do not know.']}}}]},
+ {task:'Left or right',narr:'She points down the aisle. You walk to Gang 4. The shelf splits into two sides, and the signs hang above them.',
+  talk:{panel:'gang'},
+  opts:[{de:'Ich gehe nach links.',en:'I go left.',k:'good',set:function(s){if(s.b.indexOf('Mehl')<0)s.b.push('Mehl')},fb:{t:'Flour in the trolley',b:'Links is left, rechts is right. The Backzutaten (baking ingredients) are on the left: Mehl, Zucker and Backpulver.'}},
+        {de:'Ich gehe nach rechts.',en:'I go right.',k:'bad',fb:{t:'Wrong side',b:'Rechts is right. You find coffee, tea and cocoa. The flour is on the other side.'}},
+        {de:'Ich gehe geradeaus.',en:'I go straight ahead.',k:'bad',fb:{t:'You walked past',b:'Geradeaus is straight ahead. You walk to the end of the aisle and find only the wall. Turn around and take the left.'}}]},
+ {task:'Bottle return',narr:'You brought three empty bottles from home. At the Pfandautomat (bottle return machine) you push them in one by one. The screen shows 0,75 euros.',
+  talk:{panel:'pfandauto'},
+  opts:[{de:'Den Pfandbon drucken.',en:'Print the deposit voucher.',k:'good',fb:{t:'Mission complete',b:'The Pfandbon is a paper voucher worth 0,75 euros. Hand it to the cashier at the checkout and it comes off your bill. Do not lose it, and use it today.',talk:{panel:'pfandbon'}}},
+        {de:'Den Pfandbon spenden.',en:'Donate the deposit voucher.',k:'ok',fb:{t:'Kind, but not for you',b:'Spenden means to donate. Many machines have a button for it: the 0,75 euros go to a charity. Lovely, but it is your money.',talk:{panel:'pfandspende'}}},
+        {de:'Die Flaschen mitnehmen.',en:'Take the bottles with you.',k:'bad',fb:{t:'Deposit not claimed',b:'You carry empty bottles around the shop and the 0,75 euros stay in the machine. Press the button before you leave the machine.'}},
+        {de:'Die Flaschen ins Regal stellen.',en:'Put the bottles on a shelf.',k:'bad',fb:{t:'Rude and unpaid',b:'An empty bottle on a shelf is rubbish, not money. Staff pick it up, and you get no Pfand.'}}]}
+ ]
+};
+
+var MISSIONS=[ATM,SHOP,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,PARTY,LETTER,RAIL,NEIGHBOUR,TERMIN,FAN,KANTINE,FRISEUR];
 
 /* ---------- state ---------- */
 var G=null,app=document.getElementById('app');
@@ -1026,7 +1136,21 @@ function panelHTML(kind){
   if(kind==='karte')return '<div class="platform"><div class="icard"><b>GLOBAL CARE</b><span>International Health Plan</span><span>Mitglied seit 2024</span></div></div>';
   if(kind==='rechnung')return '<div class="platform"><div class="inv"><b>RECHNUNG Nr. 2041</b><span>Konsultation 10:00</span><span>Selbstzahler(in)</span><b>Total CHF 180.00</b></div></div>';
   if(kind==='beleg')return '<div class="platform"><div class="slip"><b>EINLIEFERUNGSBELEG</b><span>Einschreiben Übergabe + Rückschein</span><span>Sendungsnummer: RR 4821 7730 7DE</span><b>5,15 EUR</b></div></div>';
+  if(kind==='wagen')return '<div class="platform"><div class="trl">'+I.trolley+I.trolley+I.trolley+'<div class="coinslot"><b>1 €</b><i></i><span>Pfand</span></div></div></div>';
+  if(kind==='waage')return '<div class="platform"><div class="scalew"><div class="tray-t"><i></i><i></i><i></i><i></i><i></i></div><div class="sc-d"><b>TOMATEN</b><span>lose · 2,99 €/kg</span><em>0,50 kg</em></div></div></div>';
+  if(kind==='theke')return tagsHTML('Frischetheke',[['Gouda','1,89 € / 100 g'],['Emmentaler','2,19 € / 100 g'],['Bergkäse','2,49 € / 100 g']]);
+  if(kind==='regal')return tagsHTML('Kühlregal',[['Vollmilch 3,5 %','1 l · 1,29 €'],['H-Milch 1,5 %','1 l · 1,09 €'],['Schlagsahne','200 ml · 0,89 €'],['Buttermilch','500 ml · 0,79 €']]);
+  if(kind==='wasser')return tagsHTML('Mineralwasser · 1,5 l',[['Classic','0,59 € + 0,25 € Pfand'],['Medium','0,59 € + 0,25 € Pfand'],['Still','0,59 € + 0,25 € Pfand']]);
+  if(kind==='gang')return '<div class="platform"><div class="gangs"><div class="g-h">GANG 4</div><div class="g-c"><div><b>← links</b><span>Backzutaten</span><em>Mehl · Zucker · Backpulver</em></div><div><b>rechts →</b><span>Kaffee &amp; Tee</span><em>Kaffee · Tee · Kakao</em></div></div></div></div>';
+  if(kind==='pfandauto')return '<div class="platform"><div class="klingel pfa"><div><span>PFANDRÜCKGABE</span></div><div><span>Flaschen</span><span>3</span></div><div><span>Pfand</span><span>0,75 €</span></div><div class="pfb"><span>Bon drucken</span><span>Spenden</span></div></div></div>';
+  if(kind==='pfandbon')return '<div class="platform"><div class="slip"><b>PFANDBON</b><span>3 Flaschen</span><span>Bitte an der Kasse abgeben</span><b>0,75 EUR</b></div></div>';
+  if(kind==='pfandspende')return '<div class="platform"><div class="slip"><b>DANKE FÜR IHRE SPENDE</b><span>3 Flaschen</span><span>0,75 EUR gehen an einen guten Zweck</span></div></div>';
   return '';
+}
+function tagsHTML(head,arr){return '<div class="platform"><div class="tagrow"><div class="tg-h">'+head+'</div>'+arr.map(function(x){return '<div class="ptag"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join('')+'</div></div>'}
+function listeHTML(){
+  var L=G.m.liste,have=(G.st&&G.st.b)||[];
+  return '<div class="liste"><b>Einkaufsliste</b>'+L.map(function(x){var on=have.indexOf(x[0])>=0;return '<div class="li'+(on?' on':'')+'"><i></i><span>'+x[0]+'</span>'+(on?gl(x[1],1):'')+'</div>'}).join('')+'</div>';
 }
 function talkScene(step){
   var t=step.talk,f=G.fb&&G.fb.o.fb&&G.fb.o.fb.talk;
@@ -1092,6 +1216,7 @@ function missionView(){
    '<div class="narr"><p>'+step.narr+'</p></div>';
   var sc=G.m.scene,mach=(sc==='atm'||sc==='ticket'||sc==='locker');
   h+=step.talk?talkScene(step):(sc==='web'?webScene(step):(mach?machineScene(step):storeScene(step)));
+  if(G.m.liste)h+=listeHTML();
   if(step.info&&!G.fb){
     h+='<button class="btn" data-adv>Next</button>';
   } else if(!G.fb){
@@ -1106,7 +1231,7 @@ function missionView(){
   } else h+=fbHTML();
   return h;
 }
-var LIT={'Heimatwährung':'home currency','Abbrechen':'to cancel, to abort','Karte einbehalten / eingezogen':'card kept / pulled in','Überweisung':'bank transfer (literally: carrying over)','Weggehen':'to walk away','Stimmt so':'is right like that (keep the change)','Ausgang':'exit','stornieren':'to void, to reverse','entwerten':'to un-value (to stamp, so the ticket counts as used)','erhöhtes Beförderungsentgelt':'increased transport fee','Kind':'child','zahlungspflichtig bestellen':'order with the duty to pay','Vorkasse':'cash in advance','Kauf auf Rechnung':'purchase on invoice','Widerruf':'withdrawal, revocation','Retoure':'return shipment','3. OG ≠ Taste 3':'3rd floor above ground is not button 3','Hier oben! / Hier unten!':'Up here! / Down here!','Bitte nicht klingeln':'Please do not ring','Das ist nicht möglich.':'That is not possible.','Pflicht / obligatorisch':'duty / obligatory','Selbstzahler':'self-payer','Rechnung':'invoice, bill','Freut mich!':'(It) pleases me! = Nice to meet you!','Hat mich gefreut!':'(It) has pleased me! = It was nice to meet you!','Umarmung / Kuss':'hug / kiss','Leise gehen':'to go quietly','Einschreiben':'to write in = registered mail','Übergabe / Einwurf':'hand-over / throw-in','Rückschein':'back slip = return receipt','Beleg':'proof, voucher','entfällt':'falls away = is cancelled','Linie 7 / Linie 17':'line 7 / line 17','Ich habe nichts verstanden.':'I understood nothing.','Sie müssen es mir geben.':'You must give it to me.','bei dir / bei Ihnen':'with you (informal) / with you (formal)','Ihr Paket ist bei mir.':'Your package is with me.','halb drei':'half three = half an hour before three = 2:30','absagen':'to say off = to cancel','Das passt.':'That fits. = That works for me.','schenken ≠ leihen':'to give as a gift is not to lend','Nein, danke!':'No, thank you!','Stock':'floor (literally: stick, storey)','Mahlzeit!':'meal time! = lunchtime greeting','Ich habe keine Lust.':'I have no desire = I do not feel like it.','Kommst du mit?':'Are you coming with?','Millimeter ≠ Zentimeter':'millimetre is not centimetre','Zoll':'inch','färben':'to dye, to colour'};
+var LIT={'Heimatwährung':'home currency','Abbrechen':'to cancel, to abort','Karte einbehalten / eingezogen':'card kept / pulled in','Überweisung':'bank transfer (literally: carrying over)','Weggehen':'to walk away','Stimmt so':'is right like that (keep the change)','Ausgang':'exit','stornieren':'to void, to reverse','entwerten':'to un-value (to stamp, so the ticket counts as used)','erhöhtes Beförderungsentgelt':'increased transport fee','Kind':'child','zahlungspflichtig bestellen':'order with the duty to pay','Vorkasse':'cash in advance','Kauf auf Rechnung':'purchase on invoice','Widerruf':'withdrawal, revocation','Retoure':'return shipment','3. OG ≠ Taste 3':'3rd floor above ground is not button 3','Hier oben! / Hier unten!':'Up here! / Down here!','Bitte nicht klingeln':'Please do not ring','Das ist nicht möglich.':'That is not possible.','Pflicht / obligatorisch':'duty / obligatory','Selbstzahler':'self-payer','Rechnung':'invoice, bill','Freut mich!':'(It) pleases me! = Nice to meet you!','Hat mich gefreut!':'(It) has pleased me! = It was nice to meet you!','Umarmung / Kuss':'hug / kiss','Leise gehen':'to go quietly','Einschreiben':'to write in = registered mail','Übergabe / Einwurf':'hand-over / throw-in','Rückschein':'back slip = return receipt','Beleg':'proof, voucher','entfällt':'falls away = is cancelled','Linie 7 / Linie 17':'line 7 / line 17','Ich habe nichts verstanden.':'I understood nothing.','Sie müssen es mir geben.':'You must give it to me.','bei dir / bei Ihnen':'with you (informal) / with you (formal)','Ihr Paket ist bei mir.':'Your package is with me.','halb drei':'half three = half an hour before three = 2:30','absagen':'to say off = to cancel','Das passt.':'That fits. = That works for me.','schenken ≠ leihen':'to give as a gift is not to lend','Nein, danke!':'No, thank you!','Stock':'floor (literally: stick, storey)','Mahlzeit!':'meal time! = lunchtime greeting','Ich habe keine Lust.':'I have no desire = I do not feel like it.','Kommst du mit?':'Are you coming with?','Millimeter ≠ Zentimeter':'millimetre is not centimetre','Zoll':'inch','färben':'to dye, to colour','Pfand':'deposit (money you pay now and get back later)','lose':'loose, not packed','Gramm ≠ Kilo':'gram is not kilogram (1 kg = 1000 g)','Sahne ≠ Milch':'cream is not milk','Classic / Kohlensäure':'Classic / carbonic acid = the bubbles','Wo / Wie / Wann':'where / how / when'};
 function lit(k){return LIT[k]||LIT[k.replace(/\s*\(.*\)$/,'')]||''}
 function debrief(){
   var m=G.m,flawless=G.mist===0,alt=m.alt?m.alt(G):null;
@@ -1114,8 +1239,9 @@ function debrief(){
   var h='<div class="bar"><button class="btn ghost" data-home>← Missions</button>'+toolsHTML()+'</div><div class="deb"><div class="big"><span class="key-done" style="color:'+(flawless?'var(--gold)':'var(--keyo)')+'">'+KEY_O+'</span><div><h2>Mission complete <span class="de-sub">(Mission geschafft)</span></h2><span class="note">'+(flawless?'No mistakes. Golden key!':G.mist+' mistake'+(G.mist===1?'':'s')+'. Play again for the golden key.')+'</span></div></div>'+
    '<div class="replay"><div class="rp-k">'+(alt?KEY_C:KEY_O)+'</div><div class="rp-b"><b>'+rp.t+'</b><span>'+rp.b+'</span><button class="btn" data-start="'+m.id+'">Play again</button></div></div>'+
    '<div><b>Words you used</b><div class="vocab" style="margin-top:8px">'+m.vocab.map(function(v){return '<button data-say="'+esc(v[0])+'">'+v[0]+gl(v[1],1)+'</button>'}).join('')+'</div></div>'+
+   (m.bank?'<div class="bank"><b>Word bank</b>'+m.bank.map(function(g){return '<h4>'+g[0]+'</h4><div class="vocab">'+g[1].map(function(v){return '<button data-say="'+esc(v[0])+'">'+v[0]+gl(v[1],1)+'</button>'}).join('')+'</div>'}).join('')+'</div>':'')+
    '<div class="cost"><b>Words that cost you</b>'+m.costly.map(function(c){var l=lit(c[0]);return '<div><b style="text-transform:none;letter-spacing:0;font-size:16px">'+c[0]+'</b>'+(l?' <span class="lit">= '+l+'</span>':'')+'<br>'+c[1]+'</div>'}).join('')+'</div>'+
-   '<p class="note">'+(typeof m.note==='function'?m.note(G):m.note)+'</p><div class="actions"><button class="btn ghost" data-home>All missions</button></div></div>';
+   '<p class="note">'+(typeof m.note==='function'?m.note(G):m.note)+'</p><div class="actions">'+(m.next?'<button class="btn" data-start="'+m.next+'">Next: At the checkout</button>':'')+'<button class="btn ghost" data-home>All missions</button></div></div>';
   return h;
 }
 function render(){
