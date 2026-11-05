@@ -334,6 +334,7 @@ var I={
 };
 var KEY_LOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
 var FLAG_CH='<svg class="flag" viewBox="0 0 3 2"><rect x=".5" width="2" height="2" fill="#D52B1E"/><path fill="#fff" d="M1.4.35h.2v.55h.55v.2h-.55v.55h-.2v-.55h-.55v-.2h.55z"/></svg>';
+var FLAG_AT='<svg class="flag" viewBox="0 0 3 2"><rect width="3" height="2" fill="#ED2939"/><rect y=".67" width="3" height=".67" fill="#fff"/></svg>';
 var FLAG='<svg class="flag" viewBox="0 0 3 2"><rect width="3" height=".67" fill="#000"/><rect y=".67" width="3" height=".67" fill="#DD0000"/><rect y="1.33" width="3" height=".67" fill="#FFCE00"/></svg>';
 
 /* ---------- storage ---------- */
@@ -346,7 +347,7 @@ var CAN_SPEAK=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in wind
 /* ---------- speech ---------- */
 var ORD=['','erstes','zweites','drittes','viertes','fünftes'];
 function pron(t){
-  return String(t).replace(/\(in\)/g,'in').replace(/\b([Ss])elbst/g,function(m,c){return c+'elpst'}).replace(/\b([Ii]m)\s+(\d)\.\s*OG\b/g,function(m,w,n){return w+' '+(ORD[+n]||n+'.').replace(/s$/,'n')+' Obergeschoss'}).replace(/(\d)\.\s*OG\b/g,function(m,n){return (ORD[+n]||n+'.')+' Obergeschoss'}).replace(/\bOG\b/g,'Obergeschoss').replace(/\bEG\b/g,'Erdgeschoss').replace(/\bUG\b/g,'Untergeschoss');
+  return String(t).replace(/\be-card\b/gi,'i-Kart').replace(/\(in\)/g,'in').replace(/\b([Ss])elbst/g,function(m,c){return c+'elpst'}).replace(/\b([Ii]m)\s+(\d)\.\s*OG\b/g,function(m,w,n){return w+' '+(ORD[+n]||n+'.').replace(/s$/,'n')+' Obergeschoss'}).replace(/(\d)\.\s*OG\b/g,function(m,n){return (ORD[+n]||n+'.')+' Obergeschoss'}).replace(/\bOG\b/g,'Obergeschoss').replace(/\bEG\b/g,'Erdgeschoss').replace(/\bUG\b/g,'Untergeschoss');
 }
 function speak(t){
   if(!CAN_SPEAK||!t)return;
@@ -688,7 +689,7 @@ var DELIVERY={
 
 /* ---------- mission 7: Arztpraxis in der Schweiz ---------- */
 var DOCTOR={
- id:'doctor',title:'At the doctor',tag:'Reception · Switzerland',cc:'ch',scene:'talk',ill:'doctorIll',
+ id:'doctor',title:'Doctor in Switzerland',tag:'Reception · Switzerland',cc:'ch',scene:'talk',ill:'doctorIll',
  blurb:'The receptionist keeps saying no. Learn the words that open the door.',
  goal:'Get your appointment, paying yourself, and leave with a bill you can send to your insurance.',
  hint:'Tip: you can hand over your insurance card first or explain right away. Try both routes!',
@@ -1046,7 +1047,110 @@ var SHOP={
  ]
 };
 
-var MISSIONS=[ATM,SHOP,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,PARTY,LETTER,RAIL,NEIGHBOUR,TERMIN,FAN,KANTINE,FRISEUR];
+/* ---------- doctor, Germany ---------- */
+var DOCDE={
+ id:'doctorde',title:'Doctor in Germany',tag:'Reception · Germany',cc:'de',scene:'talk',ill:'doctorIll',
+ blurb:'No German health card, no problem. Learn the words that get you billed privately.',
+ goal:'Get your appointment, pay yourself, and leave with an invoice you can send to your insurance.',
+ hint:'Tip: you can hand over your insurance card first or explain right away. Try both routes!',
+ alt:function(G){return G.st.card?{t:'There is a faster route',b:'You handed over the card first and had to explain afterwards. Play again and say the three sentences right away: no German insurance, global insurance, I pay myself.'}:{t:'Another route is waiting',b:'You explained straight away. Play again and hand over your card first to see how the receptionist reacts, and how you can still save the visit.'}},
+ vocab:[['die Gesundheitskarte','health insurance card'],['die Krankenversicherung','health insurance'],['Ich habe keine deutsche Krankenversicherung.','I do not have German health insurance.'],['Ich habe eine globale Krankenversicherung.','I have global health insurance.'],['Ich zahle hier selbst.','I pay here myself.'],['der Selbstzahler, die Selbstzahlerin','self-payer'],['Können Sie privat abrechnen?','Can you bill privately?'],['die Überweisung','bank transfer, or referral to a specialist'],['die Rechnung','invoice, bill'],['die Quittung','receipt']],
+ costly:[
+  ['Selbstzahler','Someone who pays directly. Say it as soon as the card question comes up.'],
+  ['privat abrechnen','To bill privately. This is the phrase that makes the receptionist switch from "no card, no appointment" to "that works".'],
+  ['Überweisung: money or referral','Überweisung is a bank transfer, and also the referral your family doctor writes for a specialist. If you hear it at a practice, check which one she means.'],
+  ['Rechnung','The paper you need for reimbursement, ideally with the diagnosis. A Quittung only shows that you paid.']
+ ],
+ note:'Most practices are set up for patients with a German health card (Gesundheitskarte). Without it, many practices will treat you as a self-payer and bill you privately, often according to the official fee schedule (GOÄ), and some ask you to pay in advance (Vorkasse). Whether your own insurer refunds the money depends on your contract, so check it. The skill in this mission works everywhere: say your situation in one clear sentence, ask "Können Sie privat abrechnen?" and keep calm after the first "no".',
+ steps:[
+ {task:'Arrival',narr:'You have an appointment at 10:00 at a doctor\'s practice (Praxis) in Hamburg. The receptionist looks up.',say:'Guten Tag. Wie kann ich Ihnen helfen?',
+  talk:{av:'reception',line:['Guten Tag. Wie kann ich Ihnen helfen?','Hello. How can I help you?']},
+  opts:[{de:'Guten Tag. Ich habe einen Termin um 10 Uhr.',en:'Hello. I have an appointment at 10 o\'clock.',k:'good',fb:{b:'Clear and polite. "Termin" is appointment, and the time makes it easy to find you.'}},
+        {de:'Moin! Ich habe einen Termin um 10 Uhr.',en:'Hello! I have an appointment at 10 o\'clock.',k:'good',fb:{t:'Very nice, a local touch',b:'"Moin" is the friendly northern greeting, and people react warmly when you use the local one. The same goes for "Servus" in Bavaria and Austria, "Grüezi" in Switzerland and "Mahlzeit" around lunchtime. "Guten Tag" works everywhere.'}},
+        {de:'Ich bin krank.',en:'I am sick.',k:'bad',fb:{t:'Too little',b:'She can see that you need a doctor. She needs to know if you have an appointment.'}}]},
+ {task:'Insurance card',narr:'She finds your name. Then she asks for your health card. Your company insurance is from abroad.',say:'Haben Sie Ihre Gesundheitskarte dabei?',
+  talk:{av:'reception',line:['Haben Sie Ihre Gesundheitskarte dabei?','Do you have your health card with you?'],panel:'karte'},
+  opts:[{de:'Ich habe keine deutsche Krankenversicherung. Ich habe eine globale Krankenversicherung. Ich zahle hier selbst.',en:'I do not have German health insurance. I have global health insurance. I pay here myself.',k:'good',fb:{b:'Three short sentences, one idea each. Practise them aloud. You may need them more than once in the conversation.'}},
+        {de:'Ja, hier ist meine Karte.',en:'Yes, here is my card.',k:'ok',set:function(s){s.card=true},fb:{t:'A detour',b:'You hand over your foreign card. The practice reader cannot use it. Explaining first is quicker. Let us see what she says.',talk:{av:'reception',line:['Hm. Moment, bitte.','Hm. One moment, please.'],panel:'karte'}}},
+        {de:'Nein.',en:'No.',k:'bad',fb:{t:'Too short',b:'"Nein" alone ends the conversation. She does not know what you want to do about it.'}}]},
+ {task:'Card refused',skipIf:function(G){return !G.st.card},narr:'She tries your card in the reader, turns it over and hands it back.',say:'Diese Karte kann ich leider nicht einlesen.',
+  talk:{av:'reception',line:['Diese Karte kann ich leider nicht einlesen.','I am afraid I cannot read this card.'],panel:'karte'},
+  opts:[{de:'Ich habe keine deutsche Krankenversicherung. Ich zahle hier selbst.',en:'I do not have German health insurance. I pay here myself.',k:'good',fb:{b:'Now you explain it: no German insurance, you pay yourself. Better late than never. Next time say it first.'}},
+        {de:'Doch, die Karte ist gültig!',en:'Yes it is, the card is valid!',k:'bad',fb:{t:'Arguing',b:'"Doch" insists she is wrong. The card may be valid at home, but her reader cannot use it. She repeats: "Ich kann sie nicht einlesen."'}},
+        {de:'Okay. Dann gehe ich.',en:'Okay. Then I will go.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'First "no"',narr:'She does not look happy. This is the moment where many people give up.',say:'Ohne deutsche Gesundheitskarte kann ich Sie nicht anmelden. Wir sind eine Kassenpraxis.',
+  talk:{av:'reception',line:['Ohne deutsche Gesundheitskarte kann ich Sie nicht anmelden. Wir sind eine Kassenpraxis.','Without a German health card I cannot register you. We are a practice for insured patients.']},
+  opts:[{de:'Ich verstehe. Ich zahle selbst. Ich bin Selbstzahler(in).',en:'I understand. I pay myself. I am a self-payer.',k:'good',fb:{b:'She states the rule. You do not argue with the rule, you say what you do: you are a Selbstzahler(in), someone who pays directly.'}},
+        {de:'Das ist nicht fair!',en:'That is not fair!',k:'bad',fb:{t:'Arguing',b:'She answers "Das ist die Regel" (that is the rule). Arguing about rules goes nowhere. State your plan instead.'}},
+        {de:'Okay. Dann gehe ich.',en:'Okay. Then I will go.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'Second "no"',narr:'She says it again, in almost the same words. Stay calm.',say:'Ohne Karte geht das nicht. Das ist unser System.',
+  talk:{av:'reception',line:['Ohne Karte geht das nicht. Das ist unser System.','Without a card it does not work. That is our system.']},
+  opts:[{de:'Ich zahle hier selbst. Können Sie privat abrechnen?',en:'I pay here myself. Can you bill privately?',k:'good',fb:{b:'Repeat your sentence, then ask for a solution. "Privat abrechnen" tells her exactly what to do in her system. A question makes her think, a statement only gets another "no".'}},
+        {de:'Ich zahle hier selbst.',en:'I pay here myself.',k:'ok',fb:{t:'Calm, but incomplete',b:'Repeating calmly is right, but it gives her nothing new to answer. Add the question: "Können Sie privat abrechnen?"'}},
+        {de:'Okay. Tschüss.',en:'Okay. Goodbye.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'Payment',narr:'She checks with the doctor and comes back. It works, billed privately. Now she asks how you want to pay.',say:'Ja, das geht. Wir rechnen privat ab. Zahlen Sie vor Ort oder per Überweisung?',
+  talk:{av:'reception',line:['Ja, das geht. Wir rechnen privat ab. Zahlen Sie vor Ort oder per Überweisung?','Yes, that works. We bill privately. Will you pay here or by bank transfer?']},
+  opts:[{de:'Ich zahle gleich mit Karte.',en:'I pay right away by card.',k:'good',fb:{b:'Paying on the spot is the simplest. Some practices ask self-payers for Vorkasse (payment in advance) anyway.'}},
+        {de:'Ich überweise später das Geld.',en:'I will transfer the money later.',k:'good',fb:{b:'Also fine. She sends the Rechnung by post or email, and you transfer the money within the stated days, often 14.'}},
+        {de:'Ich habe keine Überweisung.',en:'I do not have a referral.',k:'bad',fb:{t:'Wrong Überweisung',b:'Überweisung is a bank transfer, and also the referral from a family doctor to a specialist. Here she means the money. She looks at you, confused: "Eine Überweisung vom Hausarzt brauchen Sie nicht."'}}]},
+ {task:'Invoice',narr:'Last thing: your company insurance will pay you back later.',say:'Gut, dann ist alles geklärt. Noch etwas?',
+  talk:{av:'reception',line:['Gut, dann ist alles geklärt. Noch etwas?','Good, then everything is settled. Anything else?']},
+  opts:[{de:'Ich brauche eine Rechnung mit Diagnose, bitte.',en:'I need an invoice with the diagnosis, please.',k:'good',fb:{t:'Appointment saved',b:'Many insurers abroad want an itemised Rechnung that shows the diagnosis and the services. Without it you pay and get nothing back.',talk:{av:'reception',line:['Natürlich. Die Rechnung bekommen Sie nach dem Termin.','Of course. You will get the invoice after your appointment.'],panel:'rechnungde'}}},
+        {de:'Ich brauche eine Quittung, bitte.',en:'I need a receipt, please.',k:'ok',fb:{t:'Almost',b:'A Quittung only shows that you paid. Many insurers want an itemised Rechnung. Ask for the Rechnung to be safe.'}},
+        {de:'Ich brauche keine Rechnung.',en:'I do not need an invoice.',k:'bad',fb:{t:'No money back',b:'Without an invoice you cannot send anything to your insurance. You would pay the full price yourself.'}}]}
+ ]
+};
+
+/* ---------- doctor, Austria ---------- */
+var DOCAT={
+ id:'doctorat',title:'Doctor in Austria',tag:'Reception · Austria',cc:'at',scene:'talk',ill:'doctorIll',
+ blurb:'You have no e-card. Learn how to be a private patient and get your Honorarnote.',
+ goal:'Get your appointment, pay yourself, and leave with a Honorarnote you can send to your insurance.',
+ hint:'Tip: you can hand over your insurance card first or explain right away. Try both routes!',
+ alt:function(G){return G.st.card?{t:'There is a faster route',b:'You handed over the card first and had to explain afterwards. Play again and say the three sentences right away: no Austrian insurance, global insurance, I pay myself.'}:{t:'Another route is waiting',b:'You explained straight away. Play again and hand over your card first to see how the receptionist reacts, and how you can still save the visit.'}},
+ vocab:[['die e-card','Austrian insurance card'],['die Krankenversicherung','health insurance'],['Ich habe keine österreichische Krankenversicherung.','I do not have Austrian health insurance.'],['Ich habe eine globale Krankenversicherung.','I have global health insurance.'],['Ich zahle hier selbst.','I pay here myself.'],['der Selbstzahler, die Selbstzahlerin','self-payer'],['der Privatpatient, die Privatpatientin','private patient'],['Gibt es eine andere Möglichkeit?','Is there another option?'],['die Honorarnote','doctor\'s invoice'],['die Ordination','doctor\'s practice (Austrian word)']],
+ costly:[
+  ['e-card','The Austrian insurance card. A foreign card is not read by the system, so the practice cannot register you with it.'],
+  ['Selbstzahler','Someone who pays directly. Say it as soon as the e-card question comes up. In Austria you will also hear "Privatpatient".'],
+  ['Kassenarzt / Wahlarzt','A Kassenarzt has a contract with the Austrian insurance fund and works with the e-card. A Wahlarzt (doctor of your choice) is private: you pay first, and you ask for the Honorarnote.'],
+  ['Honorarnote','The doctor\'s invoice. Without it your own insurance has nothing to refund. A Quittung only shows that you paid.']
+ ],
+ note:'In Austria most people use the e-card of the public system. Doctors with an insurance contract (Kassenärzte) work with it, and Wahlärzte set their own fees and bill you directly. With only a foreign insurance you are a private patient: you pay first and ask for the Honorarnote. What your own insurer pays back depends on your contract, so check it. The refund rules of the Austrian ÖGK apply only to people insured in Austria.',
+ steps:[
+ {task:'Arrival',narr:'You have an appointment at 10:00 at a doctor\'s practice (Ordination) in Wien (Vienna). The receptionist looks up.',say:'Grüß Gott. Wie kann ich Ihnen helfen?',
+  talk:{av:'reception',line:['Grüß Gott. Wie kann ich Ihnen helfen?','Hello. How can I help you?']},
+  opts:[{de:'Grüß Gott! Ich habe einen Termin um 10 Uhr.',en:'Hello! I have an appointment at 10 o\'clock.',k:'good',fb:{t:'Very nice, a local touch',b:'"Grüß Gott" is the common greeting in Austria and Bavaria, and people react warmly when you use the local one. "Servus" is the casual version for friends, "Guten Tag" works everywhere.'}},
+        {de:'Guten Tag. Ich habe einen Termin um 10 Uhr.',en:'Hello. I have an appointment at 10 o\'clock.',k:'good',fb:{b:'Clear and polite. "Termin" is appointment, and the time makes it easy to find you.'}},
+        {de:'Ich bin krank.',en:'I am sick.',k:'bad',fb:{t:'Too little',b:'She can see that you need a doctor. She needs to know if you have an appointment.'}}]},
+ {task:'e-card',narr:'She finds your name. Then she asks for your e-card. Your company insurance is from abroad.',say:'Haben Sie Ihre e-card dabei?',
+  talk:{av:'reception',line:['Haben Sie Ihre e-card dabei?','Do you have your e-card with you?'],panel:'karte'},
+  opts:[{de:'Ich habe keine österreichische Krankenversicherung. Ich habe eine globale Krankenversicherung. Ich zahle hier selbst.',en:'I do not have Austrian health insurance. I have global health insurance. I pay here myself.',k:'good',fb:{b:'Three short sentences, one idea each. Practise them aloud. You may need them more than once in the conversation.'}},
+        {de:'Ja, hier ist meine Karte.',en:'Yes, here is my card.',k:'ok',set:function(s){s.card=true},fb:{t:'A detour',b:'You hand over your foreign card. That is not an e-card, and the system cannot read it. Explaining first is quicker. Let us see what she says.',talk:{av:'reception',line:['Hm. Moment, bitte.','Hm. One moment, please.'],panel:'karte'}}},
+        {de:'Nein.',en:'No.',k:'bad',fb:{t:'Too short',b:'"Nein" alone ends the conversation. She does not know what you want to do about it.'}}]},
+ {task:'Card refused',skipIf:function(G){return !G.st.card},narr:'She looks at your card, turns it over and hands it back.',say:'Das ist keine e-card. Die kann ich leider nicht einlesen.',
+  talk:{av:'reception',line:['Das ist keine e-card. Die kann ich leider nicht einlesen.','That is not an e-card. I am afraid I cannot read it.'],panel:'karte'},
+  opts:[{de:'Ich habe keine österreichische Krankenversicherung. Ich zahle hier selbst.',en:'I do not have Austrian health insurance. I pay here myself.',k:'good',fb:{b:'Now you explain it: no Austrian insurance, you pay yourself. Better late than never. Next time say it first.'}},
+        {de:'Doch, die Karte ist gültig!',en:'Yes it is, the card is valid!',k:'bad',fb:{t:'Arguing',b:'"Doch" insists she is wrong. The card may be valid at home, but it is not an e-card. She repeats: "Das ist keine e-card."'}},
+        {de:'Okay. Dann gehe ich.',en:'Okay. Then I will go.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'First "no"',narr:'She does not look happy. This is the moment where many people give up.',say:'Ohne e-card kann ich Sie nicht aufnehmen. Wir sind Kassenärzte.',
+  talk:{av:'reception',line:['Ohne e-card kann ich Sie nicht aufnehmen. Wir sind Kassenärzte.','Without an e-card I cannot admit you. We are insurance-fund doctors.']},
+  opts:[{de:'Ich verstehe. Ich zahle selbst. Ich bin Selbstzahler(in).',en:'I understand. I pay myself. I am a self-payer.',k:'good',fb:{b:'She states the rule. You do not argue with the rule, you say what you do: you are a Selbstzahler(in), someone who pays directly.'}},
+        {de:'Das ist nicht fair!',en:'That is not fair!',k:'bad',fb:{t:'Arguing',b:'She answers "Das ist die Regel" (that is the rule). Arguing about rules goes nowhere. State your plan instead.'}},
+        {de:'Okay. Dann gehe ich.',en:'Okay. Then I will go.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'Second "no"',narr:'She says it again, in almost the same words. Stay calm.',say:'Das geht leider nicht. Wir sind eine Kassenordination.',
+  talk:{av:'reception',line:['Das geht leider nicht. Wir sind eine Kassenordination.','I am afraid that does not work. We are an insurance-fund practice.']},
+  opts:[{de:'Ich zahle hier selbst. Gibt es eine andere Möglichkeit?',en:'I pay here myself. Is there another option?',k:'good',fb:{b:'Repeat your sentence, then ask for an alternative. A question makes her think about solutions. A statement only gets another "no".'}},
+        {de:'Ich zahle hier selbst.',en:'I pay here myself.',k:'ok',fb:{t:'Calm, but incomplete',b:'Repeating calmly is right, but it gives her nothing new to answer. Add the question: "Gibt es eine andere Möglichkeit?"'}},
+        {de:'Okay. Tschüss.',en:'Okay. Goodbye.',k:'bad',goto:0,fb:{t:'You gave up',b:'You leave without treatment and without an appointment. You start again from the front desk.'}}]},
+ {task:'Honorarnote',narr:'She asks the doctor. She comes back and says it works, as a private patient. Now think about your insurance: your company will pay you back later.',say:'Gut. Als Privatpatient geht das. Das kostet 120 Euro.',
+  talk:{av:'reception',line:['Gut. Als Privatpatient geht das. Das kostet 120 Euro.','Good. As a private patient that works. It costs 120 euros.']},
+  opts:[{de:'Ich brauche eine Honorarnote für meine Versicherung, bitte.',en:'I need an invoice for my insurance, please.',k:'good',fb:{t:'Appointment saved',b:'The Honorarnote is the doctor\'s invoice, with the services listed. Your own insurance needs it for a refund. Without it you pay and get nothing back.',talk:{av:'reception',line:['Natürlich. Die Honorarnote bekommen Sie nach dem Termin.','Of course. You will get the invoice after your appointment.'],panel:'honorar'}}},
+        {de:'Ich brauche eine Quittung, bitte.',en:'I need a receipt, please.',k:'ok',fb:{t:'Almost',b:'A Quittung only shows that you paid. Many insurers want the itemised Honorarnote. Ask for the Honorarnote to be safe.'}},
+        {de:'Ich brauche keine Honorarnote.',en:'I do not need an invoice.',k:'bad',fb:{t:'No money back',b:'Without an invoice you cannot send anything to your insurance. You would pay the full price yourself.'}}]}
+ ]
+};
+
+var MISSIONS=[ATM,SHOP,KASSE,TICKET,ONLINE,LOCKER,DELIVERY,DOCTOR,DOCDE,DOCAT,PARTY,LETTER,RAIL,NEIGHBOUR,TERMIN,FAN,KANTINE,FRISEUR];
 
 /* ---------- state ---------- */
 var G=null,app=document.getElementById('app');
@@ -1069,11 +1173,11 @@ function toolsHTML(){
   return CAN_SPEAK?'<div class="tools"><button class="tog" data-tog="snd" aria-pressed="'+prefs.snd+'">Read aloud on tap</button></div>':'';
 }
 function dashboard(){
-  var h=header()+'<div class="cc-row"><span class="chip">'+FLAG+'Germany</span> <span class="chip">'+FLAG_CH+'Switzerland</span></div><h1>Everyday Missions</h1>'+
+  var h=header()+'<div class="cc-row"><span class="chip">'+FLAG+'Germany</span> <span class="chip">'+FLAG_CH+'Switzerland</span> <span class="chip">'+FLAG_AT+'Austria</span></div><h1>Everyday Missions</h1>'+
    '<p class="lead">Play through real-life situations, find the one word that makes things go wrong, and learn how to avoid it in your own life.</p><p class="howto">Inside every mission everything is in German, just like in real life, so at first you have to guess. Pick an answer, then see the translation and what happens. Use Back to try the other option.</p>'+toolsHTML()+'<div class="tiles">';
   MISSIONS.forEach(function(m){
     var d=done[m.id];
-    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+I[m.ill]+'</div><span class="tag cc">'+(m.cc==='ch'?FLAG_CH:'')+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Play again':'Start')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
+    h+='<button class="tile" data-start="'+m.id+'"><div class="ill">'+I[m.ill]+'</div><span class="tag cc">'+({ch:FLAG_CH,at:FLAG_AT,de:FLAG}[m.cc]||'')+m.tag+'</span><h2>'+m.title+'</h2><p>'+m.blurb+'</p><div class="foot"><span>'+(d?'Play again':'Start')+'</span><span class="'+(d?'key-done':'key-todo')+'">'+(d?KEY_O:KEY_C)+'</span></div></button>';
   });
   ['Parking meter','Laptop reset'].forEach(function(n){
     h+='<div class="tile soon"><div class="ill">'+I.soonIll+'</div><span class="tag">Soon</span><h2>'+n+'</h2></div>';
@@ -1136,6 +1240,8 @@ function panelHTML(kind){
   if(kind==='karte')return '<div class="platform"><div class="icard"><b>GLOBAL CARE</b><span>International Health Plan</span><span>Mitglied seit 2024</span></div></div>';
   if(kind==='rechnung')return '<div class="platform"><div class="inv"><b>RECHNUNG Nr. 2041</b><span>Konsultation 10:00</span><span>Selbstzahler(in)</span><b>Total CHF 180.00</b></div></div>';
   if(kind==='beleg')return '<div class="platform"><div class="slip"><b>EINLIEFERUNGSBELEG</b><span>Einschreiben Übergabe + Rückschein</span><span>Sendungsnummer: RR 4821 7730 7DE</span><b>5,15 EUR</b></div></div>';
+  if(kind==='rechnungde')return '<div class="platform"><div class="inv"><b>PRIVATRECHNUNG</b><span>Beratung und Untersuchung</span><span>Selbstzahler(in) · nach GOÄ</span><b>Gesamt 42,90 EUR</b></div></div>';
+  if(kind==='honorar')return '<div class="platform"><div class="inv"><b>HONORARNOTE</b><span>Ordination Dr. Gruber</span><span>Ordinationsbesuch 10:00 · Selbstzahler(in)</span><b>Total EUR 120,00</b></div></div>';
   if(kind==='wagen')return '<div class="platform"><div class="trl">'+I.trolley+I.trolley+I.trolley+'<div class="coinslot"><b>1 €</b><i></i><span>Pfand</span></div></div></div>';
   if(kind==='waage')return '<div class="platform"><div class="scalew"><div class="tray-t"><i></i><i></i><i></i><i></i><i></i></div><div class="sc-d"><b>TOMATEN</b><span>lose · 2,99 €/kg</span><em>0,50 kg</em></div></div></div>';
   if(kind==='theke')return tagsHTML('Frischetheke',[['Gouda','1,89 € / 100 g'],['Emmentaler','2,19 € / 100 g'],['Bergkäse','2,49 € / 100 g']]);
@@ -1231,7 +1337,7 @@ function missionView(){
   } else h+=fbHTML();
   return h;
 }
-var LIT={'Heimatwährung':'home currency','Abbrechen':'to cancel, to abort','Karte einbehalten / eingezogen':'card kept / pulled in','Überweisung':'bank transfer (literally: carrying over)','Weggehen':'to walk away','Stimmt so':'is right like that (keep the change)','Ausgang':'exit','stornieren':'to void, to reverse','entwerten':'to un-value (to stamp, so the ticket counts as used)','erhöhtes Beförderungsentgelt':'increased transport fee','Kind':'child','zahlungspflichtig bestellen':'order with the duty to pay','Vorkasse':'cash in advance','Kauf auf Rechnung':'purchase on invoice','Widerruf':'withdrawal, revocation','Retoure':'return shipment','3. OG ≠ Taste 3':'3rd floor above ground is not button 3','Hier oben! / Hier unten!':'Up here! / Down here!','Bitte nicht klingeln':'Please do not ring','Das ist nicht möglich.':'That is not possible.','Pflicht / obligatorisch':'duty / obligatory','Selbstzahler':'self-payer','Rechnung':'invoice, bill','Freut mich!':'(It) pleases me! = Nice to meet you!','Hat mich gefreut!':'(It) has pleased me! = It was nice to meet you!','Umarmung / Kuss':'hug / kiss','Leise gehen':'to go quietly','Einschreiben':'to write in = registered mail','Übergabe / Einwurf':'hand-over / throw-in','Rückschein':'back slip = return receipt','Beleg':'proof, voucher','entfällt':'falls away = is cancelled','Linie 7 / Linie 17':'line 7 / line 17','Ich habe nichts verstanden.':'I understood nothing.','Sie müssen es mir geben.':'You must give it to me.','bei dir / bei Ihnen':'with you (informal) / with you (formal)','Ihr Paket ist bei mir.':'Your package is with me.','halb drei':'half three = half an hour before three = 2:30','absagen':'to say off = to cancel','Das passt.':'That fits. = That works for me.','schenken ≠ leihen':'to give as a gift is not to lend','Nein, danke!':'No, thank you!','Stock':'floor (literally: stick, storey)','Mahlzeit!':'meal time! = lunchtime greeting','Ich habe keine Lust.':'I have no desire = I do not feel like it.','Kommst du mit?':'Are you coming with?','Millimeter ≠ Zentimeter':'millimetre is not centimetre','Zoll':'inch','färben':'to dye, to colour','Pfand':'deposit (money you pay now and get back later)','lose':'loose, not packed','Gramm ≠ Kilo':'gram is not kilogram (1 kg = 1000 g)','Sahne ≠ Milch':'cream is not milk','Classic / Kohlensäure':'Classic / carbonic acid = the bubbles','Wo / Wie / Wann':'where / how / when'};
+var LIT={'Heimatwährung':'home currency','Abbrechen':'to cancel, to abort','Karte einbehalten / eingezogen':'card kept / pulled in','Überweisung':'bank transfer (literally: carrying over)','Weggehen':'to walk away','Stimmt so':'is right like that (keep the change)','Ausgang':'exit','stornieren':'to void, to reverse','entwerten':'to un-value (to stamp, so the ticket counts as used)','erhöhtes Beförderungsentgelt':'increased transport fee','Kind':'child','zahlungspflichtig bestellen':'order with the duty to pay','Vorkasse':'cash in advance','Kauf auf Rechnung':'purchase on invoice','Widerruf':'withdrawal, revocation','Retoure':'return shipment','3. OG ≠ Taste 3':'3rd floor above ground is not button 3','Hier oben! / Hier unten!':'Up here! / Down here!','Bitte nicht klingeln':'Please do not ring','Das ist nicht möglich.':'That is not possible.','Pflicht / obligatorisch':'duty / obligatory','Selbstzahler':'self-payer','Rechnung':'invoice, bill','Freut mich!':'(It) pleases me! = Nice to meet you!','Hat mich gefreut!':'(It) has pleased me! = It was nice to meet you!','Umarmung / Kuss':'hug / kiss','Leise gehen':'to go quietly','Einschreiben':'to write in = registered mail','Übergabe / Einwurf':'hand-over / throw-in','Rückschein':'back slip = return receipt','Beleg':'proof, voucher','entfällt':'falls away = is cancelled','Linie 7 / Linie 17':'line 7 / line 17','Ich habe nichts verstanden.':'I understood nothing.','Sie müssen es mir geben.':'You must give it to me.','bei dir / bei Ihnen':'with you (informal) / with you (formal)','Ihr Paket ist bei mir.':'Your package is with me.','halb drei':'half three = half an hour before three = 2:30','absagen':'to say off = to cancel','Das passt.':'That fits. = That works for me.','schenken ≠ leihen':'to give as a gift is not to lend','Nein, danke!':'No, thank you!','Stock':'floor (literally: stick, storey)','Mahlzeit!':'meal time! = lunchtime greeting','Ich habe keine Lust.':'I have no desire = I do not feel like it.','Kommst du mit?':'Are you coming with?','Millimeter ≠ Zentimeter':'millimetre is not centimetre','Zoll':'inch','färben':'to dye, to colour','Pfand':'deposit (money you pay now and get back later)','lose':'loose, not packed','Gramm ≠ Kilo':'gram is not kilogram (1 kg = 1000 g)','Sahne ≠ Milch':'cream is not milk','Classic / Kohlensäure':'Classic / carbonic acid = the bubbles','Wo / Wie / Wann':'where / how / when','privat abrechnen':'to bill privately','Überweisung: money or referral':'carrying over = bank transfer, or the referral to a specialist','e-card':'electronic card (the Austrian insurance card)','Kassenarzt / Wahlarzt':'insurance-fund doctor / doctor of your choice (private)','Honorarnote':'fee note = the doctor\'s invoice'};
 function lit(k){return LIT[k]||LIT[k.replace(/\s*\(.*\)$/,'')]||''}
 function debrief(){
   var m=G.m,flawless=G.mist===0,alt=m.alt?m.alt(G):null;
